@@ -295,42 +295,34 @@ angular.module('your_app_name.controllers', [])
                 );
             };
         })
-        .controller('AdsCtrl', function ($scope, $http, $state, $ionicActionSheet, AdMob, iAd) {
+          .controller('AdsCtrl', function ($scope, $http, $state, $ionicActionSheet, AdMob, iAd, $ionicModal) {
             $http({
                 method: 'GET',
                 url: domain + 'records/get-record-categories',
                 params: {userId: $scope.userid}
             }).then(function successCallback(response) {
-                $scope.cats = [];
-                angular.forEach(response.data, function (value, key) {
-                    $scope.cats.push({text: value.category, id: value.id});
-                });
+                $scope.cats = response.data;
+                // angular.forEach(response.data, function (value, key) {
+                // $scope.cats.push({text: value.category, id: value.id});
+                // });
             }, function errorCallback(response) {
                 console.log(response);
             });
-            $scope.manageAdMob = function () {
-                // Show the action sheet
-                var hideSheet = $ionicActionSheet.show({
-                    //Here you can add some more buttons                    
-                    buttons: $scope.cats,
-                    //destructiveText: 'Remove Ads',
-                    titleText: 'Select the Category',
-                    cancelText: 'Cancel',
-                    cancel: function () {
-                        // add cancel code..
-                    },
-                    destructiveButtonClicked: function () {
-                        console.log("removing ads");
-                        //AdMob.removeAds();
-                        return true;
-                    },
-                    buttonClicked: function (index, button) {
-                        console.log(button.id);
-                        $state.go('app.add-category', {'id': button.id}, {reload: true});
-                        return true;
-                    }
-                });
-            };
+
+            // Load the modal from the given template URL
+            $ionicModal.fromTemplateUrl('addrecord.html', function ($ionicModal) {
+                $scope.modal = $ionicModal;
+                $scope.addRecord = function ($ab) {
+                    $state.go('app.add-category', {'id': $ab}, {reload: true});
+                    $scope.modal.hide()
+                }
+
+            }, {
+                // Use our scope for the scope of the modal to keep it simple
+                scope: $scope,
+                // The animation we want to use for the modal entrance
+                animation: 'slide-in-up'
+            });
         })
 
 //bring specific category providers
@@ -394,11 +386,14 @@ angular.module('your_app_name.controllers', [])
 //                $scope.modal.hide();
 //            };
         })
-        .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $filter, $timeout, $ionicLoading, $cordovaCapture) {
+       .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile) {
 
+			$scope.methodA=function(){
+				//alert('fasd');
+				}
             $scope.curTime = new Date();
-            $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
-            //$scope.curT = new Date()$filter('date')(new Date(), 'HH:mm');
+            $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+            //$scope.curT = new Date()$filter('date')(new Date(), 'H:i');
             $scope.userId = get('id');
             $scope.categoryId = $stateParams.id;
             $scope.fields = {};
@@ -430,13 +425,24 @@ angular.module('your_app_name.controllers', [])
                 callAjax("POST", domain + "records/save", data, function (response) {
                     console.log(response);
                     $ionicLoading.hide();
-                    //if (angular.isObject(response)) {
-                    alert("Record added successfully!");
-                    $timeout(function () {
-                        $state.go('app.records-view', {'id': $scope.categoryId}, {}, {reload: true});
-                    }, 1000);
-                    //}
+                    if (angular.isObject(response.records)) {
+                        alert("Record added successfully!");
+                        $timeout(function () {
+                            $state.go('app.records-view', {'id': $scope.categoryId}, {}, {reload: true});
+                        }, 1000);
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
                 });
+            };
+            $scope.chkDt = function (dt) {
+                console.log(dt);
+                console.log($scope.curTime);
+                console.log($scope.curTime < dt);
+                if (!($scope.curTime < dt)) {
+                    alert('End date should be greater than start date.');
+                    jQuery('#enddt').val('');
+                }
             };
             $scope.check = function (val) {
                 console.log(val);
@@ -453,9 +459,11 @@ angular.module('your_app_name.controllers', [])
                     if (val) {
                         jQuery('#immrcvdate').val('Received');
                         jQuery('#imdtrcv').removeClass('hide');
+                        jQuery('.imd').removeClass('hide');
                     } else {
                         jQuery('#immrcvdate').val('To be received');
                         jQuery('#imdtrcv').addClass('hide');
+                        jQuery('.imd').addClass('hide');
                     }
                 }
                 if ($scope.categoryId == 4) {
@@ -473,10 +481,12 @@ angular.module('your_app_name.controllers', [])
                     if (val) {
                         jQuery('#invconduct').val('Conducted On');
                         jQuery('#invconon').removeClass('hide');
+                        jQuery('.inv').removeClass('hide');
                         jQuery('#invconbef').addClass('hide');
                     } else {
                         jQuery('#invconduct').val('To be conducted');
                         jQuery('#invconon').addClass('hide');
+                        jQuery('.inv').addClass('hide');
                         jQuery('#invconbef').removeClass('hide');
                     }
                 }
@@ -486,40 +496,120 @@ angular.module('your_app_name.controllers', [])
                 if ($scope.categoryId == 2) {
                     if (val) {
                         jQuery('#imrpton').removeClass('hide');
+                        jQuery('.imd').removeClass('hide');
                     } else {
                         jQuery('#imrpton').addClass('hide');
+                        jQuery('.imd').addClass('hide');
                     }
                 }
             };
             $scope.setFile = function (element) {
                 $scope.currentFile = element.files[0];
                 console.log('length = ' + element.files.length);
+                var image_holder = $("#image-holder");
+                image_holder.empty();
                 if (element.files.length > 0) {
                     jQuery('#convalid').removeClass('hide');
                     jQuery('#coninprec').removeClass('hide');
-                    jQuery('#valid-till').attr('required',true);
+                    jQuery('#valid-till').attr('required', true);
+                    image_holder.append('<button class="button button-positive remove" onclick="removeFile()">Remove Files</button><br/>');
                 } else {
                     jQuery('#convalid').addClass('hide');
                     jQuery('#coninprec').addClass('hide');
-                    jQuery('#valid-till').attr('required',false);
+                    jQuery('#valid-till').attr('required', false);
                 }
+
 //                var reader = new FileReader();
 //                reader.onload = function (event) {
 //                    $scope.image_source = event.target.result
-//                    $scope.$apply()
-//
-//                }
-//                // when the file is read it triggers the onload event above.
-//                reader.readAsDataURL(element.files[0]);
+//                    $scope.$apply();
+                if (typeof (FileReader) != "undefined") {
+                    //loop for each file selected for uploaded.
+                    for (var i = 0; i < element.files.length; i++) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+//                            $("<img />", {
+//                                "src": e.target.result,
+//                                "class": "thumb-image"
+//                            }).appendTo(image_holder);
+                            $('<span class="upattach"><i class="ion-paperclip"></i></span>').appendTo(image_holder);
+                        }
+                        image_holder.show();
+                        reader.readAsDataURL(element.files[0]);
+                    }
+                }
+                //}
+                // when the file is read it triggers the onload event above.
+                //reader.readAsDataURL(element.files[0]);
             };
-        
-        })
+            $scope.images = [];
+            $scope.takePict = function (name) {
+                console.log(name);
+                var camimg_holder = $("#camera-status");
+                camimg_holder.empty();
+                // 2
+                var options = {
+                    destinationType: Camera.DestinationType.FILE_URI,
+                    sourceType: Camera.PictureSourceType.CAMERA, // Camera.PictureSourceType.PHOTOLIBRARY
+                    allowEdit: false,
+                    encodingType: Camera.EncodingType.JPEG,
+                    popoverOptions: CameraPopoverOptions,
+                };
+                // 3
+                $cordovaCamera.getPicture(options).then(function (imageData) {
+                    //alert(imageData);
+                    //alert(cordova.file.dataDirectory);
+                    $scope.picData = imageData;
+                    $scope.ftLoad = true;
+                    $scope.$apply(function () {
+                        $scope.images.push(imageData);
+                    });
+                    camimg_holder.append('<button class="button button-positive remove" onclick="removeFile()">Remove Files</button><br/>');
+                    $('<span class="upattach"><i class="ion-paperclip"></i></span>').appendTo(camimg_holder);
+                    //jQuery('#addFile').append('');    
+                    jQuery('#camfile').val($scope.images);
+                    $scope.uploadPicture();
+                }, function (err) {
+                    console.log(err);
+                });
+            };
 
+
+            $scope.uploadPicture = function () {
+                $ionicLoading.show({template: 'Uploading..'});
+                var fileURL = $scope.picData;
+                var options = new FileUploadOptions();
+                options.fileKey = "file";
+                options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
+                options.mimeType = "image/jpeg";
+                options.chunkedMode = true;
+                var params = {};
+                params.value1 = "someparams";
+                params.value2 = "otherparams";
+                options.params = params;
+                var uploadSuccess = function (data) {
+                    alert('Success'+data);
+                    $ionicLoading.hide();
+                }
+                var ft = new FileTransfer();
+                ft.upload(fileURL, encodeURI(domain + 'records/upload'), uploadSuccess, function (error) {
+                    $ionicLoading.show({template: 'Error in connecting...'});
+                    $ionicLoading.hide();
+                }, options);
+            };
+            $scope.takePicture = function () {
+                takePicture();
+            };
+            $scope.removeFile = function () {
+                console.log('remove');
+                jQuery('.img').val('');
+            };
+        })
         .controller('ThankyouCtrl', function ($scope, $http, $stateParams) {
 
         })
 
-        .controller('EditRecordCtrl', function ($scope, $http, $state, $stateParams, $sce) {
+         .controller('EditRecordCtrl', function ($scope, $http, $state, $stateParams, $sce) {
             $scope.fields = [];
             $http({
                 method: 'GET',
@@ -556,7 +646,8 @@ angular.module('your_app_name.controllers', [])
             });
         })
 
-        .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope) {
+
+      .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope) {
             $scope.category = '';
             $scope.catId = $stateParams.id;
             $scope.limit = 3;
@@ -568,8 +659,10 @@ angular.module('your_app_name.controllers', [])
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.records = response.data.records;
-                if ($scope.records[0].record_metadata.length == 6) {
-                    $scope.limit = 3; //$scope.records[0].record_metadata.length;
+                if ($scope.records.length != 0) {
+                    if ($scope.records[0].record_metadata.length == 6) {
+                        $scope.limit = 3; //$scope.records[0].record_metadata.length;
+                    }
                 }
                 $scope.category = response.data.category;
                 $scope.doctors = response.data.doctors;
@@ -588,8 +681,10 @@ angular.module('your_app_name.controllers', [])
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.records = response.data.records;
-                    if ($scope.records[0].record_metadata.length == 6) {
-                        $scope.limit = 3; //$scope.records[0].record_metadata.length;
+                    if ($scope.records.length != 0) {
+                        if ($scope.records[0].record_metadata.length == 6) {
+                            $scope.limit = 3; //$scope.records[0].record_metadata.length;
+                        }
                     }
                     //$scope.category = response.data.category;
                     console.log($scope.catId);
@@ -602,9 +697,33 @@ angular.module('your_app_name.controllers', [])
             $scope.addRecord = function () {
                 $state.go('app.add-category', {'id': button.id}, {reload: true});
             };
+
+			
+			$scope.recordDelete = function(){
+				jQuery('.selectrecord').fadeIn('slow');
+				jQuery('.btview').fadeOut('slow');
+				jQuery('#rec1').fadeOut();
+				jQuery('#rec2').fadeIn('slow');
+				
+			}
+			
+			$scope.recordcancel=function(){
+				jQuery('.selectrecord').fadeOut('slow');
+				jQuery('.btview').fadeIn('slow');
+				jQuery('#rec1').fadeIn('slow');
+				jQuery('#rec2').fadeOut();
+				}
+				
+				$scope.selectcheckbox=function($event){
+				console.log($event);
+				// if($event==true){
+					// jQuery(this).addClass('asd123');
+					// }
+				}
+
         })
 
-        .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout) {
+         .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
             $scope.recordId = $stateParams.id;
             $scope.isNumber = function (num) {
                 return angular.isNumber(num);
@@ -644,7 +763,26 @@ angular.module('your_app_name.controllers', [])
                 $state.go('app.edit-record', {'id': id, 'cat': cat});
                 //window.location.href = "http://192.168.2.169:8100/#/app/edit-record/" + id + "/" + cat;
             };
+            // Load the modal from the given template URL
+            $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
+                $scope.modal = $ionicModal;
+                $scope.showm = function (path, name) {
+                    console.log(path + '=afd =' + name);
+                    $scope.value = $rootScope.attachpath + path + name;
+                    $scope.modal.show();
+                }
+
+            }, {
+                // Use our scope for the scope of the modal to keep it simple
+                scope: $scope,
+                // The animation we want to use for the modal entrance
+                animation: 'slide-in-up'
+            });
+            $scope.trustSrc = function (src) {
+                return $sce.trustAsResourceUrl(src);
+            };
         })
+
 
         .controller('ConsultationsListCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
 
