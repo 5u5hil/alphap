@@ -510,7 +510,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 // 3
                 $cordovaCamera.getPicture(options).then(function (imageData) {
                     //alert(imageData);
-                    onImageSuccess(imageData);
+                    //onImageSuccess(imageData);
                     var imageName = imageData;
                         $scope.$apply(function () {
                             $scope.tempImgs.push(imageName);
