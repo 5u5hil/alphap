@@ -443,12 +443,12 @@ angular.module('your_app_name.controllers', [])
                         $scope.ftLoad = true;
                         $scope.uploadPicture();
                         $scope.$apply(function () {
-                            $scope.images.push(value.substr(value.lastIndexOf('/') + 1));
+                            $scope.images.push({'img': + value.substr(value.lastIndexOf('/') + 1)});
                         });
                         alert($scope.images);
                         jQuery('#camfile').val($scope.images);
                     });
-                    var data = new FormData(jQuery("#addRecordForm")[0]);
+                    /*var data = new FormData(jQuery("#addRecordForm")[0]);
                     callAjax("POST", domain + "records/save", data, function (response) {
                         console.log(response);
                         $ionicLoading.hide();
@@ -460,7 +460,7 @@ angular.module('your_app_name.controllers', [])
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
                         }
-                    });
+                    });*/
                 } else {
                     var data = new FormData(jQuery("#addRecordForm")[0]);
                     callAjax("POST", domain + "records/save", data, function (response) {
@@ -666,10 +666,6 @@ angular.module('your_app_name.controllers', [])
                     //jQuery('#valid-till').attr('required', false);
                 }
 
-//                var reader = new FileReader();
-//                reader.onload = function (event) {
-//                    $scope.image_source = event.target.result
-//                    $scope.$apply();
                 if (typeof (FileReader) != "undefined") {
                     //loop for each file selected for uploaded.
                     for (var i = 0; i < element.files.length; i++) {
