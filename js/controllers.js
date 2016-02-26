@@ -825,22 +825,15 @@ angular.module('your_app_name.controllers', [])
 
 
             $scope.print = function () {
-                console.log("fsfdfsfd");
+              //  console.log("fsfdfsfd");
               //  var printerAvail = $cordovaPrinter.isAvailable();
-               
-//                 var doc = "<html>HI BHAVNAA</html>";
-//                 $cordovaPrinter.print(doc);
-//                if ($cordovaPrinter.isAvailable()) {
-//                    $cordovaPrinter.print("http://www.google.com");
-//                } else {
-//                    alert("Printing is not available on device");
-//                }
-
-         var page = location.href;
-
-        cordova.plugins.printer.print(page, 'Document.html', function () {
-        alert('printing finished or canceled')
-        });
+                var page = location.href;
+                console.log("@@@@@@"+page);
+                if ($cordovaPrinter.isAvailable()) {
+                    $cordovaPrinter.print(page);
+                } else {
+                    alert("Printing is not available on device");
+                }
             }
 
 
