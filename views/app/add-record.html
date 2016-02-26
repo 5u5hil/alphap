@@ -13,19 +13,23 @@
                 <!--<div ng-repeat="field in fields" ng-bind-html="field"></div>-->
 
 
-
-                <!--                <div class="row">
-                                    <div class="col col-50"> 
-                                        <div class="filelabel">
-                                            <input type="file" name="attachfile" id="attachfile" accept="image/*;capture=camera" >
-                                            <label for="attachfile">Attach File</label>
-                                        </div>
-                                    </div>	
-                                    <div class="col col-50">
-                                        <button class="btncamera" onclick="takePicture()"><i class="ion-android-camera"></i></button>
-                                    </div>	
-                                </div>-->
-
+<!--                <div class="row">
+                    <div class="col col-50"> 
+                        <div class="filelabel">
+                            <input type="text" name="attachfile" placeholder="asdf" ng-model="img"  >
+                        </div>
+                    </div>	
+                    <div class="col col-50">
+                        <button type="button" class="btncamera" ng-click="pushVal(img)"  >but</button>
+                    </div>	
+                </div>
+                 <div class="row">
+                    <div class="col col-50"> 
+                        <div class="filelabel">
+                            <input type="text" name="attachfile" placeholder="asdf" ng-model="images1" value="{{images1}}"  >
+                        </div>
+                    </div>
+                 </div>-->
 
 
 
@@ -540,11 +544,11 @@
                       <button type="submit" ng-click="submit()" class="button button-block button-positive" ng-disabled="addRecordForm.$invalid"> Submit </button>
                   </div> -->
             </ul>
-			<div class="clr"></div>
-		<div class="bar bar-footer" style="padding-top:20px;">
-            <button type="submit" ng-click="submit()" class="button button-positive w100p brdradious0" ng-disabled="addRecordForm.$invalid"> Submit </button>
-			</div>
+            <div class="clr"></div>
+            <div class="bar bar-footer" style="padding-top:20px;">
+                <button type="submit" ng-click="submit()" class="button button-positive w100p brdradious0" ng-disabled="addRecordForm.$invalid"> Submit </button>
+            </div>
         </ion-content>
-			
+
     </form>
 </ion-view>
