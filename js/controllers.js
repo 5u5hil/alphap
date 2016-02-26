@@ -450,14 +450,10 @@ angular.module('your_app_name.controllers', [])
                         var imgName = value.substr(value.lastIndexOf('/') + 1);
                         alert(imgName);
                         $scope.ftLoad = true;
-                        $scope.uploadPicture();
-                        //$scope.images.push(value.substr(value.lastIndexOf('/') + 1));
-                        //$scope.images.push({'img': value.substr(value.lastIndexOf('/') + 1)});
-                        
+                        $scope.uploadPicture();                        
                         $scope.temp = {"img": imgName};
-                        $scope.images.push({"img": imgName});
+                        angular.extend($scope.images, $scope.temp);
                         $scope.image.push(imgName);
-                        //angular.extend($scope.images, $scope.temp);
                         console.log($scope.images);
                         console.log($scope.image);
                         //jQuery('#camfile').val($scope.images);
@@ -590,9 +586,9 @@ angular.module('your_app_name.controllers', [])
                 options.mimeType = "image/jpeg";
                 options.chunkedMode = true;
                 var params = {};
-                params.value1 = "someparams";
-                params.value2 = "otherparams";
-                options.params = params;
+//                params.value1 = "someparams";
+//                params.value2 = "otherparams";
+//                options.params = params;
                 var uploadSuccess = function (response) {
                     alert('Success  ====== ');
                     console.log("Code = " + r.responseCode);
