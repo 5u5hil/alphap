@@ -828,19 +828,19 @@ angular.module('your_app_name.controllers', [])
                 console.log("fsfdfsfd");
               //  var printerAvail = $cordovaPrinter.isAvailable();
                
-                 var doc = "<html>HI BHAVNAA</html>";
-                 $cordovaPrinter.print(doc);
+//                 var doc = "<html>HI BHAVNAA</html>";
+//                 $cordovaPrinter.print(doc);
 //                if ($cordovaPrinter.isAvailable()) {
 //                    $cordovaPrinter.print("http://www.google.com");
 //                } else {
 //                    alert("Printing is not available on device");
 //                }
 
-var page = '<h1>Hello Document</h1>';
+         var page = location.href;
 
-cordova.plugins.printer.print(page, 'Document.html', function () {
-    alert('printing finished or canceled')
-});
+        cordova.plugins.printer.print(page, 'Document.html', function () {
+        alert('printing finished or canceled')
+        });
             }
 
 
