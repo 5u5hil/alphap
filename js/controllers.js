@@ -1,7 +1,7 @@
 var publisher;
 var session;
 var subscriber;
-angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
+angular.module('your_app_name.controllers', [])
 
         .controller('AuthCtrl', function ($scope, $state, $ionicConfig, $rootScope) {
             $scope.interface = window.localStorage.setItem('interface_id', '3');
@@ -812,13 +812,16 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
 
             $scope.print = function () {
-                var printerAvail = $cordovaPrinter.isAvailable();
-                console.log("fsfdfsfd" + printerAvail);
-                if ($cordovaPrinter.isAvailable()) {
-                    $cordovaPrinter.print("http://www.google.com");
-                } else {
-                    alert("Printing is not available on device");
-                }
+                console.log("fsfdfsfd");
+              //  var printerAvail = $cordovaPrinter.isAvailable();
+               
+                 var doc = "<html>HI BHAVNAA</html>";
+                 $cordovaPrinter.print(doc);
+//                if ($cordovaPrinter.isAvailable()) {
+//                    $cordovaPrinter.print("http://www.google.com");
+//                } else {
+//                    alert("Printing is not available on device");
+//                }
             }
 
 
