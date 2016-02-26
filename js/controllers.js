@@ -517,9 +517,10 @@ angular.module('your_app_name.controllers', [])
                     //alert(imageData);
                     //onImageSuccess(imageData);
                     var imageName = imageData;
-                        $scope.$apply(function () {
-                            $scope.tempImgs.push(imageName);
-                        });
+                    $scope.tempImgs.push(imageName);
+//                        $scope.$apply(function () {
+//                            $scope.tempImgs.push(imageName);
+//                        });
                         $scope.picData = getImgUrl(imageName);
                         //alert($scope.picData);
                         $scope.ftLoad = true;
