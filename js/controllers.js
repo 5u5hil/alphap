@@ -577,12 +577,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 var uploadSuccess = function (response) {
                     //alert('Success  =   ' + JSON.stringify(response));
                     $scope.image.push(name);
-                    //$scope.image.push({'img': value.substr(value.lastIndexOf('/') + 1)});
-//                    var response_data = jQuery.parseJSON(response);
-//                    if (typeof response_data == 'object') {
-//                        alert(response_data);
-//                        alert('upload');
-//                    }
                     //$ionicLoading.hide();
                 }
                 var ft = new FileTransfer();
