@@ -729,7 +729,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
 
-        .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope) {
+        .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope,$cordovaPrinter) {
             $scope.category = '';
             $scope.catId = $stateParams.id;
             $scope.limit = 3;
@@ -805,19 +805,15 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
 
             $scope.print = function () {
-                var page = location.href;
-alert(page);
-                cordova.plugins.printer.print(page, 'http://localhost/alphap/#/app/records-view/1', function () {
-                    alert('printing finished or canceled')
-                });
 
-//                var printerAvail = $cordovaPrinter.isAvailable();
-//                console.log("fsfdfsfd"+printerAvail);
-////                if ($cordovaPrinter.isAvailable()) {
-////                    $cordovaPrinter.print("http://www.google.com");
-////                } else {
-////                    alert("Printing is not available on device");
-////                }
+
+                var printerAvail = $cordovaPrinter.isAvailable();
+                console.log("fsfdfsfd"+printerAvail);
+                if ($cordovaPrinter.isAvailable()) {
+                    $cordovaPrinter.print("http://www.google.com");
+                } else {
+                    alert("Printing is not available on device");
+                }
             }
 
 
