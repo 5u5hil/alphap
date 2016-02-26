@@ -455,7 +455,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.ftLoad = true;
                         $scope.uploadPicture();
                         $scope.temp = {"img": imgName};
-                        $scope.images.push($scope.temp);
+                        //$scope.images.push($scope.temp);
                         $scope.image.push(imgName);
                         angular.extend($scope.images, $scope.temp);
                         console.log($scope.images);
@@ -463,7 +463,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         //jQuery('#camfile').val($scope.images);
                     });
                     $scope.images = jQuery.parseJSON($scope.images);
-                    //jQuery('#camfile').val($scope.images);
+                    jQuery('#camfilee').val($scope.image);
                     console.log($scope.images);
                     var data = new FormData(jQuery("#addRecordForm")[0]);
                     callAjax("POST", domain + "records/save", data, function (response) {
