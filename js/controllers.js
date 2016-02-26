@@ -401,8 +401,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 //                $scope.modal.hide();
 //            };
         })
-        .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile) {
-            $scope.images = {};
+        .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
+            $scope.images = [];
             $scope.image = [];
             $scope.tempImgs = [];
             $scope.curTime = new Date();
@@ -433,6 +433,17 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.addNewElement = function (ele) {
                 addNew(ele);
             };
+            $scope.images1 = [];
+
+            $scope.pushVal = function (imgName) {
+
+                $scope.temp = {"img": imgName};
+//                angular.extend($scope.images1, $scope.temp);  
+                $scope.images1.push($scope.temp);
+                $scope.image.push(imgName);
+                console.log($scope.images1);
+                jQuery('#jjj').val($scope.image);
+            };
             $scope.submit = function () {
                 //$ionicLoading.show({template: 'Adding...'});
                 //alert($scope.tempImgs.length);
@@ -444,15 +455,15 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.ftLoad = true;
                         $scope.uploadPicture();
                         $scope.temp = {"img": imgName};
+                        $scope.images.push($scope.temp);
                         $scope.image.push(imgName);
-                        angular.extend($scope.images, $scope.temp);
-                        $scope.$apply(function () {                            
-                            $scope.image.push({'img':  value.substr(value.lastIndexOf('/') + 1)});
-                        });
+                        //angular.extend($scope.images, $scope.temp);
                         console.log($scope.images);
                         console.log($scope.image);
                         //jQuery('#camfile').val($scope.images);
                     });
+                    $scope.images = jQuery.parseJSON($scope.images);
+                    jQuery('#camfilee').val($scope.image);
                     console.log($scope.images);
                     var data = new FormData(jQuery("#addRecordForm")[0]);
                     callAjax("POST", domain + "records/save", data, function (response) {
@@ -502,7 +513,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     sourceType: Camera.PictureSourceType.CAMERA, // Camera.PictureSourceType.PHOTOLIBRARY
                     allowEdit: false,
                     encodingType: Camera.EncodingType.JPEG,
-                    popoverOptions: CameraPopoverOptions,
                 };
                 // 3
                 $cordovaCamera.getPicture(options).then(function (imageData) {
@@ -589,6 +599,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     //$ionicLoading.hide();
                 }, options);
             };
+
+
+
             $scope.chkDt = function (dt) {
                 console.log(dt);
                 console.log($scope.curTime);
@@ -786,18 +799,18 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
 
             $scope.recordDelete = function () {
-                jQuery('.selectrecord').fadeIn('slow');
-                jQuery('.btview').fadeOut('slow');
-                jQuery('#rec1').fadeOut();
-                jQuery('#rec2').fadeIn('slow');
+                jQuery('.selectrecord').css('display', 'block');
+                jQuery('.btview').css('display', 'none');
+                jQuery('#rec1').css('display', 'none');
+                jQuery('#rec2').css('display', 'block');
 
             }
 
             $scope.recordcancel = function () {
-                jQuery('.selectrecord').fadeOut('slow');
-                jQuery('.btview').fadeIn('slow');
-                jQuery('#rec1').fadeIn('slow');
-                jQuery('#rec2').fadeOut();
+                jQuery('.selectrecord').css('display', 'none');
+                jQuery('.btview').css('display', 'block');
+                jQuery('#rec1').css('display', 'block');
+                jQuery('#rec2').css('display', 'none');
             }
 
             $scope.selectcheckbox = function ($event) {
@@ -810,14 +823,17 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
             $scope.print = function () {
 
+
               //  console.log("fsfdfsfd");
               //  var printerAvail = $cordovaPrinter.isAvailable();
                var page = location.href;
 
               cordova.plugins.printer.print(page, 'Document.html', function () {
-             alert('printing finished or canceled')
+               alert('printing finished or canceled')
                 });
                 console.log("@@@@@@"+page);
+
+
                 if ($cordovaPrinter.isAvailable()) {
                     $cordovaPrinter.print('http://stage.doctrs.in/records/get-record-details?id=157');
                 } else {
