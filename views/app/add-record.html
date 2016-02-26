@@ -60,7 +60,7 @@
                             <label class="item item-input item-select item-stacked-label">
                                 <span class="input-label dblock" >{{field.field}}</span>
                                 <select class="cselect" name="{{field.name}}" id="{{field.name}}" ng-model="prob.record_id" ng-change="addOther(field.name, field.field, prob.record_id)">
-                                    <option value="" ng-selected="1">Select {{field.field}}</option>
+                                    <option value="select" ng-selected="1">Select {{field.field}}</option>
                                     <option ng-repeat="prob in problems"  value="{{prob.record_id}}">{{prob.value}}</option>
                                 </select>
                             </label>

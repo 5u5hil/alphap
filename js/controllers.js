@@ -434,22 +434,16 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 addNew(ele);
             };
             $scope.submit = function () {
-                //$ionicLoading.show({template: 'Adding...'});
+                $ionicLoading.show({template: 'Adding...'});
                 //alert($scope.tempImgs.length);
                 if ($scope.tempImgs.length > 0) {
                     angular.forEach($scope.tempImgs, function (value, key) {
                         $scope.picData = getImgUrl(value);
                         var imgName = value.substr(value.lastIndexOf('/') + 1);
-                        alert(imgName);
                         $scope.ftLoad = true;
                         $scope.uploadPicture();
-                        //$scope.temp = {"img": imgName};
-                        //$scope.images.push($scope.temp);
                         $scope.image.push(imgName);
-                        //angular.extend($scope.images, $scope.temp);
-                        //console.log($scope.images);
                         console.log($scope.image);
-                        //jQuery('#camfile').val($scope.images);
                     });
                     jQuery('#camfilee').val($scope.image);
                     console.log($scope.images);
