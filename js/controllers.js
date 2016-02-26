@@ -402,6 +402,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 //            };
         })
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile) {
+		
+		
+		 $scope.inputfocus = function () {
+		 
+		 }
+			$scope.inputfocus();
+		
+		
             $scope.images = {};
             $scope.image = [];
             $scope.tempImgs = [];
