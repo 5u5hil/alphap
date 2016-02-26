@@ -802,12 +802,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 jQuery('#rec2').fadeOut();
             }
 
-            $scope.selectcheckbox = function ($event) {
-                console.log($event);
-                // if($event==true){
-                // jQuery(this).addClass('asd123');
-                // }
-            }
+            // $scope.selectcheckbox = function (ab) {
+			// alert('fasd');
+				// $(ab).toggleClass("Naresh");
+          
+						// }
 
 
             $scope.print = function () {
