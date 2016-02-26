@@ -813,11 +813,7 @@ angular.module('your_app_name.controllers', [])
             }
 
             $scope.recordcancel = function () {
-                // jQuery('.selectrecord').fadeOut('slow');
-                // jQuery('.btview').fadeIn('slow');
-                // jQuery('#rec1').fadeIn('slow');
-                // jQuery('#rec2').fadeOut();
-				
+            
 				jQuery('.selectrecord').css('display','none');
                 jQuery('.btview').css('display','block');
                 jQuery('#rec1').css('display','block');
