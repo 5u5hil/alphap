@@ -482,7 +482,16 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         }
                     });
                 }
-
+                function removeFile() {
+                    console.log('remove');
+                    jQuery('.img').val('');
+                    jQuery('#image-holder').empty();
+                }
+                function removeCamFile() {
+                    console.log('remove');
+                    jQuery('#camera-status').empty();
+                    $scope.image = [];
+                }
                 function getImgUrl(imageName) {
                     var name = imageName.substr(imageName.lastIndexOf('/') + 1);
                     var trueOrigin = cordova.file.dataDirectory + name;
@@ -812,14 +821,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.print = function () {
 
 
-              //  console.log("fsfdfsfd");
-              //  var printerAvail = $cordovaPrinter.isAvailable();
-               var page = location.href;
+                //  console.log("fsfdfsfd");
+                //  var printerAvail = $cordovaPrinter.isAvailable();
+                var page = location.href;
 
-              cordova.plugins.printer.print(page, 'Document.html', function () {
-               alert('printing finished or canceled')
+                cordova.plugins.printer.print(page, 'Document.html', function () {
+                    alert('printing finished or canceled')
                 });
-                console.log("@@@@@@"+page);
+                console.log("@@@@@@" + page);
 
 
                 if ($cordovaPrinter.isAvailable()) {
