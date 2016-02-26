@@ -433,17 +433,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.addNewElement = function (ele) {
                 addNew(ele);
             };
-            $scope.images1 = [];
-
-            $scope.pushVal = function (imgName) {
-
-                $scope.temp = {"img": imgName};
-//                angular.extend($scope.images1, $scope.temp);  
-                $scope.images1.push($scope.temp);
-                $scope.image.push(imgName);
-                console.log($scope.images1);
-                jQuery('#jjj').val($scope.image);
-            };
             $scope.submit = function () {
                 //$ionicLoading.show({template: 'Adding...'});
                 //alert($scope.tempImgs.length);
@@ -454,15 +443,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         alert(imgName);
                         $scope.ftLoad = true;
                         $scope.uploadPicture();
-                        $scope.temp = {"img": imgName};
-                        $scope.images.push($scope.temp);
+                        //$scope.temp = {"img": imgName};
+                        //$scope.images.push($scope.temp);
                         $scope.image.push(imgName);
                         //angular.extend($scope.images, $scope.temp);
-                        console.log($scope.images);
+                        //console.log($scope.images);
                         console.log($scope.image);
                         //jQuery('#camfile').val($scope.images);
                     });
-                    //$scope.images = jQuery.parseJSON($scope.images);
                     jQuery('#camfilee').val($scope.image);
                     console.log($scope.images);
                     var data = new FormData(jQuery("#addRecordForm")[0]);
