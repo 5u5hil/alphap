@@ -402,10 +402,8 @@ angular.module('your_app_name.controllers', [])
 //            };
         })
        .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile) {
-
-			$scope.methodA=function(){
-				//alert('fasd');
-				}
+            $scope.images = [];
+            $scope.tempImgs = [];
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             //$scope.curT = new Date()$filter('date')(new Date(), 'H:i');
@@ -436,19 +434,153 @@ angular.module('your_app_name.controllers', [])
             };
             $scope.submit = function () {
                 $ionicLoading.show({template: 'Adding...'});
-                var data = new FormData(jQuery("#addRecordForm")[0]);
-                callAjax("POST", domain + "records/save", data, function (response) {
-                    console.log(response);
-                    $ionicLoading.hide();
-                    if (angular.isObject(response.records)) {
-                        alert("Record added successfully!");
-                        $timeout(function () {
-                            $state.go('app.records-view', {'id': $scope.categoryId}, {}, {reload: true});
-                        }, 1000);
-                    } else if (response.err != '') {
-                        alert('Please fill mandatory fields');
+                //alert($scope.tempImgs.length);
+                if ($scope.tempImgs.length > 0) {
+                    angular.forEach($scope.tempImgs, function (value, key) {
+                        $scope.picData = getImgUrl(value);
+                        var imgName = value.substr(value.lastIndexOf('/') + 1);
+                        alert(imgName);
+                        $scope.ftLoad = true;
+                        $scope.uploadPicture();
+                        $scope.$apply(function () {
+                            $scope.images.push(value.substr(value.lastIndexOf('/') + 1));
+                        });
+                        alert($scope.images);
+                        jQuery('#camfile').val($scope.images);
+                    });
+                    var data = new FormData(jQuery("#addRecordForm")[0]);
+                    callAjax("POST", domain + "records/save", data, function (response) {
+                        console.log(response);
+                        $ionicLoading.hide();
+                        if (angular.isObject(response.records)) {
+                            alert("Record added successfully!");
+                            $timeout(function () {
+                                $state.go('app.records-view', {'id': $scope.categoryId}, {}, {reload: true});
+                            }, 1000);
+                        } else if (response.err != '') {
+                            alert('Please fill mandatory fields');
+                        }
+                    });
+                } else {
+                    var data = new FormData(jQuery("#addRecordForm")[0]);
+                    callAjax("POST", domain + "records/save", data, function (response) {
+                        console.log(response);
+                        $ionicLoading.hide();
+                        if (angular.isObject(response.records)) {
+                            alert("Record added successfully!");
+                            $timeout(function () {
+                                $state.go('app.records-view', {'id': $scope.categoryId}, {}, {reload: true});
+                            }, 1000);
+                        } else if (response.err != '') {
+                            alert('Please fill mandatory fields');
+                        }
+                    });
+                }
+
+                function getImgUrl(imageName) {
+                    var name = imageName.substr(imageName.lastIndexOf('/') + 1);
+                    var trueOrigin = cordova.file.dataDirectory + name;
+                    return trueOrigin;
+                }
+            };
+
+            //Take images with camera
+            $scope.takePict = function (name) {
+                //console.log(name);
+                var camimg_holder = $("#camera-status");
+                camimg_holder.empty();
+                // 2
+                var options = {
+                    destinationType: Camera.DestinationType.FILE_URI,
+                    sourceType: Camera.PictureSourceType.CAMERA, // Camera.PictureSourceType.PHOTOLIBRARY
+                    allowEdit: false,
+                    encodingType: Camera.EncodingType.JPEG,
+                    popoverOptions: CameraPopoverOptions,
+                };
+                // 3
+                $cordovaCamera.getPicture(options).then(function (imageData) {
+                    //alert(imageData);
+                    onImageSuccess(imageData);
+                    function onImageSuccess(fileURI) {
+                        createFileEntry(fileURI);
                     }
+                    function createFileEntry(fileURI) {
+                        window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
+                    }
+                    // 5
+                    function copyFile(fileEntry) {
+                        var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
+                        var newName = makeid() + name;
+                        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (fileSystem2) {
+                            fileEntry.copyTo(
+                                    fileSystem2,
+                                    newName,
+                                    onCopySuccess,
+                                    fail
+                                    );
+                        },
+                                fail);
+                    }
+                    // 6
+                    function onCopySuccess(entry) {
+                        var imageName = entry.nativeURL;
+                        $scope.$apply(function () {
+                            $scope.tempImgs.push(imageName);
+                        });
+                        $scope.picData = getImgUrl(imageName);
+                        //alert($scope.picData);
+                        $scope.ftLoad = true;
+                        camimg_holder.append('<button class="button button-positive remove" onclick="removeCamFile()">Remove Files</button><br/>');
+                        $('<span class="upattach"><i class="ion-paperclip"></i></span>').appendTo(camimg_holder);
+                    }
+                    function fail(error) {
+                        console.log("fail: " + error.code);
+                    }
+                    function makeid() {
+                        var text = "";
+                        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                        for (var i = 0; i < 5; i++) {
+                            text += possible.charAt(Math.floor(Math.random() * possible.length));
+                        }
+                        return text;
+                    }
+                    function getImgUrl(imageName) {
+                        var name = imageName.substr(imageName.lastIndexOf('/') + 1);
+                        var trueOrigin = cordova.file.dataDirectory + name;
+                        return trueOrigin;
+                    }
+                }, function (err) {
+                    console.log(err);
                 });
+            };
+
+
+            $scope.uploadPicture = function () {
+                //$ionicLoading.show({template: 'Uploading..'});
+                var fileURL = $scope.picData;
+                var options = new FileUploadOptions();
+                options.fileKey = "file";
+                options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
+                options.mimeType = "image/jpeg";
+                options.chunkedMode = true;
+                var params = {};
+                params.value1 = "someparams";
+                params.value2 = "otherparams";
+                options.params = params;
+                var uploadSuccess = function (response) {
+                    alert('Success  =   ' + JSON.stringify(response));
+                    var response_data = jQuery.parseJSON(response);
+                    if (typeof response_data == 'object') {
+                        alert(response_data);
+                        alert('upload');
+                    }
+                    //$ionicLoading.hide();
+                }
+                var ft = new FileTransfer();
+                ft.upload(fileURL, encodeURI(domain + 'records/upload'), uploadSuccess, function (error) {
+                    //$ionicLoading.show({template: 'Error in connecting...'});
+                    //$ionicLoading.hide();
+                }, options);
             };
             $scope.chkDt = function (dt) {
                 console.log(dt);
@@ -553,73 +685,9 @@ angular.module('your_app_name.controllers', [])
                         reader.readAsDataURL(element.files[0]);
                     }
                 }
-                //}
-                // when the file is read it triggers the onload event above.
-                //reader.readAsDataURL(element.files[0]);
-            };
-            $scope.images = [];
-            $scope.takePict = function (name) {
-                console.log(name);
-                var camimg_holder = $("#camera-status");
-                camimg_holder.empty();
-                // 2
-                var options = {
-                    destinationType: Camera.DestinationType.FILE_URI,
-                    sourceType: Camera.PictureSourceType.CAMERA, // Camera.PictureSourceType.PHOTOLIBRARY
-                    allowEdit: false,
-                    encodingType: Camera.EncodingType.JPEG,
-                    popoverOptions: CameraPopoverOptions,
-                };
-                // 3
-                $cordovaCamera.getPicture(options).then(function (imageData) {
-                    //alert(imageData);
-                    //alert(cordova.file.dataDirectory);
-                    $scope.picData = imageData;
-                    $scope.ftLoad = true;
-                    $scope.$apply(function () {
-                        $scope.images.push(imageData);
-                    });
-                    camimg_holder.append('<button class="button button-positive remove" onclick="removeFile()">Remove Files</button><br/>');
-                    $('<span class="upattach"><i class="ion-paperclip"></i></span>').appendTo(camimg_holder);
-                    //jQuery('#addFile').append('');    
-                    jQuery('#camfile').val($scope.images);
-                    $scope.uploadPicture();
-                }, function (err) {
-                    console.log(err);
-                });
-            };
-
-
-            $scope.uploadPicture = function () {
-                $ionicLoading.show({template: 'Uploading..'});
-                var fileURL = $scope.picData;
-                var options = new FileUploadOptions();
-                options.fileKey = "file";
-                options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
-                options.mimeType = "image/jpeg";
-                options.chunkedMode = true;
-                var params = {};
-                params.value1 = "someparams";
-                params.value2 = "otherparams";
-                options.params = params;
-                var uploadSuccess = function (data) {
-                    alert('Success'+data);
-                    $ionicLoading.hide();
-                }
-                var ft = new FileTransfer();
-                ft.upload(fileURL, encodeURI(domain + 'records/upload'), uploadSuccess, function (error) {
-                    $ionicLoading.show({template: 'Error in connecting...'});
-                    $ionicLoading.hide();
-                }, options);
-            };
-            $scope.takePicture = function () {
-                takePicture();
-            };
-            $scope.removeFile = function () {
-                console.log('remove');
-                jQuery('.img').val('');
             };
         })
+        
         .controller('ThankyouCtrl', function ($scope, $http, $stateParams) {
 
         })
