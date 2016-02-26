@@ -114,7 +114,7 @@
                                             </div>
                                             <div class="col col-50">
                                                 <div class="btncamera" ng-click="takePict('{{field.name}}')"><i class="ion-android-camera"></i></div>
-                                                <input class="" type="text" ng-model="image" name="cam-{{field.name}}" id="camfile" />
+                                                <input class="" type="text" ng-model="images" name="cam-{{field.name}}" id="camfile" />
                                             </div><br/>
                                             <div id="camera-status"></div>
                                         </div>
@@ -131,7 +131,7 @@
                                             </div>
                                             <div class="col col-50">
                                                 <div class="btncamera" ng-click="takePict('{{field.name}}')" ><!-- <i class="ion-android-camera"></i> -->Camera</div>
-                                                <input class="" type="text" ng-model="image" name="cam-{{field.name}}" id="camfile" />
+                                                <input class="" type="text" ng-model="images" name="cam-{{field.name}}" id="camfile" />
                                             </div><br/>
                                             <div id="camera-status"></div>
                                         </div>                                        
@@ -151,7 +151,7 @@
                                                 </div>	
                                                 <div class="col col-50">
                                                     <div class="btncamera" ng-click="takePict('{{field.name}}')"><!-- <i class="ion-android-camera"></i> -->Camera</div>
-                                                    <input class="" type="text" ng-model="image" name="cam-{{field.name}}" id="camfile" />
+                                                    <input class="" type="text" ng-model="images" name="cam-{{field.name}}" id="camfile" />
                                                 </div><br/>	
                                                 <div id="camera-status"></div>
                                             </div>                                            
@@ -168,7 +168,7 @@
                                                 </div>	
                                                 <div class="col col-50" id="addFile">
                                                     <div class="btncamera" ng-model="capPic" ng-click="takePict('{{field.name}}')"><!-- <i class="ion-android-camera"></i> -->Camera</div>
-                                                    <input class="" type="text" ng-model="image" name="cam-{{field.name}}" id="camfile" />
+                                                    <input class="" type="text" ng-model="images" name="cam-{{field.name}}" id="camfile" />
                                                 </div><br/>	
                                                 <div id="camera-status"></div>
                                             </div>	
@@ -187,7 +187,7 @@
                                                 </div>	
                                                 <div class="col">
                                                     <div class="btncamera" ng-click="takePict('{{field.name}}')">	<!-- <i class="ion-android-camera"></i> -->Camera</div>
-                                                    <input class="" type="text" ng-model="image" name="cam-{{field.name}}" id="camfile" />
+                                                    <input class="" type="text" ng-model="images" name="cam-{{field.name}}" id="camfile" />
                                                 </div><br/>
                                                 <div id="camera-status"></div>
                                             </div>
@@ -204,7 +204,7 @@
                                                 </div>	
                                                 <div class="col">
                                                     <div class="btncamera" ng-click="takePict('{{field.name}}')">	<!-- <i class="ion-android-camera"></i> -->Camera</div>
-                                                    <input class="" type="text" ng-model="image" name="cam-{{field.name}}" id="camfile" />
+                                                    <input class="" type="text" ng-model="images" name="cam-{{field.name}}" id="camfile" />
                                                 </div><br/>
                                                 <div id="camera-status"></div>	
                                             </div>                                                                                    
@@ -540,9 +540,10 @@
                       <button type="submit" ng-click="submit()" class="button button-block button-positive" ng-disabled="addRecordForm.$invalid"> Submit </button>
                   </div> -->
             </ul>
-        </ion-content>
-        <div class="bar bar-footer p0">
+			 <div class="bar bar-footer p0">
             <button type="submit" ng-click="submit()" class="button button-positive w100p brdradious0" ng-disabled="addRecordForm.$invalid"> Submit </button>
-        </div>
+			</div>
+        </ion-content>
+			
     </form>
 </ion-view>
