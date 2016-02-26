@@ -445,12 +445,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.uploadPicture();
                         //$scope.images.push(value.substr(value.lastIndexOf('/') + 1));
                         //$scope.images.push({'img': value.substr(value.lastIndexOf('/') + 1)});
+                        
                         $scope.temp = {"img": imgName};
-                        $scope.image.push(imgName);
-                        angular.extend($scope.images, $scope.temp);
-//                        $scope.$apply(function () {                            
-//                            $scope.images.push({'img':  value.substr(value.lastIndexOf('/') + 1)});
-//                        });
+                        $scope.images.push(imgName);
+                        //angular.extend($scope.images, $scope.temp);
+                        //$scope.$apply(function () {                            
+                          //  $scope.image.push($scope.image);
+                        //});
                         console.log($scope.images);
                         console.log($scope.image);
                         //jQuery('#camfile').val($scope.images);
@@ -510,29 +511,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $cordovaCamera.getPicture(options).then(function (imageData) {
                     //alert(imageData);
                     onImageSuccess(imageData);
-                    function onImageSuccess(fileURI) {
-                        createFileEntry(fileURI);
-                    }
-                    function createFileEntry(fileURI) {
-                        window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
-                    }
-                    // 5
-                    function copyFile(fileEntry) {
-                        var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
-                        var newName = makeid() + name;
-                        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (fileSystem2) {
-                            fileEntry.copyTo(
-                                    fileSystem2,
-                                    newName,
-                                    onCopySuccess,
-                                    fail
-                                    );
-                        },
-                                fail);
-                    }
-                    // 6
-                    function onCopySuccess(entry) {
-                        var imageName = entry.nativeURL;
+                    var imageName = imageData;
                         $scope.$apply(function () {
                             $scope.tempImgs.push(imageName);
                         });
@@ -541,18 +520,49 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.ftLoad = true;
                         camimg_holder.append('<button class="button button-positive remove" onclick="removeCamFile()">Remove Files</button><br/>');
                         $('<span class="upattach"><i class="ion-paperclip"></i></span>').appendTo(camimg_holder);
-                    }
-                    function fail(error) {
-                        console.log("fail: " + error.code);
-                    }
-                    function makeid() {
-                        var text = "";
-                        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-                        for (var i = 0; i < 5; i++) {
-                            text += possible.charAt(Math.floor(Math.random() * possible.length));
-                        }
-                        return text;
-                    }
+//                    function onImageSuccess(fileURI) {
+//                        createFileEntry(fileURI);
+//                    }
+//                    function createFileEntry(fileURI) {
+//                        window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
+//                    }
+//                    // 5
+//                    function copyFile(fileEntry) {
+//                        var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
+//                        var newName = makeid() + name;
+//                        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (fileSystem2) {
+//                            fileEntry.copyTo(
+//                                    fileSystem2,
+//                                    newName,
+//                                    onCopySuccess,
+//                                    fail
+//                                    );
+//                        },
+//                                fail);
+//                    }
+//                    // 6
+//                    function onCopySuccess(entry) {
+//                        var imageName = entry.nativeURL;
+//                        $scope.$apply(function () {
+//                            $scope.tempImgs.push(imageName);
+//                        });
+//                        $scope.picData = getImgUrl(imageName);
+//                        //alert($scope.picData);
+//                        $scope.ftLoad = true;
+//                        camimg_holder.append('<button class="button button-positive remove" onclick="removeCamFile()">Remove Files</button><br/>');
+//                        $('<span class="upattach"><i class="ion-paperclip"></i></span>').appendTo(camimg_holder);
+//                    }
+//                    function fail(error) {
+//                        console.log("fail: " + error.code);
+//                    }
+//                    function makeid() {
+//                        var text = "";
+//                        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+//                        for (var i = 0; i < 5; i++) {
+//                            text += possible.charAt(Math.floor(Math.random() * possible.length));
+//                        }
+//                        return text;
+//                    }
                     function getImgUrl(imageName) {
                         var name = imageName.substr(imageName.lastIndexOf('/') + 1);
                         var trueOrigin = cordova.file.dataDirectory + name;
