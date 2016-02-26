@@ -812,11 +812,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
               //  console.log("fsfdfsfd");
               //  var printerAvail = $cordovaPrinter.isAvailable();
-                var page = location.href;
+               var page = location.href;
+
+              cordova.plugins.printer.print(page, 'Document.html', function () {
+             alert('printing finished or canceled')
+                });
                 console.log("@@@@@@"+page);
                 if ($cordovaPrinter.isAvailable()) {
-                    $cordovaPrinter.print(page);
-
+                    $cordovaPrinter.print('http://stage.doctrs.in/records/get-record-details?id=157');
                 } else {
                     alert("Printing is not available on device");
                 }
