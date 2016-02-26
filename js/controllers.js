@@ -455,9 +455,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.ftLoad = true;
                         $scope.uploadPicture();
                         $scope.temp = {"img": imgName};
-                        //$scope.images.push($scope.temp);
+                        $scope.images.push($scope.temp);
                         $scope.image.push(imgName);
-                        angular.extend($scope.images, $scope.temp);
+                        //angular.extend($scope.images, $scope.temp);
                         console.log($scope.images);
                         console.log($scope.image);
                         //jQuery('#camfile').val($scope.images);
