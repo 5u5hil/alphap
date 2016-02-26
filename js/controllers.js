@@ -402,7 +402,8 @@ angular.module('your_app_name.controllers', [])
 //            };
         })
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile) {
-            $scope.images = [];
+            $scope.images = {};
+            $scope.image = [];
             $scope.tempImgs = [];
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
@@ -442,13 +443,16 @@ angular.module('your_app_name.controllers', [])
                         alert(imgName);
                         $scope.ftLoad = true;
                         $scope.uploadPicture();
-                        $scope.$apply(function () {
-                            $scope.images.push({'img': + value.substr(value.lastIndexOf('/') + 1)});
-                        });
-                        alert($scope.images);
+                        //$scope.images.push(value.substr(value.lastIndexOf('/') + 1));
+                        $scope.images.push({'img': value.substr(value.lastIndexOf('/') + 1)});
+//                        $scope.$apply(function () {                            
+//                            $scope.images.push({'img':  value.substr(value.lastIndexOf('/') + 1)});
+//                        });
+                        console.log($scope.images);
+                        console.log($scope.image);
                         //jQuery('#camfile').val($scope.images);
                     });
-                    /*var data = new FormData(jQuery("#addRecordForm")[0]);
+                    var data = new FormData(jQuery("#addRecordForm")[0]);
                     callAjax("POST", domain + "records/save", data, function (response) {
                         console.log(response);
                         $ionicLoading.hide();
@@ -460,7 +464,7 @@ angular.module('your_app_name.controllers', [])
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
                         }
-                    });*/
+                    });
                 } else {
                     var data = new FormData(jQuery("#addRecordForm")[0]);
                     callAjax("POST", domain + "records/save", data, function (response) {
@@ -558,6 +562,7 @@ angular.module('your_app_name.controllers', [])
             $scope.uploadPicture = function () {
                 //$ionicLoading.show({template: 'Uploading..'});
                 var fileURL = $scope.picData;
+                var name = fileURL.substr(fileURL.lastIndexOf('/') + 1);
                 var options = new FileUploadOptions();
                 options.fileKey = "file";
                 options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
@@ -568,12 +573,13 @@ angular.module('your_app_name.controllers', [])
                 params.value2 = "otherparams";
                 options.params = params;
                 var uploadSuccess = function (response) {
-                    alert('Success  =   ' + JSON.stringify(response));
-                    var response_data = jQuery.parseJSON(response);
-                    if (typeof response_data == 'object') {
-                        alert(response_data);
-                        alert('upload');
-                    }
+                    //alert('Success  =   ' + JSON.stringify(response));
+                    $scope.image.push(name);
+//                    var response_data = jQuery.parseJSON(response);
+//                    if (typeof response_data == 'object') {
+//                        alert(response_data);
+//                        alert('upload');
+//                    }
                     //$ionicLoading.hide();
                 }
                 var ft = new FileTransfer();
