@@ -455,11 +455,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         console.log($scope.image);
                         //jQuery('#camfile').val($scope.images);
                     });
+                    console.log($scope.images);
                     var data = new FormData(jQuery("#addRecordForm")[0]);
                     callAjax("POST", domain + "records/save", data, function (response) {
                         console.log(response);
                         $ionicLoading.hide();
                         if (angular.isObject(response.records)) {
+                            $scope.image = [];
                             alert("Record added successfully!");
                             $timeout(function () {
                                 $state.go('app.records-view', {'id': $scope.categoryId}, {}, {reload: true});
