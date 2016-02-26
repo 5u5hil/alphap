@@ -49,6 +49,21 @@ angular.module('your_app_name.controllers', [])
 
 
 
+        .controller('ShareCtrl', function ($scope, $ionicModal) {
+            $ionicModal.fromTemplateUrl('share', {
+                scope: $scope
+            }).then(function (modal) {
+			$scope.modal = modal;
+            });
+
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
+        })
+
+
+
+
 
 //LOGIN
         .controller('LoginCtrl', function ($scope, $state, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {

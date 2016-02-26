@@ -206,6 +206,16 @@ angular.module('your_app_name', [
                         }
                     })
 
+					 .state('app.share', {
+						 url: "/share",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/share.html",
+                                controller: 'ShareCtrl'
+                            }
+                        }
+                    })
+					
                     .state('app.records-view', {
                         cache: false,
                         url: "/records-view/{id:int}",

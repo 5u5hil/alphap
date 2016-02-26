@@ -7,13 +7,13 @@
         </button> 
     </ion-nav-buttons>
 
-
+<!-- 
     <div class="bar bar-subheader cbar divider-2">
         <div class="row">
             <div class="col-50"><a  ui-sref="#"><h4 class="subhead"><i class="icon ion-funnel"></i> Filter</h4></a></div>
             <div class="col-50"><h4 class="subhead">Sort <i class="icon ion-ios-arrow-thin-down"></i></h4> </div>
         </div>
-    </div>
+    </div> -->
 
     <ion-content>
         <ion-content direction="y" scrollbar-y="false">
@@ -90,23 +90,41 @@ overflow: auto;">
 	
 	
 	
-	
-	
-	
-	
-	
-	
     <div class="footerbar">
         <a class="button btn-delete" ui-sref="#" ng-click="data.showDelete = !data.showDelete; data.showReorder = false"><i class="icon ion-trash-b"></i> Delete</a>
-        <a class="button btn-share" ui-sref="#"><i class="icon ion-android-share-alt" ></i> Share</a>
+		
+        <a class="button btn-share" ui-sref="app.share"  ng-controller="ShareCtrl" ng-click="modal.show()"><i class="icon ion-android-share-alt" ></i> Share</a>
 		
         <!-- <a class="button" ng-controller="AdsCtrl" ng-click="manageAdMob()" ><i class="icon ion-android-add-circle"></i> Add</a> -->
 		
 		 <a class="button btn-add" ng-controller="AdsCtrl" ng-click="modal.show()" ><i class="icon ion-android-add-circle"></i> Add</a>
-		 
-		
-		
-    </div>
+	</div>
 
 </ion-view>
+
+
+ <script id="share" type="text/ng-template">
+        <ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+        <h1 class="title">Share</h1>	 
+       
+        </ion-header-bar>
+        <ion-content>
+			<ion-list class="sharelist">
+
+			  <ion-checkbox >Dr.Deepam Shah <br/><span class="f13">Dermatologist, cosmetologist</span></ion-checkbox>
+			  <ion-checkbox >Hitakshi Joshi<br/><span class="f13">Counselling, Psychologist</span></ion-checkbox>
+			  <ion-checkbox >Dr.Deepam Shah <br/><span class="f13">Dermatologist, cosmetologist</span></ion-checkbox>
+			  <ion-checkbox >Hitakshi Joshi<br/><span class="f13">Counselling, Psychologist</span></ion-checkbox>
+			 
+
+			</ion-list>
+        </ion-content>
+		<div class="fixedbar">
+			<div class="button btn-delete" ng-click="modal.hide()"><i class="icon ion-close"></i> Cancel</div>
+			<div class="button btn-share" ><i class="icon ion-android-share-alt" ></i> Share</div>
+		</div>
+        </ion-modal-view>
+</script>
+
 
