@@ -446,8 +446,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.temp = {"img": imgName};
                         $scope.image.push(imgName);
                         angular.extend($scope.images, $scope.temp);
-                        $scope.$apply(function () {                            
-                            $scope.image.push({'img':  value.substr(value.lastIndexOf('/') + 1)});
+                        $scope.$apply(function () {
+                            $scope.image.push({'img': value.substr(value.lastIndexOf('/') + 1)});
                         });
                         console.log($scope.images);
                         console.log($scope.image);
@@ -502,7 +502,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     sourceType: Camera.PictureSourceType.CAMERA, // Camera.PictureSourceType.PHOTOLIBRARY
                     allowEdit: false,
                     encodingType: Camera.EncodingType.JPEG,
-                    popoverOptions: CameraPopoverOptions,
                 };
                 // 3
                 $cordovaCamera.getPicture(options).then(function (imageData) {
@@ -589,6 +588,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     //$ionicLoading.hide();
                 }, options);
             };
+            
+            
+            
             $scope.chkDt = function (dt) {
                 console.log(dt);
                 console.log($scope.curTime);
