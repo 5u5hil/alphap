@@ -402,7 +402,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 //            };
         })
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile) {
-            $scope.images = [];
+            $scope.images = {};
+            $scope.image = [];
             $scope.tempImgs = [];
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
@@ -433,7 +434,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 addNew(ele);
             };
             $scope.submit = function () {
-                $ionicLoading.show({template: 'Adding...'});
+                //$ionicLoading.show({template: 'Adding...'});
                 //alert($scope.tempImgs.length);
                 if ($scope.tempImgs.length > 0) {
                     angular.forEach($scope.tempImgs, function (value, key) {
@@ -442,11 +443,16 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         alert(imgName);
                         $scope.ftLoad = true;
                         $scope.uploadPicture();
-                        $scope.$apply(function () {
-                            $scope.images.push(value.substr(value.lastIndexOf('/') + 1));
-                        });
-                        alert($scope.images);
-                        jQuery('#camfile').val($scope.images);
+                        //$scope.images.push(value.substr(value.lastIndexOf('/') + 1));
+                        //$scope.images.push({'img': value.substr(value.lastIndexOf('/') + 1)});
+                        $scope.temp = {"img":value.substr(value.lastIndexOf('/') + 1)};
+                        angular.extend($scope.images, $scope.temp);
+//                        $scope.$apply(function () {                            
+//                            $scope.images.push({'img':  value.substr(value.lastIndexOf('/') + 1)});
+//                        });
+                        console.log($scope.images);
+                        console.log($scope.image);
+                        //jQuery('#camfile').val($scope.images);
                     });
                     var data = new FormData(jQuery("#addRecordForm")[0]);
                     callAjax("POST", domain + "records/save", data, function (response) {
@@ -558,6 +564,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.uploadPicture = function () {
                 //$ionicLoading.show({template: 'Uploading..'});
                 var fileURL = $scope.picData;
+                var name = fileURL.substr(fileURL.lastIndexOf('/') + 1);
                 var options = new FileUploadOptions();
                 options.fileKey = "file";
                 options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
@@ -568,12 +575,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 params.value2 = "otherparams";
                 options.params = params;
                 var uploadSuccess = function (response) {
-                    alert('Success  =   ' + JSON.stringify(response));
-                    var response_data = jQuery.parseJSON(response);
-                    if (typeof response_data == 'object') {
-                        alert(response_data);
-                        alert('upload');
-                    }
+                    //alert('Success  =   ' + JSON.stringify(response));
+                    $scope.image.push(name);
+//                    var response_data = jQuery.parseJSON(response);
+//                    if (typeof response_data == 'object') {
+//                        alert(response_data);
+//                        alert('upload');
+//                    }
                     //$ionicLoading.hide();
                 }
                 var ft = new FileTransfer();
@@ -658,18 +666,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 if (element.files.length > 0) {
                     jQuery('#convalid').removeClass('hide');
                     jQuery('#coninprec').removeClass('hide');
-                    jQuery('#valid-till').attr('required', true);
+                    //jQuery('#valid-till').attr('required', true);
                     image_holder.append('<button class="button button-positive remove" onclick="removeFile()">Remove Files</button><br/>');
                 } else {
                     jQuery('#convalid').addClass('hide');
                     jQuery('#coninprec').addClass('hide');
-                    jQuery('#valid-till').attr('required', false);
+                    //jQuery('#valid-till').attr('required', false);
                 }
 
-//                var reader = new FileReader();
-//                reader.onload = function (event) {
-//                    $scope.image_source = event.target.result
-//                    $scope.$apply();
                 if (typeof (FileReader) != "undefined") {
                     //loop for each file selected for uploaded.
                     for (var i = 0; i < element.files.length; i++) {
@@ -730,7 +734,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
 
-        .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope,$cordovaPrinter) {
+        .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope) {
             $scope.category = '';
             $scope.catId = $stateParams.id;
             $scope.limit = 3;
@@ -805,19 +809,19 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }
 
             $scope.print = function () {
-//                var page = location.href;
-//              alert(page);
-//                cordova.plugins.printer.print(page, 'http://localhost/alphap/#/app/records-view/1', function () {
-//                    alert('printing finished or canceled')
-//                });
+                var page = location.href;
+alert(page);
+                cordova.plugins.printer.print(page, 'http://localhost/alphap/#/app/records-view/1', function () {
+                    alert('printing finished or canceled')
+                });
 
-                var printerAvail = $cordovaPrinter.isAvailable();
-                console.log("fsfdfsfd"+printerAvail);
-                if ($cordovaPrinter.isAvailable()) {
-                    $cordovaPrinter.print("http://www.google.com");
-                } else {
-                    alert("Printing is not available on device");
-                }
+//                var printerAvail = $cordovaPrinter.isAvailable();
+//                console.log("fsfdfsfd"+printerAvail);
+////                if ($cordovaPrinter.isAvailable()) {
+////                    $cordovaPrinter.print("http://www.google.com");
+////                } else {
+////                    alert("Printing is not available on device");
+////                }
             }
 
         })
@@ -1801,26 +1805,26 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
                 $scope.send = function () {
                     session.signal({data: jQuery("[name='msg']").val()},
-                    function (error) {
-                        if (error) {
-                            console.log("signal error ("
-                                    + error.code
-                                    + "): " + error.message);
-                        } else {
-                            var msg = jQuery("[name='msg']").val();
-                            $http({
-                                method: 'GET',
-                                url: domain + 'chat/add-patient-chat',
-                                params: {from: $scope.userId, to: $scope.user[0].id, msg: msg}
-                            }).then(function sucessCallback(response) {
-                                console.log(response);
-                                jQuery("[name='msg']").val('');
-                            }, function errorCallback(e) {
-                                console.log(e.responseText);
-                            });
-                            console.log("signal sent.");
-                        }
-                    }
+                            function (error) {
+                                if (error) {
+                                    console.log("signal error ("
+                                            + error.code
+                                            + "): " + error.message);
+                                } else {
+                                    var msg = jQuery("[name='msg']").val();
+                                    $http({
+                                        method: 'GET',
+                                        url: domain + 'chat/add-patient-chat',
+                                        params: {from: $scope.userId, to: $scope.user[0].id, msg: msg}
+                                    }).then(function sucessCallback(response) {
+                                        console.log(response);
+                                        jQuery("[name='msg']").val('');
+                                    }, function errorCallback(e) {
+                                        console.log(e.responseText);
+                                    });
+                                    console.log("signal sent.");
+                                }
+                            }
                     );
                 };
             }, function errorCallback(e) {
