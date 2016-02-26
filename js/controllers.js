@@ -1,7 +1,7 @@
 var publisher;
 var session;
 var subscriber;
-angular.module('your_app_name.controllers', [])
+angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('AuthCtrl', function ($scope, $state, $ionicConfig, $rootScope) {
             $scope.interface = window.localStorage.setItem('interface_id', '3');
@@ -402,14 +402,6 @@ angular.module('your_app_name.controllers', [])
 //            };
         })
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile) {
-		
-		
-		 $scope.inputfocus = function () {
-		 
-		 }
-			$scope.inputfocus();
-		
-		
             $scope.images = {};
             $scope.image = [];
             $scope.tempImgs = [];
@@ -450,10 +442,13 @@ angular.module('your_app_name.controllers', [])
                         var imgName = value.substr(value.lastIndexOf('/') + 1);
                         alert(imgName);
                         $scope.ftLoad = true;
-                        $scope.uploadPicture();                        
+                        $scope.uploadPicture();
                         $scope.temp = {"img": imgName};
-                        angular.extend($scope.images, $scope.temp);
                         $scope.image.push(imgName);
+                        angular.extend($scope.images, $scope.temp);
+                        $scope.$apply(function () {                            
+                            $scope.image.push({'img':  value.substr(value.lastIndexOf('/') + 1)});
+                        });
                         console.log($scope.images);
                         console.log($scope.image);
                         //jQuery('#camfile').val($scope.images);
@@ -507,64 +502,55 @@ angular.module('your_app_name.controllers', [])
                     sourceType: Camera.PictureSourceType.CAMERA, // Camera.PictureSourceType.PHOTOLIBRARY
                     allowEdit: false,
                     encodingType: Camera.EncodingType.JPEG,
+                    popoverOptions: CameraPopoverOptions,
                 };
                 // 3
                 $cordovaCamera.getPicture(options).then(function (imageData) {
                     //alert(imageData);
-                    //onImageSuccess(imageData);
-                    var imageName = imageData;
-                    $scope.tempImgs.push(imageName);
-//                        $scope.$apply(function () {
-//                            $scope.tempImgs.push(imageName);
-//                        });
+                    onImageSuccess(imageData);
+                    function onImageSuccess(fileURI) {
+                        createFileEntry(fileURI);
+                    }
+                    function createFileEntry(fileURI) {
+                        window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
+                    }
+                    // 5
+                    function copyFile(fileEntry) {
+                        var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
+                        var newName = makeid() + name;
+                        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (fileSystem2) {
+                            fileEntry.copyTo(
+                                    fileSystem2,
+                                    newName,
+                                    onCopySuccess,
+                                    fail
+                                    );
+                        },
+                                fail);
+                    }
+                    // 6
+                    function onCopySuccess(entry) {
+                        var imageName = entry.nativeURL;
+                        $scope.$apply(function () {
+                            $scope.tempImgs.push(imageName);
+                        });
                         $scope.picData = getImgUrl(imageName);
                         //alert($scope.picData);
                         $scope.ftLoad = true;
                         camimg_holder.append('<button class="button button-positive remove" onclick="removeCamFile()">Remove Files</button><br/>');
                         $('<span class="upattach"><i class="ion-paperclip"></i></span>').appendTo(camimg_holder);
-//                    function onImageSuccess(fileURI) {
-//                        createFileEntry(fileURI);
-//                    }
-//                    function createFileEntry(fileURI) {
-//                        window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
-//                    }
-//                    // 5
-//                    function copyFile(fileEntry) {
-//                        var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
-//                        var newName = makeid() + name;
-//                        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (fileSystem2) {
-//                            fileEntry.copyTo(
-//                                    fileSystem2,
-//                                    newName,
-//                                    onCopySuccess,
-//                                    fail
-//                                    );
-//                        },
-//                                fail);
-//                    }
-//                    // 6
-//                    function onCopySuccess(entry) {
-//                        var imageName = entry.nativeURL;
-//                        $scope.$apply(function () {
-//                            $scope.tempImgs.push(imageName);
-//                        });
-//                        $scope.picData = getImgUrl(imageName);
-//                        //alert($scope.picData);
-//                        $scope.ftLoad = true;
-//                        camimg_holder.append('<button class="button button-positive remove" onclick="removeCamFile()">Remove Files</button><br/>');
-//                        $('<span class="upattach"><i class="ion-paperclip"></i></span>').appendTo(camimg_holder);
-//                    }
-//                    function fail(error) {
-//                        console.log("fail: " + error.code);
-//                    }
-//                    function makeid() {
-//                        var text = "";
-//                        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-//                        for (var i = 0; i < 5; i++) {
-//                            text += possible.charAt(Math.floor(Math.random() * possible.length));
-//                        }
-//                        return text;
-//                    }
+                    }
+                    function fail(error) {
+                        console.log("fail: " + error.code);
+                    }
+                    function makeid() {
+                        var text = "";
+                        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                        for (var i = 0; i < 5; i++) {
+                            text += possible.charAt(Math.floor(Math.random() * possible.length));
+                        }
+                        return text;
+                    }
                     function getImgUrl(imageName) {
                         var name = imageName.substr(imageName.lastIndexOf('/') + 1);
                         var trueOrigin = cordova.file.dataDirectory + name;
@@ -748,7 +734,6 @@ angular.module('your_app_name.controllers', [])
 
 
         .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $cordovaPrinter) {
-
             $scope.category = '';
             $scope.catId = $stateParams.id;
             $scope.limit = 3;
@@ -801,46 +786,38 @@ angular.module('your_app_name.controllers', [])
 
 
             $scope.recordDelete = function () {
-                jQuery('.selectrecord').css('display','block');
-                jQuery('.btview').css('display','none');
-                jQuery('#rec1').css('display','none');
-                jQuery('#rec2').css('display','block');
+                jQuery('.selectrecord').fadeIn('slow');
+                jQuery('.btview').fadeOut('slow');
+                jQuery('#rec1').fadeOut();
+                jQuery('#rec2').fadeIn('slow');
 
             }
 
             $scope.recordcancel = function () {
-            
-				jQuery('.selectrecord').css('display','none');
-                jQuery('.btview').css('display','block');
-                jQuery('#rec1').css('display','block');
-                jQuery('#rec2').css('display','none');
-				
+                jQuery('.selectrecord').fadeOut('slow');
+                jQuery('.btview').fadeIn('slow');
+                jQuery('#rec1').fadeIn('slow');
+                jQuery('#rec2').fadeOut();
             }
 
-            // $scope.selectcheckbox = function (ab) {
-			// alert('fasd');
-				// $(ab).toggleClass("Naresh");
-          
-						// }
+            $scope.selectcheckbox = function ($event) {
+                console.log($event);
+                // if($event==true){
+                // jQuery(this).addClass('asd123');
+                // }
+            }
 
 
             $scope.print = function () {
-                console.log("fsfdfsfd");
-              //  var printerAvail = $cordovaPrinter.isAvailable();
-               
-//                 var doc = "<html>HI BHAVNAA</html>";
-//                 $cordovaPrinter.print(doc);
-//                if ($cordovaPrinter.isAvailable()) {
-//                    $cordovaPrinter.print("http://www.google.com");
-//                } else {
-//                    alert("Printing is not available on device");
-//                }
 
-         var page = location.href;
 
-        cordova.plugins.printer.print(page, 'Document.html', function () {
-        alert('printing finished or canceled')
-        });
+                var printerAvail = $cordovaPrinter.isAvailable();
+                console.log("fsfdfsfd" + printerAvail);
+                if ($cordovaPrinter.isAvailable()) {
+                    $cordovaPrinter.print("http://www.google.com");
+                } else {
+                    alert("Printing is not available on device");
+                }
             }
 
 
