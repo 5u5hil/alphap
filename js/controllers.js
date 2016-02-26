@@ -433,7 +433,7 @@ angular.module('your_app_name.controllers', [])
                 addNew(ele);
             };
             $scope.submit = function () {
-                $ionicLoading.show({template: 'Adding...'});
+                //$ionicLoading.show({template: 'Adding...'});
                 //alert($scope.tempImgs.length);
                 if ($scope.tempImgs.length > 0) {
                     angular.forEach($scope.tempImgs, function (value, key) {
@@ -446,7 +446,7 @@ angular.module('your_app_name.controllers', [])
                             $scope.images.push({'img': + value.substr(value.lastIndexOf('/') + 1)});
                         });
                         alert($scope.images);
-                        jQuery('#camfile').val($scope.images);
+                        //jQuery('#camfile').val($scope.images);
                     });
                     /*var data = new FormData(jQuery("#addRecordForm")[0]);
                     callAjax("POST", domain + "records/save", data, function (response) {
