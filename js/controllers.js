@@ -808,6 +808,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 // }
             }
 
+
             $scope.print = function () {
                 var page = location.href;
 alert(page);
@@ -823,6 +824,7 @@ alert(page);
 ////                    alert("Printing is not available on device");
 ////                }
             }
+
 
         })
 
