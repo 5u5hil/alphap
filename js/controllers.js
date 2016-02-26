@@ -804,18 +804,24 @@ angular.module('your_app_name.controllers', [])
 
 
             $scope.recordDelete = function () {
-                jQuery('.selectrecord').fadeIn('slow');
-                jQuery('.btview').fadeOut('slow');
-                jQuery('#rec1').fadeOut();
-                jQuery('#rec2').fadeIn('slow');
+                jQuery('.selectrecord').css('display','block');
+                jQuery('.btview').css('display','none');
+                jQuery('#rec1').css('display','none');
+                jQuery('#rec2').css('display','block');
 
             }
 
             $scope.recordcancel = function () {
-                jQuery('.selectrecord').fadeOut('slow');
-                jQuery('.btview').fadeIn('slow');
-                jQuery('#rec1').fadeIn('slow');
-                jQuery('#rec2').fadeOut();
+                // jQuery('.selectrecord').fadeOut('slow');
+                // jQuery('.btview').fadeIn('slow');
+                // jQuery('#rec1').fadeIn('slow');
+                // jQuery('#rec2').fadeOut();
+				
+				jQuery('.selectrecord').css('display','none');
+                jQuery('.btview').css('display','block');
+                jQuery('#rec1').css('display','block');
+                jQuery('#rec2').css('display','none');
+				
             }
 
             // $scope.selectcheckbox = function (ab) {
