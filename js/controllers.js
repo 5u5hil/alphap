@@ -444,7 +444,9 @@ angular.module('your_app_name.controllers', [])
                         $scope.ftLoad = true;
                         $scope.uploadPicture();
                         //$scope.images.push(value.substr(value.lastIndexOf('/') + 1));
-                        $scope.images.push({'img': value.substr(value.lastIndexOf('/') + 1)});
+                        //$scope.images.push({'img': value.substr(value.lastIndexOf('/') + 1)});
+                        $scope.temp = {"img":value.substr(value.lastIndexOf('/') + 1)};
+                        angular.extend($scope.images, $scope.temp);
 //                        $scope.$apply(function () {                            
 //                            $scope.images.push({'img':  value.substr(value.lastIndexOf('/') + 1)});
 //                        });
