@@ -580,7 +580,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     console.log("Code = " + r.responseCode);
                     console.log("Response = " + r.response);
                     console.log("Sent = " + r.bytesSent);
-                    $scope.image.push(name);
+                    //$scope.image.push(name);
                     //$ionicLoading.hide();
                 }
                 var ft = new FileTransfer();
