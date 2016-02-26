@@ -576,7 +576,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 params.value2 = "otherparams";
                 options.params = params;
                 var uploadSuccess = function (response) {
-                    alert('Success  =   ' + JSON.stringify(response));
+                    alert('Success  ====== ');
+                    console.log("Code = " + r.responseCode);
+                    console.log("Response = " + r.response);
+                    console.log("Sent = " + r.bytesSent);
                     $scope.image.push(name);
                     //$ionicLoading.hide();
                 }
@@ -730,7 +733,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
 
-        .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope,$cordovaPrinter) {
+        .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $cordovaPrinter) {
             $scope.category = '';
             $scope.catId = $stateParams.id;
             $scope.limit = 3;
@@ -809,7 +812,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
 
                 var printerAvail = $cordovaPrinter.isAvailable();
-                console.log("fsfdfsfd"+printerAvail);
+                console.log("fsfdfsfd" + printerAvail);
                 if ($cordovaPrinter.isAvailable()) {
                     $cordovaPrinter.print("http://www.google.com");
                 } else {
