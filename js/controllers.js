@@ -1,10 +1,10 @@
 var publisher;
 var session;
 var subscriber;
-angular.module('your_app_name.controllers', [])
+angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('AuthCtrl', function ($scope, $state, $ionicConfig, $rootScope) {
-             $scope.interface = window.localStorage.setItem('interface_id','3');
+            $scope.interface = window.localStorage.setItem('interface_id', '3');
             if (window.localStorage.getItem('id') != null) {
                 $rootScope.userLogged = 1;
                 $rootScope.username = window.localStorage.getItem('fname');
@@ -19,7 +19,7 @@ angular.module('your_app_name.controllers', [])
 
             $rootScope.imgpath = domain + "/public/frontend/user/";
             $rootScope.attachpath = domain + "/public";
-            
+
             if (window.localStorage.getItem('id') != null) {
                 $rootScope.userLogged = 1;
                 $rootScope.username = window.localStorage.getItem('fname');
@@ -39,7 +39,7 @@ angular.module('your_app_name.controllers', [])
                     $ionicHistory.nextViewOptions({disableBack: true, historyRoot: true});
                     $state.go('auth.walkthrough', {}, {reload: true});
                 }, 30);
-                
+
             };
         })
 
@@ -53,7 +53,7 @@ angular.module('your_app_name.controllers', [])
             $ionicModal.fromTemplateUrl('share', {
                 scope: $scope
             }).then(function (modal) {
-			$scope.modal = modal;
+                $scope.modal = modal;
             });
 
             $scope.submitmodal = function () {
@@ -67,7 +67,7 @@ angular.module('your_app_name.controllers', [])
 
 //LOGIN
         .controller('LoginCtrl', function ($scope, $state, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
-            window.localStorage.setItem('interface_id','3');
+            window.localStorage.setItem('interface_id', '3');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.doLogIn = function () {
                 $ionicLoading.show({template: 'Loading...'});
@@ -134,7 +134,7 @@ angular.module('your_app_name.controllers', [])
             }, 30);
         })
         .controller('SignupCtrl', function ($scope, $state, $http, $rootScope) {
-            $scope.interface = window.localStorage.setItem('interface_id','3');
+            $scope.interface = window.localStorage.setItem('interface_id', '3');
             $scope.user = {};
             $scope.user.name = '';
             $scope.user.email = '';
@@ -167,10 +167,10 @@ angular.module('your_app_name.controllers', [])
                 $scope.user.phone = window.localStorage.getItem('phone');
                 $scope.user.password = window.localStorage.getItem('password');
                 var data = "name=" + $scope.user.name + "&email=" + $scope.user.email + "&phone=" + $scope.user.phone + "&password=" + $scope.user.password + "&interface=" + $scope.interface;
-                console.log("data "+data);
+                console.log("data " + data);
                 var code = window.localStorage.getItem('code');
                 if (parseInt(code) === parseInt(otp)) {
-                    console.log('code'+code+'--otp--'+otp)
+                    console.log('code' + code + '--otp--' + otp)
                     $.ajax({
                         type: 'GET',
                         url: domain + "register",
@@ -193,13 +193,13 @@ angular.module('your_app_name.controllers', [])
                             console.log(e.responseText);
                         }
                     });
-                }else{
-                     alert('Enterd OTP code is incorrect.Kindly ckeck');
+                } else {
+                    alert('Enterd OTP code is incorrect.Kindly ckeck');
                 }
             };
             //Check if email is already registered
             $scope.checkEmail = function (email) {
-               $scope.interface = window.localStorage.getItem('interface_id');
+                $scope.interface = window.localStorage.getItem('interface_id');
                 $http({
                     method: 'GET',
                     url: domain + 'check-user-email',
@@ -218,8 +218,8 @@ angular.module('your_app_name.controllers', [])
                 });
             };
             //Check if phone is already registered - bhavana
-             $scope.checkPhone = function (phone){
-               $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.checkPhone = function (phone) {
+                $scope.interface = window.localStorage.getItem('interface_id');
                 $http({
                     method: 'GET',
                     url: domain + 'check-user-phone',
@@ -235,7 +235,7 @@ angular.module('your_app_name.controllers', [])
                     }
                 }, function errorCallback(response) {
                     console.log(response);
-                }); 
+                });
             };
         })
 
@@ -310,7 +310,7 @@ angular.module('your_app_name.controllers', [])
                 );
             };
         })
-          .controller('AdsCtrl', function ($scope, $http, $state, $ionicActionSheet, AdMob, iAd, $ionicModal) {
+        .controller('AdsCtrl', function ($scope, $http, $state, $ionicActionSheet, AdMob, iAd, $ionicModal) {
             $http({
                 method: 'GET',
                 url: domain + 'records/get-record-categories',
@@ -401,7 +401,7 @@ angular.module('your_app_name.controllers', [])
 //                $scope.modal.hide();
 //            };
         })
-       .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile) {
+        .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile) {
             $scope.images = [];
             $scope.tempImgs = [];
             $scope.curTime = new Date();
@@ -687,12 +687,12 @@ angular.module('your_app_name.controllers', [])
                 }
             };
         })
-        
+
         .controller('ThankyouCtrl', function ($scope, $http, $stateParams) {
 
         })
 
-         .controller('EditRecordCtrl', function ($scope, $http, $state, $stateParams, $sce) {
+        .controller('EditRecordCtrl', function ($scope, $http, $state, $stateParams, $sce) {
             $scope.fields = [];
             $http({
                 method: 'GET',
@@ -730,7 +730,7 @@ angular.module('your_app_name.controllers', [])
         })
 
 
-      .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope) {
+        .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope,$cordovaPrinter) {
             $scope.category = '';
             $scope.catId = $stateParams.id;
             $scope.limit = 3;
@@ -781,32 +781,48 @@ angular.module('your_app_name.controllers', [])
                 $state.go('app.add-category', {'id': button.id}, {reload: true});
             };
 
-			
-			$scope.recordDelete = function(){
-				jQuery('.selectrecord').fadeIn('slow');
-				jQuery('.btview').fadeOut('slow');
-				jQuery('#rec1').fadeOut();
-				jQuery('#rec2').fadeIn('slow');
-				
-			}
-			
-			$scope.recordcancel=function(){
-				jQuery('.selectrecord').fadeOut('slow');
-				jQuery('.btview').fadeIn('slow');
-				jQuery('#rec1').fadeIn('slow');
-				jQuery('#rec2').fadeOut();
-				}
-				
-				$scope.selectcheckbox=function($event){
-				console.log($event);
-				// if($event==true){
-					// jQuery(this).addClass('asd123');
-					// }
-				}
+
+            $scope.recordDelete = function () {
+                jQuery('.selectrecord').fadeIn('slow');
+                jQuery('.btview').fadeOut('slow');
+                jQuery('#rec1').fadeOut();
+                jQuery('#rec2').fadeIn('slow');
+
+            }
+
+            $scope.recordcancel = function () {
+                jQuery('.selectrecord').fadeOut('slow');
+                jQuery('.btview').fadeIn('slow');
+                jQuery('#rec1').fadeIn('slow');
+                jQuery('#rec2').fadeOut();
+            }
+
+            $scope.selectcheckbox = function ($event) {
+                console.log($event);
+                // if($event==true){
+                // jQuery(this).addClass('asd123');
+                // }
+            }
+
+            $scope.print = function () {
+//                var page = location.href;
+//              alert(page);
+//                cordova.plugins.printer.print(page, 'http://localhost/alphap/#/app/records-view/1', function () {
+//                    alert('printing finished or canceled')
+//                });
+
+                var printerAvail = $cordovaPrinter.isAvailable();
+                console.log("fsfdfsfd"+printerAvail);
+                if ($cordovaPrinter.isAvailable()) {
+                    $cordovaPrinter.print("http://www.google.com");
+                } else {
+                    alert("Printing is not available on device");
+                }
+            }
 
         })
 
-         .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
+        .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
             $scope.recordId = $stateParams.id;
             $scope.isNumber = function (num) {
                 return angular.isNumber(num);
@@ -881,7 +897,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'doctors/consultations',
-                params: {userId: $scope.userId,interface:$scope.interface }
+                params: {userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 $ionicLoading.hide();
                 $scope.specializations = response.data.spec;
@@ -927,7 +943,7 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('ConsultationCardsCtrl', function ($scope, $http, $stateParams, $ionicLoading) {
-              $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.interface = window.localStorage.getItem('interface_id');
             $ionicLoading.show({template: 'Loading...'});
             $scope.specId = $stateParams.id;
             $scope.userId = get('id');
@@ -935,7 +951,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'doctors/list',
-                params: {id: $stateParams.id,interface:$scope.interface}
+                params: {id: $stateParams.id, interface: $scope.interface}
             }).then(function successCallback(response) {
                 $ionicLoading.hide();
                 $scope.doctors = response.data.user;
@@ -943,7 +959,7 @@ angular.module('your_app_name.controllers', [])
                     $http({
                         method: 'GET',
                         url: domain + 'doctors/get-doctor-services',
-                        params: {id: value.id,interface:$scope.interface}
+                        params: {id: value.id, interface: $scope.interface}
                     }).then(function successCallback(responseData) {
                         $ionicLoading.hide();
                         $scope.getDprice = responseData.price;
@@ -952,7 +968,7 @@ angular.module('your_app_name.controllers', [])
                         console.log(response);
                     });
                     $scope.spec = response.data.spec;
-                  
+
                 });
             }, function errorCallback(e) {
                 console.log(e);
@@ -983,7 +999,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'doctors/get-details',
-                params: {id: $stateParams.id,interface:$scope.interface}
+                params: {id: $stateParams.id, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.doctor = response.data.user;
@@ -1336,7 +1352,7 @@ angular.module('your_app_name.controllers', [])
                             $state.go('app.consultations-list', {reload: true});
                         }, 3000);
                     }, function errorCallback(response) {
-                      $state.go('app.consultations-list', {reload: true});
+                        $state.go('app.consultations-list', {reload: true});
                     });
                 }
             };
@@ -1356,7 +1372,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'doctors/get-order-review',
-                params: {id: $scope.supid, prodId: $scope.prodid,interface:$scope.interface}
+                params: {id: $scope.supid, prodId: $scope.prodid, interface: $scope.interface}
             }).then(function successCallback(responseData) {
                 console.log(responseData.data);
                 $ionicLoading.show({template: 'Loading...'});
@@ -1396,7 +1412,7 @@ angular.module('your_app_name.controllers', [])
                 });
             };
             $scope.payNow = function (finalamount) {
-                 $scope.interface = window.localStorage.getItem('interface_id');
+                $scope.interface = window.localStorage.getItem('interface_id');
                 if (window.localStorage.getItem('instantV') == 'instantV') {
                     $scope.startSlot = window.localStorage.getItem('IVstartSlot');
                     $scope.endSlot = window.localStorage.getItem('IVendSlot');
@@ -1407,7 +1423,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.appUrl = $location.absUrl();
                 $scope.userId = get('id');
                 $scope.discount = window.localStorage.getItem('coupondiscount');
-		$scope.kookooID = window.localStorage.getItem('kookooid');
+                $scope.kookooID = window.localStorage.getItem('kookooid');
                 $scope.kookooID = window.localStorage.getItem('kookooid1');
                 $ionicHistory.nextViewOptions({
                     disableBack: true
@@ -1415,7 +1431,7 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'buy/buy-individual',
-                    params: {interface: $scope.interface,kookooID: $scope.kookooID, ccode: $scope.ccode, discount: $scope.discount, disapply: $scope.discountApplied, prodId: $scope.prodid, userId: $scope.userId, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
+                    params: {interface: $scope.interface, kookooID: $scope.kookooID, ccode: $scope.ccode, discount: $scope.discount, disapply: $scope.discountApplied, prodId: $scope.prodid, userId: $scope.userId, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
                 }).then(function successCallback(response) {
                     window.localStorage.removeItem('coupondiscount');
                     window.localStorage.setItem('coupondiscount', '')
@@ -1454,7 +1470,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.apply = '0';
                 $scope.discountApplied = '0';
                 window.localStorage.setItem('coupondiscount', '0');
-                 $scope.interface = window.localStorage.getItem('interface_id');
+                $scope.interface = window.localStorage.getItem('interface_id');
                 $scope.startSlot = window.localStorage.getItem('startSlot');
                 $scope.endSlot = window.localStorage.getItem('endSlot');
                 $scope.prodid = window.localStorage.getItem('prodId');
@@ -1465,7 +1481,7 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'buy/apply-coupon-code',
-                    params: {interface:$scope.interface,couponCode: ccode, prodId: $scope.prodid, userId: $scope.userId, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
+                    params: {interface: $scope.interface, couponCode: ccode, prodId: $scope.prodid, userId: $scope.userId, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
                 }).then(function successCallback(response) {
                     // console.log(response);
                     console.log(response.data);
@@ -1785,26 +1801,26 @@ angular.module('your_app_name.controllers', [])
                 });
                 $scope.send = function () {
                     session.signal({data: jQuery("[name='msg']").val()},
-                            function (error) {
-                                if (error) {
-                                    console.log("signal error ("
-                                            + error.code
-                                            + "): " + error.message);
-                                } else {
-                                    var msg = jQuery("[name='msg']").val();
-                                    $http({
-                                        method: 'GET',
-                                        url: domain + 'chat/add-patient-chat',
-                                        params: {from: $scope.userId, to: $scope.user[0].id, msg: msg}
-                                    }).then(function sucessCallback(response) {
-                                        console.log(response);
-                                        jQuery("[name='msg']").val('');
-                                    }, function errorCallback(e) {
-                                        console.log(e.responseText);
-                                    });
-                                    console.log("signal sent.");
-                                }
-                            }
+                    function (error) {
+                        if (error) {
+                            console.log("signal error ("
+                                    + error.code
+                                    + "): " + error.message);
+                        } else {
+                            var msg = jQuery("[name='msg']").val();
+                            $http({
+                                method: 'GET',
+                                url: domain + 'chat/add-patient-chat',
+                                params: {from: $scope.userId, to: $scope.user[0].id, msg: msg}
+                            }).then(function sucessCallback(response) {
+                                console.log(response);
+                                jQuery("[name='msg']").val('');
+                            }, function errorCallback(e) {
+                                console.log(e.responseText);
+                            });
+                            console.log("signal sent.");
+                        }
+                    }
                     );
                 };
             }, function errorCallback(e) {
@@ -1882,7 +1898,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.checkavailval = 0;
                     console.log("jhffffhjfhj" + $scope.checkavailval);
                     $timeout.cancel(stopped);
-					window.localStorage.removeItem('kookooid');
+                    window.localStorage.removeItem('kookooid');
 
 
                 });
