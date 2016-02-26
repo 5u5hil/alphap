@@ -445,7 +445,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.uploadPicture();
                         //$scope.images.push(value.substr(value.lastIndexOf('/') + 1));
                         //$scope.images.push({'img': value.substr(value.lastIndexOf('/') + 1)});
-                        $scope.temp = {"img": value.substr(value.lastIndexOf('/') + 1)};
+                        $scope.temp = {"img": imgName};
+                        $scope.image.push(imgName);
                         angular.extend($scope.images, $scope.temp);
 //                        $scope.$apply(function () {                            
 //                            $scope.images.push({'img':  value.substr(value.lastIndexOf('/') + 1)});
@@ -575,7 +576,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 params.value2 = "otherparams";
                 options.params = params;
                 var uploadSuccess = function (response) {
-                    //alert('Success  =   ' + JSON.stringify(response));
+                    alert('Success  =   ' + JSON.stringify(response));
                     $scope.image.push(name);
                     //$ionicLoading.hide();
                 }
