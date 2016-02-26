@@ -462,6 +462,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         console.log($scope.image);
                         //jQuery('#camfile').val($scope.images);
                     });
+                    $scope.images = jQuery.parseJSON($scope.images);
                     //jQuery('#camfile').val($scope.images);
                     console.log($scope.images);
                     var data = new FormData(jQuery("#addRecordForm")[0]);
