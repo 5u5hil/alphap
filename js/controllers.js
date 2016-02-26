@@ -826,7 +826,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
               //  console.log("fsfdfsfd");
               //  var printerAvail = $cordovaPrinter.isAvailable();
-               var page = location.href;
+               var page = domain + '/frontend/uploads/attachments/=afd =fHh3D1456498735815.jpg';
 
               cordova.plugins.printer.print(page, 'Document.html', function () {
                alert('printing finished or canceled')
@@ -835,7 +835,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
 
                 if ($cordovaPrinter.isAvailable()) {
-                    $cordovaPrinter.print('http://stage.doctrs.in/records/get-record-details?id=157');
+                    $cordovaPrinter.print(page);
                 } else {
                     alert("Printing is not available on device");
                 }
