@@ -455,11 +455,9 @@ angular.module('your_app_name.controllers', [])
                         //$scope.images.push({'img': value.substr(value.lastIndexOf('/') + 1)});
                         
                         $scope.temp = {"img": imgName};
-                        $scope.images.push(imgName);
+                        $scope.images.push({"img": imgName});
+                        $scope.image.push(imgName);
                         //angular.extend($scope.images, $scope.temp);
-                        //$scope.$apply(function () {                            
-                          //  $scope.image.push($scope.image);
-                        //});
                         console.log($scope.images);
                         console.log($scope.image);
                         //jQuery('#camfile').val($scope.images);
@@ -513,7 +511,6 @@ angular.module('your_app_name.controllers', [])
                     sourceType: Camera.PictureSourceType.CAMERA, // Camera.PictureSourceType.PHOTOLIBRARY
                     allowEdit: false,
                     encodingType: Camera.EncodingType.JPEG,
-                    popoverOptions: CameraPopoverOptions,
                 };
                 // 3
                 $cordovaCamera.getPicture(options).then(function (imageData) {
