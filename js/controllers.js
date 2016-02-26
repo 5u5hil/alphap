@@ -813,7 +813,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
               //  console.log("fsfdfsfd");
               //  var printerAvail = $cordovaPrinter.isAvailable();
-               var page = domain + '/frontend/uploads/attachments/=afd =fHh3D1456498735815.jpg';
+               var page = domain + '/frontend/uploads/attachments/fHh3D1456498735815.jpg';
 
 
                 cordova.plugins.printer.print(page, 'Document.html', function () {
