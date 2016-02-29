@@ -121,11 +121,10 @@
                                             </div>
                                             <div class="col col-50">
                                                 <div class="btncamera" ng-click="takePict('{{field.name}}')"><i class="ion-android-camera"></i></div>
-<!--                                                <input class="" type="text" ng-model="images" name="cam-{{field.name}}" id="camfile" value="{{images| json}}" />-->
+                                                <!--                                                <input class="" type="text" ng-model="images" name="cam-{{field.name}}" id="camfile" value="{{images| json}}" />-->
                                                 <input class="" type="hidden" name="camm-{{field.name}}" id="camfilee"  />
                                             </div><br/>
                                             <div id="camera-status"></div>
-
                                         </div>
                                     </div>
                                     <div class="item item-input item-stacked-label" ng-if="field.multi_value == 1">
@@ -164,7 +163,7 @@
                                                     <!--                                                    <input class="" type="text" ng-model="images" name="cam-{{field.name}}" id="camfile" value="{{images | json}}" />-->
                                                     <input class="" type="hidden" name="camm-{{field.name}}" id="camfilee"  />
                                                 </div><br/>	
-                                                <div id="camera-status"></div>
+                                                <div id="camera-status"></div>                                                
                                             </div>                                            
                                         </div>
                                         <div class="item item-input item-stacked-label" ng-if="field.is_mandatory != 1">
@@ -177,11 +176,11 @@
                                                     </div><br/>
                                                     <div id="image-holder"></div>
                                                 </div>	
-                                                <div class="col col-50" id="addFile">
+                                                <div class="col col-50">
                                                     <div class="btncamera" ng-model="capPic" ng-click="takePict('{{field.name}}')"><!-- <i class="ion-android-camera"></i> -->Camera</div>
                                                     <!--                                                    <input class="" type="text" ng-model="images" name="cam-{{field.name}}" id="camfile" value="{{images | json}}" />-->
                                                     <input class="" type="hidden" name="camm-{{field.name}}" id="camfilee"  />
-                                                </div><br/>	
+                                                </div>  <br/>	
                                                 <div id="camera-status"></div>
                                             </div>	
                                         </div>
