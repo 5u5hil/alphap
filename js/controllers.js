@@ -46,25 +46,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('SearchBarCtrl', function ($scope, $state, $ionicConfig, $rootScope) {
 
         })
-
-
-
-        .controller('ShareCtrl', function ($scope, $ionicModal) {
-            $ionicModal.fromTemplateUrl('share', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
-
-            $scope.submitmodal = function () {
-                $scope.modal.hide();
-            };
-        })
-
-
-
-
-
 //LOGIN
         .controller('LoginCtrl', function ($scope, $state, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
             window.localStorage.setItem('interface_id', '3');
@@ -100,7 +81,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                 $scope.loginError = response;
                                 $scope.loginError.digest;
                             })
-
                             //console.log('else part login');
                         }
                         $rootScope.$digest;
@@ -345,15 +325,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             if (get('id') != null) {
                 $rootScope.userLogged = 1;
             }
-            $scope.category_sources = [];
-            $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('CategoryDetailCtrl', function ($scope, $http, $stateParams, $ionicFilterBar, $ionicModal) {
+        .controller('CategoryDetailCtrl', function ($scope, $http, $stateParams, $ionicFilterBar, $ionicModal, $timeout) {
             var filterBarInstance;
             $scope.selectMe = function (event) {
                 $(event.target).toggleClass('active');
-            }
+            };
 
             $scope.showFilterBar = function () {
                 filterBarInstance = $ionicFilterBar.show({
@@ -371,37 +349,115 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     filterBarInstance();
                     filterBarInstance = null;
                 }
-
                 $timeout(function () {
                     getItems();
                     $scope.$broadcast('scroll.refreshComplete');
                 }, 1000);
             };
+            $scope.catIds = [];
+            $scope.catId = [];
+            $scope.docId = '';
+            $scope.interface = window.localStorage.getItem('interface_id');
             $scope.categoryId = $stateParams.categoryId;
             //console.log(get('id'));
             $scope.userid = get('id');
             $http({
                 method: 'GET',
                 url: domain + 'records/view-patient-record-category',
-                params: {userId: $scope.userid}
+                params: {userId: $scope.userid, interface: $scope.interface}
             }).then(function successCallback(response) {
-                //console.log(response.data);
+                console.log(response.data);
                 $scope.categories = response.data.categories;
+                $scope.doctrs = response.data.doctrs;
                 $scope.userRecords = response.data.recordCount;
             }, function errorCallback(response) {
                 console.log(response);
             });
-//            $ionicModal.fromTemplateUrl('deletecategory.html', {
-//                scope: $scope
-//            }).then(function (modal) {
-//                $scope.modal = modal;
-//            });
-//
-//            $scope.submitmodal = function () {
-//                $scope.modal.hide();
-//            };
+
+            $scope.getIds = function (id) {
+                console.log(id);
+                if ($scope.catId[id]) {
+                    $scope.catIds.push(id);
+                } else {
+                    var index = $scope.catIds.indexOf(id);
+                    $scope.catIds.splice(index, 1);
+                }
+                console.log($scope.catIds);
+            };
+            $scope.getDocId = function (id) {
+                console.log(id);
+                $scope.docId = id;
+            };
+            //Delete Records by category
+            $scope.delete = function () {
+                if ($scope.catIds.length > 0) {
+                    var confirm = window.confirm("Do you really want to delete?");
+                    if (confirm) {
+                        console.log($scope.catIds);
+                        $http({
+                            method: 'POST',
+                            url: domain + 'records/delete-all',
+                            params: {ids: JSON.stringify($scope.catIds), userId: $scope.userid}
+                        }).then(function successCallback(response) {
+                            alert("Records deleted successfully!");
+                            $timeout(function () {
+                                window.location.reload();
+                                //$state.go('app.category-detail');
+                            }, 1000);
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+                    }
+                } else {
+                    alert("Please select records to delete!");
+                }
+            };
+            //Share records by Category
+            $scope.share = function () {
+                if ($scope.catIds.length > 0) {
+                    if ($scope.docId != '') {
+                        var confirm = window.confirm("Do you really want to share?");
+                        if (confirm) {
+                            console.log($scope.catIds);
+                            $http({
+                                method: 'GET',
+                                url: domain + 'records/share-all',
+                                params: {ids: JSON.stringify($scope.catIds), userId: $scope.userid, docId: $scope.docId}
+                            }).then(function successCallback(response) {
+                                console.log(response);
+                                if (response.data == 'Success') {
+                                    alert("Records shared successfully!");
+                                    $timeout(function () {
+                                        window.location.reload();
+                                    }, 1000);
+                                }
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
+
+                        }
+                    } else {
+                        alert("Please select doctor to share with!");
+                    }
+                } else {
+                    alert("Please select records to share!");
+                }
+            };
+            $ionicModal.fromTemplateUrl('share', {
+                scope: $scope,
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+
+            $scope.submitmodal = function () {
+                console.log($scope.catIds);
+                $scope.modal.hide();
+            }
+            ;
         })
+
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
+            $scope.interface = window.localStorage.getItem('interface_id');
             $scope.images = [];
             $scope.image = [];
             $scope.tempImgs = [];
@@ -416,7 +472,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $http({
                 method: 'GET',
                 url: domain + 'records/add',
-                params: {id: $stateParams.id, userId: $scope.userId}
+                params: {id: $stateParams.id, userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.record = response.data.record;
@@ -476,7 +532,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         }
                     });
                 }
-                
+
                 function getImgUrl(imageName) {
                     var name = imageName.substr(imageName.lastIndexOf('/') + 1);
                     var trueOrigin = cordova.file.dataDirectory + name;
@@ -784,32 +840,39 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 jQuery('.selectrecord').css('display', 'block');
                 jQuery('.btview').css('display', 'none');
                 jQuery('#rec1').css('display', 'none');
+                jQuery('#rec3').css('display', 'block');
+
+            };
+            $scope.recordShare = function () {
+                jQuery('.selectrecord').css('display', 'block');
+                jQuery('.btview').css('display', 'none');
+                jQuery('#rec1').css('display', 'none');
                 jQuery('#rec2').css('display', 'block');
 
             }
-
-            $scope.recordcancel = function () {
+            $scope.CancelAction = function () {
                 jQuery('.selectrecord').css('display', 'none');
                 jQuery('.btview').css('display', 'block');
                 jQuery('#rec1').css('display', 'block');
                 jQuery('#rec2').css('display', 'none');
-            }
+                jQuery('#rec3').css('display', 'none');
+            };
 
             $scope.selectcheckbox = function ($event) {
                 console.log($event);
                 // if($event==true){
                 // jQuery(this).addClass('asd123');
                 // }
-            }
+            };
 
 
             $scope.print = function () {
 
-              //  console.log("fsfdfsfd");
-              //  var printerAvail = $cordovaPrinter.isAvailable();
-               var page = domain + 'public/frontend/uploads/attachments/7V7Lr1456500103323.jpg';
+                //  console.log("fsfdfsfd");
+                //  var printerAvail = $cordovaPrinter.isAvailable();
+                var page = domain + 'public/frontend/uploads/attachments/7V7Lr1456500103323.jpg';
 
- 
+
                 cordova.plugins.printer.print(page, 'Document.html', function () {
                     alert('printing finished or canceled')
                 });
