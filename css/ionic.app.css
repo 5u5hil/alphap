@@ -9029,40 +9029,43 @@ label.item .col{position:relative;}
 .selectrecord label.cactive  span{color:#fff; }
 .selectrecord label span{color:#387ef5; }
 .selectrecord  label .checkbox-icon:before{  border-width: 0;
-  background: none;
-  border: 1px #387ef5 solid;
-  width: 100% !important;
-  margin-left: 0 !important;
-  margin-top: 0 !important; height:85% !important;}
-  
-.selectrecord.active{display:block;}
-.rec2{display:none;}
-.rec2 a{width:50%;    width: 50% !important;
-    border: 0;
-    border-radius: 0px !important;}
-	
-	.selectrecord input[type="checkbox"],.selectrecord  .checkbox-icon{width:auto !important;     height: 30px;}
-	.selectrecord .item-content.disable-pointer-events{position:absolute; z-index:99; left:40%; top:10px;}
-	.selectrecord .item.item-checkbox{height:32px; position:relative; }
-	.selectrecord .checkbox input:before, .selectrecord .checkbox-icon:before{border-radius:0;}
-	.selectrecord .item-checkbox .checkbox{left:0; right:0; top:0;   margin-top:0 !important;}
-	
+                                             background: none;
+                                             border: 1px #387ef5 solid;
+                                             width: 100% !important;
+                                             margin-left: 0 !important;
+                                             margin-top: 0 !important; height:85% !important;}
 
-	
-	
-	.btview a{text-decoration:none;}
+.selectrecord.active{display:block;}
+.rec2, .rec3{display:none;}
+.rec3 a{width:50%;    width: 50% !important;
+        border: 0;
+        border-radius: 0px !important;}
+.rec2 a{width:50%;    width: 50% !important;
+        border: 0;
+        border-radius: 0px !important;}
+
+.selectrecord input[type="checkbox"],.selectrecord  .checkbox-icon{width:auto !important;     height: 30px;}
+.selectrecord .item-content.disable-pointer-events{position:absolute; z-index:99; left:40%; top:10px;}
+.selectrecord .item.item-checkbox{height:32px; position:relative; }
+.selectrecord .checkbox input:before, .selectrecord .checkbox-icon:before{border-radius:0;}
+.selectrecord .item-checkbox .checkbox{left:0; right:0; top:0;   margin-top:0 !important;}
+
+
+
+
+.btview a{text-decoration:none;}
 .f13{font-size:13px;}
 .fixedbar{    display: -webkit-flex; /* Safari */
-    display: flex; position:fixed; bottom:0; width:100%;}
-	.fixedbar .button{  -webkit-flex: 1;  /* Safari 6.1+ */
-    -ms-flex: 1;  /* IE 10 */    
-    flex:1;}
+              display: flex; position:fixed; bottom:0; width:100%;}
+.fixedbar .button{  -webkit-flex: 1;  /* Safari 6.1+ */
+                    -ms-flex: 1;  /* IE 10 */    
+                    flex:1;}
 
 .sharelist .item-checkbox{padding: 30px 0 30px 30px;}
 .sharelist .item-content.disable-pointer-events{left:15%; top:10px;}
 .item-content.disable-pointer-events span:first-child{font-weight:bold;}
 .f17bold{    font-size: 17px;
-    font-weight: bold;
+             font-weight: bold;
 }
 .pt50p{padding-top:50%;} 
 

@@ -388,7 +388,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(id);
                 $scope.docId = id;
             };
-            //Delete Records by category
+            //Delete all Records by category
             $scope.delete = function () {
                 if ($scope.catIds.length > 0) {
                     var confirm = window.confirm("Do you really want to delete?");
@@ -412,7 +412,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     alert("Please select records to delete!");
                 }
             };
-            //Share records by Category
+            //Share all records by Category
             $scope.share = function () {
                 if ($scope.catIds.length > 0) {
                     if ($scope.docId != '') {
@@ -420,7 +420,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         if (confirm) {
                             console.log($scope.catIds);
                             $http({
-                                method: 'GET',
+                                method: 'POST',
                                 url: domain + 'records/share-all',
                                 params: {ids: JSON.stringify($scope.catIds), userId: $scope.userid, docId: $scope.docId}
                             }).then(function successCallback(response) {
@@ -452,8 +452,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.submitmodal = function () {
                 console.log($scope.catIds);
                 $scope.modal.hide();
-            }
-            ;
+            };
         })
 
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
@@ -742,9 +741,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-        .controller('ThankyouCtrl', function ($scope, $http, $stateParams) {
-
-        })
+        .controller('ThankyouCtrl', function ($scope, $http, $stateParams) { })
 
         .controller('EditRecordCtrl', function ($scope, $http, $state, $stateParams, $sce) {
             $scope.fields = [];
@@ -784,15 +781,18 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
 
-        .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $cordovaPrinter) {
-            $scope.category = '';
+        .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $cordovaPrinter, $ionicModal, $timeout) {
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.category = [];
             $scope.catId = $stateParams.id;
             $scope.limit = 3;
+            $scope.recId = [];
+            $scope.recIds = [];
             $scope.userId = get('id');
             $http({
                 method: 'GET',
                 url: domain + 'records/get-records-details',
-                params: {id: $stateParams.id, userId: $scope.userId}
+                params: {id: $stateParams.id, userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.records = response.data.records;
@@ -804,6 +804,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.category = response.data.category;
                 $scope.doctors = response.data.doctors;
                 $scope.problems = response.data.problems;
+                $scope.doctrs = response.data.shareDoctrs;
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -814,7 +815,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $http({
                     method: 'GET',
                     url: domain + 'records/get-records-details',
-                    params: {id: cat, userId: $scope.userId}
+                    params: {id: cat, userId: $scope.userId, interface: $scope.interface}
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.records = response.data.records;
@@ -823,19 +824,88 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             $scope.limit = 3; //$scope.records[0].record_metadata.length;
                         }
                     }
+                    $scope.doctrs = response.data.shareDoctrs;
                     //$scope.category = response.data.category;
                     console.log($scope.catId);
                 }, function errorCallback(response) {
                     console.log(response);
                 });
                 $rootScope.$digest;
-                //$state.go('app.records-view', {'id': cat}, {reload: true});
             };
             $scope.addRecord = function () {
                 $state.go('app.add-category', {'id': button.id}, {reload: true});
             };
+            //Delete Records by Category
+            $scope.getRecIds = function (id) {
+                console.log(id);
+                if ($scope.recId[id]) {
+                    $scope.recIds.push(id);
+                } else {
+                    var index = $scope.recIds.indexOf(id);
+                    $scope.recIds.splice(index, 1);
+                }
+                console.log($scope.recIds);
 
+            };
+            $scope.getDocId = function (id) {
+                console.log(id);
+                $scope.docId = id;
+            };
+            //Delete all Records by category
+            $scope.delete = function () {
+                if ($scope.recIds.length > 0) {
+                    var confirm = window.confirm("Do you really want to delete?");
+                    if (confirm) {
+                        console.log($scope.recIds);
+                        $http({
+                            method: 'POST',
+                            url: domain + 'records/delete-by-category',
+                            params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId}
+                        }).then(function successCallback(response) {
+                            alert("Records deleted successfully!");
+                            $timeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+                    }
+                } else {
+                    alert("Please select records to delete!");
+                }
+            };
+            //Share all records by Category
+            $scope.share = function () {
+                if ($scope.recIds.length > 0) {
+                    if ($scope.docId != '') {
+                        var confirm = window.confirm("Do you really want to share?");
+                        if (confirm) {
+                            console.log($scope.recIds);
+                            $http({
+                                method: 'POST',
+                                url: domain + 'records/share-by-category',
+                                params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId, docId: $scope.docId}
+                            }).then(function successCallback(response) {
+                                console.log(response);
+                                if (response.data == 'Success') {
+                                    alert("Records shared successfully!");
+                                    $timeout(function () {
+                                        window.location.reload();
+                                    }, 1000);
+                                }
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
 
+                        }
+                    } else {
+                        alert("Please select doctor to share with!");
+                    }
+                } else {
+                    alert("Please select records to share!");
+                }
+            };
+            // Delete and share buttons hide show
             $scope.recordDelete = function () {
                 jQuery('.selectrecord').css('display', 'block');
                 jQuery('.btview').css('display', 'none');
@@ -864,46 +934,53 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 // jQuery(this).addClass('asd123');
                 // }
             };
+            //Show share model
+            $ionicModal.fromTemplateUrl('share', {
+                scope: $scope,
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+
+            $scope.submitmodal = function () {
+                console.log($scope.catIds);
+                $scope.modal.hide();
+            };
 
 
             $scope.print = function () {
-
                 //  console.log("fsfdfsfd");
                 //  var printerAvail = $cordovaPrinter.isAvailable();
                 var page = domain + 'public/frontend/uploads/attachments/7V7Lr1456500103323.jpg';
-
-
                 cordova.plugins.printer.print(page, 'Document.html', function () {
                     alert('printing finished or canceled')
                 });
                 console.log("@@@@@@" + page);
-
-
                 if ($cordovaPrinter.isAvailable()) {
                     $cordovaPrinter.print(page);
                 } else {
                     alert("Printing is not available on device");
                 }
-            }
-
-
+            };
         })
 
         .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
             $scope.recordId = $stateParams.id;
+            $scope.userId = get('id');
+            $scope.interface = window.localStorage.getItem('interface_id');
             $scope.isNumber = function (num) {
                 return angular.isNumber(num);
             }
             $http({
                 method: 'GET',
                 url: domain + 'records/get-record-details',
-                params: {id: $stateParams.id}
+                params: {id: $stateParams.id, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.recordDetails = response.data.recordsDetails;
                 $scope.category = response.data.record;
                 $scope.problem = response.data.problem;
-                $scope.doctrs = response.data.doctrs;
+                $scope.doctors = response.data.doctrs;
+                $scope.doctrs = response.data.shareDoctrs;
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -924,11 +1001,42 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     console.log(e);
                 });
             };
-            //EDIT Modal
-            $scope.edit = function (id, cat) {
-                $state.go('app.edit-record', {'id': id, 'cat': cat});
-                //window.location.href = "http://192.168.2.169:8100/#/app/edit-record/" + id + "/" + cat;
+            $scope.getDocId = function (id) {
+                console.log(id);
+                $scope.docId = id;
             };
+            //Share all records by Category
+            $scope.share = function () {
+                if ($scope.docId != '') {
+                    var confirm = window.confirm("Do you really want to share?");
+                    if (confirm) {
+                        console.log($scope.recordId);
+                        $http({
+                            method: 'POST',
+                            url: domain + 'records/share',
+                            params: {id: $scope.recordId, userId: $scope.userId, docId: $scope.docId}
+                        }).then(function successCallback(response) {
+                            console.log(response);
+                            if (response.data == 'Success') {
+                                alert("Records shared successfully!");
+                                $timeout(function () {
+                                    window.location.reload();
+                                }, 1000);
+                            }
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+
+                    }
+                } else {
+                    alert("Please select doctor to share with!");
+                }
+            };
+            //EDIT Modal
+//            $scope.edit = function (id, cat) {
+//                $state.go('app.edit-record', {'id': id, 'cat': cat});
+//                //window.location.href = "http://192.168.2.169:8100/#/app/edit-record/" + id + "/" + cat;
+//            };
             // Load the modal from the given template URL
             $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
                 $scope.modal = $ionicModal;
@@ -946,6 +1054,18 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
             $scope.trustSrc = function (src) {
                 return $sce.trustAsResourceUrl(src);
+            };
+
+            //Show share model
+            $ionicModal.fromTemplateUrl('share', {
+                scope: $scope,
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+
+            $scope.submitmodal = function () {
+                console.log($scope.catIds);
+                $scope.modal.hide();
             };
         })
 
