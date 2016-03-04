@@ -227,7 +227,33 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-
+					
+					
+					 .state('app.medicine', {
+                        cache: false,
+                        url: "/medicines/medicine",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/medicines/medicine.html",
+                                controller: 'MedicineCtrl'
+                            }
+                        }
+                    })
+					
+					
+					 .state('app.address', {
+                        cache: false,
+                        url: "/medicines/address",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/medicines/address.html",
+                                controller: 'AddressCtrl'
+                            }
+                        }
+                    })
+					
+					
+					
                     //Consultations
 
                     .state('app.consultations-list', {

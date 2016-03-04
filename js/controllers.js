@@ -46,6 +46,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('SearchBarCtrl', function ($scope, $state, $ionicConfig, $rootScope) {
 
         })
+		
+		
+		
 //LOGIN
         .controller('LoginCtrl', function ($scope, $state, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
             window.localStorage.setItem('interface_id', '3');
@@ -455,6 +458,46 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
+		
+		    .controller('MedicineCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+            $scope.category_sources = [];
+            $scope.categoryId = $stateParams.categoryId;
+			
+			 $ionicModal.fromTemplateUrl('prescription-type', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
+        })
+		
+		
+		.controller('AddressCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+            $scope.category_sources = [];
+            $scope.categoryId = $stateParams.categoryId;
+			
+			 $ionicModal.fromTemplateUrl('addnewaddress', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
+        })
+		
+		
+		
+			.controller('CloseModalCtrl', function ($scope, $ionicModal, $state) {
+           $scope.modalclose = function (ulink) {
+                $state.go(ulink);
+                $scope.modal.hide();
+            }
+        })
+		
+		
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.images = [];

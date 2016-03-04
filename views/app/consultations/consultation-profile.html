@@ -148,11 +148,8 @@
         <div class="list" ng-repeat="doc in doctor" style="margin-top:65px;">
         <div class="item item-body">
 
-
-        <div class="row txt-left">
-
-
-        <div class="col"><p><strong>Experience</strong><br/>{{doc.exp}}</p></div>	
+			<div class="row txt-left">
+			<div class="col"><p><strong>Experience</strong><br/>{{doc.exp}}</p></div>	
         <div class="col"><p><strong>Qualification</strong><br/>
         <span ng-repeat="qual in doc.qualifications">{{qual.qualification}}{{$last==true? '': ',&nbsp;'}}</span>
         </p></div>	
@@ -168,6 +165,8 @@
         </span></p></div>	
         </div>
         </div>
+		
+		
         </div>
 
         </ion-content>

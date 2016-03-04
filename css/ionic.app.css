@@ -9002,7 +9002,7 @@ form .item{margin-bottom: 1px;border-top: 0px;}
               font-size: 11px;
               border-radius: 3px;}
 .filelabel{position:relative; overflow:hidden;}
-.filelabel label{display:block;   background:#28a54c; color:#fff; padding:7px 0; text-align:center;}
+.filelabel label{display:block;   background:#28a54c; color:#fff; padding:7px 0; text-align:center; height: 45px;}
 .filelabel input[type="file"]{opacity:0; position:absolute; z-index:1; width:100%;}
 .btncamera{     width: 100%;
                 padding: 6px 0;
@@ -9068,6 +9068,28 @@ label.item .col{position:relative;}
              font-weight: bold;
 }
 .pt50p{padding-top:50%;} 
+.tabrow{}
+.tabrow .col{text-align:center; border-right:1px #eee solid; border-bottom:1px #eee solid;}
+.tabrow .col:last-child{border-right:0;}
+.pr-container{ padding:10px;}
+.htauto{height:auto;}
+.plr15{padding-left:15px; padding-right:15px;}
+.flt-right{float:right;}
+.card-heading{}
+.pb40{padding-bottom:40px;}
+.cradioselect{}
+.cradioselect .item-radio input ~ .item-content{text-align:center;}
+.cradioselect .item-radio input ~ .item-content span{color:#387EF5;}
+.cradioselect .item-radio input:checked ~ .item-content{background: #387EF5; text-align:center;}
+.cradioselect .item-radio input:checked ~ .item-content span,.cradioselect .item-radio input:checked ~ .radio-icon{color:#fff;}
+
+.cradioselect .item-complex .item-content, .item-radio .item-content{    padding: 7px 29px 7px 29px;}
+.cradioselect .item-radio .radio-icon{padding: 0px 10px;}
+
+.cradioselect .card .item:last-child .item-content{border-radius:0;}
+.cradioselect .item.item-radio{border:1px #387EF5 solid;}
+
+
 
 
 /* endcss */
