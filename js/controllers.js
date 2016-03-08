@@ -1516,15 +1516,19 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }
             };
             $scope.bookChatAppointment = function (prodId, serv) {
-                window.localStorage.setItem('prodid', prodId);
+                window.localStorage.setItem('prodId', prodId);
                 //window.localStorage.setItem('url', 'app.payment');
                 window.localStorage.setItem('mode', serv);
                 $rootScope.prodid = prodId;
                 $rootScope.url = 'app.payment';
-                if (checkLogin())
+                if (checkLogin()) {
+                    $ionicLoading.show({template: 'Loading...'});
                     $state.go('app.payment');
-                else
+                } else
+                {
+                    $ionicLoading.show({template: 'Loading...'});
                     $state.go('auth.login');
+                }
             };
             /* view more doctor profile modalbox*/
             $ionicModal.fromTemplateUrl('viewmoreprofile.html', {
@@ -1547,7 +1551,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.counter1 = 300;
             var stopped1;
             $scope.paynowcountdown = function () {
-
                 stopped1 = $timeout(function () {
                     console.log($scope.counter1);
                     $scope.counter1--;
@@ -2029,6 +2032,36 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
         })
 
+        .controller('PastChatListCtrl', function ($scope, $http, $stateParams, $rootScope) {
+            $scope.doctorId = window.localStorage.getItem('id');
+            $scope.participant = [];
+            $scope.msg = [];
+            $http({
+                method: 'GET',
+                url: domain + 'doctorsapp/get-past-chats',
+                params: {drid: $scope.doctorId}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.chatParticipants = response.data;
+                angular.forEach($scope.chatParticipants, function (value, key) {
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctorsapp/get-chat-msg',
+                        params: {partId: value[0].participant_id, chatId: value[0].chat_id}
+                    }).then(function successCallback(responseData) {
+                        console.log(responseData);
+                        $scope.participant[key] = responseData.data.user;
+                        $scope.msg[key] = responseData.data.msg;
+                        $rootScope.$digest;
+                    }, function errorCallback(response) {
+                        console.log(response.responseText);
+                    });
+                });
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+        })
+
         .controller('ChatCtrl', function ($scope, $http, $stateParams) {
             $scope.chatId = $stateParams.id;
             window.localStorage.setItem('chatId', $stateParams.id);
@@ -2048,7 +2081,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.token = response.data.token;
                 $scope.otherToken = response.data.otherToken;
                 $scope.sessionId = response.data.chatSession;
-                window.localStorage.setItem('Toid', $scope.otherToken.participant_id);
+                window.localStorage.setItem('Toid', $scope.otherUser.id);
                 //$scope.connect("'" + $scope.token + "'");
                 $scope.apiKey = apiKey;
                 var session = OT.initSession($scope.apiKey, $scope.sessionId);

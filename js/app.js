@@ -226,6 +226,15 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    .state('app.past-chatlist', {
+                        url: "/past-chatlist",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/past-chatlist.html",
+                                controller: 'PastChatListCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.chat', {
                         url: "/chat/{id:int}",
