@@ -9088,7 +9088,7 @@ label.item .col{position:relative;}
 
 .cradioselect .card .item:last-child .item-content{border-radius:0;}
 .cradioselect .item.item-radio{border:1px #387EF5 solid;}
-
+.blabel span.input-label{font-weight:bold !important;}
 
 
 
