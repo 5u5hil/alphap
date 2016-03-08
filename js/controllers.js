@@ -1974,34 +1974,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-//        .controller('ChatCtrl', function ($scope, $http, $stateParams) {
-//            var sessionId = '';
-//            var tokenAlice = '';
-//            var tokenBob = '';
-//
-//            // Add here your API key
-//            var apiKey = '';
-//            var session = OT.initSession(apiKey, sessionId);
-//            var chatWidget = new OTSolution.TextChat.ChatWidget({
-//                session: session,
-//                container: '#chat'
-//            });
-//
-//
-//
-//            $scope.returnjs = function () {
-//                jQuery(function () {
-//                    var wh = jQuery('window').height();
-//                    jQuery('#chat').css('height', wh);
-//                    //	console.log(wh);
-//
-//                })
-//            };
-//            $scope.returnjs();
-//            $scope.iframeHeight = $(window).height() - 88;
-//            $('#chat').css('height', $scope.iframeHeight);
-//        })
-
         .controller('ChatListCtrl', function ($scope, $http, $stateParams, $rootScope) {
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.participant = [];
@@ -2062,7 +2034,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
         })
 
-        .controller('ChatCtrl', function ($scope, $http, $stateParams) {
+        .controller('ChatCtrl', function ($scope, $http, $stateParams, $timeout, $filter) {
             $scope.chatId = $stateParams.id;
             window.localStorage.setItem('chatId', $stateParams.id);
             $scope.partId = window.localStorage.getItem('id');
@@ -2111,6 +2083,23 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.returnjs();
             $scope.iframeHeight = $(window).height() - 88;
             $('#chat').css('height', $scope.iframeHeight);
+            //Previous Chat 
+            $scope.appendprevious = function () {
+                $(function () {
+                    angular.forEach($scope.chatMsgs, function (value, key) {
+                        var msgTime = $filter('date')(new Date(value.tstamp), 'hh:mm a');
+                        if(value.sender_id == $scope.partId){
+                            $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble mine" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">'+msgTime+'</time></header><div class="ot-message-content">'+value.message+'</div></div></section>');
+                        }else{
+                            $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">'+msgTime+'</time></header><div class="ot-message-content">'+value.message+'</div></div></section>');
+                        }
+                    });
+                })
+            };
+            $timeout(function () {
+                $scope.appendprevious();
+            }, 1000);
+
         })
 
         .controller('JoinChatCtrl', function ($scope, $http, $stateParams, $sce) {
@@ -2171,8 +2160,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e.responseText);
             });
         })
-
-
 
         .controller('CheckavailableCtrl', function ($scope, $rootScope, $ionicLoading, $state, $http, $stateParams, $timeout, $ionicModal, $ionicPopup) {
             $scope.data = $stateParams.data;
@@ -2360,9 +2347,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 // $scope.counter = 20;
             };
         })
-
-
-
 
         .controller('RescheduleCtrl', function ($scope, $http, $stateParams, $ionicLoading, $rootScope, $ionicHistory, $filter, $state) {
             $scope.cancelApp = function (appId, drId, mode, startTime) {
