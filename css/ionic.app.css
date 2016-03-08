@@ -9090,6 +9090,26 @@ label.item .col{position:relative;}
 .cradioselect .item.item-radio{border:1px #387EF5 solid;}
 .blabel span.input-label{font-weight:bold !important;}
 
+.chatlist{}
+.chatlist .item  .title{ font-weight:bold; font-size:15px;}
+.chatlist .item  .description{ text-indent:3px; font-size:13px;}
+.chatlist .listright { float: right;
+    position: absolute;
+    right: 15px;
+    top: 37%;
+    font-size: 12px; }
+	#chat{position:absolute; width:100%; top:45px;}
+	.bgwhite{background:#fff;}
+.flexcont{
+    display: -webkit-flex; /* Safari */
+    display: flex; /* Safari */
+
+    border-bottom: 1px #eee solid; width:100%;
+
+}
+.flexcont div.innerdiv{}
+.brdright{border-right:1px #eee solid;}
+.brdrht{border-right:1px #ccc solid;}
 
 
 /* endcss */

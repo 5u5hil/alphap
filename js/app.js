@@ -217,6 +217,28 @@ angular.module('your_app_name', [
                         }
                     })
 
+					 .state('app.chat', {
+                        url: "/chat",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/chat.html",
+                                controller: 'ChatCtrl'
+                            }
+                        }
+                    })
+					
+					  .state('app.chatlist', {
+                        url: "/chatlist",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/chatlist.html",
+                                controller: 'ChatListCtrl'
+                            }
+                        }
+                    }) 
+					
+					
+					
                     .state('app.record-details', {
                         cache: false,
                         url: "/record-details/{id:int}",

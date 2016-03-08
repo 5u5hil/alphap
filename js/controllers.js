@@ -1998,6 +1998,69 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
             };
         })
+		
+		 .controller('ChatCtrl', function ($scope, $http, $stateParams) {
+            
+             var sessionId = '';
+			  var tokenAlice = '';
+			  var tokenBob = '';
+
+			  // Add here your API key
+			  var apiKey = '';
+              var session = OT.initSession(apiKey, sessionId);
+			  var chatWidget = new OTSolution.TextChat.ChatWidget({
+				session: session,
+				container: '#chat'
+			  });
+			
+            
+
+            $scope.returnjs = function () {
+                jQuery(function () {
+                    var wh = jQuery('window').height();
+                    jQuery('#chat').css('height', wh);
+                    //	console.log(wh);
+
+                })
+            };
+            $scope.returnjs();
+            $scope.iframeHeight = $(window).height() - 88;
+            $('#chat').css('height', $scope.iframeHeight);
+        })
+
+		
+		 .controller('ChatListCtrl', function ($scope, $http, $stateParams, $rootScope) {
+            $scope.doctorId = window.localStorage.getItem('id');
+            $scope.participant = [];
+            $scope.msg = [];
+            $http({
+                method: 'GET',
+                url: domain + 'doctorsapp/get-chats',
+                params: {drid: $scope.doctorId}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.chatParticipants = response.data;
+                angular.forEach($scope.chatParticipants, function (value, key) {
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctorsapp/get-chat-msg',
+                        params: {partId: value.participant_id, chatId: value.chat_id}
+                    }).then(function successCallback(responseData) {
+                        console.log(responseData);
+                        $scope.participant[key] = responseData.data.user;
+                        $scope.msg[key] = responseData.data.msg;
+                        $rootScope.$digest;
+                    }, function errorCallback(response) {
+                        console.log(response.responseText);
+                    });
+                });
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+        })
+		
+		
+		
 
         .controller('JoinChatCtrl', function ($scope, $http, $stateParams, $sce) {
             $scope.appId = $stateParams.id;
