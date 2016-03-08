@@ -46,9 +46,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('SearchBarCtrl', function ($scope, $state, $ionicConfig, $rootScope) {
 
         })
-		
-		
-		
+
 //LOGIN
         .controller('LoginCtrl', function ($scope, $state, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
             window.localStorage.setItem('interface_id', '3');
@@ -458,12 +456,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-		
-		    .controller('MedicineCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+
+        .controller('MedicineCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
-			
-			 $ionicModal.fromTemplateUrl('prescription-type', {
+
+            $ionicModal.fromTemplateUrl('prescription-type', {
                 scope: $scope
             }).then(function (modal) {
                 $scope.modal = modal;
@@ -472,13 +470,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.modal.hide();
             };
         })
-		
-		
-		.controller('AddressCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+
+
+        .controller('AddressCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
-			
-			 $ionicModal.fromTemplateUrl('addnewaddress', {
+
+            $ionicModal.fromTemplateUrl('addnewaddress', {
                 scope: $scope
             }).then(function (modal) {
                 $scope.modal = modal;
@@ -487,17 +485,17 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.modal.hide();
             };
         })
-		
-		
-		
-			.controller('CloseModalCtrl', function ($scope, $ionicModal, $state) {
-           $scope.modalclose = function (ulink) {
+
+
+
+        .controller('CloseModalCtrl', function ($scope, $ionicModal, $state) {
+            $scope.modalclose = function (ulink) {
                 $state.go(ulink);
                 $scope.modal.hide();
             }
         })
-		
-		
+
+
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.images = [];
@@ -993,16 +991,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.print = function () {
                 //  console.log("fsfdfsfd");
                 //  var printerAvail = $cordovaPrinter.isAvailable();
-                var page = domain + 'public/frontend/uploads/attachments/7V7Lr1456500103323.jpg';
-                cordova.plugins.printer.print(page, 'Document.html', function () {
-                    alert('printing finished or canceled')
+                var print_page = '<img src="http://stage.doctrs.in/public/frontend/uploads/attachments/7V7Lr1456500103323.jpg"  height="600" width="300" />';
+                //console.log(print_page);  
+                cordova.plugins.printer.print(print_page, 'alpha', function () {
+                    alert('printing finished or canceled');
                 });
-                console.log("@@@@@@" + page);
-                if ($cordovaPrinter.isAvailable()) {
-                    $cordovaPrinter.print(page);
-                } else {
-                    alert("Printing is not available on device");
-                }
             };
         })
 
@@ -1205,10 +1198,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
         })
 
-
-
         .controller('ConsultationProfileCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $filter, $ionicLoading, $ionicModal, $timeout, $ionicTabsDelegate) {
-
             $scope.apply = '0';
             $scope.discountApplied = '0';
             $scope.vSch = [];
@@ -1554,7 +1544,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('PaymentCtrl', function ($scope, $http, $state, $filter, $location, $stateParams, $rootScope, $ionicLoading, $ionicGesture, $timeout, $ionicHistory) {
-
             $scope.counter1 = 300;
             var stopped1;
             $scope.paynowcountdown = function () {
@@ -1749,19 +1738,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
             }
             ;
-        }
-        )
-
-
-
-
-
-
-
-
-
-
-
+        })
 
         .controller('ThankyouCtrl', function ($scope, $http, $state, $location, $stateParams, $rootScope, $ionicGesture, $timeout, $sce, $ionicHistory) {
             console.log($stateParams.data);
@@ -1785,10 +1762,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 //$state.go('app.category-list', {}, {reload: true});
                 $state.go('app.consultations-current', {}, {reload: true});
             }
-
-
-
         })
+
         .controller('GoPaymentCtrl', function ($scope, $http, $state, $location, $stateParams, $rootScope, $ionicGesture, $timeout, $sce, $ionicHistory) {
             console.log($stateParams.link);
             $scope.link = $stateParams.link;
@@ -1872,10 +1847,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-
-
         // $ionicHistory.clearCache();
-
         .controller('PatientJoinCtrl', function ($window, $scope, $http, $stateParams, $sce, $filter, $timeout, $state, $ionicHistory, $ionicLoading) {
             if (!get('loadedOnce')) {
                 store({'loadedOnce': 'true'});
@@ -1998,38 +1970,36 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
             };
         })
-		
-		 .controller('ChatCtrl', function ($scope, $http, $stateParams) {
-            
-             var sessionId = '';
-			  var tokenAlice = '';
-			  var tokenBob = '';
 
-			  // Add here your API key
-			  var apiKey = '';
-              var session = OT.initSession(apiKey, sessionId);
-			  var chatWidget = new OTSolution.TextChat.ChatWidget({
-				session: session,
-				container: '#chat'
-			  });
-			
-            
+//        .controller('ChatCtrl', function ($scope, $http, $stateParams) {
+//            var sessionId = '';
+//            var tokenAlice = '';
+//            var tokenBob = '';
+//
+//            // Add here your API key
+//            var apiKey = '';
+//            var session = OT.initSession(apiKey, sessionId);
+//            var chatWidget = new OTSolution.TextChat.ChatWidget({
+//                session: session,
+//                container: '#chat'
+//            });
+//
+//
+//
+//            $scope.returnjs = function () {
+//                jQuery(function () {
+//                    var wh = jQuery('window').height();
+//                    jQuery('#chat').css('height', wh);
+//                    //	console.log(wh);
+//
+//                })
+//            };
+//            $scope.returnjs();
+//            $scope.iframeHeight = $(window).height() - 88;
+//            $('#chat').css('height', $scope.iframeHeight);
+//        })
 
-            $scope.returnjs = function () {
-                jQuery(function () {
-                    var wh = jQuery('window').height();
-                    jQuery('#chat').css('height', wh);
-                    //	console.log(wh);
-
-                })
-            };
-            $scope.returnjs();
-            $scope.iframeHeight = $(window).height() - 88;
-            $('#chat').css('height', $scope.iframeHeight);
-        })
-
-		
-		 .controller('ChatListCtrl', function ($scope, $http, $stateParams, $rootScope) {
+        .controller('ChatListCtrl', function ($scope, $http, $stateParams, $rootScope) {
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.participant = [];
             $scope.msg = [];
@@ -2044,7 +2014,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $http({
                         method: 'GET',
                         url: domain + 'doctorsapp/get-chat-msg',
-                        params: {partId: value.participant_id, chatId: value.chat_id}
+                        params: {partId: value[0].participant_id, chatId: value[0].chat_id}
                     }).then(function successCallback(responseData) {
                         console.log(responseData);
                         $scope.participant[key] = responseData.data.user;
@@ -2058,9 +2028,57 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e);
             });
         })
-		
-		
-		
+
+        .controller('ChatCtrl', function ($scope, $http, $stateParams) {
+            $scope.chatId = $stateParams.id;
+            window.localStorage.setItem('chatId', $stateParams.id);
+            $scope.partId = window.localStorage.getItem('id');
+            $scope.msg = '';
+            var apiKey = '45121182';
+            //console.log($scope.chatId);
+            $http({
+                method: 'GET',
+                url: domain + 'doctorsapp/get-chat-token',
+                params: {chatId: $scope.chatId, userId: $scope.partId}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.user = response.data.user;
+                $scope.otherUser = response.data.otherUser;
+                $scope.chatMsgs = response.data.chatMsgs;
+                $scope.token = response.data.token;
+                $scope.otherToken = response.data.otherToken;
+                $scope.sessionId = response.data.chatSession;
+                window.localStorage.setItem('Toid', $scope.otherToken.participant_id);
+                //$scope.connect("'" + $scope.token + "'");
+                $scope.apiKey = apiKey;
+                var session = OT.initSession($scope.apiKey, $scope.sessionId);
+                $scope.session = session;
+                var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
+                console.log(chatWidget);
+                session.connect($scope.token, function (err) {
+                    if (!err) {
+                        console.log("Connection success");
+                    } else {
+                        console.error(err);
+                    }
+                });
+
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
+            $scope.returnjs = function () {
+                jQuery(function () {
+                    var wh = jQuery('window').height();
+                    jQuery('#chat').css('height', wh);
+                    //	console.log(wh);
+
+                })
+            };
+            $scope.returnjs();
+            $scope.iframeHeight = $(window).height() - 88;
+            $('#chat').css('height', $scope.iframeHeight);
+        })
 
         .controller('JoinChatCtrl', function ($scope, $http, $stateParams, $sce) {
             $scope.appId = $stateParams.id;

@@ -6,7 +6,7 @@
          <button class="button button-icon button-clear ion-person">
          </button>
      </ion-nav-buttons> -->
-   
+
     <div ng-repeat="doc in doctor">
         <div class="profile-head">
             <div class="card-content">
@@ -27,18 +27,12 @@
     <ion-content>
         <div class="ioncontent">
             <div ng-repeat="doc in doctor">
-
-
                 <div class="whitetab profile" style="margin-top:87px;">
                     <div class="schedule">
-				<my-tabs class="themetabs">
-
-                            <div ng-repeat="serv in services">  
-                               
+                        <my-tabs class="themetabs">
+                            <div ng-repeat="serv in services">
                                 <my-tab  icon="ion-calendar tabicon" title="Scheduled Video"  ng-if="serv == 1">
                                     <div class="tabc2">
-
-
                                         <div class="item-price">Price : INR {{videoProd.interfacePrice}}</div>
                                         <div class="mt15"> 
                                             <ul class="clist">
@@ -47,19 +41,14 @@
                                                     <span ng-if="vInc.discount < 100">Discount : {{vInc.discount}} %</span>, {{vInc.validity_in_days}} Days
                                                 </li>
                                             </ul>
-
                                             <div class="clr"></div>
                                             <div class="item item-body p0 brd-0" ng-repeat="vs in videoSch track by $index">
-
                                                 <ul class="wk">
                                                     <li ng-repeat="day in vs.service_details| orderBy:'' | groupBy:['day_of_week']">
                                                         <strong ng-show="day.group_by_CHANGED">{{ day.day_of_week|limitTo:1}} : </strong>
                                                         {{day.from|limitTo:2}} - {{day.to|limitTo:2}}
-
                                                     </li>
                                                 </ul>
-
-
                                                 <div class="sche-date">
                                                     <div class="leftarrow" ng-click="getFirstSlots(vs.supersaas_id, $index, serv)">Earliest Slot</div> 
                                                     <input type="date" ng-model="schdate[$index]" value="schdate[$index]|dateFormat1" ng-change="getNextSlots(schdate[$index], vs.supersaas_id, $index, serv)"/>
@@ -81,68 +70,37 @@
                                             </div>	
                                         </div>
                                     </div>
-					</my-tab>
-					</div>
-					<div ng-if="instVideo != ''">
-                                            <my-tab title="Instant Video" icon="ion-ios-videocam tabicon" ng-click="doit();">
-						<div class="tabc2">
+                                </my-tab>
+                                <my-tab  icon="ion-chatboxes tabicon" title="Chat" ng-if="serv == 2">
+                                    <div class="tabc2">
+                                        <div class="item-price">Price : INR {{chatProd.interfacePrice}}</div>
+                                        <div class="tabcontainer"> 
+                                            <ul class="clist">
+                                                <li><strong>{{chatProd.desc}}</strong></li>
+                                            </ul>
+                                            <p>
+                                                <button class="button button-block button-positive" ng-click="bookAppointment(chatProd.id, serv)"> Proceed</button>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </my-tab>
+                            </div>
+                            <div ng-if="instVideo != ''">
+                                <my-tab title="Instant Video" icon="ion-ios-videocam tabicon" ng-click="doit();">
+                                    <div class="tabc2">
                                         <div class="item-price">Price : INR {{instVideo.interfacePrice}}</div>
                                         <div class="tabcontainer"> 
                                             <ul class="clist">
                                                 <li><strong>Instant video consult</strong></li>
-
                                             </ul>
-
                                             <p>
-
-
                                                 <button class="button button-block button-positive" ng-click="checkAvailability(instVideo.user_id, instVideo.id)"> Proceed</button>
-
-
-
-
                                             </p>
                                         </div>
                                     </div>
-					</my-tab>
-					
-					<my-tab  icon="ion-chatboxes tabicon" title="Chat" >
-                      <div class="tabc2">
-                                        <div class="item-price">Price : INR 500</div>
-                                        <div class="tabcontainer"> 
-                                            <ul class="clist">
-                                                <li><strong>Chat consult</strong></li>
-
-                                            </ul>
-
-                                            <p>
-
-
-                                                <button class="button button-block button-positive" ng-click="checkAvailability(instVideo.user_id, instVideo.id)"> Proceed</button>
-
-
-
-
-                                            </p>
-                                        </div>
-                                    </div>
-					</my-tab>
-					</my-tabs>
-		
-		
-		
-		
-		
-		
-		
-					
-					
-                        
-
+                                </my-tab>                                
+                        </my-tabs>
                     </div>
-
-
-
                 </div>
             </div>
         </div>
@@ -170,8 +128,8 @@
         <div class="list" ng-repeat="doc in doctor" style="margin-top:65px;">
         <div class="item item-body">
 
-			<div class="row txt-left">
-			<div class="col"><p><strong>Experience</strong><br/>{{doc.exp}}</p></div>	
+        <div class="row txt-left">
+        <div class="col"><p><strong>Experience</strong><br/>{{doc.exp}}</p></div>	
         <div class="col"><p><strong>Qualification</strong><br/>
         <span ng-repeat="qual in doc.qualifications">{{qual.qualification}}{{$last==true? '': ',&nbsp;'}}</span>
         </p></div>	
@@ -187,8 +145,8 @@
         </span></p></div>	
         </div>
         </div>
-		
-		
+
+
         </div>
 
         </ion-content>

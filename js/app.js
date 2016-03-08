@@ -217,17 +217,7 @@ angular.module('your_app_name', [
                         }
                     })
 
-					 .state('app.chat', {
-                        url: "/chat",
-                        views: {
-                            'menuContent': {
-                                templateUrl: "views/app/chat.html",
-                                controller: 'ChatCtrl'
-                            }
-                        }
-                    })
-					
-					  .state('app.chatlist', {
+                    .state('app.chatlist', {
                         url: "/chatlist",
                         views: {
                             'menuContent': {
@@ -235,10 +225,18 @@ angular.module('your_app_name', [
                                 controller: 'ChatListCtrl'
                             }
                         }
-                    }) 
-					
-					
-					
+                    })
+
+                    .state('app.chat', {
+                        url: "/chat/{id:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/chat.html",
+                                controller: 'ChatCtrl'
+                            }
+                        }
+                    })
+
                     .state('app.record-details', {
                         cache: false,
                         url: "/record-details/{id:int}",
@@ -249,9 +247,8 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-					
-					 .state('app.medicine', {
+
+                    .state('app.medicine', {
                         cache: false,
                         url: "/medicines/medicine",
                         views: {
@@ -261,9 +258,9 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-					
-					 .state('app.address', {
+
+
+                    .state('app.address', {
                         cache: false,
                         url: "/medicines/address",
                         views: {
@@ -273,9 +270,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-					
-					
+
                     //Consultations
 
                     .state('app.consultations-list', {
