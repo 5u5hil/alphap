@@ -1339,8 +1339,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     url: domain + 'kookoo/check-doctor-availability',
                     params: {id: uid,interface: $scope.interface}
                 }).then(function successCallback(responseData) {
-                    var dataInfo = responseData.data.split('-');
-                    console.log(dataInfo);
+                  
                     if (responseData.data == 1) {
 
                         $state.go('app.checkavailable', {'data': prodId, 'uid': uid});
