@@ -1329,6 +1329,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }
 
             $scope.checkAvailability = function (uid, prodId) {
+                  $scope.interface = window.localStorage.getItem('interface_id');
                 console.log("prodId " + prodId);
                 console.log("uid " + uid);
                 $rootScope.$broadcast('loading:hide');
@@ -1336,7 +1337,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $http({
                     method: 'GET',
                     url: domain + 'kookoo/check-doctor-availability',
-                    params: {id: uid}
+                    params: {id: uid,interface: $scope.interface}
                 }).then(function successCallback(responseData) {
                     var dataInfo = responseData.data.split('-');
                     console.log(dataInfo);
@@ -2164,6 +2165,21 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('CheckavailableCtrl', function ($scope, $rootScope, $ionicLoading, $state, $http, $stateParams, $timeout, $ionicModal, $ionicPopup) {
             $scope.data = $stateParams.data;
             $scope.uid = $stateParams.uid;
+            
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $http({
+                    method: 'GET',
+                    url: domain + 'kookoo/check-doctor-availability',
+                    params: {id: $scope.uid,interface:$scope.interface}
+                }).then(function successCallback(responseData) {
+                    
+                    $scope.check_availability = responseData.data.check_availability
+                     $scope.instant_video = responseData.data.instant_video
+                    
+                    $scope.language = responseData.data.lang.language;
+                    
+                });
+                
             /* patient confirm */
             $scope.showConfirm = function () {
                 var confirmPopup = $ionicPopup.confirm({
