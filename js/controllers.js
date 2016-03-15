@@ -1340,7 +1340,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     params: {id: uid,interface: $scope.interface}
                 }).then(function successCallback(responseData) {
                   
-                    if (responseData.data == 1) {
+                    if (responseData.data.status == 1) {
 
                         $state.go('app.checkavailable', {'data': prodId, 'uid': uid});
                     } else {
