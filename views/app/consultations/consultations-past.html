@@ -35,7 +35,9 @@
 				</div>
 				<div class="post-actions  post-footer p0">
 				<div class="row cardbtn-small p0">
-				<div class="cardpast-bar {{vAppPast.appointments.status==3 ?'fgreen':'fred'}}"><i class="{{vAppPast.appointments.status==3 ?'ion-checkmark':'ion-close'}}"></i> {{vAppPast.appointments.status==4 ? 'Cancelled':''}}
+				<div class="cardpast-bar {{vAppPast.appointments.status==3 ?'fgreen':'fred'}}">
+                                    <i class="{{vAppPast.appointments.status==3 ?'ion-checkmark':'ion-close'}}"></i>
+                                    {{vAppPast.appointments.status==4 ? 'Cancelled':''}}
 				{{vAppPast.appointments.status==6 ? 'Patient no-show':''}}
 				{{vAppPast.appointments.status==7 ? 'Doctor no-show':''}}
 				{{vAppPast.appointments.status==3 ? 'Consulted':''}}

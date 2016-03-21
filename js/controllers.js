@@ -2,7 +2,6 @@ var publisher;
 var session;
 var subscriber;
 angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
-
         .controller('AuthCtrl', function ($scope, $state, $ionicConfig, $rootScope) {
             $scope.interface = window.localStorage.setItem('interface_id', '3');
             if (window.localStorage.getItem('id') != null) {
@@ -16,7 +15,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
 // APP
         .controller('AppCtrl', function ($scope, $state, $ionicConfig, $rootScope, $ionicLoading, $ionicHistory, $timeout) {
-
             $rootScope.imgpath = domain + "/public/frontend/user/";
             $rootScope.attachpath = domain + "/public";
 
@@ -42,7 +40,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
             };
         })
-
         .controller('SearchBarCtrl', function ($scope, $state, $ionicConfig, $rootScope) {
 
         })
@@ -1669,21 +1666,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $timeout.cancel(stopped1);
                         $state.go('app.thankyou', {'data': response.data}, {reload: true});
                     }
-                    //                    if ((parseInt($scope.discount) == parseInt($scope.discountApplied)) && (parseInt($scope.discount) > 0)) {
-                    //                     
-                    //                        $scope.discountval = response.data.discount;
-                    //                        $ionicHistory.nextViewOptions({
-                    //                            disableBack: true
-                    //                        });
-                    //						
-                    //			 $state.go('app.thankyou', {'data': response.data}, {reload: true});
-                    //				 
-                    //                    } else {
-                    //				
-                    //                      $state.go('app.Gopay', {'link': response.data});
-                    //						console.log(response.data)
-                    //                      //window.location.href=response.data
-                    //                    }
                 }, function errorCallback(response) {
                     console.log(response);
                 })
