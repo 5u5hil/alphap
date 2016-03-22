@@ -1092,6 +1092,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 return $sce.trustAsResourceUrl(src);
             };
 
+            $scope.submitmodal = function () {
+                console.log($scope.catIds);
+                $scope.modal.hide();
+            };
+        })
+        .controller('shareModalCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
             //Show share model
             $ionicModal.fromTemplateUrl('share', {
                 scope: $scope,
@@ -1104,7 +1110,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.modal.hide();
             };
         })
-
 
         .controller('ConsultationsListCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
 
@@ -1329,7 +1334,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }
 
             $scope.checkAvailability = function (uid, prodId) {
-                  $scope.interface = window.localStorage.getItem('interface_id');
+                $scope.interface = window.localStorage.getItem('interface_id');
                 console.log("prodId " + prodId);
                 console.log("uid " + uid);
                 $rootScope.$broadcast('loading:hide');
@@ -1337,9 +1342,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $http({
                     method: 'GET',
                     url: domain + 'kookoo/check-doctor-availability',
-                    params: {id: uid,interface: $scope.interface}
+                    params: {id: uid, interface: $scope.interface}
                 }).then(function successCallback(responseData) {
-                  
+
                     if (responseData.data.status == 1) {
 
                         $state.go('app.checkavailable', {'data': prodId, 'uid': uid});
@@ -2073,10 +2078,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $(function () {
                     angular.forEach($scope.chatMsgs, function (value, key) {
                         var msgTime = $filter('date')(new Date(value.tstamp), 'hh:mm a');
-                        if(value.sender_id == $scope.partId){
-                            $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble mine" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">'+msgTime+'</time></header><div class="ot-message-content">'+value.message+'</div></div></section>');
-                        }else{
-                            $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">'+msgTime+'</time></header><div class="ot-message-content">'+value.message+'</div></div></section>');
+                        if (value.sender_id == $scope.partId) {
+                            $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble mine" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
+                        } else {
+                            $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
                         }
                     });
                 })
@@ -2149,21 +2154,21 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('CheckavailableCtrl', function ($scope, $rootScope, $ionicLoading, $state, $http, $stateParams, $timeout, $ionicModal, $ionicPopup) {
             $scope.data = $stateParams.data;
             $scope.uid = $stateParams.uid;
-            
+
             $scope.interface = window.localStorage.getItem('interface_id');
             $http({
-                    method: 'GET',
-                    url: domain + 'kookoo/check-doctor-availability',
-                    params: {id: $scope.uid,interface:$scope.interface}
-                }).then(function successCallback(responseData) {
-                    
-                    $scope.check_availability = responseData.data.check_availability
-                     $scope.instant_video = responseData.data.instant_video
-                    
-                    $scope.language = responseData.data.lang.language;
-                    
-                });
-                
+                method: 'GET',
+                url: domain + 'kookoo/check-doctor-availability',
+                params: {id: $scope.uid, interface: $scope.interface}
+            }).then(function successCallback(responseData) {
+
+                $scope.check_availability = responseData.data.check_availability
+                $scope.instant_video = responseData.data.instant_video
+
+                $scope.language = responseData.data.lang.language;
+
+            });
+
             /* patient confirm */
             $scope.showConfirm = function () {
                 var confirmPopup = $ionicPopup.confirm({
