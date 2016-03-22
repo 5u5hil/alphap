@@ -359,10 +359,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.categoryId = $stateParams.categoryId;
             //console.log(get('id'));
             $scope.userid = get('id');
+            $scope.patientId = get('id');
             $http({
                 method: 'GET',
                 url: domain + 'records/view-patient-record-category',
-                params: {userId: $scope.userid, interface: $scope.interface}
+                params: {userId: $scope.userid, patientId: $scope.patientId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.categories = response.data.categories;
@@ -827,10 +828,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.recId = [];
             $scope.recIds = [];
             $scope.userId = get('id');
+            $scope.patientId = get('id');
             $http({
                 method: 'GET',
                 url: domain + 'records/get-records-details',
-                params: {id: $stateParams.id, userId: $scope.userId, interface: $scope.interface}
+                params: {id: $stateParams.id, userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.records = response.data.records;
@@ -839,6 +841,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.limit = 3; //$scope.records[0].record_metadata.length;
                     }
                 }
+                $scope.createdby = response.data.createdby;
                 $scope.category = response.data.category;
                 $scope.doctors = response.data.doctors;
                 $scope.problems = response.data.problems;

@@ -21,7 +21,7 @@
             <div class="mt15" ng-if="records.length == 0"> <p class="txt-center" >No records here. Add now to get started.</p></div>
             <div class="posts-list"  ng-repeat="rec in records track by $index" ng-if="records.length > 0">
                 <div  class="list card post-item">
-                    <a ui-sref="app.record-details({'id' : rec.id,'res' : 'json'})" class="post-content item item-text-wrap">
+                    <a ui-sref="app.record-details({'id' : rec.id, 'shared': shared, 'res' : 'json'})" class="post-content item item-text-wrap">
                         <div class="row pr-b10">
                             <div class="col" ng-repeat="detail in rec.record_metadata| limitTo: limit">
                                 <!--{{$index == 0 ? '<p>': ''}} -->
@@ -44,7 +44,7 @@
                             </div>	
                         </div>
                         <div class="post-actions row post-footer">
-                            <span>Created {{rec.created_at| datetime3 }} by You</span>
+                            <span>Created {{rec.created_at| datetime3 }} by {{userId==createdby[$index].id? 'You': createdby[$index].fname}}</span>
                         </div>
                         <div class="attachcard" ng-if="rec.attachments.length != 0">
                             <i class="ion-paperclip"></i></div>
@@ -52,7 +52,7 @@
 
                     <div class="row recordrow">
                         <div class="col selectrecord"><ion-checkbox onclick="selectcheckbox(this)" ng-model="recId[rec.id]" ng-value="{{rec.id}}" ng-change="getRecIds('{{rec.id}}')"> Select</ion-checkbox></div>
-                        <div class="col btview"><a ui-sref="app.record-details({'id' : rec.id,'res' : 'json'})" ><div class="card-viewbtn button-positive">View</div></a></div>
+                        <div class="col btview"><a ui-sref="app.record-details({'id' : rec.id, 'shared': shared, 'res' : 'json'})" ><div class="card-viewbtn button-positive">View</div></a></div>
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
 
 
 
-    <div class="footerbar" id="rec1" >
+    <div class="footerbar button-bar " id="rec1" >
         <a class="button btn-delete" ng-click="recordDelete()"><i class="icon ion-trash-b"></i> Delete</a>
         <a class="button btn-share" ng-click="recordShare()"><i class="icon ion-android-share-alt"></i> Share</a>
         <a class="button btn-add" ui-sref="app.add-category({'id': catId})" ui-sref-opts="{reload: true}" ><i class="icon ion-android-add-circle"></i> Add</a> 
