@@ -8945,12 +8945,18 @@ a.tab-item{color:#000;}
 .action-sheet-cancel,.action-sheet-cancel button{background:#387ef5 !important;}
 .action-sheet-cancel .button{color:#fff !important; text-align:center !important;}
 
-.cselect{    position: static !important;
-             width: 100%;
-             direction: ltr !important;
-             padding: 8px 0 8px 0px !important;
-             /* font-weight:bold; */
+.cselect{       position: static !important;
+    width: 96%;
+    direction: ltr !important;
+    padding: 7px 0 7px 0px !important;
+    /* font-weight: bold; */
+    border: 0;
 }
+
+
+
+
+
 .mcontent{margin-top:42px; padding-bottom:30px;}
 .fullwh{position: absolute; height: 100%;
         width: 100%;
@@ -8959,6 +8965,7 @@ a.tab-item{color:#000;}
 .h100p{height:100%;}
 .w100p{width:100%;}
 label.listreq{border-bottom-color:#f00 !important;}
+.listreq label{border-bottom-color: #f00;}
 
 .brdT{border-top: 1px #eee solid;}
 form .item{margin-bottom: 1px;border-top: 0px;}
@@ -8987,6 +8994,7 @@ form .item{margin-bottom: 1px;border-top: 0px;}
 .btn-edit,.btn-edit.activated{background:#28a54c;}
 .btn-delete,.btn-share,.btn-add,.btn-edit{line-height:44px !important;}
 .btn-delete.activated,.btn-share.activated,.btn-add.activated,.btn-edit.activated{ border:0;}
+
 
 
 .btn-delete,.btn-share,.btn-add,.btn-edit,.btn-delete:hover,.btn-share:hover,.btn-add:hover,.btn-edit:hover,.btn-delete i,.btn-share i,.btn-add i,.btn-edit i{color:#fff;}
@@ -9110,6 +9118,15 @@ label.item .col{position:relative;}
 .flexcont div.innerdiv{}
 .brdright{border-right:1px #eee solid;}
 .brdrht{border-right:1px #ccc solid;}
+
+input[type="date"]:before{
+	font-family: "Ionicons";
+	display: inline-block;
+	padding:0 5px;
+	content: "\f117"; display:block;
+}
+
+
 
 
 /* endcss */
