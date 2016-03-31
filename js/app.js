@@ -428,6 +428,43 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+					
+					/* packaging */
+					
+					.state('app.packaging',{
+						url:"/packaging",
+						views:{
+							'menuContent':{
+								templateUrl:"views/app/packaging/packaging.html",
+								controller:'packagingCtrl'
+							}
+						}
+					})
+					
+						.state('app.packaging-detail',{
+						url:"/packaging-detail",
+						views:{
+							'menuContent':{
+								templateUrl:"views/app/packaging/packaging-detail.html",
+								controller:'PackagingDetailCtrl'
+							}
+						}
+					})
+					
+						.state('app.package-confirm',{
+						url:"/package-confirm",
+						views:{
+							'menuContent':{
+								templateUrl:"views/app/packaging/package-confirm.html",
+								controller:'packageConfirmCtrl'
+							}
+						}
+					})
+					
+					/* end of packaging */
+					
+					
+					
 
                     .state('app.logout', {
                         url: "/logout",

@@ -2353,6 +2353,47 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
+		
+		.controller('packagingCtrl',function($scope){
+			
+			})
+			
+	.controller('PackagingDetailCtrl',function($scope,$ionicModal){
+	
+				
+			})
+		
+	.controller('pkgDetailsCtrl',function($scope,$ionicModal){
+			$ionicModal.fromTemplateUrl('pkg-details', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+	})	
+
+	.controller('pkgtermsCtrl',function($scope,$ionicModal){
+			$ionicModal.fromTemplateUrl('pkg-terms', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+	})	
+		
+		.controller('infodoctrsCtrl',function($scope,$ionicModal){
+			$ionicModal.fromTemplateUrl('infodoctrs', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+	})	
+		.controller('packageConfirmCtrl',function($scope,$ionicModal){
+			
+	})		
+	
+	
+	
+	
+		
         .controller('RescheduleCtrl', function ($scope, $http, $stateParams, $ionicLoading, $rootScope, $ionicHistory, $filter, $state) {
             $scope.cancelApp = function (appId, drId, mode, startTime) {
                 $scope.appId = appId;
