@@ -461,6 +461,37 @@ angular.module('your_app_name', [
 						}
 					})
 					
+						.state('app.active-packages',{
+						url:"/active-packages",
+						views:{
+							'menuContent':{
+								templateUrl:"views/app/packaging/active-packages.html",
+								controller:'ActivePackagesCtrl'
+							}
+						}
+					})	
+
+					.state('app.packages-view',{
+						url:"/packages-view",
+						views:{
+							'menuContent':{
+								templateUrl:"views/app/packaging/packages-view.html",
+								controller:'PackagesViewCtrl'
+							}
+						}
+					})
+					
+					.state('app.past-packages',{
+						url:"/past-packages",
+						views:{
+							'menuContent':{
+								templateUrl:"views/app/packaging/past-packages.html",
+								controller:'PastPackagesCtrl'
+							}
+						}
+					})
+					
+					
 					/* end of packaging */
 					
 					

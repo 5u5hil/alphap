@@ -2391,6 +2391,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 	})		
 	
 	
+	/* packages */
+	.controller('ActivePackagesCtrl',function($scope){})
+	.controller('PackagesViewCtrl',function($scope){})
+	.controller('PastPackagesCtrl',function($scope){})
+	
+	/* packages */
+	
+	
 	
 	
 		
