@@ -2395,8 +2395,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 	.controller('ActivePackagesCtrl',function($scope){})
 	.controller('PackagesViewCtrl',function($scope){})
 	.controller('PastPackagesCtrl',function($scope){})
-	
 	/* packages */
+	
+	
+	/* Pathology */
+		.controller('PathologyCtrl',function($scope){})
+		.controller('PackagesListCtrl',function($scope){})
+	/* Pathology */
 	
 	
 	

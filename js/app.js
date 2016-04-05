@@ -495,6 +495,33 @@ angular.module('your_app_name', [
 					/* end of packaging */
 					
 					
+					/* Pathology  */
+					.state('app.pathology',{
+						url:"/pathology",
+						views:{
+							'menuContent':{
+								templateUrl:"views/app/pathology/pathology.html",
+								controller:'PathologyCtrl'
+							}
+						}
+					})
+					 
+					 
+						.state('app.packages-list',{
+						url:"/packages-list",
+						views:{
+							'menuContent':{
+								templateUrl:"views/app/pathology/packages-list.html",
+								controller:'PackagesListCtrl'
+							}
+						}
+					}) 
+					 
+					 
+					 
+					 
+					/* End Pathology  */
+					
 					
 
                     .state('app.logout', {
