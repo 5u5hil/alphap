@@ -844,6 +844,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.createdby = response.data.createdby;
                 $scope.category = response.data.category;
                 $scope.doctors = response.data.doctors;
+                $scope.patient = response.data.patient;
                 $scope.problems = response.data.problems;
                 $scope.doctrs = response.data.shareDoctrs;
             }, function errorCallback(response) {
@@ -1016,6 +1017,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.category = response.data.record;
                 $scope.problem = response.data.problem;
                 $scope.doctors = response.data.doctrs;
+                $scope.patient = response.data.patient;
                 $scope.doctrs = response.data.shareDoctrs;
             }, function errorCallback(response) {
                 console.log(response);
