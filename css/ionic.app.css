@@ -8868,7 +8868,9 @@ iframe.videochat{position:absolute; width:100%; height: 100%;}
 .whitetab .tabs-positive > .tabs, .whitetab  .tabs.tabs-positive{background-color: #FFFFFF !important;
                                                                  border-bottom: 1px #eee solid; 
 }
-
+.sbtn{    padding: 2px 5px;
+    border: 1px #387EF5 solid;
+    border-radius: 2px;}
 
 .item-price{ text-align: center;
              padding: 0px 0 8px; margin-left:-10px; margin-right:-10px;
@@ -8945,12 +8947,18 @@ a.tab-item{color:#000;}
 .action-sheet-cancel,.action-sheet-cancel button{background:#387ef5 !important;}
 .action-sheet-cancel .button{color:#fff !important; text-align:center !important;}
 
-.cselect{    position: static !important;
-             width: 100%;
-             direction: ltr !important;
-             padding: 8px 0 8px 0px !important;
-             /* font-weight:bold; */
+.cselect{       position: static !important;
+    width: 96%;
+    direction: ltr !important;
+    padding: 7px 0 7px 0px !important;
+    /* font-weight: bold; */
+    border: 0;
 }
+
+
+
+
+
 .mcontent{margin-top:42px; padding-bottom:30px;}
 .fullwh{position: absolute; height: 100%;
         width: 100%;
@@ -8959,6 +8967,10 @@ a.tab-item{color:#000;}
 .h100p{height:100%;}
 .w100p{width:100%;}
 label.listreq{border-bottom-color:#f00 !important;}
+/* .listreq label{border-bottom-color: #f00;} */
+
+.listreq  .item-divider{color:#f00;}
+
 
 .brdT{border-top: 1px #eee solid;}
 form .item{margin-bottom: 1px;border-top: 0px;}
@@ -8987,6 +8999,7 @@ form .item{margin-bottom: 1px;border-top: 0px;}
 .btn-edit,.btn-edit.activated{background:#28a54c;}
 .btn-delete,.btn-share,.btn-add,.btn-edit{line-height:44px !important;}
 .btn-delete.activated,.btn-share.activated,.btn-add.activated,.btn-edit.activated{ border:0;}
+
 
 
 .btn-delete,.btn-share,.btn-add,.btn-edit,.btn-delete:hover,.btn-share:hover,.btn-add:hover,.btn-edit:hover,.btn-delete i,.btn-share i,.btn-add i,.btn-edit i{color:#fff;}
@@ -9107,9 +9120,39 @@ label.item .col{position:relative;}
     border-bottom: 1px #eee solid; width:100%;
 
 }
-.flexcont div.innerdiv{}
+.flexcont div.innerdiv{-webkit-flex: 1;  /* Safari 6.1+ */
+                    -ms-flex: 1;  /* IE 10 */    
+                    flex:1;
+					text-align:center;
+					    background: #E6E7E8;
+    font-weight: bold;
+					}
+					.btnpd  .innerdiv{padding:8px;}
 .brdright{border-right:1px #eee solid;}
 .brdrht{border-right:1px #ccc solid;}
+.countconsult{display:block; text-align:center;}
+
+input[type="date"]:before{
+	font-family: "Ionicons";
+	display: inline-block;
+	padding:0 5px;
+	content: "\f117"; display:block;
+}
+
+
+.sche-date input[type="date"]:before{
+	content:''; display:none; padding:0;
+}
+.cardprice{float:right; font-size:16px;}
+.cardcont{line-height:20px; padding:12px; position:relative;}
+.cardbtn {padding: 0px;
+    margin: 2px;
+    line-height: 16px;
+    color: #fff;
+    display: block;
+    line-height: 35px !important; text-decoration:none;}
+	.fieldvalue{ padding:10px;}
+
 
 
 /* endcss */

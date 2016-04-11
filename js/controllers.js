@@ -1871,7 +1871,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 //$scope.oToken = "https://test.doctrs.in/opentok/opentok?session=" + response.data.app[0].appointments.opentok_session_id;
                 var apiKey = '45121182';
                 var sessionId = response.data.app[0].appointments.opentok_session_id;
+                console.log('sessionId'+sessionId);
                 var token = response.data.oToken;
+                console.log('token'+token);
                 if (OT.checkSystemRequirements() == 1) {
                     session = OT.initSession(apiKey, sessionId);
                     $ionicLoading.hide();
@@ -2355,6 +2357,60 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
+		
+		.controller('packagingCtrl',function($scope){
+			
+			})
+			
+	.controller('PackagingDetailCtrl',function($scope,$ionicModal){
+	
+				
+			})
+		
+	.controller('pkgDetailsCtrl',function($scope,$ionicModal){
+			$ionicModal.fromTemplateUrl('pkg-details', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+	})	
+
+	.controller('pkgtermsCtrl',function($scope,$ionicModal){
+			$ionicModal.fromTemplateUrl('pkg-terms', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+	})	
+		
+		.controller('infodoctrsCtrl',function($scope,$ionicModal){
+			$ionicModal.fromTemplateUrl('infodoctrs', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+	})	
+		.controller('packageConfirmCtrl',function($scope,$ionicModal){
+			
+	})		
+	
+	
+	/* packages */
+	.controller('ActivePackagesCtrl',function($scope){})
+	.controller('PackagesViewCtrl',function($scope){})
+	.controller('PastPackagesCtrl',function($scope){})
+	/* packages */
+	
+	
+	/* Pathology */
+		.controller('PathologyCtrl',function($scope){})
+		.controller('PackagesListCtrl',function($scope){})
+	/* Pathology */
+	
+	
+	
+	
+		
         .controller('RescheduleCtrl', function ($scope, $http, $stateParams, $ionicLoading, $rootScope, $ionicHistory, $filter, $state) {
             $scope.cancelApp = function (appId, drId, mode, startTime) {
                 $scope.appId = appId;
