@@ -1148,6 +1148,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.clinic_app = response.data.clinic_app;
                 $scope.clinic_doctorsData = response.data.clinic_doctorsData;
                 $scope.clinic_products = response.data.clinic_products;
+                $scope.clinic_time = response.data.clinic_time;
+                $scope.clinic_end_time = response.data.clinic_end_time;
+
+                $scope.clinic_app_past = response.data.clinic_app_past;
+                $scope.clinic_doctorsData_past = response.data.clinic_doctorsData_past;
+                $scope.clinic_products_past = response.data.clinic_products_past;
+                $scope.clinic_time_past = response.data.clinic_time_past;
+                $scope.clinic_end_time = response.data.clinic_end_time;
                 //Home
                 $scope.home_app = response.data.home_app;
                 $scope.home_doctorsData = response.data.home_doctorsData;
@@ -1160,6 +1168,24 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, function errorCallback(e) {
                 console.log(e);
             });
+
+            $scope.deleteApp = function (appId, prodId, mode, startTime) {
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctorsapp/patient-delete-app',
+                    params: {appId: appId, prodId: prodId, userId: $scope.userId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    if (response.data == 1) {
+                        alert('Your appointment is cancelled successfully.');
+                        $state.go('app.consultations-current', {}, {reload: true});
+                    }
+                    //$state.go('app.consultations-current', {}, {reload: true});
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            };
+
             $scope.joinVideo = function (mode, start, end, appId) {
                 console.log(mode + "===" + start + '===' + end + "===" + $scope.curTime + "==" + appId);
                 if ($scope.curTime >= start || $scope.curTime <= end) {
@@ -1356,7 +1382,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
             };
             $scope.getNextSlots = function (nextDate, supsassId, key, serv) {
-                console.log(nextDate + '=======' + supsassId + '=====' + key);
+                console.log(nextDate + '=======' + supsassId + '=====' + key + "Seveice == " + serv);
                 var from = $filter('date')(new Date(nextDate), 'yyyy-MM-dd HH:mm:ss');
                 $ionicLoading.show({template: 'Loading...'});
                 $http({
@@ -1374,6 +1400,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             $scope.nextdate[key] = $filter('date')(new Date(), 'yyyy-MM-dd');
                             $rootScope.$digest;
                         } else if (serv == 3) {
+                            console.log('Serv = if');
                             $scope.cSch[key] = responseData.data.slots;
                             $scope.schCdate[key] = new Date();
                             $scope.nextCdate[key] = $filter('date')(new Date(), 'yyyy-MM-dd');
@@ -1394,6 +1421,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             $scope.nextdate[key] = $filter('date')(new Date(tomorrow), 'yyyy-MM-dd');
                             $rootScope.$digest;
                         } else if (serv == 3) {
+                            console.log('Serv = else');
                             $scope.cSch[key] = responseData.data.slots;
                             $scope.schCdate[key] = new Date(responseData.data.lastdate);
                             var tomorrow = new Date(responseData.data.lastdate);
@@ -1627,15 +1655,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $http({
                     method: 'GET',
                     url: domain + 'buy/book-appointment',
-                    params: {prodId: $scope.prodid, userId: $scope.userId, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
+                    params: {prodId: $scope.prodid, userId: $scope.userId, supId: $scope.supid, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
                 }).then(function successCallback(response) {
                     $ionicLoading.hide();
-                    if (response.data.httpcode == 'success')
-                    {
-                        $state.go('app.success', {'id': response.data.orderId, 'serviceId': response.data.scheduleId});
-                    } else {
-                        $state.go('app.failure', {'id': response.data.orderId, 'serviceId': response.data.scheduleId});
-                    }
+                    $state.go('app.thankyou', {'data': 'success'}, {reload: true});
                 }, function errorCallback(response) {
                     console.log(response);
                 });
@@ -1742,6 +1765,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $ionicHistory.nextViewOptions({
                     disableBack: true
                 });
+                window.localStorage.removeItem('startSlot');
+                window.localStorage.removeItem('endSlot');
+                window.localStorage.removeItem('prodId');
+                window.localStorage.removeItem('supid');
+                window.localStorage.removeItem('mode');
                 window.localStorage.removeItem('kookooid');
                 window.localStorage.removeItem('coupondiscount');
                 window.localStorage.removeItem('IVendSlot');
@@ -1871,9 +1899,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 //$scope.oToken = "https://test.doctrs.in/opentok/opentok?session=" + response.data.app[0].appointments.opentok_session_id;
                 var apiKey = '45121182';
                 var sessionId = response.data.app[0].appointments.opentok_session_id;
-                console.log('sessionId'+sessionId);
+                console.log('sessionId' + sessionId);
                 var token = response.data.oToken;
-                console.log('token'+token);
+                console.log('token' + token);
                 if (OT.checkSystemRequirements() == 1) {
                     session = OT.initSession(apiKey, sessionId);
                     $ionicLoading.hide();
@@ -2357,60 +2385,60 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-		
-		.controller('packagingCtrl',function($scope){
-			
-			})
-			
-	.controller('PackagingDetailCtrl',function($scope,$ionicModal){
-	
-				
-			})
-		
-	.controller('pkgDetailsCtrl',function($scope,$ionicModal){
-			$ionicModal.fromTemplateUrl('pkg-details', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
-	})	
 
-	.controller('pkgtermsCtrl',function($scope,$ionicModal){
-			$ionicModal.fromTemplateUrl('pkg-terms', {
+        .controller('packagingCtrl', function ($scope) {
+
+        })
+
+        .controller('PackagingDetailCtrl', function ($scope, $ionicModal) {
+
+
+        })
+
+        .controller('pkgDetailsCtrl', function ($scope, $ionicModal) {
+            $ionicModal.fromTemplateUrl('pkg-details', {
                 scope: $scope
             }).then(function (modal) {
                 $scope.modal = modal;
             });
-	})	
-		
-		.controller('infodoctrsCtrl',function($scope,$ionicModal){
-			$ionicModal.fromTemplateUrl('infodoctrs', {
+        })
+
+        .controller('pkgtermsCtrl', function ($scope, $ionicModal) {
+            $ionicModal.fromTemplateUrl('pkg-terms', {
                 scope: $scope
             }).then(function (modal) {
                 $scope.modal = modal;
             });
-	})	
-		.controller('packageConfirmCtrl',function($scope,$ionicModal){
-			
-	})		
-	
-	
-	/* packages */
-	.controller('ActivePackagesCtrl',function($scope){})
-	.controller('PackagesViewCtrl',function($scope){})
-	.controller('PastPackagesCtrl',function($scope){})
-	/* packages */
-	
-	
-	/* Pathology */
-		.controller('PathologyCtrl',function($scope){})
-		.controller('PackagesListCtrl',function($scope){})
-	/* Pathology */
-	
-	
-	
-	
-		
+        })
+
+        .controller('infodoctrsCtrl', function ($scope, $ionicModal) {
+            $ionicModal.fromTemplateUrl('infodoctrs', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+        })
+        .controller('packageConfirmCtrl', function ($scope, $ionicModal) {
+
+        })
+
+
+        /* packages */
+        .controller('ActivePackagesCtrl', function ($scope) {})
+        .controller('PackagesViewCtrl', function ($scope) {})
+        .controller('PastPackagesCtrl', function ($scope) {})
+        /* packages */
+
+
+        /* Pathology */
+        .controller('PathologyCtrl', function ($scope) {})
+        .controller('PackagesListCtrl', function ($scope) {})
+        /* Pathology */
+
+
+
+
+
         .controller('RescheduleCtrl', function ($scope, $http, $stateParams, $ionicLoading, $rootScope, $ionicHistory, $filter, $state) {
             $scope.cancelApp = function (appId, drId, mode, startTime) {
                 $scope.appId = appId;
