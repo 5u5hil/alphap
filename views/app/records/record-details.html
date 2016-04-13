@@ -127,7 +127,10 @@
                         <div ng-if="rec.fields.field == 'Related Problem'" class="fieldvalue">
                             {{problem[$index].value}}
                         </div>
-                        <div ng-if="rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem'" class="fieldvalue">
+                        <div ng-if="rec.fields.field == 'Patient'" class="fieldvalue">
+                            {{patient[$index].fname}} {{patient[$index].lname}}
+                        </div>
+                        <div ng-if="rec.fields.field != 'Patient' && rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem'" class="fieldvalue">
                             <div ng-if="rec.fields.field_type == 8">
                                 <div ng-if="rec.fields.field == 'End Date'">
                                     <div ng-if="rec.value == ''">NA</div>
