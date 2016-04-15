@@ -50,10 +50,28 @@
                     <span class="menu-text">Chats</span>
                 </ion-item>
 
+                <ion-item class="item-icon-left" nav-clear menu-close ui-sref="#" >
+                    <i class="cicon ion-cube"></i>
+                    <span class="ctitle">Library</span>	
+                    <div class="comingsoon">Coming Soon</div>
+                </ion-item>
+
+                <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.medicine">
+                    <i class="cicon ion-medkit"></i>
+                    <span class="ctitle">Medicines</span>
+                </ion-item> 
+
+                <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.pathology">
+                    <i class="cicon ion-erlenmeyer-flask"></i>
+                    <span class="ctitle">Pathology</span>
+                </ion-item>
+
                 <ion-item class="item-icon-left logoutbtn" nav-clear menu-close ng-if="userLogged == 1" ng-click="logout()" >
                     <i class="icon ion-android-unlock"></i>
                     <h2 class="menu-text">Logout</h2>
-                </ion-item> 
+                </ion-item>
+
+
 
 
             </ion-list>
