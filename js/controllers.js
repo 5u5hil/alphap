@@ -454,7 +454,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-
         .controller('MedicineCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
@@ -468,7 +467,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.modal.hide();
             };
         })
-
 
         .controller('AddressCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
@@ -484,8 +482,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-
-
         .controller('CloseModalCtrl', function ($scope, $ionicModal, $state) {
             $scope.modalclose = function (ulink) {
                 $state.go(ulink);
@@ -493,12 +489,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }
         })
 
-
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.images = [];
             $scope.image = [];
             $scope.tempImgs = [];
+            $scope.prescription = 'Yes';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             //$scope.curT = new Date()$filter('date')(new Date(), 'H:i');
@@ -577,7 +573,16 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     return trueOrigin;
                 }
             };
-
+            $scope.getPrescription = function (pre) {
+                console.log('pre ' + pre);
+                if (pre === ' No') {
+                    console.log("no");
+                    jQuery('#convalid').addClass('hide');
+                } else if (pre === 'Yes') {
+                    console.log("yes");
+                    jQuery('#convalid').removeClass('hide');
+                }
+            };
             //Take images with camera
             $scope.takePict = function (name) {
                 //console.log(name);
