@@ -2360,7 +2360,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         {
                             alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
                             $timeout.cancel(stopped);
-                            $state.go('app.consultations-list', {}, {reload: true});
+                            $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
                             // alert('Doctor Not Available');
                         } else {
                             window.localStorage.setItem('kookooid', response.data);
@@ -2369,7 +2369,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
                     }, function errorCallback(response) {
                         alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
-                    });
+                 //$state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
+                  $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
+                });
                 }
 
                 if ($scope.counter == 0) {
