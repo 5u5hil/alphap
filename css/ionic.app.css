@@ -6942,7 +6942,7 @@ a.button .icon:before, a.button.icon:before, a.button.icon-left:before, a.button
     margin-top: 2px; }
 
 .button.disabled, .button[disabled] {
-    opacity: .4;
+    opacity: .6;
     cursor: default !important;
     pointer-events: none; }
 
@@ -8975,12 +8975,12 @@ label.listreq{border-bottom-color:#f00 !important;}
 .brdT{border-top: 1px #eee solid;}
 form .item{margin-bottom: 1px;border-top: 0px;}
 
-.upattach{  display: inline-block;
-            width: 20px;
-            height: 20px;
-            text-align: center;
-            border: 1px #ccc solid;
-            margin: 2px;
+.upattach{      display: inline-block;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border: 1px #ccc solid;
+    margin: 10px 2px 0 2px;
 }
 
 .viewattachfile{padding-top:20px; width:100%; text-align:center;}
@@ -9014,8 +9014,21 @@ form .item{margin-bottom: 1px;border-top: 0px;}
               color: #fff;
               font-size: 11px;
               border-radius: 3px;}
-.filelabel{position:relative; overflow:hidden;}
-.filelabel label{display:block;   background:#28a54c; color:#fff; padding:7px 0; text-align:center; height: 34px;}
+.filelabel{    position: absolute;
+    top: 0;
+    z-index: 99;
+    right: 0;}
+
+.filelabel label{    display: block;
+    background: #28a54c;
+    color: #fff;
+    padding: 7px 20px;
+    text-align: center;
+    height: 36px;}
+.holderattach{height: 47px; border-bottom: 1px #eee solid;     margin-bottom: 1px;}
+.holderattach .remove{    float: right;
+    margin: 8px 8px 0 0;}
+
 .filelabel input[type="file"]{opacity:0; position:absolute; z-index:1; width:100%;}
 .btncamera{     width: 100%;
                 padding: 6px 0;
@@ -9111,7 +9124,7 @@ label.item .col{position:relative;}
     right: 15px;
     top: 37%;
     font-size: 12px; }
-	#chat{position:absolute; width:100%; top:45px;}
+	#chat{position:absolute; width:100%; top:0px;}
 	.bgwhite{background:#fff;}
 .flexcont{
     display: -webkit-flex; /* Safari */
@@ -9153,7 +9166,7 @@ input[type="date"]:before{
     line-height: 35px !important; text-decoration:none;}
 	.fieldvalue{ padding:10px;}
 
-
+.f22{font-size: 22px;}
 
 /* endcss */
 
