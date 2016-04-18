@@ -1,7 +1,7 @@
 <ion-view class="records-view">
     <ion-nav-title>
         <span>Records</span> 
-        <button class="button" ng-click="print()">Print</button>
+        <!---<button class="button" ng-click="print()">Print</button>--->
     </ion-nav-title>
 
     <div class="item item-divider mtop44" style="font-size: 18px; min-height: 45px; text-align:center;">
@@ -33,7 +33,10 @@
                                     <span ng-if="detail.fields.field == 'Related Problem'" >
                                         {{problems[$parent.$parent.$index].value}}
                                     </span>
-                                    <span ng-if="detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
+                                    <span ng-if="detail.fields.field == 'Patient'" >
+                                        {{patient[$parent.$parent.$index].fname}} {{patient[$parent.$parent.$index].lname}} 
+                                    </span>
+                                    <span ng-if="detail.fields.field != 'Patient' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
                                         <span ng-if="detail.fields.field_type == 8">{{detail.value|dateFormat4}}</span>
                                         <span ng-if="detail.fields.field_type == 12">{{detail.value|time1}}</span>
                                         <span ng-if="detail.fields.field_type != 8 && detail.fields.field_type != 12">{{detail.value}}</span>

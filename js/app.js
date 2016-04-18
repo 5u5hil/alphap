@@ -1,12 +1,11 @@
 // Ionic Starter App
-//var domain = "http://test.doctrs.in/";
 var domain = "http://stage.doctrs.in/";
+//var domain = "http://test.doctrs.in/";
 //var domain = "http://192.168.2.169/doctors/";
 angular.module('underscore', [])
         .factory('_', function () {
             return window._; // assumes underscore has already been loaded on the page
         });
-
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
@@ -117,11 +116,6 @@ angular.module('your_app_name', [
                         templateUrl: "views/auth/login.html",
                         controller: 'LoginCtrl'
                     })
-                    /*.state('auth.logout', {
-                     url: '/login',
-                     templateUrl: "views/auth/login.html",
-                     controller: 'LogoutCtrl'
-                     })*/
 
                     .state('auth.signup', {
                         url: '/signup',
@@ -428,101 +422,101 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-					/* packaging */
-					
-					.state('app.packaging',{
-						url:"/packaging",
-						views:{
-							'menuContent':{
-								templateUrl:"views/app/packaging/packaging.html",
-								controller:'packagingCtrl'
-							}
-						}
-					})
-					
-						.state('app.packaging-detail',{
-						url:"/packaging-detail",
-						views:{
-							'menuContent':{
-								templateUrl:"views/app/packaging/packaging-detail.html",
-								controller:'PackagingDetailCtrl'
-							}
-						}
-					})
-					
-						.state('app.package-confirm',{
-						url:"/package-confirm",
-						views:{
-							'menuContent':{
-								templateUrl:"views/app/packaging/package-confirm.html",
-								controller:'packageConfirmCtrl'
-							}
-						}
-					})
-					
-						.state('app.active-packages',{
-						url:"/active-packages",
-						views:{
-							'menuContent':{
-								templateUrl:"views/app/packaging/active-packages.html",
-								controller:'ActivePackagesCtrl'
-							}
-						}
-					})	
 
-					.state('app.packages-view',{
-						url:"/packages-view",
-						views:{
-							'menuContent':{
-								templateUrl:"views/app/packaging/packages-view.html",
-								controller:'PackagesViewCtrl'
-							}
-						}
-					})
-					
-					.state('app.past-packages',{
-						url:"/past-packages",
-						views:{
-							'menuContent':{
-								templateUrl:"views/app/packaging/past-packages.html",
-								controller:'PastPackagesCtrl'
-							}
-						}
-					})
-					
-					
-					/* end of packaging */
-					
-					
-					/* Pathology  */
-					.state('app.pathology',{
-						url:"/pathology",
-						views:{
-							'menuContent':{
-								templateUrl:"views/app/pathology/pathology.html",
-								controller:'PathologyCtrl'
-							}
-						}
-					})
-					 
-					 
-						.state('app.packages-list',{
-						url:"/packages-list",
-						views:{
-							'menuContent':{
-								templateUrl:"views/app/pathology/packages-list.html",
-								controller:'PackagesListCtrl'
-							}
-						}
-					}) 
-					 
-					 
-					 
-					 
-					/* End Pathology  */
-					
-					
+                    /* packaging */
+
+                    .state('app.packaging', {
+                        url: "/packaging",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/packaging/packaging.html",
+                                controller: 'packagingCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.packaging-detail', {
+                        url: "/packaging-detail",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/packaging/packaging-detail.html",
+                                controller: 'PackagingDetailCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.package-confirm', {
+                        url: "/package-confirm",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/packaging/package-confirm.html",
+                                controller: 'packageConfirmCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.active-packages', {
+                        url: "/active-packages",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/packaging/active-packages.html",
+                                controller: 'ActivePackagesCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.packages-view', {
+                        url: "/packages-view",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/packaging/packages-view.html",
+                                controller: 'PackagesViewCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.past-packages', {
+                        url: "/past-packages",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/packaging/past-packages.html",
+                                controller: 'PastPackagesCtrl'
+                            }
+                        }
+                    })
+
+
+                    /* end of packaging */
+
+
+                    /* Pathology  */
+                    .state('app.pathology', {
+                        url: "/pathology",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/pathology/pathology.html",
+                                controller: 'PathologyCtrl'
+                            }
+                        }
+                    })
+
+
+                    .state('app.packages-list', {
+                        url: "/packages-list",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/pathology/packages-list.html",
+                                controller: 'PackagesListCtrl'
+                            }
+                        }
+                    })
+
+
+
+
+                    /* End Pathology  */
+
+
 
                     .state('app.logout', {
                         url: "/logout",

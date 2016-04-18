@@ -70,7 +70,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             $state.go('app.category-list');
                             //}
                         } else {
-
                             $rootScope.userLogged = 0;
                             $scope.loginError = response;
                             $scope.loginError.digest;
@@ -288,11 +287,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 );
             };
         })
+
         .controller('AdsCtrl', function ($scope, $http, $state, $ionicActionSheet, AdMob, iAd, $ionicModal) {
+            $scope.interface = window.localStorage.getItem('interface_id');
             $http({
                 method: 'GET',
                 url: domain + 'records/get-record-categories',
-                params: {userId: $scope.userid}
+                params: {userId: $scope.userid, interface: $scope.interface}
             }).then(function successCallback(response) {
                 $scope.cats = response.data;
                 // angular.forEach(response.data, function (value, key) {
@@ -454,7 +455,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-
         .controller('MedicineCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
@@ -468,7 +468,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.modal.hide();
             };
         })
-
 
         .controller('AddressCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
@@ -484,8 +483,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-
-
         .controller('CloseModalCtrl', function ($scope, $ionicModal, $state) {
             $scope.modalclose = function (ulink) {
                 $state.go(ulink);
@@ -493,12 +490,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }
         })
 
-
-        .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
+        .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $ionicHistory, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.images = [];
             $scope.image = [];
             $scope.tempImgs = [];
+            $scope.prescription = 'Yes';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             //$scope.curT = new Date()$filter('date')(new Date(), 'H:i');
@@ -522,6 +519,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(response);
             });
             $scope.addOther = function (name, field, val) {
+                console.log(name, field, val);
                 addOther(name, field, val);
             };
             $scope.addNewElement = function (ele) {
@@ -546,6 +544,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         console.log(response);
                         $ionicLoading.hide();
                         if (angular.isObject(response.records)) {
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true
+                            });
                             $scope.image = [];
                             alert("Record added successfully!");
                             $timeout(function () {
@@ -561,6 +562,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         console.log(response);
                         $ionicLoading.hide();
                         if (angular.isObject(response.records)) {
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true
+                            });
                             alert("Record added successfully!");
                             $timeout(function () {
                                 $state.go('app.records-view', {'id': $scope.categoryId}, {}, {reload: true});
@@ -577,7 +581,16 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     return trueOrigin;
                 }
             };
-
+            $scope.getPrescription = function (pre) {
+                console.log('pre ' + pre);
+                if (pre === ' No') {
+                    console.log("no");
+                    jQuery('#convalid').addClass('hide');
+                } else if (pre === 'Yes') {
+                    console.log("yes");
+                    jQuery('#convalid').removeClass('hide');
+                }
+            };
             //Take images with camera
             $scope.takePict = function (name) {
                 //console.log(name);
@@ -647,7 +660,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
             };
 
-
             $scope.uploadPicture = function () {
                 //$ionicLoading.show({template: 'Uploading..'});
                 var fileURL = $scope.picData;
@@ -675,8 +687,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     //$ionicLoading.hide();
                 }, options);
             };
-
-
 
             $scope.chkDt = function (dt) {
                 console.log(dt);
@@ -755,7 +765,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     jQuery('#convalid').removeClass('hide');
                     jQuery('#coninprec').removeClass('hide');
                     //jQuery('#valid-till').attr('required', true);
-                    image_holder.append('<button class="button button-positive remove" onclick="removeFile()">Remove Files</button><br/>');
+                    image_holder.append('<button class="button button-small button-assertive remove icon ion-close" onclick="removeFile()"></button>');
                 } else {
                     jQuery('#convalid').addClass('hide');
                     jQuery('#coninprec').addClass('hide');
@@ -844,6 +854,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.createdby = response.data.createdby;
                 $scope.category = response.data.category;
                 $scope.doctors = response.data.doctors;
+                $scope.patient = response.data.patient;
                 $scope.problems = response.data.problems;
                 $scope.doctrs = response.data.shareDoctrs;
             }, function errorCallback(response) {
@@ -1016,6 +1027,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.category = response.data.record;
                 $scope.problem = response.data.problem;
                 $scope.doctors = response.data.doctrs;
+                $scope.patient = response.data.patient;
                 $scope.doctrs = response.data.shareDoctrs;
             }, function errorCallback(response) {
                 console.log(response);
@@ -1112,7 +1124,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('ConsultationsListCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
-
             $scope.dnlink = function ($nurl) {
                 $state.go($nurl);
             }
@@ -1146,6 +1157,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.clinic_app = response.data.clinic_app;
                 $scope.clinic_doctorsData = response.data.clinic_doctorsData;
                 $scope.clinic_products = response.data.clinic_products;
+                $scope.clinic_time = response.data.clinic_time;
+                $scope.clinic_end_time = response.data.clinic_end_time;
+
+                $scope.clinic_app_past = response.data.clinic_app_past;
+                $scope.clinic_doctorsData_past = response.data.clinic_doctorsData_past;
+                $scope.clinic_products_past = response.data.clinic_products_past;
+                $scope.clinic_time_past = response.data.clinic_time_past;
+                $scope.clinic_end_time = response.data.clinic_end_time;
                 //Home
                 $scope.home_app = response.data.home_app;
                 $scope.home_doctorsData = response.data.home_doctorsData;
@@ -1158,6 +1177,24 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, function errorCallback(e) {
                 console.log(e);
             });
+
+            $scope.deleteApp = function (appId, prodId, mode, startTime) {
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctorsapp/patient-delete-app',
+                    params: {appId: appId, prodId: prodId, userId: $scope.userId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    if (response.data == 1) {
+                        alert('Your appointment is cancelled successfully.');
+                        $state.go('app.consultations-current', {}, {reload: true});
+                    }
+                    //$state.go('app.consultations-current', {}, {reload: true});
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            };
+
             $scope.joinVideo = function (mode, start, end, appId) {
                 console.log(mode + "===" + start + '===' + end + "===" + $scope.curTime + "==" + appId);
                 if ($scope.curTime >= start || $scope.curTime <= end) {
@@ -1183,6 +1220,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }).then(function successCallback(response) {
                 $ionicLoading.hide();
                 $scope.doctors = response.data.user;
+                $scope.services = response.data.services;
                 angular.forEach($scope.doctors, function (value, key) {
                     $http({
                         method: 'GET',
@@ -1190,8 +1228,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         params: {id: value.id, interface: $scope.interface}
                     }).then(function successCallback(responseData) {
                         $ionicLoading.hide();
-                        $scope.getDprice = responseData.price;
-                        $scope.docServices[key] = responseData.data;
+                        console.log(responseData);
+                        $scope.docServices[key] = responseData.data.data;
                     }, function errorCallback(response) {
                         console.log(response);
                     });
@@ -1244,6 +1282,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.chatInc = response.data.chat_inclusions;
                 $scope.packages = response.data.packages;
                 $scope.services = response.data.services;
+                $scope.service = response.data.service;
                 //console.log("prodId " + $scope.instVideo + "popopo");
                 //$ionicLoading.hide();
                 angular.forEach($scope.videoSch, function (value, key) {
@@ -1354,8 +1393,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
             };
             $scope.getNextSlots = function (nextDate, supsassId, key, serv) {
-                console.log(nextDate + '=======' + supsassId + '=====' + key);
-                var from = $filter('date')(new Date(nextDate), 'yyyy-MM-dd HH:mm:ss');
+                console.log(nextDate + '=======' + supsassId + '=====' + key + "Seveice == " + serv);
+                var from = $filter('date')(new Date(nextDate), 'yyyy-MM-dd') + '+05:30:00';  // HH:mm:ss
                 $ionicLoading.show({template: 'Loading...'});
                 $http({
                     method: 'GET',
@@ -1372,6 +1411,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             $scope.nextdate[key] = $filter('date')(new Date(), 'yyyy-MM-dd');
                             $rootScope.$digest;
                         } else if (serv == 3) {
+                            console.log('Serv = if');
                             $scope.cSch[key] = responseData.data.slots;
                             $scope.schCdate[key] = new Date();
                             $scope.nextCdate[key] = $filter('date')(new Date(), 'yyyy-MM-dd');
@@ -1392,6 +1432,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             $scope.nextdate[key] = $filter('date')(new Date(tomorrow), 'yyyy-MM-dd');
                             $rootScope.$digest;
                         } else if (serv == 3) {
+                            console.log('Serv = else');
                             $scope.cSch[key] = responseData.data.slots;
                             $scope.schCdate[key] = new Date(responseData.data.lastdate);
                             var tomorrow = new Date(responseData.data.lastdate);
@@ -1570,7 +1611,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         method: 'GET',
                         url: domain + 'kookoo/payment-time-expired',
                         params: {kookooid: $scope.kookooID}
-
                     }).then(function successCallback(responseData) {
                         alert('Sorry, Your payment time expired');
                         window.localStorage.removeItem('kookooid');
@@ -1625,15 +1665,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $http({
                     method: 'GET',
                     url: domain + 'buy/book-appointment',
-                    params: {prodId: $scope.prodid, userId: $scope.userId, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
+                    params: {prodId: $scope.prodid, userId: $scope.userId, supId: $scope.supid, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
                 }).then(function successCallback(response) {
                     $ionicLoading.hide();
-                    if (response.data.httpcode == 'success')
-                    {
-                        $state.go('app.success', {'id': response.data.orderId, 'serviceId': response.data.scheduleId});
-                    } else {
-                        $state.go('app.failure', {'id': response.data.orderId, 'serviceId': response.data.scheduleId});
-                    }
+                    $state.go('app.thankyou', {'data': 'success'}, {reload: true});
                 }, function errorCallback(response) {
                     console.log(response);
                 });
@@ -1664,6 +1699,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     window.localStorage.setItem('coupondiscount', '')
                     console.log(response.data);
                     if (finalamount > 0) {
+                        $timeout.cancel(stopped1);
                         $state.go('app.Gopay', {'link': response.data});
                         console.log(response.data);
                     } else {
@@ -1740,6 +1776,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $ionicHistory.nextViewOptions({
                     disableBack: true
                 });
+                window.localStorage.removeItem('startSlot');
+                window.localStorage.removeItem('endSlot');
+                window.localStorage.removeItem('prodId');
+                window.localStorage.removeItem('supid');
+                window.localStorage.removeItem('mode');
                 window.localStorage.removeItem('kookooid');
                 window.localStorage.removeItem('coupondiscount');
                 window.localStorage.removeItem('IVendSlot');
@@ -1869,7 +1910,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 //$scope.oToken = "https://test.doctrs.in/opentok/opentok?session=" + response.data.app[0].appointments.opentok_session_id;
                 var apiKey = '45121182';
                 var sessionId = response.data.app[0].appointments.opentok_session_id;
+                console.log('sessionId' + sessionId);
                 var token = response.data.oToken;
+                console.log('token' + token);
                 if (OT.checkSystemRequirements() == 1) {
                     session = OT.initSession(apiKey, sessionId);
                     $ionicLoading.hide();
@@ -1970,7 +2013,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.msg = [];
             $http({
                 method: 'GET',
-                url: domain + 'doctorsapp/get-chats',
+                url: domain + 'doctorsapp/get-active-chats',
                 params: {drid: $scope.doctorId}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
@@ -2313,7 +2356,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         {
                             alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
                             $timeout.cancel(stopped);
-                            $state.go('app.consultations-list', {}, {reload: true});
+                            $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
                             // alert('Doctor Not Available');
                         } else {
                             window.localStorage.setItem('kookooid', response.data);
@@ -2322,7 +2365,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
                     }, function errorCallback(response) {
                         alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
-                    });
+                 //$state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
+                  $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
+                });
                 }
 
                 if ($scope.counter == 0) {
@@ -2353,60 +2398,60 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-		
-		.controller('packagingCtrl',function($scope){
-			
-			})
-			
-	.controller('PackagingDetailCtrl',function($scope,$ionicModal){
-	
-				
-			})
-		
-	.controller('pkgDetailsCtrl',function($scope,$ionicModal){
-			$ionicModal.fromTemplateUrl('pkg-details', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
-	})	
 
-	.controller('pkgtermsCtrl',function($scope,$ionicModal){
-			$ionicModal.fromTemplateUrl('pkg-terms', {
+        .controller('packagingCtrl', function ($scope) {
+
+        })
+
+        .controller('PackagingDetailCtrl', function ($scope, $ionicModal) {
+
+
+        })
+
+        .controller('pkgDetailsCtrl', function ($scope, $ionicModal) {
+            $ionicModal.fromTemplateUrl('pkg-details', {
                 scope: $scope
             }).then(function (modal) {
                 $scope.modal = modal;
             });
-	})	
-		
-		.controller('infodoctrsCtrl',function($scope,$ionicModal){
-			$ionicModal.fromTemplateUrl('infodoctrs', {
+        })
+
+        .controller('pkgtermsCtrl', function ($scope, $ionicModal) {
+            $ionicModal.fromTemplateUrl('pkg-terms', {
                 scope: $scope
             }).then(function (modal) {
                 $scope.modal = modal;
             });
-	})	
-		.controller('packageConfirmCtrl',function($scope,$ionicModal){
-			
-	})		
-	
-	
-	/* packages */
-	.controller('ActivePackagesCtrl',function($scope){})
-	.controller('PackagesViewCtrl',function($scope){})
-	.controller('PastPackagesCtrl',function($scope){})
-	/* packages */
-	
-	
-	/* Pathology */
-		.controller('PathologyCtrl',function($scope){})
-		.controller('PackagesListCtrl',function($scope){})
-	/* Pathology */
-	
-	
-	
-	
-		
+        })
+
+        .controller('infodoctrsCtrl', function ($scope, $ionicModal) {
+            $ionicModal.fromTemplateUrl('infodoctrs', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+        })
+        .controller('packageConfirmCtrl', function ($scope, $ionicModal) {
+
+        })
+
+
+        /* packages */
+        .controller('ActivePackagesCtrl', function ($scope) {})
+        .controller('PackagesViewCtrl', function ($scope) {})
+        .controller('PastPackagesCtrl', function ($scope) {})
+        /* packages */
+
+
+        /* Pathology */
+        .controller('PathologyCtrl', function ($scope) {})
+        .controller('PackagesListCtrl', function ($scope) {})
+        /* Pathology */
+
+
+
+
+
         .controller('RescheduleCtrl', function ($scope, $http, $stateParams, $ionicLoading, $rootScope, $ionicHistory, $filter, $state) {
             $scope.cancelApp = function (appId, drId, mode, startTime) {
                 $scope.appId = appId;

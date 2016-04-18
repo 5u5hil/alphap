@@ -4,173 +4,185 @@
     </ion-nav-title>
     <ion-content>
         <div class="pb50">
-           
-                <div ng-repeat="rec in recordDetails track by $index">
-                    <div ng-if="category[0].category == 3">
-                       <div class="item item-divider" >{{rec.fields.field}} {{rec.fields.is_mandatory==1? '*':''}}</div>
-                        <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" class="fieldvalue" >
-                            <!--- ng-show="angular.isNumber(rec.value)"  -->
-                            <div>{{doctors[$index].fname}} {{doctors[$index].lname}}</div>
-                        </div>
-                        <div ng-if="rec.fields.field == 'Related Problem'" class="fieldvalue">
-                            {{problem[$index].value}}
-                        </div>
-                        <div ng-if="rec.fields.field == 'Frequency'" ng-init="fdata = ((rec.value) / 24)" class="fieldvalue">
-                            {{fdata}} times in day
-                        </div>
-                        <!--                        <div ng-if="rec.fields.field == 'Frequency'" ng-init="fdata = (rec.value).split('-')">
-                                                    {{fdata[0]}} times in {{fdata[1]}}
-                                                </div>-->
-                        <div ng-if="rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem' && rec.fields.field != 'Frequency'" class="fieldvalue">
-                            <div ng-if="rec.fields.field_type == 8">
-                                <div ng-if="rec.fields.field == 'End Date'">
-                                    <div ng-if="rec.value == ''">NA</div>
-                                    <div ng-if="rec.value == '0000-00-00'"> NA </div>
-                                    <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
-                                </div>
-                                <div ng-if="rec.fields.field != 'End Date'">
-                                    <div ng-if="rec.value == ''">NA</div>
-                                    <div ng-if="rec.value == '0000-00-00'"> NA </div>
-                                    <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
-                                </div>
-                            </div>
-                            <div ng-if="rec.fields.field_type == 12">
-                                <div ng-if="rec.value == ''"> NA </div>
-                                <div ng-if="rec.value == '00:00:00'"> NA </div>
-                                <div ng-if="rec.value != '00:00:00'">{{rec.value|time1}}</div>
-                            </div>
-                            <div ng-if="rec.fields.field_type != 8 && rec.fields.field_type != 12"> {{rec.value}}</div>
-                        </div>
-                        <div class="clist-data-icon fieldvalue" ng-If="rec.fields.field == 'Attachments'" >
-                            <h5 class="mt0">Attached Files ({{rec.attachments.length}})</h5>
-                            <!--  <a href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}" target="_blank" class="button button-outline button-positive" style="width:100%" ng-If="rec.attachments.length > 0" ng-repeat="attach in rec.attachments" >
-                                 <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})</a> -->
-                            <div ng-repeat="attach in rec.attachments" >
-                                <div ng-init="selData = (attach.orginial_name).split('.')">
-                                    <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
-                                        <a class="filelink" ng-click="showm('{{attach.attachment_path}}','{{attach.orginial_name}}')" >
-                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
-                                        </a>
-                                    </div>
-                                    <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
-                                        <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
-                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
-                                        </a>
-                                    </div>
-                                </div>
 
+            <div ng-repeat="rec in recordDetails track by $index">
+                <div ng-if="category[0].category == 3">
+                    <div class="item item-divider" >{{rec.fields.field}} {{rec.fields.is_mandatory==1? '*':''}}</div>
+                    <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" class="fieldvalue" >
+                        <!--- ng-show="angular.isNumber(rec.value)"  -->
+                        <div>{{doctors[$index].fname}} {{doctors[$index].lname}}</div>
+                    </div>
+                    <div ng-if="rec.fields.field == 'Related Problem'" class="fieldvalue">
+                        {{problem[$index].value}}
+                    </div>
+                    <div ng-if="rec.fields.field == 'Frequency'" ng-init="fdata = ((rec.value) / 24)" class="fieldvalue">
+                        {{fdata}} times in day
+                    </div>
+                    <!--                        <div ng-if="rec.fields.field == 'Frequency'" ng-init="fdata = (rec.value).split('-')">
+                                                {{fdata[0]}} times in {{fdata[1]}}
+                                            </div>-->
+                    <div ng-if="rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem' && rec.fields.field != 'Frequency'" class="fieldvalue">
+                        <div ng-if="rec.fields.field_type == 8">
+                            <div ng-if="rec.fields.field == 'End Date'">
+                                <div ng-if="rec.value == ''">NA</div>
+                                <div ng-if="rec.value == '0000-00-00'"> NA </div>
+                                <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
                             </div>
-                            <div class="clr"></div>		
+                            <div ng-if="rec.fields.field != 'End Date'">
+                                <div ng-if="rec.value == ''">NA</div>
+                                <div ng-if="rec.value == '0000-00-00'"> NA </div>
+                                <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
+                            </div>
+                        </div>
+                        <div ng-if="rec.fields.field_type == 12">
+                            <div ng-if="rec.value == ''"> NA </div>
+                            <div ng-if="rec.value == '00:00:00'"> NA </div>
+                            <div ng-if="rec.value != '00:00:00'">{{rec.value|time1}}</div>
+                        </div>
+                        <div ng-if="rec.fields.field_type != 8 && rec.fields.field_type != 12">
+                            <div ng-if="rec.value == ''">NA</div>
+                            <div ng-if="rec.value != ''">{{rec.value}}</div>
                         </div>
                     </div>
-                    <div ng-if="category[0].category == 7" >
-                      <div class="item item-divider" >{{rec.fields.field}} {{rec.fields.is_mandatory==1? '*':''}}</div>
-                        <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" class="fieldvalue" >
-                            <!--- ng-show="angular.isNumber(rec.value)"  -->
-                            <div>{{doctors[$index].fname}} {{doctors[$index].lname}}</div>
-                        </div>
-                        <div ng-if="rec.fields.field == 'Related Problem'" class="fieldvalue">
-                            {{problem[$index].value}}
-                        </div>
-                        <div ng-if="rec.fields.field == 'Payment Mode'" class="fieldvalue">
-                            <div ng-if="rec.value == '0'">NA</div>
-                            <div ng-if="rec.value != '0'">{{rec.value}}</div>
-                        </div>
-                        <div ng-if="rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem' && rec.fields.field != 'Payment Mode'" class="fieldvalue">
-                            <div ng-if="rec.fields.field_type == 8">
-                                <div ng-if="rec.fields.field == 'End Date'">
-                                    <div ng-if="rec.value == ''"></div>
-                                    <div ng-if="rec.value == '0000-00-00'"> </div>
-                                    <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
+                    <div class="clist-data-icon fieldvalue" ng-If="rec.fields.field == 'Attachments'" >
+                        <h5 class="mt0">Attached Files ({{rec.attachments.length}})</h5>
+                        <!--  <a href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}" target="_blank" class="button button-outline button-positive" style="width:100%" ng-If="rec.attachments.length > 0" ng-repeat="attach in rec.attachments" >
+                             <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})</a> -->
+                        <div ng-repeat="attach in rec.attachments" >
+                            <div ng-init="selData = (attach.orginial_name).split('.')">
+                                <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                    <a class="filelink" ng-click="showm('{{attach.attachment_path}}','{{attach.orginial_name}}')" >
+                                        <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                    </a>
                                 </div>
-                                <div ng-if="rec.fields.field != 'End Date'">
-                                    <div ng-if="rec.value == ''"></div>
-                                    <div ng-if="rec.value == '0000-00-00'">  </div>
-                                    <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
+                                <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                    <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
+                                        <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                    </a>
                                 </div>
                             </div>
-                            <div ng-if="rec.fields.field_type == 12">
-                                <div ng-if="rec.value == ''"> NA </div>
-                                <div ng-if="rec.value == '00:00:00'"> NA </div>
-                                <div ng-if="rec.value != '00:00:00'">{{rec.value|time1}}</div>
-                            </div>
-                            <div ng-if="rec.fields.field_type != 8 && rec.fields.field_type != 12"> {{rec.value}}</div>
-                        </div>
-                        <div class="clist-data-icon fieldvalue" ng-If="rec.fields.field == 'Attachments'" >
-                            <h5 class="mt0">Attached Files ({{rec.attachments.length}})</h5>
-                            <!--  <a href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}" target="_blank" class="button button-outline button-positive" style="width:100%" ng-If="rec.attachments.length > 0" ng-repeat="attach in rec.attachments" >
-                                 <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})</a> -->
-                            <div ng-repeat="attach in rec.attachments" >
-                                <div ng-init="selData = (attach.orginial_name).split('.')">
-                                    <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
-                                        <a class="filelink" ng-click="showm('{{attach.attachment_path}}','{{attach.orginial_name}}')" >
-                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
-                                        </a>
-                                    </div>
-                                    <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
-                                        <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
-                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
-                                        </a>
-                                    </div>
-                                </div>
 
-                            </div>
-                            <div class="clr"></div>		
                         </div>
-                    </div>
-                    <div ng-if="category[0].category != 3 && category[0].category != 7">
-                       <div class="item item-divider" >{{rec.fields.field}} {{rec.fields.is_mandatory==1? '*':''}}</div>
-                        <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" >
-                            <!--- ng-show="angular.isNumber(rec.value)"  -->
-                            <div class="fieldvalue">{{doctors[$index].fname}} {{doctors[$index].lname}}</div>
-                        </div>
-                        <div ng-if="rec.fields.field == 'Related Problem'" class="fieldvalue">
-                            {{problem[$index].value}}
-                        </div>
-                        <div ng-if="rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem'" class="fieldvalue">
-                            <div ng-if="rec.fields.field_type == 8">
-                                <div ng-if="rec.fields.field == 'End Date'">
-                                    <div ng-if="rec.value == ''">NA</div>
-                                    <div ng-if="rec.value == '0000-00-00'"> NA </div>
-                                    <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
-                                </div>
-                                <div ng-if="rec.fields.field != 'End Date'">
-                                    <div ng-if="rec.value == ''"></div>
-                                    <div ng-if="rec.value == '0000-00-00'"> </div>
-                                    <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
-                                </div>
-                            </div>
-                            <div ng-if="rec.fields.field_type == 12">                                
-                                <div ng-if="rec.value == ''"> NA </div>
-                                <div ng-if="rec.value == '00:00:00'"> NA </div>
-                                <div ng-if="rec.value != '00:00:00' && rec.value != ''">{{rec.value|time1}}</div>
-                            </div>
-                            <div ng-if="rec.fields.field_type != 8 && rec.fields.field_type != 12"> {{rec.value}}</div>
-                        </div>
-                        <div class="clist-data-icon fieldvalue" ng-if="rec.fields.field == 'Attachments'" >
-                            <h5 class="mt0">Attached Files ({{rec.attachments.length}})</h5>
-                            <!--  <a href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}" target="_blank" class="button button-outline button-positive" style="width:100%" ng-If="rec.attachments.length > 0" ng-repeat="attach in rec.attachments" >
-                                 <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})</a> -->
-                            <div ng-repeat="attach in rec.attachments" >
-                                <div ng-init="selData = (attach.orginial_name).split('.')">
-                                    <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
-                                        <a class="filelink" ng-click="showm('{{attach.attachment_path}}','{{attach.orginial_name}}')" >
-                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
-                                        </a>
-                                    </div>
-                                    <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
-                                        <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
-                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="clr"></div>		
-                        </div>
+                        <div class="clr"></div>		
                     </div>
                 </div>
-          
+                <div ng-if="category[0].category == 7" >
+                    <div class="item item-divider" >{{rec.fields.field}} {{rec.fields.is_mandatory==1? '*':''}}</div>
+                    <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" class="fieldvalue" >
+                        <!--- ng-show="angular.isNumber(rec.value)"  -->
+                        <div>{{doctors[$index].fname}} {{doctors[$index].lname}}</div>
+                    </div>
+                    <div ng-if="rec.fields.field == 'Related Problem'" class="fieldvalue">
+                        {{problem[$index].value}}
+                    </div>
+                    <div ng-if="rec.fields.field == 'Payment Mode'" class="fieldvalue">
+                        <div ng-if="rec.value == '0'">NA</div>
+                        <div ng-if="rec.value != '0'">{{rec.value}}</div>
+                    </div>
+                    <div ng-if="rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem' && rec.fields.field != 'Payment Mode'" class="fieldvalue">
+                        <div ng-if="rec.fields.field_type == 8">
+                            <div ng-if="rec.fields.field == 'End Date'">
+                                <div ng-if="rec.value == ''"></div>
+                                <div ng-if="rec.value == '0000-00-00'"> </div>
+                                <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
+                            </div>
+                            <div ng-if="rec.fields.field != 'End Date'">
+                                <div ng-if="rec.value == ''"></div>
+                                <div ng-if="rec.value == '0000-00-00'">  </div>
+                                <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
+                            </div>
+                        </div>
+                        <div ng-if="rec.fields.field_type == 12">
+                            <div ng-if="rec.value == ''"> NA </div>
+                            <div ng-if="rec.value == '00:00:00'"> NA </div>
+                            <div ng-if="rec.value != '00:00:00'">{{rec.value|time1}}</div>
+                        </div>
+                        <div ng-if="rec.fields.field_type != 8 && rec.fields.field_type != 12"> 
+                            <div ng-if="rec.value == ''">NA</div>
+                            <div ng-if="rec.value != ''">{{rec.value}}</div>
+                        </div>
+                    </div>
+                    <div class="clist-data-icon fieldvalue" ng-If="rec.fields.field == 'Attachments'" >
+                        <h5 class="mt0">Attached Files ({{rec.attachments.length}})</h5>
+                        <!--  <a href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}" target="_blank" class="button button-outline button-positive" style="width:100%" ng-If="rec.attachments.length > 0" ng-repeat="attach in rec.attachments" >
+                             <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})</a> -->
+                        <div ng-repeat="attach in rec.attachments" >
+                            <div ng-init="selData = (attach.orginial_name).split('.')">
+                                <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                    <a class="filelink" ng-click="showm('{{attach.attachment_path}}','{{attach.orginial_name}}')" >
+                                        <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                    </a>
+                                </div>
+                                <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                    <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
+                                        <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="clr"></div>		
+                    </div>
+                </div>
+                <div ng-if="category[0].category != 3 && category[0].category != 7">
+                    <div class="item item-divider" >{{rec.fields.field}} {{rec.fields.is_mandatory==1? '*':''}}</div>
+                    <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" >
+                        <!--- ng-show="angular.isNumber(rec.value)"  -->
+                        <div class="fieldvalue">{{doctors[$index].fname}} {{doctors[$index].lname}}</div>
+                    </div>
+                    <div ng-if="rec.fields.field == 'Related Problem'" class="fieldvalue">
+                        {{problem[$index].value}}
+                    </div>
+                    <div ng-if="rec.fields.field == 'Patient'" class="fieldvalue">
+                        {{patient[$index].fname}} {{patient[$index].lname}}
+                    </div>
+                    <div ng-if="rec.fields.field != 'Patient' && rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem'" class="fieldvalue">
+                        <div ng-if="rec.fields.field_type == 8">
+                            <div ng-if="rec.fields.field == 'End Date'">
+                                <div ng-if="rec.value == ''">NA</div>
+                                <div ng-if="rec.value == '0000-00-00'"> NA </div>
+                                <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
+                            </div>
+                            <div ng-if="rec.fields.field != 'End Date'">
+                                <div ng-if="rec.value == ''"></div>
+                                <div ng-if="rec.value == '0000-00-00'"> </div>
+                                <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
+                            </div>
+                        </div>
+                        <div ng-if="rec.fields.field_type == 12">                                
+                            <div ng-if="rec.value == ''"> NA </div>
+                            <div ng-if="rec.value == '00:00:00'"> NA </div>
+                            <div ng-if="rec.value != '00:00:00' && rec.value != ''">{{rec.value|time1}}</div>
+                        </div>
+                        <div ng-if="rec.fields.field_type != 8 && rec.fields.field_type != 12"> 
+                            <div ng-if="rec.value == ''">NA</div>
+                            <div ng-if="rec.value != ''">{{rec.value}}</div>
+                        </div>
+                    </div>
+                    <div class="clist-data-icon fieldvalue" ng-if="rec.fields.field == 'Attachments'" >
+                        <h5 class="mt0">Attached Files ({{rec.attachments.length}})</h5>
+                        <!--  <a href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}" target="_blank" class="button button-outline button-positive" style="width:100%" ng-If="rec.attachments.length > 0" ng-repeat="attach in rec.attachments" >
+                             <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})</a> -->
+                        <div ng-repeat="attach in rec.attachments" >
+                            <div ng-init="selData = (attach.orginial_name).split('.')">
+                                <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                    <a class="filelink" ng-click="showm('{{attach.attachment_path}}','{{attach.orginial_name}}')" >
+                                        <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                    </a>
+                                </div>
+                                <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                    <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
+                                        <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="clr"></div>		
+                    </div>
+                </div>
+            </div>
+
         </div>
         <!---
         <div class="ctab">
