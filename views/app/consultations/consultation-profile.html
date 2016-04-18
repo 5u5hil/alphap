@@ -32,7 +32,7 @@
                         <my-tabs class="themetabs">
                             <div ng-repeat="serv in services">
                                 <my-tab  icon="ion-calendar tabicon" title="Scheduled Video"  ng-if="serv == 1">
-                                    <div class="tabc2">
+                                    <div class="">
                                         <div class="item-price">Price : INR {{videoProd.interfacePrice}}</div>
                                         <div class="mt15"> 
                                             <ul class="clist">
@@ -54,6 +54,12 @@
                                                     <input type="date" ng-model="schdate[$index]" value="schdate[$index]|dateFormat1" ng-change="getNextSlots(schdate[$index], vs.supersaas_id, $index, serv)"/>
                                                     <input type="hidden" ng-model="nextdate[$index]" value="nextdate[$index]|datetime"/>
                                                     <div class="rightarrow" ng-click="getNextSlots(nextdate, vs.supersaas_id, $index, serv)">Next Slot</div>
+													
+											
+													
+													
+													
+													
                                                 </div>
                                                 <div ng-if="schV[$index] == vs.supersaas_id">
                                                     {{vSch[$index]==''? 'No slots available':''}}
