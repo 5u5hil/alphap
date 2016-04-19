@@ -496,8 +496,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.image = [];
             $scope.tempImgs = [];
             $scope.prescription = 'Yes';
+            $scope.coverage = 'Family Floater';
+            $scope.probstatus = 'Current';
             $scope.curTime = new Date();
-            $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+            $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
             //$scope.curT = new Date()$filter('date')(new Date(), 'H:i');
             $scope.userId = get('id');
             $scope.categoryId = $stateParams.id;
@@ -515,6 +517,29 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.problems = response.data.problems;
                 $scope.doctrs = response.data.doctrs;
                 $scope.category = $stateParams.id;
+                if ($scope.category == '6') {
+                    angular.forEach($scope.fields, function (value, key) {
+                        if (value.field == 'Coverage') {
+                            $scope.coverage = 'Family Floater';
+                        }
+                    });
+                }
+                if ($scope.category == '14') {
+                    angular.forEach($scope.fields, function (value, key) {
+                        if (value.field == 'Status') {
+                            console.log(value.field);
+                            $scope.probstatus = 'Current';
+                        }
+                    });
+                }
+//                if ($scope.category == '5') {
+//                    angular.forEach($scope.fields, function (value, key) {
+//                        if(value.field == 'Status'){
+//                            $scope.invStatus = 'Conducted';
+//                            $scope.check(1);
+//                        }
+//                    });
+//                }
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -547,7 +572,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             $ionicHistory.nextViewOptions({
                                 historyRoot: true
                             });
-                            $scope.image = [];
+                            //$scope.image = [];
                             alert("Record added successfully!");
                             $timeout(function () {
                                 $state.go('app.records-view', {'id': $scope.categoryId}, {}, {reload: true});
@@ -708,6 +733,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         jQuery('#billmode').addClass('hide');
                     }
                 }
+                if ($scope.categoryId == 3) {
+                    if (val) {
+                        jQuery('#mediStatus').val('Active');
+                    } else {
+                        jQuery('#mediStatus').val('Inactive');
+                    }
+                }
                 if ($scope.categoryId == 2) {
                     if (val) {
                         jQuery('#immrcvdate').val('Received');
@@ -723,16 +755,18 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     if (val) {
                         jQuery('#proconduct').val('Conducted On');
                         jQuery('#proconon').removeClass('hide');
+                        jQuery('.proc').removeClass('hide');
                         jQuery('#proconbef').addClass('hide');
                     } else {
                         jQuery('#proconduct').val('To be conducted');
                         jQuery('#proconon').addClass('hide');
+                        jQuery('.proc').addClass('hide');
                         jQuery('#proconbef').removeClass('hide');
                     }
                 }
                 if ($scope.categoryId == 5) {
                     if (val) {
-                        jQuery('#invconduct').val('Conducted On');
+                        jQuery('#invconduct').val('Conducted');
                         jQuery('#invconon').removeClass('hide');
                         jQuery('.inv').removeClass('hide');
                         jQuery('#invconbef').addClass('hide');
@@ -744,15 +778,39 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     }
                 }
             };
+
             $scope.rcheck = function (val) {
                 console.log(val);
                 if ($scope.categoryId == 2) {
                     if (val) {
+                        jQuery('#immrepeat').val('Yes');
                         jQuery('#imrpton').removeClass('hide');
-                        jQuery('.imd').removeClass('hide');
+                        //jQuery('.imd').removeClass('hide');
                     } else {
+                        jQuery('#immrepeat').val('No');
                         jQuery('#imrpton').addClass('hide');
-                        jQuery('.imd').addClass('hide');
+                        //jQuery('.imd').addClass('hide');
+                    }
+                }
+            };
+            $scope.shCheck = function (val) {
+                console.log(val);
+                if ($scope.categoryId == 3) {
+                    if (val == '') {
+                        jQuery('#prescribeDt').addClass('hide');
+                    } else {
+                        jQuery('#prescribeDt').removeClass('hide');
+                    }
+                }
+
+            };
+            $scope.radChange = function (prob) {
+                console.log(prob);
+                if ($scope.categoryId == 14) {
+                    if (prob != 'Past') {
+                        jQuery('#probend').addClass('hide');
+                    } else {
+                        jQuery('#probend').removeClass('hide');
                     }
                 }
             };
@@ -1013,6 +1071,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
             $scope.recordId = $stateParams.id;
             $scope.userId = get('id');
+            $scope.Bstatus = '';
+            $scope.Istatus = '';
+            $scope.repeatStatus = '';
+            $scope.InvStatus = '';
+            $scope.probstatus = '';
+            $scope.prescstatus = '';
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.isNumber = function (num) {
                 return angular.isNumber(num);
@@ -1029,6 +1093,38 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.doctors = response.data.doctrs;
                 $scope.patient = response.data.patient;
                 $scope.doctrs = response.data.shareDoctrs;
+                angular.forEach($scope.recordDetails, function (val, key) {
+                    if ($scope.category[0].categories.id == '7') {
+                        console.log(val.fields.field);
+                        if (val.fields.field == 'Status') {
+                            $scope.Bstatus = val.value;
+                        }
+                    }
+                    if ($scope.category[0].categories.id == '2') {
+                        if (val.fields.field == 'Status') {
+                            $scope.Istatus = val.value;
+                        }
+                        if (val.fields.field == 'Repeat') {
+                            $scope.repeatStatus = val.value;
+                        }
+
+                    }
+                    if ($scope.category[0].categories.id == '5' || $scope.category[0].categories.id == '4') {
+                        if (val.fields.field == 'Status') {
+                            $scope.InvStatus = val.value;
+                        }
+                    }
+                    if ($scope.category[0].categories.id == '14') {
+                        if (val.fields.field == 'Status') {
+                            $scope.probstatus = val.value;
+                        }
+                    }
+                    if ($scope.category[0].categories.id == '8') {
+                        if (val.fields.field == 'Includes Prescription') {
+                            $scope.prescstatus = val.value;
+                        }
+                    }
+                });
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -2365,9 +2461,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
                     }, function errorCallback(response) {
                         alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
-                 //$state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
-                  $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
-                });
+                        //$state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
+                        $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
+                    });
                 }
 
                 if ($scope.counter == 0) {
