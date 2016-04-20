@@ -848,7 +848,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-        .controller('ThankyouCtrl', function ($scope, $http, $stateParams) { })
 
         .controller('EditRecordCtrl', function ($scope, $http, $state, $stateParams, $sce) {
             $scope.fields = [];
@@ -1701,7 +1700,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 if ($scope.counter1 == 0) {
                     //console.log('fadsf af daf');
                     $timeout.cancel(stopped1);
-                    $scope.kookooID = window.localStorage.getItem('kookooid');
+                    $scope.kookooID = window.localStorage.getItem('kookooid1');
                     $scope.prodid = window.localStorage.getItem('prodId');
                     $http({
                         method: 'GET',
@@ -1710,6 +1709,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     }).then(function successCallback(responseData) {
                         alert('Sorry, Your payment time expired');
                         window.localStorage.removeItem('kookooid');
+                          window.localStorage.removeItem('kookooid1');
                         $timeout(function () {
                             // $state.go('app.consultation-profile', {'id':$scope.product[0].user_id}, {reload: true});
                             $state.go('app.consultations-list', {reload: true});
@@ -1878,6 +1878,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 window.localStorage.removeItem('supid');
                 window.localStorage.removeItem('mode');
                 window.localStorage.removeItem('kookooid');
+                  window.localStorage.removeItem('kookooid1');
                 window.localStorage.removeItem('coupondiscount');
                 window.localStorage.removeItem('IVendSlot');
                 window.localStorage.removeItem('IVstartSlot');
