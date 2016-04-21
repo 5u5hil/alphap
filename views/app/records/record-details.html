@@ -393,7 +393,23 @@
                             <ul><li ng-repeat="sel in selConditions[$index]">{{sel.condition}}</li></ul>
                         </div>
                     </div>
-                    <div ng-if="rec.fields.name != 'how-it-ended' && rec.fields.name != 'quick-history'" >
+					
+					
+					<div ng-if="rec.fields.name == 'no-of-days'">
+                        <div class="listreq" ng-if="rec.fields.is_mandatory == 1" ><div class="item item-divider" >{{rec.fields.field}} *</div> </div>
+                        <div class="item item-divider" ng-if="rec.fields.is_mandatory != 1" >{{rec.fields.field}} </div>
+                        <div class="fieldvalue" >
+                          <div class="dietdays">
+						  <button class="button button-positive button-small inbtn">
+						  <span class="icon ion-plus-circled"></span> Day 1</button>
+						  
+						  <button class="button button-positive button-small inbtn"><span class="icon ion-plus-circled"></span> Day 2</button>
+						  </div>
+                        </div>
+                    </div>
+					
+                    <div ng-if="rec.fields.name != 'how-it-ended' 
+					&& rec.fields.name != 'no-of-days' && rec.fields.name != 'quick-history'" >
                         <div class="listreq" ng-if="rec.fields.is_mandatory == 1" ><div class="item item-divider" >{{rec.fields.field}} *</div> </div>
                         <div class="item item-divider" ng-if="rec.fields.is_mandatory != 1" >{{rec.fields.field}} </div>
                         <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" >

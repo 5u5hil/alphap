@@ -916,7 +916,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 for (var i = 1; i <= days; i++) {
                     $scope.mealDetails['day' + (i - 1)] = [{time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}];
                     //dietDays = $compile('<input type="hidden" id="day' + (i-1) + '" name="day-' + i + '" value=""/><div class="item item-divider">Day ' + i + '<button class="Cstmbutn button-small mb15 col-25" style="float:right; padding:0;" ng-click="showModal(' + i + ')"><span class="icon ion-plus-circled"></span> Day </button></div><label class="item item-input"></label>')($scope);
-                    dietDays = $compile('<input type="hidden" id="day' + (i - 1) + '" name="day-' + i + '" value=""/><button class="button-positive button-small col-25" style="float:right; padding:0;" ng-click="showModal(' + i + ')"><span class="icon ion-plus-circled"></span> Day ' + i + '</button>')($scope);
+                    dietDays = $compile('<input type="hidden" id="day' + (i - 1) + '" name="day-' + i + '" value=""/><button class="button button-positive button-small inbtn" ng-click="showModal(' + i + ')"><span class="icon ion-plus-circled"></span> Day ' + i + '</button>')($scope);
                     jQuery('.dietdays').append(dietDays);
                 }
                 console.log($scope.mealDetails);
