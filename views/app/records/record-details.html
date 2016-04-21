@@ -386,7 +386,14 @@
                             {{rec.value==''? 'NA': rec.value}}
                         </div>
                     </div>
-                    <div ng-if="rec.fields.name != 'how-it-ended'" >
+                    <div ng-if="rec.fields.name == 'quick-history'">
+                        <div class="listreq" ng-if="rec.fields.is_mandatory == 1" ><div class="item item-divider" >{{rec.fields.field}} *</div> </div>
+                        <div class="item item-divider" ng-if="rec.fields.is_mandatory != 1" >{{rec.fields.field}} </div>
+                        <div class="fieldvalue" >
+                            <ul><li ng-repeat="sel in selConditions[$index]">{{sel.condition}}</li></ul>
+                        </div>
+                    </div>
+                    <div ng-if="rec.fields.name != 'how-it-ended' && rec.fields.name != 'quick-history'" >
                         <div class="listreq" ng-if="rec.fields.is_mandatory == 1" ><div class="item item-divider" >{{rec.fields.field}} *</div> </div>
                         <div class="item item-divider" ng-if="rec.fields.is_mandatory != 1" >{{rec.fields.field}} </div>
                         <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" >

@@ -490,7 +490,28 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }
         })
 
-        .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $ionicHistory, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
+        .controller('knowConditionCtrl', function ($scope, $ionicModal, $state) {
+            $ionicModal.fromTemplateUrl('knowcondition', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
+        })
+        .controller('mealDetailsCtrl', function ($scope, $ionicModal, $state) {
+            $ionicModal.fromTemplateUrl('mealdetails', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
+        })
+
+        .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $ionicModal, $ionicHistory, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.images = [];
             $scope.image = [];
@@ -498,14 +519,20 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.prescription = 'Yes';
             $scope.coverage = 'Family Floater';
             $scope.probstatus = 'Current';
+            $scope.conId = [];
+            $scope.conIds = [];
+            $scope.selConditions = [];
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
             //$scope.curT = new Date()$filter('date')(new Date(), 'H:i');
             $scope.userId = get('id');
             $scope.categoryId = $stateParams.id;
-            $scope.fields = {};
-            $scope.problems = {};
-            $scope.doctrs = {};
+            $scope.fields = [];
+            $scope.problems = [];
+            $scope.doctrs = [];
+            $scope.day = '';
+            $scope.meals = [{time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}];
+            $scope.mealDetails = [];
             $http({
                 method: 'GET',
                 url: domain + 'records/add',
@@ -517,6 +544,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.problems = response.data.problems;
                 $scope.doctrs = response.data.doctrs;
                 $scope.category = $stateParams.id;
+                $scope.conditions = response.data.knownHistory;
                 if ($scope.category == '6') {
                     angular.forEach($scope.fields, function (value, key) {
                         if (value.field == 'Coverage') {
@@ -532,17 +560,28 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         }
                     });
                 }
-//                if ($scope.category == '5') {
-//                    angular.forEach($scope.fields, function (value, key) {
-//                        if(value.field == 'Status'){
-//                            $scope.invStatus = 'Conducted';
-//                            $scope.check(1);
-//                        }
-//                    });
-//                }
             }, function errorCallback(response) {
                 console.log(response);
             });
+            $scope.getCondition = function (id, con) {
+                console.log(id + "==" + con);
+                var con = con.toString();
+                if ($scope.conId[id]) {
+                    $scope.conIds.push(id);
+                    $scope.selConditions.push({'condition': con});
+                } else {
+                    var index = $scope.conIds.indexOf(id);
+                    $scope.conIds.splice(index, 1);
+                    for (var i = $scope.selConditions.length - 1; i >= 0; i--) {
+                        if ($scope.selConditions[i].condition == con) {
+                            $scope.selConditions.splice(i, 1);
+                        }
+                    }
+                }
+                jQuery("#selcon").val($scope.conIds);
+                console.log($scope.selConditions);
+                console.log($scope.conIds);
+            };
             $scope.addOther = function (name, field, val) {
                 console.log(name, field, val);
                 addOther(name, field, val);
@@ -606,6 +645,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     return trueOrigin;
                 }
             };
+
             $scope.getPrescription = function (pre) {
                 console.log('pre ' + pre);
                 if (pre === ' No') {
@@ -722,6 +762,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     jQuery('#enddt').val('');
                 }
             };
+
             $scope.check = function (val) {
                 console.log(val);
                 if ($scope.categoryId == 7) {
@@ -793,6 +834,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     }
                 }
             };
+
             $scope.shCheck = function (val) {
                 console.log(val);
                 if ($scope.categoryId == 3) {
@@ -804,6 +846,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }
 
             };
+
             $scope.radChange = function (prob) {
                 console.log(prob);
                 if ($scope.categoryId == 14) {
@@ -814,6 +857,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     }
                 }
             };
+
             $scope.setFile = function (element) {
                 $scope.currentFile = element.files[0];
                 console.log('length = ' + element.files.length);
@@ -845,6 +889,45 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         reader.readAsDataURL(element.files[0]);
                     }
                 }
+            };
+
+            $ionicModal.fromTemplateUrl('mealdetails', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+                $scope.showModal = function (index) {
+                    console.log('day' + (index - 1));
+                    $scope.day = 'day' + (index - 1);
+                    //$scope.mealDetails =[{index: $scope.meals}];
+                    $scope.modal.show();
+                };
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+                $scope.mealDetails[($scope.day - 1)] = $scope.meals;
+                //$scope.mealDetails.splice(($scope.day-1), 0, $scope.meals);
+            };
+
+
+            $scope.dietdetails = function (days) {
+                console.log(days); //ng-controller="mealDetailsCtrl"
+                jQuery('.dietdays').empty();
+                var dietDays = '';
+                for (var i = 1; i <= days; i++) {
+                    $scope.mealDetails['day' + (i - 1)] = [{time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}];
+                    //dietDays = $compile('<input type="hidden" id="day' + (i-1) + '" name="day-' + i + '" value=""/><div class="item item-divider">Day ' + i + '<button class="Cstmbutn button-small mb15 col-25" style="float:right; padding:0;" ng-click="showModal(' + i + ')"><span class="icon ion-plus-circled"></span> Day </button></div><label class="item item-input"></label>')($scope);
+                    dietDays = $compile('<input type="hidden" id="day' + (i - 1) + '" name="day-' + i + '" value=""/><button class="button-positive button-small col-25" style="float:right; padding:0;" ng-click="showModal(' + i + ')"><span class="icon ion-plus-circled"></span> Day ' + i + '</button>')($scope);
+                    jQuery('.dietdays').append(dietDays);
+                }
+                console.log($scope.mealDetails);
+            };
+            $scope.saveMeal = function (day) {
+                console.log(day);
+                jQuery('#' + day).val(JSON.stringify($scope.mealDetails[day]));
+                console.log(JSON.stringify($scope.mealDetails[day]));
+                console.log($scope.mealDetails[day]);
+                console.log($scope.mealDetails);
+                $scope.modal.hide();
             };
         })
 
@@ -885,7 +968,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(response);
             });
         })
-
 
         .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $cordovaPrinter, $ionicModal, $timeout) {
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -1076,6 +1158,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.InvStatus = '';
             $scope.probstatus = '';
             $scope.prescstatus = '';
+            $scope.selConditions = [];
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.isNumber = function (num) {
                 return angular.isNumber(num);
@@ -1092,6 +1175,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.doctors = response.data.doctrs;
                 $scope.patient = response.data.patient;
                 $scope.doctrs = response.data.shareDoctrs;
+                $scope.selConditions = response.data.conditions;
                 angular.forEach($scope.recordDetails, function (val, key) {
                     if ($scope.category[0].categories.id == '7') {
                         console.log(val.fields.field);
@@ -1106,7 +1190,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         if (val.fields.field == 'Repeat') {
                             $scope.repeatStatus = val.value;
                         }
-
                     }
                     if ($scope.category[0].categories.id == '5' || $scope.category[0].categories.id == '4') {
                         if (val.fields.field == 'Status') {
@@ -1770,6 +1853,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
             };
             $scope.payNow = function (finalamount) {
+                $timeout.cancel(stopped1);
                 $scope.interface = window.localStorage.getItem('interface_id');
                 if (window.localStorage.getItem('instantV') == 'instantV') {
                     $scope.startSlot = window.localStorage.getItem('IVstartSlot');
@@ -1795,7 +1879,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     window.localStorage.setItem('coupondiscount', '')
                     console.log(response.data);
                     if (finalamount > 0) {
-                        $timeout.cancel(stopped1);
+                        //$timeout.cancel(stopped1);
                         $state.go('app.Gopay', {'link': response.data});
                         console.log(response.data);
                     } else {
@@ -1803,7 +1887,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $ionicHistory.nextViewOptions({
                             disableBack: true
                         });
-                        $timeout.cancel(stopped1);
+                        //$timeout.cancel(stopped1);
                         $state.go('app.thankyou', {'data': response.data}, {reload: true});
                     }
                 }, function errorCallback(response) {
