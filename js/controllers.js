@@ -1405,7 +1405,170 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }
             };
         })
+        
+          .controller('ConsultationsListCurrentCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.imgpath = domain;
+            $scope.specializations = {};
+            $scope.userId = get('id');
+            $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+            $ionicLoading.show({template: 'Loading...'});
+            $http({
+                method: 'GET',
+                url: domain + 'doctors/consultations-current',
+                params: {userId: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                $ionicLoading.hide();
+                $scope.specializations = response.data.spec;
+                //Video
+                $scope.video_time = response.data.video_time;
+                $scope.video_app = response.data.video_app;
+                $scope.video_doctorsData = response.data.video_doctorsData;
+                $scope.video_products = response.data.video_products;
+                $scope.video_end_time = response.data.video_end_time;
+                // Video past
+                $scope.video_time_past = response.data.video_time_past;
+                $scope.video_app_past = response.data.video_app_past;
+                $scope.video_doctorsData_past = response.data.video_doctorsData_past;
+                $scope.video_products_past = response.data.video_products_past;
+                $scope.video_end_time_past = response.data.video_end_time_past;
+                //console.log('##########'+ $scope.video_app_past);
+                //Clinic
+                $scope.clinic_app = response.data.clinic_app;
+                $scope.clinic_doctorsData = response.data.clinic_doctorsData;
+                $scope.clinic_products = response.data.clinic_products;
+                $scope.clinic_time = response.data.clinic_time;
+                $scope.clinic_end_time = response.data.clinic_end_time;
 
+                $scope.clinic_app_past = response.data.clinic_app_past;
+                $scope.clinic_doctorsData_past = response.data.clinic_doctorsData_past;
+                $scope.clinic_products_past = response.data.clinic_products_past;
+                $scope.clinic_time_past = response.data.clinic_time_past;
+                $scope.clinic_end_time = response.data.clinic_end_time;
+                //Home
+                $scope.home_app = response.data.home_app;
+                $scope.home_doctorsData = response.data.home_doctorsData;
+                $scope.home_products = response.data.home_products;
+                //Chat 
+                $scope.chat_app = response.data.chat_app;
+                $scope.chat_doctorsData = response.data.chat_doctorsData;
+                $scope.chat_products = response.data.chat_products;
+                //$state.go('app.category-detail');
+            }, function errorCallback(e) {
+                console.log(e);
+            }); 
+            
+             $scope.deleteApp = function (appId, prodId, mode, startTime) {
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctorsapp/patient-delete-app',
+                    params: {appId: appId, prodId: prodId, userId: $scope.userId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    if (response.data == 1) {
+                        alert('Your appointment is cancelled successfully.');
+                        $state.go('app.consultations-current', {}, {reload: true});
+                    }
+                    //$state.go('app.consultations-current', {}, {reload: true});
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            };
+
+            $scope.joinVideo = function (mode, start, end, appId) {
+                console.log(mode + "===" + start + '===' + end + "===" + $scope.curTime + "==" + appId);
+                if ($scope.curTime >= start || $scope.curTime <= end) {
+                    console.log('redirect');
+                    //$state.go('app.patient-join', {}, {reload: true});
+                    $state.go('app.patient-join', {'id': appId, 'mode': mode}, {cache: false}, {reload: true});
+                } else {
+                    alert("You can join video 15 minutes before the appointment");
+                }
+            };
+        })
+            
+               .controller('ConsultationsListPastCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.imgpath = domain;
+            $scope.specializations = {};
+            $scope.userId = get('id');
+            $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+            $ionicLoading.show({template: 'Loading...'});
+            $http({
+                method: 'GET',
+                url: domain + 'doctors/consultations-past',
+                params: {userId: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                $ionicLoading.hide();
+                $scope.specializations = response.data.spec;
+                //Video
+                $scope.video_time = response.data.video_time;
+                $scope.video_app = response.data.video_app;
+                $scope.video_doctorsData = response.data.video_doctorsData;
+                $scope.video_products = response.data.video_products;
+                $scope.video_end_time = response.data.video_end_time;
+                // Video past
+                $scope.video_time_past = response.data.video_time_past;
+                $scope.video_app_past = response.data.video_app_past;
+                $scope.video_doctorsData_past = response.data.video_doctorsData_past;
+                $scope.video_products_past = response.data.video_products_past;
+                $scope.video_end_time_past = response.data.video_end_time_past;
+                //console.log('##########'+ $scope.video_app_past);
+                //Clinic
+                $scope.clinic_app = response.data.clinic_app;
+                $scope.clinic_doctorsData = response.data.clinic_doctorsData;
+                $scope.clinic_products = response.data.clinic_products;
+                $scope.clinic_time = response.data.clinic_time;
+                $scope.clinic_end_time = response.data.clinic_end_time;
+
+                $scope.clinic_app_past = response.data.clinic_app_past;
+                $scope.clinic_doctorsData_past = response.data.clinic_doctorsData_past;
+                $scope.clinic_products_past = response.data.clinic_products_past;
+                $scope.clinic_time_past = response.data.clinic_time_past;
+                $scope.clinic_end_time = response.data.clinic_end_time;
+                //Home
+                $scope.home_app = response.data.home_app;
+                $scope.home_doctorsData = response.data.home_doctorsData;
+                $scope.home_products = response.data.home_products;
+                //Chat 
+                $scope.chat_app = response.data.chat_app;
+                $scope.chat_doctorsData = response.data.chat_doctorsData;
+                $scope.chat_products = response.data.chat_products;
+                //$state.go('app.category-detail');
+            }, function errorCallback(e) {
+                console.log(e);
+            }); 
+            
+             $scope.deleteApp = function (appId, prodId, mode, startTime) {
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctorsapp/patient-delete-app',
+                    params: {appId: appId, prodId: prodId, userId: $scope.userId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    if (response.data == 1) {
+                        alert('Your appointment is cancelled successfully.');
+                        $state.go('app.consultations-current', {}, {reload: true});
+                    }
+                    //$state.go('app.consultations-current', {}, {reload: true});
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            };
+
+            $scope.joinVideo = function (mode, start, end, appId) {
+                console.log(mode + "===" + start + '===' + end + "===" + $scope.curTime + "==" + appId);
+                if ($scope.curTime >= start || $scope.curTime <= end) {
+                    console.log('redirect');
+                    //$state.go('app.patient-join', {}, {reload: true});
+                    $state.go('app.patient-join', {'id': appId, 'mode': mode}, {cache: false}, {reload: true});
+                } else {
+                    alert("You can join video 15 minutes before the appointment");
+                }
+            };
+        })
+
+            
         .controller('ConsultationCardsCtrl', function ($scope, $http, $stateParams, $ionicLoading) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $ionicLoading.show({template: 'Loading...'});

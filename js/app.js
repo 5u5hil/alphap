@@ -1,6 +1,6 @@
 // Ionic Starter App
-//var domain = "http://stage.doctrs.in/";
-var domain = "http://test.doctrs.in/";
+var domain = "http://stage.doctrs.in/";
+//var domain = "http://test.doctrs.in/";
 //var domain = "http://192.168.2.169/doctors/";
 angular.module('underscore', [])
         .factory('_', function () {
@@ -292,7 +292,7 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultations/consultations-current.html",
-                                controller: 'ConsultationsListCtrl'
+                                controller: 'ConsultationsListCurrentCtrl'
                             }
                         }
                     })
@@ -302,7 +302,7 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultations/consultations-past.html",
-                                controller: 'ConsultationsListCtrl'
+                                controller: 'ConsultationsListPastCtrl'
                             }
                         }
                     })
