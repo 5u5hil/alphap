@@ -9196,9 +9196,13 @@ input[type="date"]:before{
 .mh44{min-height:46px;}
 .inbtn{    width: 28%;
     margin: 6px 2%;
-    padding: 4px 0;}
+    float:left;}
+.inbtn button{width:100%; padding: 5px 0;}
 .dietdays{width:100%;}
+
+
 .button-positive .icon{color:#fff;}
+
 .inbtnlabel{text-overflow:inherit; white-space: inherit; overflow:auto;      min-width: 65px;   padding-left: 8px;}
 .filldata{background: rgba(56,126,245,0.6);
     border-color:rgba(56,126,245,0.6);
