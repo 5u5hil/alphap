@@ -910,6 +910,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 for (var i = 1, j = 1; i <= days; i++, j++) {
                     $scope.mealDetails['day' + (i - 1)] = [{time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}];
                     $scope.dayMeal.push(i);
+                    console.log(JSON.stringify($scope.mealDetails['day' + (i - 1)]));
+                    console.log((i - 1));
                     jQuery('#day' + (i - 1)).val(JSON.stringify($scope.mealDetails['day' + (i - 1)]));
                 }
                 console.log($scope.mealDetails);
