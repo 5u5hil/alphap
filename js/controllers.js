@@ -1405,8 +1405,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }
             };
         })
-        
-          .controller('ConsultationsListCurrentCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
+
+        .controller('ConsultationsListCurrentCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.imgpath = domain;
             $scope.specializations = {};
@@ -1456,9 +1456,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 //$state.go('app.category-detail');
             }, function errorCallback(e) {
                 console.log(e);
-            }); 
-            
-             $scope.deleteApp = function (appId, prodId, mode, startTime) {
+            });
+
+            $scope.deleteApp = function (appId, prodId, mode, startTime) {
                 $http({
                     method: 'GET',
                     url: domain + 'doctorsapp/patient-delete-app',
@@ -1486,8 +1486,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }
             };
         })
-            
-               .controller('ConsultationsListPastCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
+
+        .controller('ConsultationsListPastCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.imgpath = domain;
             $scope.specializations = {};
@@ -1537,9 +1537,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 //$state.go('app.category-detail');
             }, function errorCallback(e) {
                 console.log(e);
-            }); 
-            
-             $scope.deleteApp = function (appId, prodId, mode, startTime) {
+            });
+
+            $scope.deleteApp = function (appId, prodId, mode, startTime) {
                 $http({
                     method: 'GET',
                     url: domain + 'doctorsapp/patient-delete-app',
@@ -1568,7 +1568,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-            
+
         .controller('ConsultationCardsCtrl', function ($scope, $http, $stateParams, $ionicLoading) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $ionicLoading.show({template: 'Loading...'});
