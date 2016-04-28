@@ -244,7 +244,7 @@
                                         <div class="listreq" ng-if="field.is_mandatory == 1" >
                                             <div class="item item-divider"> {{field.field}} *</div>
                                             <label class="item item-input">
-                                                <input type="number" placeholder="{{field.field}} *" name="{{field.name}}" required />
+                                                <input type="number" placeholder="{{field.field}} *" ng-model="formText" name="{{field.name}}" required />
                                             </label>                          
                                         </div>
                                         <div class="" ng-if="field.is_mandatory != 1">
