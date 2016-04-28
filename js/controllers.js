@@ -967,7 +967,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
         })
 
-        .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $cordovaPrinter, $ionicModal, $timeout) {
+        .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $ionicLoading, $cordovaPrinter, $ionicModal, $timeout) {
+            $ionicLoading.show({template: 'Loading...'});
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.category = [];
             $scope.catId = $stateParams.id;
@@ -994,6 +995,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.patient = response.data.patient;
                 $scope.problems = response.data.problems;
                 $scope.doctrs = response.data.shareDoctrs;
+                $ionicLoading.hide();
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -1147,7 +1149,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-        .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
+        .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $ionicLoading, $rootScope, $sce) {
+            $ionicLoading.show({template: 'Loading...'});
             $scope.recordId = $stateParams.id;
             $scope.userId = get('id');
             $scope.Bstatus = '';
@@ -1178,7 +1181,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.selConditions = response.data.conditions;
                 $scope.dietData = response.data.dietData;
                 $scope.dietDetails = response.data.dietDetails;
-
                 angular.forEach($scope.recordDetails, function (val, key) {
                     if ($scope.category.categories.id == '7') {
                         console.log(val.fields.field);
@@ -1209,7 +1211,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             $scope.prescstatus = val.value;
                         }
                     }
+                    if (val.fields.field == 'Attachments') {
+                        $scope.isAttachment = val.attachments.length;
+                    }
                 });
+                $ionicLoading.hide();
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -1261,22 +1267,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     alert("Please select doctor to share with!");
                 }
             };
-            $ionicModal.fromTemplateUrl('mealdetails', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-                $scope.daymodal = function (day) {
-                    $scope.dietPlanDetails = [];
-                    console.log($scope.dietData[day]);
-                    $scope.diet = $scope.dietData[day];
-                    var i, j, temparray, chunk = 4;
-                    for (i = 0, j = $scope.diet.length; i < j; i += chunk) {
-                        $scope.dietPlanDetails.push($scope.diet.slice(i, i + chunk));
-                    }
-                    console.log($scope.dietPlanDetails);
-                    $scope.modal.show();
-                };
-            });
+
 
             //EDIT Modal
 //            $scope.edit = function (id, cat) {
@@ -1307,6 +1298,30 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.modal.hide();
             };
         })
+
+        .controller('mealDetailsCtrl', function ($scope, $ionicModal) {
+            $ionicModal.fromTemplateUrl('mealdetails', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+                $scope.daymodal = function (day) {
+                    $scope.dietPlanDetails = [];
+                    console.log($scope.dietData[day]);
+                    $scope.diet = $scope.dietData[day];
+                    var i, j, temparray, chunk = 4;
+                    for (i = 0, j = $scope.diet.length; i < j; i += chunk) {
+                        $scope.dietPlanDetails.push($scope.diet.slice(i, i + chunk));
+                    }
+                    console.log($scope.dietPlanDetails);
+                    $scope.modal.show();
+                };
+            });
+            $scope.submitmodal = function () {
+                //console.log($scope.catIds);
+                $scope.modal.hide();
+            };
+        })
+
 
         .controller('shareModalCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
             //Show share model

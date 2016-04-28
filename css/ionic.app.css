@@ -9172,7 +9172,7 @@ input[type="date"]:before{
           color: #fff;
           display: block;
           line-height: 35px !important; text-decoration:none;}
-.fieldvalue{ padding:10px;}
+.fieldvalue{ padding:10px; float: left; width:100%;     text-indent: 6px;}
 
 .f22{font-size: 22px;}
 
