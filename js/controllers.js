@@ -592,7 +592,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 addNew(ele);
             };
             $scope.submit = function () {
-                $ionicLoading.show({template: 'Adding...'});
+                //$ionicLoading.show({template: 'Adding...'});
                 //alert($scope.tempImgs.length);
                 if ($scope.tempImgs.length > 0) {
                     angular.forEach($scope.tempImgs, function (value, key) {
@@ -910,7 +910,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $scope.dayMeal.push(i);
                     console.log(JSON.stringify($scope.mealDetails['day' + (i - 1)]));
                     console.log((i - 1));
-                    jQuery('#day' + (i - 1)).val(JSON.stringify($scope.mealDetails['day' + (i - 1)]));
+                    //jQuery('#day' + (i - 1)).val(JSON.stringify($scope.mealDetails['day' + (i - 1)]));
                 }
                 console.log($scope.mealDetails);
             };
@@ -1162,6 +1162,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.selConditions = [];
             $scope.diet = [];
             $scope.dietPlanDetails = [];
+            $scope.Mealday = '';
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.isNumber = function (num) {
                 return angular.isNumber(num);
@@ -1308,6 +1309,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $scope.dietPlanDetails = [];
                     console.log($scope.dietData[day]);
                     $scope.diet = $scope.dietData[day];
+                    console.log('Day '+day);
+                    $scope.Mealday = (day+1);
                     var i, j, temparray, chunk = 4;
                     for (i = 0, j = $scope.diet.length; i < j; i += chunk) {
                         $scope.dietPlanDetails.push($scope.diet.slice(i, i + chunk));

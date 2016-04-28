@@ -229,8 +229,8 @@
                                         <div class="item item-input mh44 inbtnlabel">
                                             <div class="dietdays" >
                                                 <div ng-repeat="dm in dayMeal track by $index" class="inbtn">
-                                                    <input type="hidden" id="day{{$index}}" name="day-{{$index + 1}}" />
-                                                    <button  class="button button-positive button-small" ng-click="daymodal({{dm}})">
+                                                    <input type="hidden" id="day{{$index}}" name="day-{{$index + 1}}" value="{{dm}}"/>
+                                                    <button class="button button-positive button-small" ng-click="daymodal({{dm}})" >
                                                         <span class="icon ion-plus-circled"></span> Day {{$index + 1}}
                                                     </button>
                                                 </div>
@@ -700,11 +700,11 @@
 <script id="mealdetails" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Meal Details</h1>
+    <h1 class="title txt-center">Meal Details</h1>
     <button class="button button-clear pull-left" ng-click="submitmodal()">Cancel</button>
     <div class="buttons buttons-right pull-right"><span class="right-buttons">
     <button type="submit" ng-click="saveMeal(day)" class="button button-positive w100p brdradious0" ng-disabled="addRecordForm.$invalid" disabled="disabled"> 
-    <strong>Submit</strong> </button>
+    <strong>Save</strong> </button>
     </span></div>
     </ion-header-bar>
     <ion-content>
