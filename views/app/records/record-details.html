@@ -398,7 +398,117 @@
                         </div>
                     </div>
                 </div>
-                <div ng-if="category.category != 3 && category.category != 4 && category.category != 5 && category.category != 7 && category.category != 2">
+                <div ng-if="category.category == 19">
+                    <div ng-if="rec.fields.name == 'how-it-ended' && probstatus == 'Past'">
+                        <div class="listreq" ng-if="rec.fields.is_mandatory == 1" ><div class="item item-divider" >{{rec.fields.field}} *</div> </div>
+                        <div class="item item-divider" ng-if="rec.fields.is_mandatory != 1" >{{rec.fields.field}} </div>
+                        <div class="fieldvalue" >
+                            {{rec.value==''? 'NA': rec.value}}
+                        </div>
+                    </div>
+                    <div ng-if="rec.fields.name == 'time-8'">
+                        <div class="item item-divider" >{{rec.fields.field}} </div>
+                        <div class="fieldvalue">
+                            {{endtime==''? 'NA': endtime=='00:00:00'? 'NA':rec.value}}
+                        </div>
+                    </div>
+                    <div ng-if="rec.fields.name == 'quick-history'">
+                        <div class="listreq" ng-if="rec.fields.is_mandatory == 1" ><div class="item item-divider" >{{rec.fields.field}} *</div> </div>
+                        <div class="item item-divider" ng-if="rec.fields.is_mandatory != 1" >{{rec.fields.field}} </div>
+                        <div class="fieldvalue" >
+                            <ul><li ng-repeat="sel in selConditions[$index]">{{sel.condition}}</li></ul>
+                        </div>
+                    </div>
+
+
+                    <div ng-if="rec.fields.name == 'no-of-days'">
+                        <div class="listreq" ng-if="rec.fields.is_mandatory == 1" >
+                            <div class="item item-divider" >{{rec.fields.field}} *</div>
+                            <div class="item item-divider" ng-if="rec.fields.is_mandatory != 1" >{{rec.fields.field}} </div>
+                            <div class="fieldvalue" >
+                                <div class="dietdays">
+                                    <button class="button button-positive button-small inbtn" ng-repeat="dd in dietDetails" ng-controller="mealDetailsCtrl" ng-click="daymodal({{$index}})">
+                                        <span class="icon ion-plus-circled"></span> Day {{$index + 1}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="rec.fields.field == 'Includes Prescription' && isAttachment != ''">
+                        <div class="item item-divider" ng-if="rec.value != '' && rec.value != 0">
+                            <span>{{rec.fields.field}} </span></div>
+                        <div class="fieldvalue" ng-if="rec.value != 0">{{rec.value}}</div>
+                    </div>
+                    <div ng-if="rec.fields.field == 'Valid till' && isAttachment != ''">
+                        <div class="item item-divider" ng-if="rec.value != ''">
+                            <span>{{rec.fields.field}} </span>
+                        </div>
+                        <div class="fieldvalue">
+                            <div ng-if="rec.value == '0000-00-00'"> NA </div>
+                            <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
+                        </div>
+                    </div>
+                    <div ng-if="rec.fields.name != 'time-8' && rec.fields.field != 'Includes Prescription' && rec.fields.field != 'Valid till' && rec.fields.name != 'how-it-ended' && rec.fields.name != 'no-of-days' && rec.fields.name != 'quick-history'" class="clr">
+                        <div class="listreq" ng-if="rec.fields.is_mandatory == 1" ><div class="item item-divider" >{{rec.fields.field}} *</div> </div>
+                        <div class="item item-divider" ng-if="rec.fields.is_mandatory != 1" >{{rec.fields.field}} </div>
+                        <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Referred By' || rec.fields.field == 'Conducted By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" >
+                            <!--- ng-show="angular.isNumber(rec.value)"  -->
+                            <div class="fieldvalue">{{doctors[$index]!=''? doctors[$index]:'NA'}}</div>
+                        </div>
+                        <div ng-if="rec.fields.field == 'Related Problem'" class="fieldvalue">
+                            <div ng-if="rec.value != ''">{{problem[$index].value}}</div>
+                            <div ng-if="rec.value == ''">NA</div>
+                        </div>
+                        <div ng-if="rec.fields.field == 'Patient'" class="fieldvalue">
+                            {{patient[$index].fname}} {{patient[$index].lname}}
+                        </div>
+                        <div ng-if="rec.fields.field != 'Attachments' && rec.fields.field != 'Patient' && rec.fields.name != 'how-it-ended' && rec.fields.field != 'Prescribed By' && rec.fields.field != 'Conducted By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem'" class="fieldvalue">
+                            <div ng-if="rec.fields.field_type == 8">
+                                <div ng-if="rec.fields.field == 'End Date'">
+                                    <div ng-if="rec.value == ''">NA</div>
+                                    <div ng-if="rec.value == '0000-00-00'"> NA </div>
+                                    <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
+                                </div>
+                                <div ng-if="rec.fields.field != 'End Date'">
+                                    <div ng-if="rec.value == ''"></div>
+                                    <div ng-if="rec.value == '0000-00-00'"> </div>
+                                    <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
+                                </div>
+                            </div>
+                            <div ng-if="rec.fields.field_type == 12">                                
+                                <div ng-if="rec.value == ''"> NA </div>
+                                <div ng-if="rec.value == '00:00:00'"> NA </div>
+                                <div ng-if="rec.value != '00:00:00' && rec.value != ''">{{rec.value|time1}}</div>
+                            </div>
+                            <div ng-if="rec.fields.field_type != 8 && rec.fields.field_type != 12"> 
+                                <div ng-if="rec.value == ''">NA</div>
+                                <div ng-if="rec.value != ''">{{rec.value}}</div>
+                            </div>
+                        </div>
+                        <div class="clist-data-icon fieldvalue" ng-if="rec.fields.field == 'Attachments'" >
+                            <h5 class="mt0">Attached Files ({{rec.attachments.length}})</h5>
+                            <!--  <a href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}" target="_blank" class="button button-outline button-positive" style="width:100%" ng-If="rec.attachments.length > 0" ng-repeat="attach in rec.attachments" >
+                                 <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})</a> -->
+                            <div ng-repeat="attach in rec.attachments" >
+                                <div ng-init="selData = (attach.orginial_name).split('.')">
+                                    <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                        <a class="filelink" ng-click="showm('{{attach.attachment_path}}','{{attach.orginial_name}}')" >
+                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                        </a>
+                                    </div>
+                                    <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                        <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
+                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="clr"></div>		
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="category.category != 3 && category.category != 4 && category.category != 5 && category.category != 7 && category.category != 2 && category.category != 19">
                     <div ng-if="rec.fields.name == 'how-it-ended' && probstatus == 'Past'">
                         <div class="listreq" ng-if="rec.fields.is_mandatory == 1" ><div class="item item-divider" >{{rec.fields.field}} *</div> </div>
                         <div class="item item-divider" ng-if="rec.fields.is_mandatory != 1" >{{rec.fields.field}} </div>

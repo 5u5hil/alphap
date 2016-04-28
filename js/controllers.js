@@ -1189,6 +1189,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             $scope.Bstatus = val.value;
                         }
                     }
+                    if ($scope.category.categories.id == '19') {
+                        if (val.fields.field == 'End Date') {
+                            $scope.endtime = val.value;
+                        }
+                    }
                     if ($scope.category.categories.id == '2') {
                         if (val.fields.field == 'Status') {
                             $scope.Istatus = val.value;
