@@ -302,15 +302,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, function errorCallback(response) {
                 console.log(response);
             });
-
             // Load the modal from the given template URL
             $ionicModal.fromTemplateUrl('addrecord.html', function ($ionicModal) {
                 $scope.modal = $ionicModal;
                 $scope.addRecord = function ($ab) {
                     $state.go('app.add-category', {'id': $ab}, {reload: true});
                     $scope.modal.hide()
-                }
-
+                };
             }, {
                 // Use our scope for the scope of the modal to keep it simple
                 scope: $scope,
@@ -513,6 +511,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $ionicModal, $ionicHistory, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
+            $ionicLoading.show({template: 'Loading...'});
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.images = [];
             $scope.image = [];
@@ -562,6 +561,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         }
                     });
                 }
+                $ionicLoading.hide();
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -846,7 +846,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         jQuery('#prescribeDt').removeClass('hide');
                     }
                 }
-
             };
 
             $scope.radChange = function (prob) {
@@ -875,7 +874,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     jQuery('#coninprec').addClass('hide');
                     //jQuery('#valid-till').attr('required', false);
                 }
-
                 if (typeof (FileReader) != "undefined") {
                     //loop for each file selected for uploaded.
                     for (var i = 0; i < element.files.length; i++) {
