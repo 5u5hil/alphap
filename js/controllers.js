@@ -290,24 +290,27 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('AdsCtrl', function ($scope, $http, $state, $ionicActionSheet, AdMob, iAd, $ionicModal) {
             $scope.interface = window.localStorage.getItem('interface_id');
-            $http({
-                method: 'GET',
-                url: domain + 'records/get-record-categories',
-                params: {userId: $scope.userid, interface: $scope.interface}
-            }).then(function successCallback(response) {
-                $scope.cats = response.data;
-                // angular.forEach(response.data, function (value, key) {
-                // $scope.cats.push({text: value.category, id: value.id});
-                // });
-            }, function errorCallback(response) {
-                console.log(response);
-            });
             // Load the modal from the given template URL
             $ionicModal.fromTemplateUrl('addrecord.html', function ($ionicModal) {
                 $scope.modal = $ionicModal;
+                $scope.getCategory = function () {
+                    $http({
+                        method: 'GET',
+                        url: domain + 'records/get-record-categories',
+                        params: {userId: $scope.userid, interface: $scope.interface}
+                    }).then(function successCallback(response) {
+                        $scope.cats = response.data;
+                        $scope.modal.show();
+                        // angular.forEach(response.data, function (value, key) {
+                        // $scope.cats.push({text: value.category, id: value.id});
+                        // });
+                    }, function errorCallback(response) {
+                        console.log(response);
+                    });
+                };
                 $scope.addRecord = function ($ab) {
                     $state.go('app.add-category', {'id': $ab}, {reload: true});
-                    $scope.modal.hide()
+                    $scope.modal.hide();
                 };
             }, {
                 // Use our scope for the scope of the modal to keep it simple
@@ -634,22 +637,22 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 } else {
                     if (jQuery("#addRecordForm")[0].length > 2) {
                         $ionicLoading.show({template: 'Adding...'});
-                    var data = new FormData(jQuery("#addRecordForm")[0]);
-                    callAjax("POST", domain + "records/save", data, function (response) {
-                        console.log(response);
-                        $ionicLoading.hide();
-                        if (angular.isObject(response.records)) {
-                            $ionicHistory.nextViewOptions({
-                                historyRoot: true
-                            });
-                            alert("Record added successfully!");
-                            $timeout(function () {
-                                $state.go('app.records-view', {'id': $scope.categoryId}, {}, {reload: true});
-                            }, 1000);
-                        } else if (response.err != '') {
-                            alert('Please fill mandatory fields');
-                        }
-                    });
+                        var data = new FormData(jQuery("#addRecordForm")[0]);
+                        callAjax("POST", domain + "records/save", data, function (response) {
+                            console.log(response);
+                            $ionicLoading.hide();
+                            if (angular.isObject(response.records)) {
+                                $ionicHistory.nextViewOptions({
+                                    historyRoot: true
+                                });
+                                alert("Record added successfully!");
+                                $timeout(function () {
+                                    $state.go('app.records-view', {'id': $scope.categoryId}, {}, {reload: true});
+                                }, 1000);
+                            } else if (response.err != '') {
+                                alert('Please fill mandatory fields');
+                            }
+                        });
                     }
                 }
 
