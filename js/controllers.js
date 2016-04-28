@@ -324,33 +324,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }
         })
 
-        .controller('CategoryDetailCtrl', function ($scope, $http, $stateParams, $ionicFilterBar, $ionicModal, $timeout) {
-            var filterBarInstance;
-            $scope.selectMe = function (event) {
-                $(event.target).toggleClass('active');
-            };
+        .controller('CategoryDetailCtrl', function ($scope, $http, $stateParams, $ionicFilterBar, $ionicModal, $timeout, $ionicLoading) {
 
-            $scope.showFilterBar = function () {
-                filterBarInstance = $ionicFilterBar.show({
-                    items: $scope.items,
-                    update: function (filteredItems, filterText) {
-                        $scope.items = filteredItems;
-                        if (filterText) {
-                            console.log(filterText);
-                        }
-                    }
-                });
-            };
-            $scope.refreshItems = function () {
-                if (filterBarInstance) {
-                    filterBarInstance();
-                    filterBarInstance = null;
-                }
-                $timeout(function () {
-                    getItems();
-                    $scope.$broadcast('scroll.refreshComplete');
-                }, 1000);
-            };
             $scope.catIds = [];
             $scope.catId = [];
             $scope.docId = '';
@@ -359,6 +334,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             //console.log(get('id'));
             $scope.userid = get('id');
             $scope.patientId = get('id');
+            $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
                 url: domain + 'records/view-patient-record-category',
@@ -368,6 +344,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.categories = response.data.categories;
                 $scope.doctrs = response.data.doctrs;
                 $scope.userRecords = response.data.recordCount;
+                $ionicLoading.hide();
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -392,12 +369,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     var confirm = window.confirm("Do you really want to delete?");
                     if (confirm) {
                         console.log($scope.catIds);
+                        $ionicLoading.show({template: 'Loading...'});
                         $http({
                             method: 'POST',
                             url: domain + 'records/delete-all',
                             params: {ids: JSON.stringify($scope.catIds), userId: $scope.userid}
                         }).then(function successCallback(response) {
                             alert("Records deleted successfully!");
+                            $ionicLoading.hide();
                             $timeout(function () {
                                 window.location.reload();
                                 //$state.go('app.category-detail');
@@ -417,6 +396,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         var confirm = window.confirm("Do you really want to share?");
                         if (confirm) {
                             console.log($scope.catIds);
+                            $ionicLoading.show({template: 'Loading...'});
                             $http({
                                 method: 'POST',
                                 url: domain + 'records/share-all',
@@ -425,6 +405,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                 console.log(response);
                                 if (response.data == 'Success') {
                                     alert("Records shared successfully!");
+                                    $ionicLoading.hide();
                                     $timeout(function () {
                                         window.location.reload();
                                     }, 1000);
@@ -450,6 +431,33 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.submitmodal = function () {
                 console.log($scope.catIds);
                 $scope.modal.hide();
+            };
+
+            var filterBarInstance;
+            $scope.selectMe = function (event) {
+                $(event.target).toggleClass('active');
+            };
+
+            $scope.showFilterBar = function () {
+                filterBarInstance = $ionicFilterBar.show({
+                    items: $scope.items,
+                    update: function (filteredItems, filterText) {
+                        $scope.items = filteredItems;
+                        if (filterText) {
+                            console.log(filterText);
+                        }
+                    }
+                });
+            };
+            $scope.refreshItems = function () {
+                if (filterBarInstance) {
+                    filterBarInstance();
+                    filterBarInstance = null;
+                }
+                $timeout(function () {
+                    getItems();
+                    $scope.$broadcast('scroll.refreshComplete');
+                }, 1000);
             };
         })
 
@@ -592,7 +600,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 addNew(ele);
             };
             $scope.submit = function () {
-                //$ionicLoading.show({template: 'Adding...'});
+                //console.log(jQuery("#addRecordForm")[0].length);
+                $ionicLoading.show({template: 'Adding...'});
                 //alert($scope.tempImgs.length);
                 if ($scope.tempImgs.length > 0) {
                     angular.forEach($scope.tempImgs, function (value, key) {
@@ -623,6 +632,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         }
                     });
                 } else {
+                    if (jQuery("#addRecordForm")[0].length > 2) {
+                        $ionicLoading.show({template: 'Adding...'});
                     var data = new FormData(jQuery("#addRecordForm")[0]);
                     callAjax("POST", domain + "records/save", data, function (response) {
                         console.log(response);
@@ -639,6 +650,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             alert('Please fill mandatory fields');
                         }
                     });
+                    }
                 }
 
                 function getImgUrl(imageName) {
@@ -1314,8 +1326,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $scope.dietPlanDetails = [];
                     console.log($scope.dietData[day]);
                     $scope.diet = $scope.dietData[day];
-                    console.log('Day '+day);
-                    $scope.Mealday = (day+1);
+                    console.log('Day ' + day);
+                    $scope.Mealday = (day + 1);
                     var i, j, temparray, chunk = 4;
                     for (i = 0, j = $scope.diet.length; i < j; i += chunk) {
                         $scope.dietPlanDetails.push($scope.diet.slice(i, i + chunk));
@@ -1329,7 +1341,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.modal.hide();
             };
         })
-
 
         .controller('shareModalCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
             //Show share model
@@ -1482,6 +1493,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
 
             $scope.deleteApp = function (appId, prodId, mode, startTime) {
+                $ionicLoading.show({template: 'Loading...'});
                 $http({
                     method: 'GET',
                     url: domain + 'doctorsapp/patient-delete-app',
@@ -1489,6 +1501,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     if (response.data == 1) {
+                        $ionicLoading.hide();
                         alert('Your appointment is cancelled successfully.');
                         $state.go('app.consultations-current', {}, {reload: true});
                     }
@@ -1563,6 +1576,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
 
             $scope.deleteApp = function (appId, prodId, mode, startTime) {
+                $ionicLoading.show({template: 'Loading...'});
                 $http({
                     method: 'GET',
                     url: domain + 'doctorsapp/patient-delete-app',
@@ -1570,6 +1584,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     if (response.data == 1) {
+                        $ionicLoading.hide();
                         alert('Your appointment is cancelled successfully.');
                         $state.go('app.consultations-current', {}, {reload: true});
                     }
