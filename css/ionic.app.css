@@ -8952,7 +8952,7 @@ a.tab-item{color:#000;}
                 direction: ltr !important;
                 padding: 7px 0 7px 0px !important;
                 /* font-weight: bold; */
-                border: 0;
+                border: 0; background:#fff;
 }
 
 
