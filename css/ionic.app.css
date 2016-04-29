@@ -9218,6 +9218,22 @@ color: #fff;
 .filldata .icon{
 color: #fff;
 }
+.modalhead{  position: absolute;
+  top: 0;
+  right: 80px;
+  left: 80px;
+  z-index: 0;
+  overflow: hidden;
+  margin: 0 10px;
+  min-width: 30px;
+  height: 43px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 17px;
+  font-weight: 500; color:#fff; line-height:43px;
+  }
+
 
 /* endcss */
 
