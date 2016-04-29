@@ -9208,8 +9208,15 @@ input[type="date"]:before{
 .button-positive .icon{color:#fff;}
 
 .inbtnlabel{text-overflow:inherit; white-space: inherit; overflow:auto;      min-width: 65px;   padding-left: 8px;}
-.filldata{background: rgba(56,126,245,0.6);
-    border-color:rgba(56,126,245,0.6);
+.filled-data{    color: #387EF5;
+    border-color: #387EF5;}
+.filled-data .icon{color: #387EF5;}
+
+.filldata{background: #387EF5;
+color: #fff;
+}
+.filldata .icon{
+color: #fff;
 }
 
 /* endcss */

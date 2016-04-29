@@ -230,9 +230,10 @@
                                             <div class="dietdays" >
                                                 <div ng-repeat="dm in dayMeal track by $index" class="inbtn">
                                                     <input type="hidden" id="day{{$index}}" name="day-{{$index + 1}}" value="{{dm}}"/>
-                                                    <button class="button button-positive button-small" ng-click="daymodal({{dm}})" >
-                                                        <span class="icon ion-plus-circled"></span> Day {{$index + 1}}
+                                                    <button class="button filled-data button-small" id="fill{{$index}}" ng-click="daymodal({{dm}})" >
+<!--                                                        <span class="icon ion-plus-circled"></span> -->Day {{$index + 1}}
                                                     </button>
+                                                   
                                                 </div>
                                             </div>
                                         </div>

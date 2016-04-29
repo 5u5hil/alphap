@@ -522,7 +522,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $ionicModal, $ionicHistory, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
-            $ionicLoading.show({template: 'Loading...'});
+
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.images = [];
             $scope.image = [];
@@ -545,6 +545,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.meals = [{time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}];
             $scope.mealDetails = [];
             $scope.dayMeal = [];
+            $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
                 url: domain + 'records/add',
@@ -931,13 +932,17 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
             $scope.saveMeal = function (day) {
                 console.log(day);
-                jQuery('#' + day).val(JSON.stringify($scope.mealDetails[day]));
-                console.log(JSON.stringify($scope.mealDetails[day]));
-                console.log($scope.mealDetails[day]);
-                console.log($scope.mealDetails);
+                //console.log('Is empty object ' + checkIsMealEmpty($scope.mealDetails[day]));
+                if (checkIsMealEmpty($scope.mealDetails[day]) == 'not empty') {
+                    console.log('Has value');
+                    jQuery('#' + day).val(JSON.stringify($scope.mealDetails[day]));
+                    jQuery('#fill' + day.charAt(day.length - 1)).removeClass('filled-data').addClass('filldata');
+                } else {
+                    console.log('Empty');
+                }
+                //console.log(JSON.stringify($scope.mealDetails[day]));
                 $scope.modal.hide();
             };
-
 
             $scope.submitmodal = function () {
                 $scope.modal.hide();
@@ -983,7 +988,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $ionicLoading, $cordovaPrinter, $ionicModal, $timeout) {
-            $ionicLoading.show({template: 'Loading...'});
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.category = [];
             $scope.catId = $stateParams.id;
@@ -992,6 +996,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.recIds = [];
             $scope.userId = get('id');
             $scope.patientId = get('id');
+            $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
                 url: domain + 'records/get-records-details',
@@ -1165,7 +1170,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $ionicLoading, $rootScope, $sce) {
-            $ionicLoading.show({template: 'Loading...'});
             $scope.recordId = $stateParams.id;
             $scope.userId = get('id');
             $scope.Bstatus = '';
@@ -1182,6 +1186,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.isNumber = function (num) {
                 return angular.isNumber(num);
             };
+            $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
                 url: domain + 'records/get-record-details',
@@ -1197,6 +1202,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.selConditions = response.data.conditions;
                 $scope.dietData = response.data.dietData;
                 $scope.dietDetails = response.data.dietDetails;
+                angular.forEach($scope.dietDetails, function (value, key) {
+                    angular.forEach(value.data, function (val, k) {
+
+                    });
+                });
                 angular.forEach($scope.recordDetails, function (val, key) {
                     if ($scope.category.categories.id == '7') {
                         console.log(val.fields.field);
