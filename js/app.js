@@ -44,11 +44,11 @@ angular.module('your_app_name', [
                 PushNotificationsService.register();
             });
             $rootScope.$on('loading:show', function () {
-                $ionicLoading.show({template: 'Loading'})
+                //$ionicLoading.show({template: 'Loading'})
             })
 
             $rootScope.$on('loading:hide', function () {
-                $ionicLoading.hide()
+                //$ionicLoading.hide()
             })
             // This fixes transitions for transparent background views
             $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {

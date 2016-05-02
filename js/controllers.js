@@ -1384,7 +1384,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 url: domain + 'doctors/consultations',
                 params: {userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
-                $ionicLoading.hide();
                 $scope.specializations = response.data.spec;
                 //Video
                 $scope.video_time = response.data.video_time;
@@ -1419,18 +1418,21 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.chat_app = response.data.chat_app;
                 $scope.chat_doctorsData = response.data.chat_doctorsData;
                 $scope.chat_products = response.data.chat_products;
+                $ionicLoading.hide();
                 //$state.go('app.category-detail');
             }, function errorCallback(e) {
                 console.log(e);
             });
 
             $scope.deleteApp = function (appId, prodId, mode, startTime) {
+                $ionicLoading.show({template: 'Loading...'});
                 $http({
                     method: 'GET',
                     url: domain + 'doctorsapp/patient-delete-app',
                     params: {appId: appId, prodId: prodId, userId: $scope.userId}
                 }).then(function successCallback(response) {
                     console.log(response.data);
+                    $ionicLoading.hide();
                     if (response.data == 1) {
                         alert('Your appointment is cancelled successfully.');
                         $state.go('app.consultations-current', {}, {reload: true});
@@ -1465,7 +1467,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 url: domain + 'doctors/consultations-current',
                 params: {userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
-                $ionicLoading.hide();
                 $scope.specializations = response.data.spec;
                 //Video
                 $scope.video_time = response.data.video_time;
@@ -1500,6 +1501,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.chat_app = response.data.chat_app;
                 $scope.chat_doctorsData = response.data.chat_doctorsData;
                 $scope.chat_products = response.data.chat_products;
+                $ionicLoading.hide();
                 //$state.go('app.category-detail');
             }, function errorCallback(e) {
                 console.log(e);
@@ -1513,8 +1515,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     params: {appId: appId, prodId: prodId, userId: $scope.userId}
                 }).then(function successCallback(response) {
                     console.log(response.data);
+                    $ionicLoading.hide();
                     if (response.data == 1) {
-                        $ionicLoading.hide();
                         alert('Your appointment is cancelled successfully.');
                         $state.go('app.consultations-current', {}, {reload: true});
                     }
@@ -1548,7 +1550,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 url: domain + 'doctors/consultations-past',
                 params: {userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
-                $ionicLoading.hide();
                 $scope.specializations = response.data.spec;
                 //Video
                 $scope.video_time = response.data.video_time;
@@ -1583,6 +1584,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.chat_app = response.data.chat_app;
                 $scope.chat_doctorsData = response.data.chat_doctorsData;
                 $scope.chat_products = response.data.chat_products;
+                $ionicLoading.hide();
                 //$state.go('app.category-detail');
             }, function errorCallback(e) {
                 console.log(e);
@@ -1596,8 +1598,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     params: {appId: appId, prodId: prodId, userId: $scope.userId}
                 }).then(function successCallback(response) {
                     console.log(response.data);
+                    $ionicLoading.hide();
                     if (response.data == 1) {
-                        $ionicLoading.hide();
                         alert('Your appointment is cancelled successfully.');
                         $state.go('app.consultations-current', {}, {reload: true});
                     }
@@ -1631,7 +1633,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 url: domain + 'doctors/list',
                 params: {id: $stateParams.id, interface: $scope.interface}
             }).then(function successCallback(response) {
-                $ionicLoading.hide();
                 $scope.doctors = response.data.user;
                 $scope.services = response.data.services;
                 angular.forEach($scope.doctors, function (value, key) {
@@ -1647,7 +1648,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         console.log(response);
                     });
                     $scope.spec = response.data.spec;
-
+                    $ionicLoading.hide();
                 });
             }, function errorCallback(e) {
                 console.log(e);
@@ -1672,6 +1673,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.bookingSlot = '';
             $scope.supId = '';
             $scope.interface = window.localStorage.getItem('interface_id');
+            $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
                 url: domain + 'doctors/get-details',
@@ -1777,6 +1779,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         console.log(response);
                     });
                 });
+                $ionicLoading.hide();
             });
 
             $scope.doit = function () {
@@ -1813,7 +1816,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     cache: false,
                     params: {id: supsassId, from: from}
                 }).then(function successCallback(responseData) {
-                    $ionicLoading.hide();
+                    //$ionicLoading.hide();
                     if (responseData.data.lastdate == '') {
                         if (serv == 1) {
                             $scope.vSch[key] = responseData.data.slots;
@@ -1857,6 +1860,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             $rootScope.$digest;
                         }
                     }
+                    $ionicLoading.hide();
                 }, function errorCallback(response) {
                     console.log(response);
                 });
@@ -1869,7 +1873,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     url: domain + 'doctors/get-doctors-availability',
                     params: {id: supsassId, from: $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss')}
                 }).then(function successCallback(responseData) {
-                    $ionicLoading.hide();
+                    //$ionicLoading.hide();
                     if (serv == 1) {
                         if (responseData.data.slots == '') {
                             $scope.vSch[key] = responseData.data.slots;
@@ -1913,6 +1917,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             $scope.nextHdate[key] = $filter('date')(new Date(tomorrow), 'yyyy-MM-dd');
                         }
                     }
+                    $ionicLoading.hide();
                 }, function errorCallback(response) {
                     console.log(response);
                 });
@@ -2015,11 +2020,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $timeout.cancel(stopped1);
                     $scope.kookooID = window.localStorage.getItem('kookooid1');
                     $scope.prodid = window.localStorage.getItem('prodId');
+                    $ionicLoading.show({template: 'Loading...'});
                     $http({
                         method: 'GET',
                         url: domain + 'kookoo/payment-time-expired',
                         params: {kookooid: $scope.kookooID}
                     }).then(function successCallback(responseData) {
+                        $ionicLoading.hide();
                         alert('Sorry, Your payment time expired');
                         window.localStorage.removeItem('kookooid');
                         window.localStorage.removeItem('kookooid1');
@@ -2045,13 +2052,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.ccode = '';
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $scope.discountApplied = '0';
+            $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
                 url: domain + 'doctors/get-order-review',
                 params: {id: $scope.supid, prodId: $scope.prodid, interface: $scope.interface}
             }).then(function successCallback(responseData) {
                 console.log(responseData.data);
-                $ionicLoading.show({template: 'Loading...'});
                 //$ionicLoading.hide();
                 $scope.product = responseData.data.prod;
                 $scope.prod_inclusion = responseData.data.prod_inclusion;
@@ -2072,6 +2079,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.endSlot = window.localStorage.getItem('endSlot');
                 $scope.appUrl = $location.absUrl();
                 $scope.userId = get('id');
+                $ionicLoading.show({template: 'Loading...'});
                 $http({
                     method: 'GET',
                     url: domain + 'buy/book-appointment',
@@ -2104,6 +2112,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $ionicHistory.nextViewOptions({
                     disableBack: true
                 });
+                $ionicLoading.show({template: 'Loading...'});
                 $http({
                     method: 'GET',
                     url: domain + 'buy/buy-individual',
@@ -2122,6 +2131,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             disableBack: true
                         });
                         //$timeout.cancel(stopped1);
+                        $ionicLoading.hide();
                         $state.go('app.thankyou', {'data': response.data}, {reload: true});
                     }
                 }, function errorCallback(response) {
@@ -2140,6 +2150,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.userId = get('id');
                 $scope.ccode = ccode;
                 console.log($scope.discount + '--' + $scope.discountApplied + '++++ ' + $scope.userId);
+                $ionicLoading.show({template: 'Loading...'});
                 $http({
                     method: 'GET',
                     url: domain + 'buy/apply-coupon-code',
@@ -2178,6 +2189,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $('#coupon_error').html('Coupon Applied.');
                         window.localStorage.setItem('coupondiscount', response.data);
                     }
+                    $ionicLoading.hide();
                 });
             }
             ;
@@ -2224,9 +2236,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, 100);
         })
 
-        .controller('SuccessCtrl', function ($scope, $http, $stateParams, $state) {
+        .controller('SuccessCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading) {
             $scope.startSlot = window.localStorage.getItem('startSlot');
             $scope.endSlot = window.localStorage.getItem('endSlot');
+            $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
                 url: domain + 'orders/get-order-details',
@@ -2237,6 +2250,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.prod_inclusion = responseData.data.prod_inclusion;
                 $scope.doctor = responseData.data.doctor;
                 $scope.appointment = responseData.data.app;
+                $ionicLoading.hide();
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -2250,7 +2264,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-        .controller('FailureCtrl', function ($scope, $http, $stateParams) {
+        .controller('FailureCtrl', function ($scope, $http, $stateParams, $ionicLoading) {
+            $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
                 url: domain + 'orders/get-failure-order-details',
@@ -2259,6 +2274,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.product = responseData.data.prod;
                 $scope.prod_inclusion = responseData.data.prod_inclusion;
                 $scope.doctor = responseData.data.doctor;
+                $ionicLoading.hide();
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -2272,6 +2288,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.mode = $stateParams.mode;
             $scope.userId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+            $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
                 url: domain + 'appointment/get-app-details',
@@ -2282,6 +2299,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.app = response.data.app;
                 $scope.doctor = response.data.doctorsData;
                 $scope.products = response.data.products;
+                $ionicLoading.hide();
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -2297,6 +2315,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('PatientJoinCtrl', function ($window, $scope, $http, $stateParams, $sce, $filter, $timeout, $state, $ionicHistory, $ionicLoading) {
+            $ionicLoading.show({template: 'Loading...'});
             if (!get('loadedOnce')) {
                 store({'loadedOnce': 'true'});
                 $window.location.reload(true);
@@ -2421,10 +2440,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-        .controller('ChatListCtrl', function ($scope, $http, $stateParams, $rootScope) {
+        .controller('ChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $ionicLoading) {
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.participant = [];
             $scope.msg = [];
+            $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
                 url: domain + 'doctorsapp/get-active-chats',
@@ -2433,6 +2453,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(response.data);
                 $scope.chatParticipants = response.data;
                 angular.forEach($scope.chatParticipants, function (value, key) {
+                    $ionicLoading.show({template: 'Loading...'});
                     $http({
                         method: 'GET',
                         url: domain + 'doctorsapp/get-chat-msg',
@@ -2442,19 +2463,22 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.participant[key] = responseData.data.user;
                         $scope.msg[key] = responseData.data.msg;
                         $rootScope.$digest;
+                        $ionicLoading.hide();
                     }, function errorCallback(response) {
                         console.log(response.responseText);
                     });
                 });
+                $ionicLoading.hide();
             }, function errorCallback(e) {
                 console.log(e);
             });
         })
 
-        .controller('PastChatListCtrl', function ($scope, $http, $stateParams, $rootScope) {
+        .controller('PastChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $ionicLoading) {
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.participant = [];
             $scope.msg = [];
+            $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
                 url: domain + 'doctorsapp/get-past-chats',
@@ -2463,6 +2487,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(response.data);
                 $scope.chatParticipants = response.data;
                 angular.forEach($scope.chatParticipants, function (value, key) {
+                    $ionicLoading.show({template: 'Loading...'});
                     $http({
                         method: 'GET',
                         url: domain + 'doctorsapp/get-chat-msg',
@@ -2472,22 +2497,25 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.participant[key] = responseData.data.user;
                         $scope.msg[key] = responseData.data.msg;
                         $rootScope.$digest;
+                        $ionicLoading.hide();
                     }, function errorCallback(response) {
                         console.log(response.responseText);
                     });
                 });
+                $ionicLoading.hide();
             }, function errorCallback(e) {
                 console.log(e);
             });
         })
 
-        .controller('ChatCtrl', function ($scope, $http, $stateParams, $timeout, $filter) {
+        .controller('ChatCtrl', function ($scope, $http, $stateParams, $timeout, $filter, $ionicLoading) {
             $scope.chatId = $stateParams.id;
             window.localStorage.setItem('chatId', $stateParams.id);
             $scope.partId = window.localStorage.getItem('id');
             $scope.msg = '';
             var apiKey = '45121182';
             //console.log($scope.chatId);
+            $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
                 url: domain + 'doctorsapp/get-chat-token',
@@ -2514,7 +2542,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         console.error(err);
                     }
                 });
-
+                $ionicLoading.hide();
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -2559,16 +2587,18 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         })
 
-        .controller('JoinChatCtrl', function ($scope, $http, $stateParams, $sce) {
+        .controller('JoinChatCtrl', function ($scope, $http, $stateParams, $sce, $ionicLoading) {
             $scope.appId = $stateParams.id;
             $scope.mode = $stateParams.mode;
             $scope.userId = get('id');
             $scope.msgs = {};
+            $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
                 url: domain + 'chat/patient-join-chat',
                 params: {id: $scope.appId, userId: $scope.userId, mode: $scope.mode}
             }).then(function sucessCallback(response) {
+                $ionicLoading.hide();
                 //console.log(response.data);
                 $scope.user = response.data.user;
                 $scope.app = response.data.app;
@@ -2621,8 +2651,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('CheckavailableCtrl', function ($scope, $rootScope, $ionicLoading, $state, $http, $stateParams, $timeout, $ionicModal, $ionicPopup) {
             $scope.data = $stateParams.data;
             $scope.uid = $stateParams.uid;
-
             $scope.interface = window.localStorage.getItem('interface_id');
+            $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
                 url: domain + 'kookoo/check-doctor-availability',
@@ -2631,6 +2661,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.check_availability = responseData.data.check_availability;
                 $scope.instant_video = responseData.data.instant_video;
                 $scope.language = responseData.data.lang.language;
+                $ionicLoading.hide();
             });
 
             /* patient confirm */
@@ -2640,11 +2671,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     template: '<p align="center"><strong>Doctor is Available</strong></p><div>The specialist has accepted your request for an instant video call. Do you want to continue?</div>'
                 });
                 confirmPopup.then(function (res) {
-
                     if (res != true) {
-
                         $scope.kookooID = window.localStorage.getItem('kookooid');
                         $scope.prodid = window.localStorage.getItem('prodId');
+                        $ionicLoading.show({template: 'Loading...'});
                         $http({
                             method: 'GET',
                             url: domain + 'kookoo/reject-by-patient',
@@ -2690,7 +2720,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
                 $scope.$on('$destroy', myListener);
                 var myListenern = $rootScope.$on('loading:hide', function (event, data) {
-
                     $ionicLoading.hide();
                 });
                 $scope.$on('$destroy', myListenern);
@@ -2699,8 +2728,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     console.log("jhffffhjfhj" + $scope.checkavailval);
                     $timeout.cancel(stopped);
                     window.localStorage.removeItem('kookooid');
-
-
                 });
                 $http({
                     method: 'GET',
@@ -2709,15 +2736,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }).then(function successCallback(responsekookoo) {
                     console.log(responsekookoo.data);
                     $scope.checkavailval = responsekookoo.data;
-                    if ($scope.checkavailval == 1)
-                    {
+                    if ($scope.checkavailval == 1) {
                         $timeout.cancel(stopped);
                         $scope.showConfirm();
                         // $state.go('app.payment');
 
-
-                    } else if ($scope.checkavailval == 2)
-                    {
+                    } else if ($scope.checkavailval == 2) {
                         $timeout.cancel(stopped);
                         window.localStorage.removeItem('kookooid');
                         alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
@@ -2802,6 +2826,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $timeout.cancel(stopped);
                 $scope.prodid = window.localStorage.getItem('prodId');
                 $scope.kookooID = window.localStorage.getItem('kookooid');
+                $ionicLoading.show({template: 'Loading...'});
                 $http({
                     method: 'GET',
                     url: domain + 'kookoo/cancel-by-patient',
@@ -2811,6 +2836,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $timeout.cancel(stopped);
                     window.localStorage.removeItem('kookooid');
                     // $state.go('app.consultations-list', {reload: true});
+                    $ionicLoading.hide();
                     $state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
                 }, function errorCallback(patientresponse) {
 
@@ -2875,12 +2901,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     if (mode == 1) {
                         alert("Appointment can not be cancelled now!");
                     } else {
+                        $ionicLoading.show({template: 'Loading...'});
                         $http({
                             method: 'GET',
                             url: domain + 'appointment/cancel-app',
                             params: {appId: $scope.appId, userId: $scope.userId}
                         }).then(function successCallback(response) {
                             console.log(response.data);
+                            $ionicLoading.hide();
                             if (response.data == 'success') {
                                 alert('Your appointment is cancelled successfully.');
                                 $state.go('app.consultations-current', {}, {reload: true});
@@ -2892,12 +2920,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         });
                     }
                 } else {
+                    $ionicLoading.show({template: 'Loading...'});
                     $http({
                         method: 'GET',
                         url: domain + 'appointment/cancel-app',
                         params: {appId: $scope.appId, userId: $scope.userId}
                     }).then(function successCallback(response) {
                         console.log(response.data);
+                        $ionicLoading.hide();
                         if (response.data == 'success') {
                             alert('Your appointment is cancelled successfully.');
                             $state.go('app.consultations-current', {}, {reload: true});
@@ -2941,6 +2971,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.schdate = [];
             $scope.nextdate = [];
             $scope.appId = window.localStorage.getItem('appId');
+            $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
                 url: domain + 'doctors/get-service-details',
@@ -2980,6 +3011,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         console.log(response.responseText);
                     });
                 });
+                $ionicLoading.hide();
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -2994,7 +3026,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     params: {id: supsassId, from: from}
                 }).then(function successCallback(responseData) {
                     console.log(responseData.data);
-                    $ionicLoading.hide();
                     if (responseData.data.lastdate == '')
                     {
                         $scope.pSch[key] = responseData.data.slots;
@@ -3009,6 +3040,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.nextdate[key] = $filter('date')(new Date(tomorrow), 'yyyy-MM-dd');
                         $rootScope.$digest;
                     }
+                    $ionicLoading.hide();
                 }, function errorCallback(response) {
                     console.log(response);
                 });
@@ -3023,7 +3055,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     params: {id: supsassId, from: new Date()}
                 }).then(function successCallback(responseData) {
                     console.log(responseData);
-                    $ionicLoading.hide();
                     if (responseData.data.slots == '') {
                         $scope.pSch[key] = responseData.data.slots;
                         $scope.schdate[key] = new Date();
@@ -3037,6 +3068,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         tomorrow.setDate(tomorrow.getDate() + 1);
                         $scope.nextdate[key] = $filter('date')(new Date(tomorrow), 'yyyy-MM-dd');
                     }
+                    $ionicLoading.hide();
                 }, function errorCallback(response) {
                     console.log(response);
                 });
@@ -3061,12 +3093,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.prodid = prodId;
                 $scope.userId = get('id');
                 if ($scope.bookingStart) {
+                    $ionicLoading.show({template: 'Loading...'});
                     $http({
                         method: 'GET',
                         url: domain + 'appointment/schedule-new-app',
                         params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, startSlot: $scope.bookingStart, endSlot: $scope.bookingEnd}
                     }).then(function successCallback(response) {
                         console.log(response);
+                        $ionicLoading.hide();
                         if (response.data == 'error') {
                             alert("Appointment can not be reschedule now!");
                         } else {
