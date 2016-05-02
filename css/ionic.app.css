@@ -39,6 +39,7 @@ For example, you might change some of the default colors:
     line-height: 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale; }
+.pb30{padding-bottom: 30px;}
 
 .ion-alert:before {
     content: "\f101"; }

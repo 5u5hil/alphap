@@ -604,8 +604,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 addNew(ele);
             };
             $scope.submit = function () {
-                //console.log(jQuery("#addRecordForm")[0].length);
-                $ionicLoading.show({template: 'Adding...'});
+                //console.log(jQuery("#addRecordForm")[0].length);                
                 //alert($scope.tempImgs.length);
                 if ($scope.tempImgs.length > 0) {
                     angular.forEach($scope.tempImgs, function (value, key) {
@@ -618,6 +617,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     });
                     jQuery('#camfilee').val($scope.image);
                     console.log($scope.images);
+                    $ionicLoading.show({template: 'Adding...'});
                     var data = new FormData(jQuery("#addRecordForm")[0]);
                     callAjax("POST", domain + "records/save", data, function (response) {
                         console.log(response);

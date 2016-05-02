@@ -2,8 +2,8 @@
     <ion-nav-title>
         <span>{{category.created_at| datetime3}}</span> <!---Specific Record ({{category[0].categories.category}}) --->
     </ion-nav-title>
-    <ion-content>
-        <div class="pb50">
+    <ion-content class="pb50">
+        <div >
 
             <div ng-repeat="rec in recordDetails track by $index">
                 <div ng-if="category.category == 3">
