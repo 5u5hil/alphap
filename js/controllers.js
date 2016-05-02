@@ -1182,6 +1182,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.diet = [];
             $scope.dietPlanDetails = [];
             $scope.Mealday = '';
+            $scope.isAttachment = '';
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.isNumber = function (num) {
                 return angular.isNumber(num);
@@ -1242,9 +1243,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             $scope.prescstatus = val.value;
                         }
                     }
-                    if (val.fields.field == 'Attachments') {
-                        $scope.isAttachment = val.attachments.length;
+                    if ($scope.category.categories.id == '8') {
+                        if (val.fields.field == 'Attachments') {
+                            $scope.isAttachment = val.attachments.length;
+                        }
                     }
+                    console.log($scope.isAttachment);
                 });
                 $ionicLoading.hide();
             }, function errorCallback(response) {
