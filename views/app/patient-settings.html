@@ -5,17 +5,20 @@
   <ion-nav-title>
     <span>Settings</span>
   </ion-nav-title>
+
   <ion-content>
+       
     <ul class="list">
+      
 
 	 
 	 
 	
-      <div class="item item-divider">Prefered language</div>
+      <div class="item item-divider">Prefered language </div>
 
-	 
+	
       <ion-list ng-repeat="lang in allow_lang">
-                    <ion-radio  class="radioptions" ng-checked="lang.language_id == 1" ng-click="patient_language({{lang.language_id}})" ng-value="{{lang.language_id}}">{{lang.language}}</ion-radio>		  
+                    <ion-radio  class="radioptions" ng-checked="lang.language_id == getlang.language_id" ng-click="patient_language({{lang.language_id}})" ng-value="{{lang.language_id}}">{{lang.language}} --{{lang.language_id}}--{{getlang.language_id}}</ion-radio>		  
 		</ion-list> 
 	 
 	 

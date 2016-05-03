@@ -80,8 +80,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     //$rootScope.apkLanguage = response.data.lang.language;
                     $scope.apkLanguage = window.localStorage.setItem('apkLanguage', response.data.lang.language);
                 } else {
-                    //response.data.language
-                     $scope.apkLanguage = window.localStorage.setItem('apkLanguage', 'sfasfasf');
+                    
                 }
             }, function errorCallback(response) {
                 // console.log(response);
@@ -1258,6 +1257,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 params: {patientId: window.localStorage.getItem('id'),interface: $scope.interface}
             }).then(function successCallback(response) {
                 $scope.allow_lang = response.data.allow_lang;
+                $scope.getlang = response.data.getlang;
                 $scope.langtext = response.data.langtext;
                 $scope.language = response.data.lang.language;
             }, function errorCallback(e) {
