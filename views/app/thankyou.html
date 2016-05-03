@@ -1,6 +1,7 @@
 <ion-view class="records-view">
     <ion-nav-title>
-        <span>Thank You </span>
+       <span  ng-if="apkLanguage == 'english'">Thank You</span>
+        <span  ng-if="apkLanguage != 'english'">{{tabmenu.thankyou[language]}}</span>
     </ion-nav-title>
     <!--     <ion-nav-buttons side="right">
             <button class="button button-icon button-clear ion-person">
@@ -18,7 +19,9 @@
                             <br/>
                             <br/>
                             <br/>
-                            <div ng-click="gotohome()" class="button bar bar-positive">Back to Consultations</div>
+                            <div ng-click="gotohome()" class="button bar bar-positive" ng-if="apkLanguage == 'english'">Back to Consultations</div>
+                             <div ng-click="gotohome()" class="button bar bar-positive" ng-if="apkLanguage != 'english'">{{tabmenu.backto[language]}}</div>
+
                             <div class="clr"></div>
                         </div>
                         <div class="p15" ng-if="data == 'fail'">
@@ -26,7 +29,9 @@
                             <br/>
                             <br/>
                             <br/>
-                            <div class="button bar bar-positive" ng-click="gotohome()">Back to Consultations</div>
+                             <div ng-click="gotohome()" class="button bar bar-positive" ng-if="apkLanguage == 'english'">Back to Consultations</div>
+                             <div ng-click="gotohome()" class="button bar bar-positive" ng-if="apkLanguage != 'english'">{{tabmenu.backto[language]}}</div>
+
                             <div class="clr"></div>
                         </div>
                     </div>

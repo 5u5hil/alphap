@@ -3,7 +3,7 @@ var session;
 var subscriber;
 angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('AuthCtrl', function ($scope, $state, $ionicConfig, $rootScope) {
-            $scope.interface = window.localStorage.setItem('interface_id', '3');
+            $scope.interface = window.localStorage.setItem('interface_id', '5');
             if (window.localStorage.getItem('id') != null) {
                 $rootScope.userLogged = 1;
                 $rootScope.username = window.localStorage.getItem('fname');
@@ -14,7 +14,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
 // APP
-        .controller('AppCtrl', function ($scope, $state, $ionicConfig, $rootScope, $ionicLoading, $ionicHistory, $timeout) {
+        .controller('AppCtrl', function ($scope,$http, $state, $ionicConfig, $rootScope, $ionicLoading, $ionicHistory, $timeout) {
             $rootScope.imgpath = domain + "/public/frontend/user/";
             $rootScope.attachpath = domain + "/public";
 
@@ -25,6 +25,24 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 if ($rootScope.userLogged == 0)
                     $state.go('auth.walkthrough');
             }
+            
+             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.CurrentDate = new Date();
+            $http({
+                method: 'GET',
+                url: domain + 'get-sidemenu-lang',
+                params: {id: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                if (response.data) {
+                    $scope.menutext = response.data.dataMenu;
+                    $scope.language = response.data.lang.language;
+
+                } else {
+                }
+            }, function errorCallback(response) {
+                // console.log(response);
+            });
             $scope.logout = function () {
                 $ionicLoading.show({template: 'Logging out....'});
                 window.localStorage.clear();
@@ -45,9 +63,27 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
 //LOGIN
-        .controller('LoginCtrl', function ($scope, $state, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
-            window.localStorage.setItem('interface_id', '3');
+        .controller('LoginCtrl', function ($scope, $state,$http, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
+            window.localStorage.setItem('interface_id', '5');
             $scope.interface = window.localStorage.getItem('interface_id');
+                       $http({
+                method: 'GET',
+                url: domain + 'get-login',
+                params: {id: window.localStorage.getItem('id'), interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data.lang.language);
+
+                if (response.data.lang.language) {
+                    $scope.langtext = response.data.data;
+                    $scope.language = response.data.lang.language;
+                    //$rootScope.apkLanguage = response.data.lang.language;
+                    $scope.apkLanguage = window.localStorage.setItem('apkLanguage', response.data.lang.language);
+                } else {
+                }
+            }, function errorCallback(response) {
+                // console.log(response);
+            });
+            
             $scope.doLogIn = function () {
                 $ionicLoading.show({template: 'Loading...'});
                 var data = new FormData(jQuery("#loginuser")[0]);
@@ -111,7 +147,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, 30);
         })
         .controller('SignupCtrl', function ($scope, $state, $http, $rootScope) {
-            $scope.interface = window.localStorage.setItem('interface_id', '3');
+            $scope.interface = window.localStorage.setItem('interface_id', '5');
             $scope.user = {};
             $scope.user.name = '';
             $scope.user.email = '';
@@ -324,7 +360,37 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('CategoryListCtrl', function ($scope, $http, $stateParams, $rootScope) {
             if (get('id') != null) {
                 $rootScope.userLogged = 1;
+        $scope.interface = window.localStorage.getItem('interface_id');
+                $scope.userId = window.localStorage.getItem('id');
+                $http({
+                    method: 'GET',
+                    url: domain + 'get-categoty-lang',
+                    params: {id: $scope.userId, interface: $scope.interface}
+                }).then(function successCallback(response) {
+                    if (response.data.dataCat) {
+                        $scope.cattext = response.data.dataCat;
+                        $scope.language = response.data.lang.language;
+                    } else {
+                    }
+                    $http({
+                        method: 'GET',
+                        url: domain + 'assistants/get-chat-unread-cnt',
+                        params: {userId: $scope.userId}
+                    }).then(function sucessCallback(response) {
+                        console.log(response);
+                        $scope.unreadCnt = response.data;
+                    }, function errorCallback(e) {
+                        console.log(e);
+                    });
+                }, function errorCallback(response) {
+                    // console.log(response);
+                });
+            } else {
+                $state.go('auth.walkthrough', {}, {reload: true});
             }
+         
+            
+            
         })
 
         .controller('CategoryDetailCtrl', function ($scope, $http, $stateParams, $ionicFilterBar, $ionicModal, $timeout, $ionicLoading) {
@@ -347,6 +413,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.categories = response.data.categories;
                 $scope.doctrs = response.data.doctrs;
                 $scope.userRecords = response.data.recordCount;
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.lang.language;
                 $ionicLoading.hide();
             }, function errorCallback(response) {
                 console.log(response);
@@ -1389,6 +1457,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 params: {userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 $scope.specializations = response.data.spec;
+                 $scope.langtext = response.data.tabmenu;
+                  $scope.language = response.data.lang.language;
                 //Video
                 $scope.video_time = response.data.video_time;
                 $scope.video_app = response.data.video_app;
@@ -1472,6 +1542,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 params: {userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 $scope.specializations = response.data.spec;
+                $scope.langtext = response.data.tabmenu;
+                  $scope.language = response.data.lang.language;
                 //Video
                 $scope.video_time = response.data.video_time;
                 $scope.video_app = response.data.video_app;
@@ -1555,6 +1627,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 params: {userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 $scope.specializations = response.data.spec;
+                $scope.langtext = response.data.tabmenu;
+                  $scope.language = response.data.lang.language;
                 //Video
                 $scope.video_time = response.data.video_time;
                 $scope.video_app = response.data.video_app;
@@ -1702,6 +1776,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.packages = response.data.packages;
                 $scope.services = response.data.services;
                 $scope.service = response.data.service;
+                $scope.instant_video = response.data.instant_video;
+                 $scope.procced = response.data.procced;
+                $scope.scheduled_video = response.data.scheduled_video;
+                 $scope.earliest_slot = response.data.earliest_slot;
+                $scope.next_slot = response.data.next_slot;
+                 $scope.language = response.data.lang.language;
                 //console.log("prodId " + $scope.instVideo + "popopo");
                 //$ionicLoading.hide();
                 angular.forEach($scope.videoSch, function (value, key) {
@@ -2064,6 +2144,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }).then(function successCallback(responseData) {
                 console.log(responseData.data);
                 //$ionicLoading.hide();
+                $scope.patient = responseData.data.patient;
+                $scope.payment = responseData.data.payment;
+                $scope.confirm = responseData.data.confirm;
+                $scope.confirm_appointment = responseData.data.confirm_appointment;
+                $scope.language = responseData.data.lang.language;
+                
                 $scope.product = responseData.data.prod;
                 $scope.prod_inclusion = responseData.data.prod_inclusion;
                 $scope.doctor = responseData.data.doctor;
@@ -2202,6 +2288,20 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('ThankyouCtrl', function ($scope, $http, $state, $location, $stateParams, $rootScope, $ionicGesture, $timeout, $sce, $ionicHistory) {
             console.log($stateParams.data);
             $scope.data = $stateParams.data;
+            $scope.id = window.localStorage.getItem('id');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $http({
+                method: 'GET',
+                url: domain + 'assistants/thankyou-lang',
+                params: {id: $scope.id, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                //console.log(response.data);
+                $scope.tabmenu = response.data.tabmenu;
+                $scope.language = response.data.lang.language;
+            }, function errorCallback(response) {
+                console.log(response);
+            });
             $scope.gotohome = function () {
                 $ionicHistory.nextViewOptions({
                     disableBack: true
@@ -2446,16 +2546,19 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('ChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $ionicLoading) {
             $scope.doctorId = window.localStorage.getItem('id');
+            $scope.interface= window.localStorage.getItem('interface_id');
             $scope.participant = [];
             $scope.msg = [];
             $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
                 url: domain + 'doctorsapp/get-active-chats',
-                params: {drid: $scope.doctorId}
+                params: {drid: $scope.doctorId,interface:$scope.interface}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
-                $scope.chatParticipants = response.data;
+                $scope.chatParticipants = response.data.participants;
+                 $scope.language = response.data.lang.language;
+                  $scope.langtext = response.data.langtext;
                 angular.forEach($scope.chatParticipants, function (value, key) {
                     $ionicLoading.show({template: 'Loading...'});
                     $http({
@@ -2480,16 +2583,19 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('PastChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $ionicLoading) {
             $scope.doctorId = window.localStorage.getItem('id');
+            $scope.interface= window.localStorage.getItem('interface_id');
             $scope.participant = [];
             $scope.msg = [];
             $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
                 url: domain + 'doctorsapp/get-past-chats',
-                params: {drid: $scope.doctorId}
+                params: {drid: $scope.doctorId,interface:$scope.interface}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
-                $scope.chatParticipants = response.data;
+                $scope.chatParticipants = response.data.participants;
+                 $scope.language = response.data.lang.language;
+                  $scope.langtext = response.data.langtext;
                 angular.forEach($scope.chatParticipants, function (value, key) {
                     $ionicLoading.show({template: 'Loading...'});
                     $http({
@@ -2516,6 +2622,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.chatId = $stateParams.id;
             window.localStorage.setItem('chatId', $stateParams.id);
             $scope.partId = window.localStorage.getItem('id');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.msg = '';
             var apiKey = '45121182';
             //console.log($scope.chatId);
@@ -2523,7 +2631,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $http({
                 method: 'GET',
                 url: domain + 'doctorsapp/get-chat-token',
-                params: {chatId: $scope.chatId, userId: $scope.partId}
+                params: {chatId: $scope.chatId, userId: $scope.partId,interface:$scope.interface}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
                 $scope.user = response.data.user;
