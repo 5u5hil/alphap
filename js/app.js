@@ -250,6 +250,17 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
+                    .state('app.patient-settings', {
+                        cache: false,
+                        url: "/patient-settings",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/patient-settings.html",
+                                controller: 'PatientSettingsCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.medicine', {
                         cache: false,

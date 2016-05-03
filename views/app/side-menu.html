@@ -79,6 +79,13 @@
                     <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.pathology[language]}}</h2>
                     
                 </ion-item>
+                
+                 <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.patient-settings">
+                    <i class="icon ion-erlenmeyer-flask"></i>
+                    <h2 class="menu-text" ng-if="apkLanguage == 'english'">Setting</h2>
+                    <h2 class="menu-text" ng-if="apkLanguage != 'english'">Setting</h2>
+                    
+                </ion-item>
 
                 <ion-item class="item-icon-left logoutbtn" nav-clear menu-close ng-if="userLogged == 1" ng-click="logout()" >
                     <i class="icon ion-android-unlock"></i>

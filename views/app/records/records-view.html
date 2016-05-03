@@ -1,22 +1,16 @@
 <ion-view class="records-view">
     <ion-nav-title>
-        <span  ng-if="apkLanguage == 'english'">Records</span>
-        <span  ng-if="apkLanguage != 'english'">{{langtext.records[language]}}</span>
+        <span>{{category[0].category}}</span>
+       
 
         <!---<button class="button" ng-click="print()">Print</button>--->
     </ion-nav-title>
 
     <div class="item item-divider mtop44" style="font-size: 18px; min-height: 45px; text-align:center;">
-        <select class="selectheader" ng-model="catId" ng-change="getRecords(catId)">
-            <option ng-repeat="cat in category" value="{{cat.id}}" ng-selected="{{catId == cat.id}}" >{{cat.category}}</option>
-        </select>
+       <span  ng-if="apkLanguage == 'english'">  Records- {{createdby.length}}</span>
+       <span  ng-if="apkLanguage != 'english'">  {{langtext.records[language]}}-  {{createdby.length}} </span>
     </div>
-    <!--    <div class="bar bar-subheader cbar divider-2" style="margin-top:45px;">
-            <div class="row">
-                <div class="col-50"><a  ui-sref="app.filter"><h4 class="subhead"><i class="icon ion-funnel"></i> Filter</h4></a></div>
-                <div class="col-50"><h4 class="subhead">Sort <i class="icon ion-ios-arrow-thin-down"></i></h4> </div>
-            </div>
-        </div>-->
+    
 
     <ion-content>
         <div class="list recordview" style="margin-top: 50px;" >

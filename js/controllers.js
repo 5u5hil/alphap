@@ -1243,6 +1243,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
             };
         })
+        
+       
+         .controller('PatientSettingsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $ionicLoading, $rootScope, $sce) {
+             
+        })
 
         .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $ionicLoading, $rootScope, $sce) {
             $scope.recordId = $stateParams.id;
@@ -1279,6 +1284,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.selConditions = response.data.conditions;
                 $scope.dietData = response.data.dietData;
                 $scope.dietDetails = response.data.dietDetails;
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.lang.language;
                 angular.forEach($scope.dietDetails, function (value, key) {
                     angular.forEach(value.data, function (val, k) {
 
@@ -1380,15 +1387,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
 
 
-            //EDIT Modal
-//            $scope.edit = function (id, cat) {
-//                $state.go('app.edit-record', {'id': id, 'cat': cat});
-//                //window.location.href = "http://192.168.2.169:8100/#/app/edit-record/" + id + "/" + cat;
-//            };
-            // Load the modal from the given template URL
+
+            $scope.path = "";
+            $scope.name = "";
             $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
                 $scope.modal = $ionicModal;
                 $scope.showm = function (path, name) {
+                     $scope.path = path;
+                    $scope.name = name;
                     console.log(path + '=afd =' + name);
                     $scope.value = $rootScope.attachpath + path + name;
                     $scope.modal.show();
@@ -1407,6 +1413,17 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.submitmodal = function () {
                 //console.log($scope.catIds);
                 $scope.modal.hide();
+            };
+            
+            $scope.print = function () {
+                //  console.log("fsfdfsfd");
+                //  var printerAvail = $cordovaPrinter.isAvailable();
+
+                var print_page = '<img src="' + $rootScope.attachpath + $scope.path + $scope.name + '"  height="auto" maxwidth="100%" />';
+
+                cordova.plugins.printer.print(print_page, 'Print', function () {
+                    alert('printing finished or canceled');
+                });
             };
         })
 
