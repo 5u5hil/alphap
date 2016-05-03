@@ -1,11 +1,18 @@
 <ion-view class="add-category-view">
     <ion-nav-title>
-        <span>Add Record <!--({{record.category}})--></span>
+    
+          <span  ng-if="apkLanguage == 'english'">Add Record</span>
+        <span  ng-if="apkLanguage != 'english'">{{langtext.new[language]}} {{langtext.records[language]}}</span>
     </ion-nav-title>
-    <ion-nav-buttons side="right">
-        <button type="submit" ng-click="submit()" class="button button-positive w100p brdradious0" ng-disabled="addRecordForm.$invalid"> 
+    <ion-nav-buttons side="right"  >
+        <button type="submit" ng-if="apkLanguage == 'english'" ng-click="submit()" class="button button-positive w100p brdradious0" ng-disabled="addRecordForm.$invalid"> 
             <strong>Submit</strong> </button>
+        
+         <button type="submit" ng-if="apkLanguage != 'english'" ng-click="submit()" class="button button-positive w100p brdradious0" ng-disabled="addRecordForm.$invalid"> 
+            <strong>{{langtext.submit[language]}} </strong> </button>
     </ion-nav-buttons> 
+    
+   
     <form name="addRecordForm" id="addRecordForm" enctype="multipart/form-data" novalidate >
         <ion-content>
             <ul class="list addform">
