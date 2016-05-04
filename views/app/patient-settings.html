@@ -18,8 +18,10 @@
 
 	
       <ion-list ng-repeat="lang in allow_lang">
-                    <ion-radio  class="radioptions" ng-checked="lang.language_id == getlang.language_id" ng-click="patient_language({{lang.language_id}})" ng-value="{{lang.language_id}}">{{lang.language}} --{{lang.language_id}}--{{getlang.language_id}}</ion-radio>		  
-		</ion-list> 
+          <ion-radio ng-model="lang.language_id"  class="radioptions" ng-checked="lang.language_id == getlang.language_id" ng-click="patient_language({{lang.language_id}})" ng-value="{{lang.language_id}}">{{lang.language}}</ion-radio>		  
+		
+                   
+      </ion-list> 
 	 
 	 
 
