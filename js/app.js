@@ -372,6 +372,17 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
+                    .state('app.doctor-record-join', {
+                        cache: false,
+                        url: "/doctor-record-join",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/doctor-record-join.html",
+                                controller: 'DoctorRecordJoinCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.join-chat', {
                         cache: false,

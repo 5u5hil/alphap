@@ -1591,7 +1591,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('ConsultationsListCurrentCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
             $scope.interface = window.localStorage.getItem('interface_id');
-     $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.imgpath = domain;
             $scope.specializations = {};
             $scope.userId = get('id');
@@ -1643,6 +1643,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, function errorCallback(e) {
                 console.log(e);
             });
+            
+          
 
             $scope.deleteApp = function (appId, prodId, mode, startTime) {
                 $ionicLoading.show({template: 'Loading...'});
@@ -1662,6 +1664,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     console.log(response);
                 });
             };
+            
+             $scope.recordVideo = function (){
+               $state.go('app.doctor-record-join', {}, {cache: false}, {reload: true}); 
+           }
 
             $scope.joinVideo = function (mode, start, end, appId) {
                 console.log(mode + "===" + start + '===' + end + "===" + $scope.curTime + "==" + appId);
@@ -1674,7 +1680,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }
             };
         })
-
+        
+        
+          .controller('DoctorRecordJoinCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
+          })
         .controller('ConsultationsListPastCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
             $scope.interface = window.localStorage.getItem('interface_id');
              $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
