@@ -250,6 +250,17 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
+                    .state('app.patient-settings', {
+                        cache: false,
+                        url: "/patient-settings",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/patient-settings.html",
+                                controller: 'PatientSettingsCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.medicine', {
                         cache: false,
@@ -358,6 +369,17 @@ angular.module('your_app_name', [
                             'menuContent': {
                                 templateUrl: "views/app/patient-join.html",
                                 controller: 'PatientJoinCtrl'
+                            }
+                        }
+                    })
+                    
+                    .state('app.doctor-record-join', {
+                        cache: false,
+                        url: "/doctor-record-join",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/doctor-record-join.html",
+                                controller: 'DoctorRecordJoinCtrl'
                             }
                         }
                     })
