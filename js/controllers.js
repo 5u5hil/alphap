@@ -1823,10 +1823,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.bookingSlot = '';
             $scope.supId = '';
             $scope.interface = window.localStorage.getItem('interface_id');
-<<<<<<< HEAD
-=======
             $scope.userId = window.localStorage.getItem('id');
->>>>>>> origin/master
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $ionicLoading.show({template: 'Loading...'});
             $http({
