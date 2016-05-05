@@ -1,6 +1,6 @@
 <ion-view cache-view="false" class="records-view">
     <ion-nav-title>
-       <span  ng-if="apkLanguage == 'english'">Consultations</span>
+        <span  ng-if="apkLanguage == 'english'">Consultations</span>
         <span  ng-if="apkLanguage != 'english'">{{langtext.consultations[language]}}</span>
     </ion-nav-title>
     <!--<ion-nav-buttons side="right">
@@ -13,7 +13,7 @@
             <div class="col"><a nav-clear menu-close ui-sref="app.consultations-current" class="active" >Active</a></div>
             <div class="col"><a nav-clear menu-close ui-sref="app.consultations-past">Past</a></div>
         </div>
-         <div class="row tabnav" ng-if="apkLanguage != 'english'">
+        <div class="row tabnav" ng-if="apkLanguage != 'english'">
             <div class="col"><a nav-clear menu-close ui-sref="app.consultations-list">{{langtext.book[language]}}</a></div>
             <div class="col"><a nav-clear menu-close ui-sref="app.consultations-current" class="active" >{{langtext.active[language]}}</a></div>
             <div class="col"><a nav-clear menu-close ui-sref="app.consultations-past">{{langtext.past[language]}}</a></div>
@@ -44,7 +44,7 @@
                                             </p>
                                             <div class="clr"></div>
                                         </a>
-                                         
+
                                         <div class="post-actions  post-footer p0"ng-if="apkLanguage == 'english'">
                                             <div class="row cardbtn-small p0">
                                                 <div class="col"><a ng-controller="RescheduleCtrl" confirmed-click="cancelApp(vApp.id,prod.user_id,1, vApp.scheduled_start_time)" ng-confirm-click="Do you really want to cancel appointment?" id="{{vApp.id}}" class="cbtn cancel"><i class="ion-close"></i> Cancel</a></div>
@@ -53,8 +53,8 @@
 
                                             </div>
                                         </div>
-                                        
-                                         <div class="post-actions  post-footer p0" ng-if="apkLanguage != 'english'">
+
+                                        <div class="post-actions  post-footer p0" ng-if="apkLanguage != 'english'">
                                             <div class="row cardbtn-small p0">
                                                 <div class="col"><a ng-controller="RescheduleCtrl" confirmed-click="cancelApp(vApp.id,prod.user_id,1, vApp.scheduled_start_time)" ng-confirm-click="Do you really want to cancel appointment?" id="{{vApp.id}}" class="cbtn cancel"><i class="ion-close"></i> {{langtext.cancel[language]}}</a></div>
                                                 <div class="col"><a ng-controller="RescheduleCtrl" confirmed-click="rescheduleApp(vApp.id, prod.user_id, 1, vApp.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?" class="cbtn reschedule"><i class="ion-calendar"></i> {{langtext.reschedule[language]}} </a></div>
@@ -95,7 +95,7 @@
                                                 <div class="col"><a ng-controller="RescheduleCtrl" confirmed-click="rescheduleApp(cApp.id, prod.user_id, 1, vApp.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?" class="cbtn reschedule"><i class="ion-calendar"></i>  Reschedule</a></div>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="post-actions  post-footer p0" ng-if="apkLanguage != 'english'">
                                             <div class="row cardbtn-small p0" ng-if="cApp.status == 0">
                                                 <div class="col"><a confirmed-click="deleteApp(cApp.id,prod.user_id, 3, cApp.scheduled_start_time)" ng-confirm-click="Do you really want to cancel appointment?" id="{{cApp.appointment_id}}" class="cbtn cancel"><i class="ion-close"></i> {{langtext.cancel[language]}}</a></div>
