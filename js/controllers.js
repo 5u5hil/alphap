@@ -28,7 +28,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = window.localStorage.getItem('id');
-              $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.CurrentDate = new Date();
             $http({
                 method: 'GET',
@@ -73,14 +73,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 params: {id: window.localStorage.getItem('id'), interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data.lang.language);
-                  $scope.langtext = response.data.data;
-                  $scope.language = response.data.lang.language;
+                $scope.langtext = response.data.data;
+                $scope.language = response.data.lang.language;
                 if (response.data) {
-                  
+
                     //$rootScope.apkLanguage = response.data.lang.language;
                     $scope.apkLanguage = window.localStorage.setItem('apkLanguage', response.data.lang.language);
                 } else {
-                    
+
                 }
             }, function errorCallback(response) {
                 // console.log(response);
@@ -373,7 +373,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     if (response.data.dataCat) {
                         $scope.cattext = response.data.dataCat;
                         $scope.language = response.data.lang.language;
-                         $scope.apkLanguage = window.localStorage.setItem('apkLanguage',$scope.language);
+                        $scope.apkLanguage = window.localStorage.setItem('apkLanguage', $scope.language);
                     } else {
                     }
                     $http({
@@ -398,7 +398,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('CategoryDetailCtrl', function ($scope, $http, $stateParams, $ionicFilterBar, $ionicModal, $timeout, $ionicLoading) {
-
             $scope.catIds = [];
             $scope.catId = [];
             $scope.docId = '';
@@ -595,7 +594,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $ionicModal, $ionicHistory, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
-
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.images = [];
@@ -1246,15 +1244,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
             };
         })
-        
-       
+
         .controller('PatientSettingsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $ionicLoading, $rootScope, $sce) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $http({
                 method: 'GET',
                 url: domain + 'doctors/get-patient-setting',
-                params: {patientId: window.localStorage.getItem('id'),interface: $scope.interface}
+                params: {patientId: window.localStorage.getItem('id'), interface: $scope.interface}
             }).then(function successCallback(response) {
                 $scope.allow_lang = response.data.allow_lang;
                 $scope.getlang = response.data.getlang;
@@ -1263,23 +1260,23 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, function errorCallback(e) {
                 console.log(e);
             });
-            
-            $scope.patient_language =  function (langId){
-                 $http({
-                                method: 'POST',
-                                url: domain + 'doctors/update-patient-language',
-                                params: {langId: langId, patientId: window.localStorage.getItem('id'),interface: $scope.interface}
-                            }).then(function successCallback(response) {
-                                console.log(response);
-                                if (response.data == 'Success') {
-                                    alert("Records shared successfully!");
-                                    $timeout(function () {
-                                        window.location.reload();
-                                    }, 1000);
-                                }
-                            }, function errorCallback(e) {
-                                console.log(e);
-                            });
+
+            $scope.patient_language = function (langId) {
+                $http({
+                    method: 'POST',
+                    url: domain + 'doctors/update-patient-language',
+                    params: {langId: langId, patientId: window.localStorage.getItem('id'), interface: $scope.interface}
+                }).then(function successCallback(response) {
+                    console.log(response);
+                    if (response.data == 'Success') {
+                        alert("Records shared successfully!");
+                        $timeout(function () {
+                            window.location.reload();
+                        }, 1000);
+                    }
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
             }
         })
 
@@ -1427,7 +1424,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
                 $scope.modal = $ionicModal;
                 $scope.showm = function (path, name) {
-                     $scope.path = path;
+                    $scope.path = path;
                     $scope.name = name;
                     console.log(path + '=afd =' + name);
                     $scope.value = $rootScope.attachpath + path + name;
@@ -1448,7 +1445,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 //console.log($scope.catIds);
                 $scope.modal.hide();
             };
-            
+
             $scope.print = function () {
                 //  console.log("fsfdfsfd");
                 //  var printerAvail = $cordovaPrinter.isAvailable();
@@ -1605,6 +1602,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.specializations = response.data.spec;
                 $scope.langtext = response.data.tabmenu;
                 $scope.language = response.data.lang.language;
+                //Time Limit For Interface
+                $scope.timeLimit = response.data.timelimit.cancellation_time;
+                
                 //Video
                 $scope.video_time = response.data.video_time;
                 $scope.video_app = response.data.video_app;
@@ -1643,8 +1643,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, function errorCallback(e) {
                 console.log(e);
             });
-            
-          
+
+
 
             $scope.deleteApp = function (appId, prodId, mode, startTime) {
                 $ionicLoading.show({template: 'Loading...'});
@@ -1664,10 +1664,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     console.log(response);
                 });
             };
-            
-             $scope.recordVideo = function (){
-               $state.go('app.doctor-record-join', {}, {cache: false}, {reload: true}); 
-           }
+
+            $scope.recordVideo = function () {
+                $state.go('app.doctor-record-join', {}, {cache: false}, {reload: true});
+            }
 
             $scope.joinVideo = function (mode, start, end, appId) {
                 console.log(mode + "===" + start + '===' + end + "===" + $scope.curTime + "==" + appId);
@@ -1680,10 +1680,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }
             };
         })
-        
-        
-          .controller('DoctorRecordJoinCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
-          })
+
+        .controller('DoctorRecordJoinCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
+        })
+
         .controller('ConsultationsListPastCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
@@ -1769,7 +1769,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }
             };
         })
-
 
         .controller('ConsultationCardsCtrl', function ($scope, $http, $stateParams, $ionicLoading) {
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -2207,7 +2206,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.endSlot = window.localStorage.getItem('endSlot');
             $scope.prodid = window.localStorage.getItem('prodId');
             $scope.interface = window.localStorage.getItem('interface_id');
-             $scope.userId = window.localStorage.getItem('id');
+            $scope.userId = window.localStorage.getItem('id');
             $scope.apply = '0';
             $scope.ccode = '';
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
@@ -2216,7 +2215,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $http({
                 method: 'GET',
                 url: domain + 'doctors/get-order-review',
-                params: {id: $scope.supid,userId: $scope.userId,prodId: $scope.prodid, interface: $scope.interface}
+                params: {id: $scope.supid, userId: $scope.userId, prodId: $scope.prodid, interface: $scope.interface}
             }).then(function successCallback(responseData) {
                 console.log(responseData.data);
                 //$ionicLoading.hide();
@@ -2284,6 +2283,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     url: domain + 'buy/buy-individual',
                     params: {interface: $scope.interface, kookooID: $scope.kookooID, ccode: $scope.ccode, discount: $scope.discount, disapply: $scope.discountApplied, prodId: $scope.prodid, userId: $scope.userId, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
                 }).then(function successCallback(response) {
+                    $ionicLoading.hide();
                     window.localStorage.removeItem('coupondiscount');
                     window.localStorage.setItem('coupondiscount', '')
                     console.log(response.data);
@@ -2297,7 +2297,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             disableBack: true
                         });
                         //$timeout.cancel(stopped1);
-                        $ionicLoading.hide();
                         $state.go('app.thankyou', {'data': response.data}, {reload: true});
                     }
                 }, function errorCallback(response) {
@@ -3031,9 +3030,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('packagingCtrl', function ($scope) { })
 
-        .controller('PackagingDetailCtrl', function ($scope, $ionicModal) {
-
-        })
+        .controller('PackagingDetailCtrl', function ($scope, $ionicModal) { })
 
         .controller('pkgDetailsCtrl', function ($scope, $ionicModal) {
             $ionicModal.fromTemplateUrl('pkg-details', {
@@ -3075,13 +3072,16 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         /* Pathology */
 
         .controller('RescheduleCtrl', function ($scope, $http, $stateParams, $ionicLoading, $rootScope, $ionicHistory, $filter, $state) {
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            console.log($scope.timeLimit);
             $scope.cancelApp = function (appId, drId, mode, startTime) {
                 $scope.appId = appId;
                 $scope.userId = get('id');
                 var curtime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
                 var timeDiff = getTimeDiff(startTime, curtime);
                 console.log(curtime + "===" + startTime + "===" + timeDiff);
-                if (timeDiff < 15) {
+                if (timeDiff < $scope.timeLimit) {
                     if (mode == 1) {
                         alert("Appointment can not be cancelled now!");
                     } else {
@@ -3089,7 +3089,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $http({
                             method: 'GET',
                             url: domain + 'appointment/cancel-app',
-                            params: {appId: $scope.appId, userId: $scope.userId}
+                            params: {appId: $scope.appId, userId: $scope.userId, interface: $scope.interface}
                         }).then(function successCallback(response) {
                             console.log(response.data);
                             $ionicLoading.hide();
@@ -3108,7 +3108,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $http({
                         method: 'GET',
                         url: domain + 'appointment/cancel-app',
-                        params: {appId: $scope.appId, userId: $scope.userId}
+                        params: {appId: $scope.appId, userId: $scope.userId, interface: $scope.interface}
                     }).then(function successCallback(response) {
                         console.log(response.data);
                         $ionicLoading.hide();
