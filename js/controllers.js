@@ -2189,8 +2189,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         window.localStorage.removeItem('kookooid');
                         window.localStorage.removeItem('kookooid1');
                         $timeout(function () {
-                            // $state.go('app.consultation-profile', {'id':$scope.product[0].user_id}, {reload: true});
-                            $state.go('app.consultations-list', {reload: true});
+                            $state.go('app.consultation-profile', {'id':$scope.product[0].user_id}, {reload: true});
+                            //$state.go('app.consultations-list', {reload: true});
                         }, 3000);
                     }, function errorCallback(response) {
                         $state.go('app.consultations-list', {reload: true});
