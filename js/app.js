@@ -450,6 +450,7 @@ angular.module('your_app_name', [
                     /* packaging */
 
                     .state('app.packaging', {
+                        cache: false,
                         url: "/packaging",
                         views: {
                             'menuContent': {
@@ -460,7 +461,8 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.packaging-detail', {
-                        url: "/packaging-detail",
+                        cache: false,
+                        url: "/packaging-detail/{id:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/packaging/packaging-detail.html",
@@ -470,7 +472,8 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.package-confirm', {
-                        url: "/package-confirm",
+                        cache: false,
+                        url: "/package-confirm/{id:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/packaging/package-confirm.html",

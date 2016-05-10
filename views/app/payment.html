@@ -1,6 +1,6 @@
 <ion-view class="payment-view">
     <ion-nav-title>
-                     <span  ng-if="apkLanguage == 'english'">Payment</span>
+        <span  ng-if="apkLanguage == 'english'">Payment</span>
         <span  ng-if="apkLanguage != 'english'">{{payment[language]}}</span>
     </ion-nav-title>
     <ion-content>
@@ -12,8 +12,6 @@
                             {{spec.specialization}},   
                         </span>
                     </p>
-                    <!--<p><strong>Qualification</strong><br/>MBBS,MD</p>-->
-
                     <ul class="clist">
                         <li ng-repeat="pro in product">{{pro.desc}}, {{pro.mode}} </li>
                         <li ng-repeat="pInc in  prod_inclusion track by $index">{{pInc.mode}}, {{pInc.desc}},
@@ -28,8 +26,6 @@
                             <strong>Date : </strong> {{curTime| dateFormat3}} <br/>
                             <strong>Time : </strong> {{IVstartSlot| time1}} To {{IVendSlot| time1}}<br/>
                         </span>
-                        <!---<strong>Mode: </strong> Video<br/>
-                        <strong>Address: </strong> 10AM to 11AM <br/>-->
                     </p>
                 </div>
             </div>
@@ -78,7 +74,6 @@
                             <div class="section-footer"> <!---ui-sref="app.success"-->
                                 <a ng-if="mode == 3 || mode == 4" ng-click="bookNow()" class="button button-full button-positive">Book Now</a>
                             </div>
-                            
                             <p class="agreelink">
                                 By Clicking on the button above, you agree to the <span dynamic-anchor-fix><a href="https://doctrs.in/termsandconditions.pdf" target="_blank">terms & conditions</a></span> and have read the <span dynamic-anchor-fix><a href="https://doctrs.in/privacypolicy.pdf" target="_blank">privacy policy</a> </span> & <span dynamic-anchor-fix><a href="https://doctrs.in/CancellationPolicy.pdf" target="_blank">cancellation policy.</a></span>
                             </p>
@@ -91,21 +86,8 @@
             </div>
         </my-tab> -->
                 </my-tabs>
-
-
-
-
-
-
-
-
-
-
-
                 </ion-tabs>
             </div>
-
         </div>
-
     </ion-content>
 </ion-view>

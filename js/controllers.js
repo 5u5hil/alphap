@@ -59,10 +59,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
             };
         })
+
         .controller('SearchBarCtrl', function ($scope, $state, $ionicConfig, $rootScope) {
 
         })
-
 //LOGIN
         .controller('LoginCtrl', function ($scope, $state, $http, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
             window.localStorage.setItem('interface_id', '5');
@@ -135,6 +135,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.selected_tab = data.title;
             });
         })
+
         .controller('LogoutCtrl', function ($scope, $state, $ionicLoading, $ionicHistory, $timeout, $q, $rootScope) {
             $ionicLoading.show({template: 'Logging out....'});
             window.localStorage.clear();
@@ -148,6 +149,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $state.go('auth.walkthrough', {}, {reload: true});
             }, 30);
         })
+
         .controller('SignupCtrl', function ($scope, $state, $http, $rootScope) {
             $scope.interface = window.localStorage.setItem('interface_id', '5');
             $scope.user = {};
@@ -3029,9 +3031,42 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-        .controller('packagingCtrl', function ($scope) { })
+        .controller('packagingCtrl', function ($scope, $http, $rootScope, $ionicLoading, $state, $stateParams) {
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userId = get('id');
+            $ionicLoading.show({'template': 'Loading..'});
+            $http({
+                method: 'GET',
+                url: domain + 'doctors/get-packages',
+                params: {interface: $scope.interface, userId: $scope.userId}
+            }).then(function successCallback(response) {
+                console.log(response.data.packages);
+                $scope.packages = response.data.packages;
+                $ionicLoading.hide();
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+        })
 
-        .controller('PackagingDetailCtrl', function ($scope, $ionicModal) { })
+        .controller('PackagingDetailCtrl', function ($scope, $http, $rootScope, $ionicLoading, $state, $stateParams) {
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userId = get('id');
+            $scope.packageId = $stateParams.id;
+            $ionicLoading.show({'template': 'Loading..'});
+            $http({
+                method: 'GET',
+                url: domain + 'doctors/get-package-details',
+                params: {interface: $scope.interface, userId: $scope.userId, packageId: $scope.packageId}
+            }).then(function successCallback(response) {
+                console.log(response.data.packages);
+                $scope.pack = response.data.packages;
+                $ionicLoading.hide();
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+        })
 
         .controller('pkgDetailsCtrl', function ($scope, $ionicModal) {
             $ionicModal.fromTemplateUrl('pkg-details', {
@@ -3049,16 +3084,46 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
         })
 
-        .controller('infodoctrsCtrl', function ($scope, $ionicModal) {
+        .controller('infodoctrsCtrl', function ($scope, $ionicModal, $http, $ionicLoading) {
+            $scope.interface = window.localStorage.getItem('interface_id');
             $ionicModal.fromTemplateUrl('infodoctrs', {
                 scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
+            }).then(function ($ionicModal) {
+                $scope.modal = $ionicModal;
+                $scope.showDr = function (drId) {
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctors/get-dr-details',
+                        params: {drId: drId, interface: $scope.interface}
+                    }).then(function successCallback(response) {
+                        console.log(response.data.doctr);
+                        $scope.doc = response.data.doctr;
+                        //$ionicLoading.hide();
+                        $scope.modal.show();
+                    }, function errorCallback(e) {
+                        console.log(e);
+                    });
+                };
             });
         })
 
-        .controller('packageConfirmCtrl', function ($scope, $ionicModal) {
-
+        .controller('packageConfirmCtrl', function ($scope, $ionicModal, $http, $ionicLoading, $stateParams) {
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userId = get('id');
+            $scope.packageId = $stateParams.id;
+            $ionicLoading.show({'template': 'Loading..'});
+            $http({
+                method: 'GET',
+                url: domain + 'doctors/get-package-details',
+                params: {interface: $scope.interface, userId: $scope.userId, packageId: $scope.packageId}
+            }).then(function successCallback(response) {
+                console.log(response.data.packages);
+                $scope.pack = response.data.packages;
+                $ionicLoading.hide();
+            }, function errorCallback(e) {
+                console.log(e);
+            });
         })
 
         /* packages */
