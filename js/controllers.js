@@ -1604,7 +1604,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.language = response.data.lang.language;
                 //Time Limit For Interface
                 $scope.timeLimit = response.data.timelimit.cancellation_time;
-                
+
                 //Video
                 $scope.video_time = response.data.video_time;
                 $scope.video_app = response.data.video_app;
@@ -1643,8 +1643,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, function errorCallback(e) {
                 console.log(e);
             });
-
-
 
             $scope.deleteApp = function (appId, prodId, mode, startTime) {
                 $ionicLoading.show({template: 'Loading...'});
@@ -1836,16 +1834,20 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.instVideo = response.data.inst_video;
                 $scope.videoInc = response.data.video_inclusions;
                 $scope.videoSch = response.data.videoSch;
+                $scope.videoFollow = response.data.videoFollowServices;
                 $scope.chatProd = response.data.chat_product;
                 $scope.chatInc = response.data.chat_inclusions;
+                $scope.chatFollow = response.data.chatFollowServices;
                 $scope.homeProd = response.data.home_product;
                 $scope.homeInc = response.data.home_inclusions;
                 $scope.homeSch = response.data.homeSch;
+                $scope.homeFollow = response.data.homeFollowServices;
                 $scope.clinicProd = response.data.clinic_product;
                 $scope.clinicInc = response.data.clinic_inclusions;
                 $scope.clinicSch = response.data.clinicSch;
-                $scope.chatProd = response.data.chat_product;
-                $scope.chatInc = response.data.chat_inclusions;
+                $scope.clinicFollow = response.data.clinicFollowServices;
+//                $scope.chatProd = response.data.chat_product;
+//                $scope.chatInc = response.data.chat_inclusions;
                 $scope.packages = response.data.packages;
                 $scope.services = response.data.services;
                 $scope.service = response.data.service;
@@ -2189,7 +2191,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         window.localStorage.removeItem('kookooid');
                         window.localStorage.removeItem('kookooid1');
                         $timeout(function () {
-                            $state.go('app.consultation-profile', {'id':$scope.product[0].user_id}, {reload: true});
+                            $state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
                             //$state.go('app.consultations-list', {reload: true});
                         }, 3000);
                     }, function errorCallback(response) {
@@ -2635,7 +2637,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
-
             $scope.participant = [];
             $scope.msg = [];
             $ionicLoading.show({template: 'Loading...'});

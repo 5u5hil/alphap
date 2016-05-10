@@ -212,6 +212,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.chatlist', {
+                        cache: false,
                         url: "/chatlist",
                         views: {
                             'menuContent': {
@@ -221,6 +222,7 @@ angular.module('your_app_name', [
                         }
                     })
                     .state('app.past-chatlist', {
+                        cache: false,
                         url: "/past-chatlist",
                         views: {
                             'menuContent': {
@@ -250,7 +252,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.patient-settings', {
                         cache: false,
                         url: "/patient-settings",
@@ -372,7 +374,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.doctor-record-join', {
                         cache: false,
                         url: "/doctor-record-join",
