@@ -542,6 +542,29 @@ angular.module('your_app_name', [
 
 
                     /* End Pathology  */
+                    
+                     .state('app.content-library', {
+                       cache: false,
+                        url: "/content-library",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/content-library/content-library.html",
+                                controller: 'ContentLibraryCtrl'
+                            }
+                        }
+                    })
+                    
+                    .state('app.content-library-setting', {
+                       cache: false,
+                        url: "/content-library-setting",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/content-library/content-library-setting.html",
+                                controller: 'ContentLibrarySettingCtrl'
+                            }
+                        }
+                    })
+                   
 
 
 

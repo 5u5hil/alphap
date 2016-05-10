@@ -1,0 +1,46 @@
+<ion-view class="category-feeds-view">
+    <ion-nav-title>
+        <span>Library</span>
+        <a menu-toggle="right" ui-sref="app.content-library-setting">Setting</a>
+    </ion-nav-title>
+   <ion-content class="bgwhite">
+        <div class="posts-list">
+
+            <div  class="list card post-item" ng-repeat="contentLab in clab">
+                <a ui-sref="app.view-content-value({'id': contentLab.id})" class="card-content p0">
+                    <div class="post-heading item item-text-wrap">
+                        <h2 class="post-title">{{contentLab.content_title}}</h2>
+                        <p class="post-author">
+                            By <span>{{contentLab.user}}</span> <span>{{contentLab.created_at| dateFormat3}}</span>
+                        </p>
+                    </div>
+                    <div class="post-content item item-text-wrap" post-content>
+                        <p class="post-excerpt" dynamic-anchor-fix>
+                            {{contentLab.content_desc}}
+                        </p>
+                        <p class="imgincard" ng-if="contentLab.header_img != null">  <img src="{{attachpath}}{{contentLab.header_img}}" /></p>
+                        <div  class="framecontainer"  ng-if="contentLab.header_img == null"> 
+                            <iframe  class="iframevideo"  frameborder="0" allowfullscreen="1" ng-src="{{trustSrc(contentLab.url)}}"></iframe>
+                        </div>
+                        <div class="post-actions">
+                            <p > <strong>Category </strong>|  <span ng-repeat="specialisation in contentLab.spec">{{specialisation}}  </span>
+                            </p>
+                            <p> <strong>Tags </strong>|  </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </ion-content>
+    
+</ion-view>
+
+
+
+
+
+
+
+
+

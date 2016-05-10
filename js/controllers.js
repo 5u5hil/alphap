@@ -3378,4 +3378,55 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $state.go('app.consultations-list', {}, {reload: true});
             };
         })
+
+        .controller('ContentLibraryCtrl', function ($scope, $sce,$http, $ionicModal, $stateParams, $ionicLoading, $rootScope, $ionicHistory, $filter, $state) {
+            $http({
+                method: 'GET',
+                url: domain + 'contentlibrary/get-patient-article',
+                params: {patientId: window.localStorage.getItem('id')}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.clab = response.data
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            $scope.trustSrc = function (src) {
+                return $sce.trustAsResourceUrl(src);
+            };
+        })
+        .controller('ContentLibrarySettingCtrl', function ($scope, $http, $ionicModal, $stateParams, $ionicLoading, $rootScope, $ionicHistory, $filter, $state) {
+            $scope.patientId = window.localStorage.getItem('id');
+
+            $http({
+                method: 'GET',
+                url: domain + 'contentlibrary/get-article-setting',
+                params: {patientId: window.localStorage.getItem('id')}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.category = response.data.category;
+                $scope.cat = response.data.cat;
+                $scope.lang = response.data.lang;
+                $scope.languages = response.data.languages;
+
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
+            $scope.submitSetting = function () {
+                $scope.from = get('from');
+                $ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#clsetting")[0]);
+                callAjax("POST", domain + "contentlibrary/save-clsetting", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                  
+                        alert('Updated sucessfully.')
+                       //  $state.go("app.content-library-setting", {reload: true});
+                   
+                });
+
+
+
+            }
+        })
         ;
