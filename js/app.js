@@ -413,6 +413,16 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/go-payment.html",
+                                controller: 'GoPayCtrl'
+                            }
+                        }
+                    })
+                    
+                    .state('app.gopayment', {
+                        url: "/gopayment/{link:string}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/go-payment.html",
                                 controller: 'GoPaymentCtrl'
                             }
                         }
@@ -442,6 +452,16 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/thankyou.html",
+                                controller: 'ThankyouCtrl'
+                            }
+                        }
+                    })
+                    
+                    .state('app.thankyoup', {
+                        url: "/thankyoup/{data:string}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/thankyoup.html",
                                 controller: 'ThankyouCtrl'
                             }
                         }

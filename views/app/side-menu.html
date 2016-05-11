@@ -29,7 +29,7 @@
                 <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.category-list">
                     <i class="icon ion-android-home"></i>
                     <h2 class="menu-text" ng-if="apkLanguage == 'english'">Home</h2>
-                     <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.home[language]}}</h2>
+                    <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.home[language]}}</h2>
                 </ion-item>
 
                 <!--   <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.test">
@@ -41,27 +41,28 @@
                 <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.consultations-list">
                     <i class="icon ion-medkit"></i>
                     <h2 class="menu-text" ng-if="apkLanguage == 'english'">Consultations</h2>
-                     <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.consultations[language]}}</h2>
-                   
+                    <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.consultations[language]}}</h2>
                 </ion-item>
                 <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.category-detail" >
                     <i class="icon ion-folder"></i>
-                     <h2 class="menu-text" ng-if="apkLanguage == 'english'">Records</h2>
-                     <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.records[language]}}</h2>
-                    
+                    <h2 class="menu-text" ng-if="apkLanguage == 'english'">Records</h2>
+                    <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.records[language]}}</h2>
                 </ion-item>  
 
                 <ion-item class="item-icon-left greyitem" nav-clear menu-close ui-sref="app.chatlist" >
                     <i class="icon ion-chatboxes"></i>
                     <h2 class="menu-text" ng-if="apkLanguage == 'english'">Chats</h2>
-                     <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.chat[language]}}</h2>
-                     
-                  
+                    <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.chat[language]}}</h2>
+                </ion-item>
+                <ion-item class="item-icon-left greyitem" nav-clear menu-close ui-sref="app.packaging" >
+                    <i class="icon ion-cube"></i>
+                    <h2 class="menu-text" ng-if="apkLanguage == 'english'">Packages</h2>
+                    <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.package[language]}}</h2>
                 </ion-item>
 
                 <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.content-library" >
                     <i class="icon ion-cube"></i>
-                   <h2 class="menu-text" ng-if="apkLanguage == 'english'">Library</h2>
+                    <h2 class="menu-text" ng-if="apkLanguage == 'english'">Library</h2>
                     <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.library[language]}}</h2>
                     <div class="comingsoon">Coming Soon</div>
                 </ion-item>
@@ -70,32 +71,25 @@
                     <i class="icon ion-medkit"></i>
                     <h2 class="menu-text" ng-if="apkLanguage == 'english'">Medicines</h2>
                     <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.medicines[language]}}</h2>
-                  
                 </ion-item> 
 
                 <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.pathology">
                     <i class="icon ion-erlenmeyer-flask"></i>
                     <h2 class="menu-text" ng-if="apkLanguage == 'english'">Pathology</h2>
                     <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.pathology[language]}}</h2>
-                    
                 </ion-item>
-                
-                 <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.patient-settings">
+
+                <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.patient-settings">
                     <i class="icon ion-erlenmeyer-flask"></i>
                     <h2 class="menu-text" ng-if="apkLanguage == 'english'">Setting</h2>
                     <h2 class="menu-text" ng-if="apkLanguage != 'english'">Setting</h2>
-                    
                 </ion-item>
 
                 <ion-item class="item-icon-left logoutbtn" nav-clear menu-close ng-if="userLogged == 1" ng-click="logout()" >
                     <i class="icon ion-android-unlock"></i>
-                   <h2 class="menu-text" ng-if="apkLanguage == 'english'">Logout</h2>
+                    <h2 class="menu-text" ng-if="apkLanguage == 'english'">Logout</h2>
                     <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.logout[language]}}</h2>
                 </ion-item>
-
-
-
-
             </ion-list>
         </ion-content>
     </ion-side-menu>

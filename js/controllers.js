@@ -2193,8 +2193,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         window.localStorage.removeItem('kookooid');
                         window.localStorage.removeItem('kookooid1');
                         $timeout(function () {
-                            $state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
-                            //$state.go('app.consultations-list', {reload: true});
+                            //$state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
                         }, 3000);
                     }, function errorCallback(response) {
                         $state.go('app.consultations-list', {reload: true});
@@ -2228,12 +2227,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.confirm = responseData.data.confirm;
                 $scope.confirm_appointment = responseData.data.confirm_appointment;
                 $scope.language = responseData.data.lang.language;
-
                 $scope.product = responseData.data.prod;
                 $scope.prod_inclusion = responseData.data.prod_inclusion;
                 $scope.doctor = responseData.data.doctor;
                 $scope.IVstartSlot = responseData.data.IVstart;
                 $scope.IVendSlot = responseData.data.IVend;
+                $scope.packages = responseData.data.packages;
                 window.localStorage.setItem('IVstartSlot', $scope.IVstartSlot);
                 window.localStorage.setItem('IVendSlot', $scope.IVendSlot);
                 $ionicLoading.hide();
@@ -2360,10 +2359,26 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     }
                     $ionicLoading.hide();
                 });
-            }
-            ;
+            };
         })
-
+        .controller('pkgViewCtrl', function ($scope, $ionicModal, $http, $stateParams, $state) {
+            $ionicModal.fromTemplateUrl('pkg-details', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.validate = function (packId) {
+                $http({
+                    method: 'GET',
+                    url: domain + 'patient/validate-package',
+                    params: {prodId: $scope.prodid, interface: $scope.interface, userId: $scope.userId, packId: packId}
+                }).then(function successCallback(response) {
+                    console.log(response);
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            };
+        })
         .controller('ThankyouCtrl', function ($scope, $http, $state, $location, $stateParams, $rootScope, $ionicGesture, $timeout, $sce, $ionicHistory) {
             console.log($stateParams.data);
             $scope.data = $stateParams.data;
@@ -2419,7 +2434,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }
         })
 
-        .controller('GoPaymentCtrl', function ($scope, $http, $state, $location, $stateParams, $rootScope, $ionicGesture, $timeout, $sce, $ionicHistory) {
+        .controller('GoPayCtrl', function ($scope, $http, $state, $location, $stateParams, $rootScope, $ionicGesture, $timeout, $sce, $ionicHistory) {
             console.log($stateParams.link);
             $scope.link = $stateParams.link;
             $scope.trustSrc = function (src) {
@@ -2428,6 +2443,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $timeout(function () {
                 jQuery("iframe").css("height", jQuery(window).height());
             }, 100);
+            $scope.goPackages = function () {
+                $state.go('app.packaging', {}, {reload: true});
+            };
         })
 
         .controller('SuccessCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading) {
@@ -3038,7 +3056,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $ionicLoading.show({'template': 'Loading..'});
             $http({
                 method: 'GET',
-                url: domain + 'doctors/get-packages',
+                url: domain + 'patient/get-packages',
                 params: {interface: $scope.interface, userId: $scope.userId}
             }).then(function successCallback(response) {
                 console.log(response.data.packages);
@@ -3057,7 +3075,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $ionicLoading.show({'template': 'Loading..'});
             $http({
                 method: 'GET',
-                url: domain + 'doctors/get-package-details',
+                url: domain + 'patient/get-package-details',
                 params: {interface: $scope.interface, userId: $scope.userId, packageId: $scope.packageId}
             }).then(function successCallback(response) {
                 console.log(response.data.packages);
@@ -3093,7 +3111,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.showDr = function (drId) {
                     $http({
                         method: 'GET',
-                        url: domain + 'doctors/get-dr-details',
+                        url: domain + 'patient/get-dr-details',
                         params: {drId: drId, interface: $scope.interface}
                     }).then(function successCallback(response) {
                         console.log(response.data.doctr);
@@ -3107,27 +3125,182 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
         })
 
-        .controller('packageConfirmCtrl', function ($scope, $ionicModal, $http, $ionicLoading, $stateParams) {
+        .controller('packageConfirmCtrl', function ($scope, $ionicModal, $http, $ionicLoading, $stateParams, $timeout, $filter, $ionicHistory, $state, $location) {
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = get('id');
+            //Set Product Id
+            window.localStorage.setItem('prodId', $stateParams.id);
             $scope.packageId = $stateParams.id;
+            $scope.prodId = $stateParams.id;
+            $scope.appUrl = $location.absUrl().split('#')[0];
+            console.log($scope.appUrl);
+            $scope.counter1 = 300;
+            var stopped1;
+            $scope.apply = '0';
+            $scope.ccode = '';
+            $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+            $scope.discountApplied = '0';
+            $scope.paynowcountdown = function () {
+                stopped1 = $timeout(function () {
+                    console.log($scope.counter1);
+                    $scope.counter1--;
+                    $scope.paynowcountdown();
+                }, 1000);
+                if ($scope.counter1 == 0) {
+                    //console.log('fadsf af daf');
+                    $timeout.cancel(stopped1);
+                    alert('Sorry, Your payment time expired');
+                }
+            };
             $ionicLoading.show({'template': 'Loading..'});
             $http({
                 method: 'GET',
-                url: domain + 'doctors/get-package-details',
+                url: domain + 'patient/get-package-details',
                 params: {interface: $scope.interface, userId: $scope.userId, packageId: $scope.packageId}
             }).then(function successCallback(response) {
                 console.log(response.data.packages);
                 $scope.pack = response.data.packages;
+                if ($scope.pack.package.doctor_restriction == 1) {
+                    $scope.doctr = $scope.pack.specialist;
+                } else {
+                    $scope.doctr = 'all';
+                }
+                $ionicLoading.hide();
+                $timeout(function () {
+                    $scope.paynowcountdown();
+                }, 0);
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
+            $scope.applyCouponCode = function (ccode) {
+                $scope.apply = '0';
+                $scope.discountApplied = '0';
+                window.localStorage.setItem('coupondiscount', '0');
+                $scope.interface = window.localStorage.getItem('interface_id');
+                $scope.prodId = window.localStorage.getItem('prodId');
+                $scope.userId = get('id');
+                $scope.ccode = ccode;
+                console.log($scope.discount + '--' + $scope.discountApplied + '++++ ' + $scope.userId);
+                $ionicLoading.show({template: 'Loading...'});
+                $http({
+                    method: 'GET',
+                    url: domain + 'buy/apply-coupon-code',
+                    params: {interface: $scope.interface, couponCode: ccode, prodId: $scope.prodId, userId: $scope.userId, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
+                }).then(function successCallback(response) {
+                    // console.log(response);
+                    console.log(response.data);
+                    if (response.data == '0') {
+                        alert('Please provide a valid coupon code');
+                        $('#coupon').val("");
+                        $('#coupon_error').html('Please provide a valid coupon code');
+                        window.localStorage.setItem('coupondiscount', '0');
+                    } else if (response.data == '2') {
+                        alert('Sorry, this coupon code has been expired');
+                        $('#coupon').val("");
+                        $('#coupon_error').html('Sorry, this coupon code has been expired');
+                        window.localStorage.setItem('coupondiscount', '0');
+                    } else if (response.data == '3' || response.data == '5') {
+                        alert('Sorry, this coupon is not valid for this doctor');
+                        $('#coupon').val("");
+                        $('#coupon_error').html('Sorry, this coupon is not valid for this doctor');
+                        window.localStorage.setItem('coupondiscount', '0');
+                    } else if (response.data == '4') {
+                        alert('Sorry, this coupon is not valid for this user');
+                        $('#coupon').val("");
+                        $('#coupon_error').html('Sorry, this coupon is not valid for this user');
+                        window.localStorage.setItem('coupondiscount', '0');
+                    } else {
+                        $('#coupon').val("");
+                        $scope.apply = 1;
+                        $scope.discountApplied = response.data;
+                        $('#coupon_error').html('Coupon Applied.');
+                        window.localStorage.setItem('coupondiscount', response.data);
+                    }
+                    $ionicLoading.hide();
+                });
+            };
+            $scope.payNow = function (finalamount) {
+                console.log(finalamount);
+                $timeout.cancel(stopped1);
+                $scope.interface = window.localStorage.getItem('interface_id');
+                $scope.userId = get('id');
+                $scope.discount = window.localStorage.getItem('coupondiscount');
+                $ionicHistory.nextViewOptions({
+                    disableBack: true
+                });
+                $ionicLoading.show({template: 'Loading...'});
+                $http({
+                    method: 'GET',
+                    url: domain + 'buy/buy-package',
+                    params: {interface: $scope.interface, ccode: $scope.ccode, appUrl: $scope.appUrl, discount: $scope.discount, disapply: $scope.discountApplied, prodId: $scope.prodId, userId: $scope.userId}
+                }).then(function successCallback(response) {
+                    $ionicLoading.hide();
+                    window.localStorage.removeItem('coupondiscount');
+                    window.localStorage.setItem('coupondiscount', '')
+                    console.log(response.data);
+                    if (finalamount > 0) {
+                        //$timeout.cancel(stopped1);
+                        $state.go('app.gopayment', {'link': response.data});
+                        console.log(response.data);
+                    } else {
+                        $scope.discountval = response.data.discount;
+                        $ionicHistory.nextViewOptions({
+                            disableBack: true
+                        });
+                        //$timeout.cancel(stopped1);
+                        $state.go('app.thankyoup', {'data': response.data}, {reload: true});
+                    }
+                }, function errorCallback(response) {
+                    console.log(response);
+                })
+            };
+        })
+
+        .controller('GoPaymentCtrl', function ($scope, $http, $state, $location, $stateParams, $rootScope, $ionicGesture, $timeout, $sce, $ionicHistory) {
+            console.log($stateParams.link);
+            $scope.link = $stateParams.link;
+            window.localStorage.removeItem('startSlot');
+            window.localStorage.removeItem('endSlot');
+            window.localStorage.removeItem('prodId');
+            window.localStorage.removeItem('supid');
+            window.localStorage.removeItem('mode');
+            window.localStorage.removeItem('kookooid');
+            window.localStorage.removeItem('kookooid1');
+            window.localStorage.removeItem('coupondiscount');
+            window.localStorage.removeItem('IVendSlot');
+            window.localStorage.removeItem('IVstartSlot');
+            window.localStorage.removeItem('instantV');
+            $scope.trustSrc = function (src) {
+                return $sce.trustAsResourceUrl(src);
+            };
+            $timeout(function () {
+                jQuery("iframe").css("height", jQuery(window).height());
+            }, 100);
+            $scope.goPackages = function () {
+                $state.go('app.packaging', {}, {reload: true});
+            };
+        })
+
+        /* packages */
+        .controller('ActivePackagesCtrl', function ($scope, $http, $ionicLoading, $state, $stateParams) {
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userId = get('id');
+            $ionicLoading.show({'template': 'Loading..'});
+            $http({
+                method: 'GET',
+                url: domain + 'patient/get-active-packages',
+                params: {interface: $scope.interface, userId: $scope.userId}
+            }).then(function successCallback(response) {
+                console.log(response.data.packages);
+                $scope.packages = response.data.packages;
                 $ionicLoading.hide();
             }, function errorCallback(e) {
                 console.log(e);
             });
         })
-
-        /* packages */
-        .controller('ActivePackagesCtrl', function ($scope) {})
         .controller('PackagesViewCtrl', function ($scope) {})
         .controller('PastPackagesCtrl', function ($scope) {})
         /* packages */

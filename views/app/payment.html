@@ -79,15 +79,44 @@
                             </p>
                         </div>
                     </my-tab>
-                    <!-- 
-                            <my-tab title="I have Package" >
-            <div class="tabcontainer">
-                Under Construction
-            </div>
-        </my-tab> -->
+
+                    <my-tab title="I have Package" ng-if="packages.length != 0">
+                        <div class="tabcontainer">
+                            <button  class="button button-full" ng-controller="pkgViewCtrl" ng-click="modal.show()" > View all Packages</button>
+                        </div>
+                    </my-tab> 
                 </my-tabs>
                 </ion-tabs>
             </div>
         </div>
     </ion-content>
 </ion-view>
+
+<script id="pkg-details" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Package Description</h1>
+    <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+    </ion-header-bar>
+    <ion-content>
+    <div class="cardcont txt-justify">
+        <div class="">
+            <div class="crecordlist" ng-repeat="pack in packages">
+                <div class="item item-divider">{{pack.packages.name}}</div><br/>
+                <div class="list">
+                    <ion-radio ng-model="packId[pack.packages.id]" ng-value="{{pack.packages.id}}" ng-change="getIds('{{pack.packages.id}}')" value="Select">Select</ion-radio>
+                </div>
+                <div class="row">
+                    <div class="col txt-center">{{pack.packages.desc}}</div>
+                </div>
+                <div class="row">
+                <div class="col txt-center">
+                <button class="button sbtn txt-center" ng-click="validate(pack.packages.id)"> Validate</button>
+                </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+    </ion-content>
+    </ion-modal-view>
+</script>

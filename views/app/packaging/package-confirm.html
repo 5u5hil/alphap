@@ -6,7 +6,7 @@
         <div class="item item-body allp">
             <p>
                 <strong >Package : </strong> {{pack.package.name}}<br>
-                <strong >Price : </strong> INR {{pack.package.price}}<br>
+                <strong >Price : </strong> INR {{pack.package.interfacePrice|ceil}}<br>
                 <strong >Duration : </strong> <span ng-if="pack.package.validity_in_days != 0">{{pack.package.validity_in_days}} Days</span>
                 <span  ng-if="pack.package.validity_in_days == 0">NA</span><br>
             </p>
@@ -30,15 +30,16 @@
         <br/>
         <div class="row">
             <div class="col col-75">
-                <input type="text" class="custominput" Placeholder="Enter Coupon Code"  ng-model="ccode" />
+                <input type="text" class="custominput" id="coupon" Placeholder="Enter Coupon Code"  ng-model="ccode" />
+                <span id="coupon_error"></span>
             </div>
             <div class="col">
-                <button class="button button-small button-assertive csbtn ">Apply</button>
+                <button class="button button-small button-assertive csbtn" ng-click="applyCouponCode(ccode)">Apply</button>
             </div>
         </div>
     </ion-content>
     <div class="fixedbar">
-        <div class="button btn-add" >Pay Now</div>
+        <div class="button btn-add" ng-click="payNow(pack.package.interfacePrice - discountApplied)" >Pay Now</div>
 
     </div>
 </ion-view>
