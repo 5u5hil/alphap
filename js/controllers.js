@@ -2167,7 +2167,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, 10);
         })
 
-        .controller('PaymentCtrl', function ($scope, $http, $state, $filter, $location, $stateParams, $rootScope, $ionicLoading, $ionicGesture, $timeout, $ionicHistory) {
+        .controller('PaymentCtrl', function ($scope, $http, $state, $filter, $location, $stateParams, $rootScope, $ionicLoading, $ionicGesture, $timeout, $ionicHistory, $ionicModal) {
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.counter1 = 300;
             var stopped1;
@@ -2214,6 +2214,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.ccode = '';
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $scope.discountApplied = '0';
+            $scope.packageId = 0;
+            $scope.selPack = '';
             $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
@@ -2360,24 +2362,89 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicLoading.hide();
                 });
             };
-        })
-        .controller('pkgViewCtrl', function ($scope, $ionicModal, $http, $stateParams, $state) {
+
             $ionicModal.fromTemplateUrl('pkg-details', {
                 scope: $scope
             }).then(function (modal) {
                 $scope.modal = modal;
             });
-            $scope.validate = function (packId) {
+
+            $scope.select = function (packageId, ind, orderId) {
+                console.log(packageId + "==" + ind + "==" + orderId);
+                $scope.packageId = packageId;
+                $scope.selPack = $scope.packages[ind];
+                $scope.modal.hide();
+            };
+            $scope.validate = function (packId, ind, orderId) {
+                console.log(packId + "==" + ind + "==" + orderId);
+                $ionicLoading.show({template: 'Loading...'});
                 $http({
                     method: 'GET',
                     url: domain + 'patient/validate-package',
                     params: {prodId: $scope.prodid, interface: $scope.interface, userId: $scope.userId, packId: packId}
                 }).then(function successCallback(response) {
                     console.log(response);
+                    if (response.data == 'success') {
+                        alert("This package is valid");
+                        $scope.packageId = packId;
+                    }
+                    console.log($scope.packageId);
+                    $ionicLoading.hide();
                 }, function errorCallback(e) {
                     console.log(e);
                 });
             };
+
+            $scope.bookWithPackage = function () {
+                if ($scope.packageId != 0) {
+                    $timeout.cancel(stopped1);
+                    $scope.interface = window.localStorage.getItem('interface_id');
+                    if (window.localStorage.getItem('instantV') == 'instantV') {
+                        $scope.startSlot = window.localStorage.getItem('IVstartSlot');
+                        $scope.endSlot = window.localStorage.getItem('IVendSlot');
+                    } else {
+                        $scope.startSlot = window.localStorage.getItem('startSlot');
+                        $scope.endSlot = window.localStorage.getItem('endSlot');
+                    }
+                    $scope.appUrl = $location.absUrl();
+                    $scope.userId = get('id');
+                    $scope.discount = window.localStorage.getItem('coupondiscount');
+                    $scope.kookooID = window.localStorage.getItem('kookooid');
+                    $scope.kookooID = window.localStorage.getItem('kookooid1');
+                    $ionicHistory.nextViewOptions({
+                        disableBack: true
+                    });
+                    $ionicLoading.show({template: 'Loading...'});
+                    $http({
+                        method: 'GET',
+                        url: domain + 'patient/book-with-package',
+                        params: {interface: $scope.interface, kookooID: $scope.kookooID, ccode: $scope.ccode, discount: $scope.discount, disapply: $scope.discountApplied, prodId: $scope.prodid, userId: $scope.userId, startSlot: $scope.startSlot, endSlot: $scope.endSlot, packageId: $scope.packageId}
+                    }).then(function successCallback(response) {
+                        $ionicLoading.hide();
+                        window.localStorage.removeItem('coupondiscount');
+                        window.localStorage.setItem('coupondiscount', '')
+                        console.log(response.data);
+                        $scope.discountval = response.data.discount;
+                        $ionicHistory.nextViewOptions({
+                            disableBack: true
+                        });
+                        //$timeout.cancel(stopped1);
+                        $state.go('app.thankyou', {'data': response.data}, {reload: true});
+                    }, function errorCallback(response) {
+                        console.log(response);
+                    });
+                }else{
+                    alert("Please select the package to pay with!");
+                }
+            };
+        })
+        .controller('pkgViewCtrl', function ($scope, $ionicModal, $http, $stateParams, $state, $ionicLoading) {
+            $ionicModal.fromTemplateUrl('pkg-details', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+
         })
         .controller('ThankyouCtrl', function ($scope, $http, $state, $location, $stateParams, $rootScope, $ionicGesture, $timeout, $sce, $ionicHistory) {
             console.log($stateParams.data);
@@ -3552,7 +3619,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-        .controller('ContentLibraryCtrl', function ($scope, $sce,$http, $ionicModal, $stateParams, $ionicLoading, $rootScope, $ionicHistory, $filter, $state) {
+        .controller('ContentLibraryCtrl', function ($scope, $sce, $http, $ionicModal, $stateParams, $ionicLoading, $rootScope, $ionicHistory, $filter, $state) {
             $http({
                 method: 'GET',
                 url: domain + 'contentlibrary/get-patient-article',
@@ -3564,7 +3631,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e);
             });
             $scope.trustSrc = function (src) {
-                return $sce.trustAsResourceUrl($filter('split')(src,'?',0));
+                return $sce.trustAsResourceUrl($filter('split')(src, '?', 0));
             };
         })
         .controller('ContentLibrarySettingCtrl', function ($scope, $http, $ionicModal, $stateParams, $ionicLoading, $rootScope, $ionicHistory, $filter, $state) {
@@ -3592,17 +3659,17 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 callAjax("POST", domain + "contentlibrary/save-clsetting", data, function (response) {
                     console.log(response);
                     $ionicLoading.hide();
-                  
-                        alert('Updated sucessfully.')
-                       //  $state.go("app.content-library-setting", {reload: true});
-                   
+
+                    alert('Updated sucessfully.')
+                    //  $state.go("app.content-library-setting", {reload: true});
+
                 });
 
 
 
             }
         })
-        
+
         .controller('ViewContentCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter) {
             $scope.contentId = $stateParams.id;
             $http({
