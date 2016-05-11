@@ -3,7 +3,7 @@
         <span>Library</span>
         <a menu-toggle="right" ui-sref="app.content-library-setting">Setting</a>
     </ion-nav-title>
-   <ion-content class="bgwhite">
+    <ion-content class="bgwhite">
         <div class="posts-list">
 
             <div  class="list card post-item" ng-repeat="contentLab in clab">
@@ -26,6 +26,7 @@
                             <p > <strong>Category </strong>|  <span ng-repeat="specialisation in contentLab.spec">{{specialisation}}  </span>
                             </p>
                             <p> <strong>Tags </strong>|  </p>
+                            <p> <strong>Language </strong>| <span ng-repeat="language in contentLab.lang">{{language}}, </span> </p>
                         </div>
                     </div>
                 </a>
@@ -33,7 +34,7 @@
 
         </div>
     </ion-content>
-    
+
 </ion-view>
 
 

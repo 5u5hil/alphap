@@ -2322,7 +2322,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $ionicLoading.show({template: 'Loading...'});
                 $http({
                     method: 'GET',
-                    url: domain + 'buy/apply-coupon-code',
+                    url: domain + 'buy/apply-coupon-code-new',
                     params: {interface: $scope.interface, couponCode: ccode, prodId: $scope.prodid, userId: $scope.userId, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
                 }).then(function successCallback(response) {
                     // console.log(response);
@@ -3391,7 +3391,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e);
             });
             $scope.trustSrc = function (src) {
-                return $sce.trustAsResourceUrl(src);
+                return $sce.trustAsResourceUrl($filter('split')(src,'?',0));
             };
         })
         .controller('ContentLibrarySettingCtrl', function ($scope, $http, $ionicModal, $stateParams, $ionicLoading, $rootScope, $ionicHistory, $filter, $state) {
@@ -3428,5 +3428,20 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
 
             }
+        })
+        
+        .controller('ViewContentCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter) {
+            $scope.contentId = $stateParams.id;
+            $http({
+                method: 'GET',
+                url: domain + 'contentlibrary/get-content-value',
+                params: {conId: $scope.contentId}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.cval = response.data.aa;
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
         })
         ;

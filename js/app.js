@@ -565,7 +565,16 @@ angular.module('your_app_name', [
                         }
                     })
                    
-
+                   .state('app.view-content-value', {
+                        //  cache: false,
+                        url: "/view-content-value/{id:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/content-library/view-content-value.html",
+                                controller: 'ViewContentCtrl'
+                            }
+                        }
+                    })
 
 
                     .state('app.logout', {
