@@ -86,7 +86,7 @@
                                 <p>{{selPack.packages.name}}<br/>
                                     Desc: {{selPack.packages.desc}}</p>
                             </div>
-                            <button  class="button button-full" ng-click="modal.show()" > View all Packages</button><br/>
+                            <button  class="button button-full" ng-click="modal.show()" > {{packages.length}} package{{packages.length>1? 's':''}} you have subscribed</button><br/>
                             <div class="section-footer" ng-if="packageId != 0"> <!---ui-sref="app.success"-->
                                 <a ng-click="bookWithPackage()" class="button button-full button-positive">Book Now</a>
                             </div>
@@ -108,33 +108,20 @@
     </ion-header-bar>
     <ion-content>
     <div class="cardcont txt-justify">
-    <div class="posts-list">
-    <div class="list card post-item" ng-repeat="pack in packages | orderBy:'-pack.valid'">
-    <a class="post-content item item-text-wrap p0" ng-if="pack.valid==0" >
-    <div class="item item-divider">{{pack.packages.name}}</div><br/>
-    <!---<div class="list">
-    <ion-radio ng-model="packId[pack.packages.id]" ng-value="{{pack.packages.id}}" ng-change="getIds('{{pack.packages.id}}')" value="Select">Select</ion-radio>
-    </div>--->
-    <div class="row">
-    <div class="col txt-center">{{pack.packages.desc}}</div>
-    </div>
-    </a>
-    <a class="post-content item item-text-wrap p0" ng-click="select(pack.packages.id, $index, pack.order.id)"ng-if="pack.valid==1">
-    <div class="item item-divider">{{pack.packages.name}}</div><br/>
-    <!---<div class="list">
-    <ion-radio ng-model="packId[pack.packages.id]" ng-value="{{pack.packages.id}}" ng-change="getIds('{{pack.packages.id}}')" value="Select">Select</ion-radio>
-    </div>--->
-    <div class="row">
-    <div class="col txt-center">{{pack.packages.desc}}</div>
-    </div>
-    </a>
-    <div class="row">
-    <div class="col txt-center">
-    <button class="button sbtn txt-center" ng-click="validate(pack.packages.id, $index, pack.order.id)" ng-if="pack.valid==1"> Valid </button>
-    </div>
-    </div>
-    </div>
-    </div> 
+        <div class="posts-list">
+            <div class="list card post-item" ng-repeat="pack in packages | orderBy:'-pack.valid'">
+                <a class="post-content item item-text-wrap p0">
+                    <div class="item item-divider">{{pack.packages.name}}</div>
+                    <div class="filelabel button button-positive sbtn" ng-click="validate(pack.packages.id, $index, pack.order.id)"> Select & Proceed </div>
+                    <!---<div class="list">
+                    <ion-radio ng-model="packId[pack.packages.id]" ng-value="{{pack.packages.id}}" ng-change="getIds('{{pack.packages.id}}')" value="Select">Select</ion-radio>
+                    </div>--->
+                    <div class="row">
+                        <div class="col txt-center">{{pack.packages.desc}}</div>
+                    </div>
+                </a>
+            </div>
+        </div> 
     </div>
     </ion-content>
     </ion-modal-view>

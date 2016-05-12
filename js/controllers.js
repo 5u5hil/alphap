@@ -2196,7 +2196,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             //$state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
                         }, 3000);
                     }, function errorCallback(response) {
-                        $state.go('app.consultations-list', {reload: true});
+                        $state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
+                        //$state.go('app.consultations-list', {reload: true});
                     });
                 }
             };
@@ -2215,6 +2216,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $scope.discountApplied = '0';
             $scope.packageId = 0;
+            $scope.orderId = 0;
             $scope.selPack = '';
             $ionicLoading.show({template: 'Loading...'});
             $http({
@@ -2372,21 +2374,27 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.select = function (packageId, ind, orderId) {
                 console.log(packageId + "==" + ind + "==" + orderId);
                 $scope.packageId = packageId;
+                $scope.orderId = orderId;
                 $scope.selPack = $scope.packages[ind];
                 $scope.modal.hide();
             };
             $scope.validate = function (packId, ind, orderId) {
                 console.log(packId + "==" + ind + "==" + orderId);
-                $ionicLoading.show({template: 'Loading...'});
+                $ionicLoading.show({template: 'Validating...'});
                 $http({
                     method: 'GET',
                     url: domain + 'patient/validate-package',
-                    params: {prodId: $scope.prodid, interface: $scope.interface, userId: $scope.userId, packId: packId}
+                    params: {prodId: $scope.prodid, interface: $scope.interface, userId: $scope.userId, packId: packId, orderId: orderId}
                 }).then(function successCallback(response) {
                     console.log(response);
                     if (response.data == 'success') {
                         alert("This package is valid");
                         $scope.packageId = packId;
+                        $scope.orderId = orderId;
+                        $scope.selPack = $scope.packages[ind];
+                        $scope.modal.hide();
+                    } else if (response.data == 'error') {
+                        alert("This package is not valid");
                     }
                     console.log($scope.packageId);
                     $ionicLoading.hide();
@@ -2418,7 +2426,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $http({
                         method: 'GET',
                         url: domain + 'patient/book-with-package',
-                        params: {interface: $scope.interface, kookooID: $scope.kookooID, ccode: $scope.ccode, discount: $scope.discount, disapply: $scope.discountApplied, prodId: $scope.prodid, userId: $scope.userId, startSlot: $scope.startSlot, endSlot: $scope.endSlot, packageId: $scope.packageId}
+                        params: {interface: $scope.interface, kookooID: $scope.kookooID, ccode: $scope.ccode, discount: $scope.discount, disapply: $scope.discountApplied, prodId: $scope.prodid, userId: $scope.userId, startSlot: $scope.startSlot, endSlot: $scope.endSlot, packageId: $scope.packageId, prevOrd: $scope.orderId}
                     }).then(function successCallback(response) {
                         $ionicLoading.hide();
                         window.localStorage.removeItem('coupondiscount');
@@ -2433,11 +2441,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     }, function errorCallback(response) {
                         console.log(response);
                     });
-                }else{
+                } else {
                     alert("Please select the package to pay with!");
                 }
             };
         })
+
         .controller('pkgViewCtrl', function ($scope, $ionicModal, $http, $stateParams, $state, $ionicLoading) {
             $ionicModal.fromTemplateUrl('pkg-details', {
                 scope: $scope
@@ -2446,6 +2455,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
 
         })
+
         .controller('ThankyouCtrl', function ($scope, $http, $state, $location, $stateParams, $rootScope, $ionicGesture, $timeout, $sce, $ionicHistory) {
             console.log($stateParams.data);
             $scope.data = $stateParams.data;
