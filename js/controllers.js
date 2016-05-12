@@ -2323,7 +2323,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $ionicLoading.show({template: 'Loading...'});
                 $http({
                     method: 'GET',
-                    url: domain + 'buy/apply-coupon-code-new',
+                    url: domain + 'buy/apply-coupon-code',
                     params: {interface: $scope.interface, couponCode: ccode, prodId: $scope.prodid, userId: $scope.userId, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
                 }).then(function successCallback(response) {
                     // console.log(response);
