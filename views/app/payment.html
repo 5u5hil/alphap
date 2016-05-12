@@ -112,7 +112,7 @@
             <div class="list card post-item" ng-repeat="pack in packages | orderBy:'-pack.valid'">
                 <a class="post-content item item-text-wrap p0">
                     <div class="item item-divider">{{pack.packages.name}}</div>
-                    <div class="filelabel button button-positive sbtn" ng-click="validate(pack.packages.id, $index, pack.order.id)"> Select & Proceed </div>
+                    <div class="filelabel button button-positive" ng-click="validate(pack.packages.id, $index, pack.order.id)"> Select & Proceed </div>
                     <!---<div class="list">
                     <ion-radio ng-model="packId[pack.packages.id]" ng-value="{{pack.packages.id}}" ng-change="getIds('{{pack.packages.id}}')" value="Select">Select</ion-radio>
                     </div>--->
