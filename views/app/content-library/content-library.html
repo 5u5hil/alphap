@@ -20,7 +20,7 @@
 
                             <div ng-if="contentLab.content_type == 'video'" class="indicater txt-center video">
                                 <i class="icon ion-ios-videocam f20"></i><br/>
-                                {{contentLab.duration}}
+                                {{contentLab.duration}} min watch
                             </div> 
 
                             <div ng-if="contentLab.content_type == 'artcle'" class="indicater txt-center article">
@@ -34,14 +34,15 @@
                         <p class="post-excerpt pb10" dynamic-anchor-fix>
                             {{contentLab.content_desc}}
                         </p>
-                        <p class="imgincard pb10" ng-if="contentLab.header_img != null">  <img src="{{attachpath}}{{contentLab.header_img}}" /></p>
-
-                       <div  class="framecontainer mb10"  ng-if="contentLab.url != null"> 
+                       <div ng-if="contentLab.content_type == 'artcle'">
+                            <p class="imgincard pb10" ng-if="contentLab.header_img != ''" >  <img src="{{attachpath}}{{contentLab.header_img}}" /></p>
+                        </div>		
+                        <div  class="framecontainer mb10"  ng-if="contentLab.content_type == 'video'"> 
 
                         
                             <video width="100%" style="min-height:50px;" controls>
                                 <source src="{{trustSrc(contentLab.url)}}" type="video/mp4">
-                                <source src="{{trustSrc(contentLab.url)}}" type="video/ogg">
+                              
                                 Your browser does not support the video tag.
                             </video> 	
 
