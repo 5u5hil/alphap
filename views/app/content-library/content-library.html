@@ -8,8 +8,8 @@
 
             <div  class="list card post-item greenbox" ng-repeat="contentLab in clab">
                 <a ui-sref="app.view-content-value({'id': contentLab.id})" class="card-content p0">
-                    <div class="post-heading item item-text-wrap">
-                        <h2 class="post-title">{{contentLab.content_title}}</h2>
+                    <div class="post-heading item item-text-wrap"  ng-class="{'fillbg': contentLab.content_type == 'video' }">
+                        <h2 class="post-title">{{contentLab.content_title | capitalize}}</h2>
                         <p class="post-author">
                             By <span>{{contentLab.user}}</span> <span>{{contentLab.created_at| dateFormat3}}</span>
                         </p>
@@ -34,10 +34,10 @@
 							
                         </div>
                         <div class="post-actions">
-                            <p  class="pb10"> <strong>Category </strong>|  <span ng-repeat="specialisation in contentLab.spec">{{specialisation}}  </span>
+                            <p  class="pb10"> <strong>Category </strong>|  <span ng-repeat="specialisation in contentLab.spec">{{specialisation}}{{$last==true? '': ',&nbsp;'}}  </span>
                             </p>
-                            <p class="pb10"> <strong>Tags </strong>|  </p>
-                            <p class="pb10"> <strong>Language </strong>| <span ng-repeat="language in contentLab.lang">{{language}}, </span> </p>
+                            <!--<p class="pb10"> <strong>Tags </strong>|  {{$last==true? '': ',&nbsp;'}}</p>-->
+                            <p class="pb10"> <strong>Language </strong>| <span ng-repeat="language in contentLab.lang">{{language | capitalize}}{{$last==true? '': ',&nbsp;'}} </span> </p>
                         </div>
                     </div>
                 </a>
