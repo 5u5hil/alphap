@@ -3,10 +3,10 @@
         <span>Library</span>
         <a menu-toggle="right" ui-sref="app.content-library-setting">Setting</a>
     </ion-nav-title>
-    <ion-content class="bgwhite">
+    <ion-content>
         <div class="posts-list">
 
-            <div  class="list card post-item" ng-repeat="contentLab in clab">
+            <div  class="list card post-item greenbox" ng-repeat="contentLab in clab">
                 <a ui-sref="app.view-content-value({'id': contentLab.id})" class="card-content p0">
                     <div class="post-heading item item-text-wrap">
                         <h2 class="post-title">{{contentLab.content_title}}</h2>
@@ -15,18 +15,29 @@
                         </p>
                     </div>
                     <div class="post-content item item-text-wrap" post-content>
-                        <p class="post-excerpt" dynamic-anchor-fix>
+                        <p class="post-excerpt pb10" dynamic-anchor-fix>
                             {{contentLab.content_desc}}
                         </p>
-                        <p class="imgincard" ng-if="contentLab.header_img != null">  <img src="{{attachpath}}{{contentLab.header_img}}" /></p>
-                        <div  class="framecontainer"  ng-if="contentLab.header_img == null"> 
-                            <iframe  class="iframevideo"  frameborder="0" allowfullscreen="1" ng-src="{{trustSrc(contentLab.url)}}"></iframe>
+                        <p class="imgincard pb10" ng-if="contentLab.header_img != null">  <img src="{{attachpath}}{{contentLab.header_img}}" /></p>
+						
+                        <div  class="framecontainer mb10"  ng-if="contentLab.header_img == null"> 
+						
+                           <!--  <iframe  class="iframevideo"  frameborder="0" allowfullscreen="1" ng-src="{{trustSrc(contentLab.url)}}"></iframe> -->
+							
+						<video width="100%" style="min-height:50px;" controls>
+						  <source src="{{trustSrc(contentLab.url)}}" type="video/mp4">
+						  <source src="{{trustSrc(contentLab.url)}}" type="video/ogg">
+						  Your browser does not support the video tag.
+						</video> 	
+							
+							
+							
                         </div>
                         <div class="post-actions">
-                            <p > <strong>Category </strong>|  <span ng-repeat="specialisation in contentLab.spec">{{specialisation}}  </span>
+                            <p  class="pb10"> <strong>Category </strong>|  <span ng-repeat="specialisation in contentLab.spec">{{specialisation}}  </span>
                             </p>
-                            <p> <strong>Tags </strong>|  </p>
-                            <p> <strong>Language </strong>| <span ng-repeat="language in contentLab.lang">{{language}}, </span> </p>
+                            <p class="pb10"> <strong>Tags </strong>|  </p>
+                            <p class="pb10"> <strong>Language </strong>| <span ng-repeat="language in contentLab.lang">{{language}}, </span> </p>
                         </div>
                     </div>
                 </a>
