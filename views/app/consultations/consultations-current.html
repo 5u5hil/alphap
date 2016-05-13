@@ -9,12 +9,12 @@
     </ion-nav-buttons>-->
     <ion-content>
         <div class="row tabnav" ng-if="apkLanguage == 'english'">
-            <div class="col"><a nav-clear menu-close ui-sref="app.consultations-list">Book</a></div>
+            <div class="col" ><a  nav-clear menu-close ng-click="checkspec()">Book</a></div>
             <div class="col"><a nav-clear menu-close ui-sref="app.consultations-current" class="active" >Active</a></div>
             <div class="col"><a nav-clear menu-close ui-sref="app.consultations-past">Past</a></div>
         </div>
         <div class="row tabnav" ng-if="apkLanguage != 'english'">
-            <div class="col"><a nav-clear menu-close ui-sref="app.consultations-list">{{langtext.book[language]}}</a></div>
+            <div class="col"><a  nav-clear menu-close ng-click="checkspec()" >{{langtext.book[language]}}</a></div>
             <div class="col"><a nav-clear menu-close ui-sref="app.consultations-current" class="active" >{{langtext.active[language]}}</a></div>
             <div class="col"><a nav-clear menu-close ui-sref="app.consultations-past">{{langtext.past[language]}}</a></div>
         </div>

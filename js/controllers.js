@@ -58,6 +58,28 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }, 30);
 
             };
+            $scope.checkCat = function () {
+                console.log('console');
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctors/check-doctrs',
+                    params: {id: $scope.userId, interface: $scope.interface}
+                }).then(function successCallback(response) {
+//                    console.log(response.data.doctrs);
+//                    console.log(response.data.doctrs[0].user_id);
+//                    console.log(response.data.doctrs.length);
+                    if (response.data.doctrs.length == 1) {
+                        $state.go('app.single-profile', {id: response.data.doctrs[0].user_id}, {reload: true});
+                        window.localStorage.setItem('drId', response.data.doctrs[0].user_id);
+                    } else {
+                        $state.go('app.consultations-list', {}, {reload: true});
+                    }
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+          
+
+            };
         })
 
         .controller('SearchBarCtrl', function ($scope, $state, $ionicConfig, $rootScope) {
@@ -1508,6 +1530,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.imgpath = domain;
             $scope.specializations = {};
             $scope.userId = get('id');
+            $scope.drId = '';
+            if (get('drId') != null) {
+                $scope.drId = get('drId');
+            } else {
+                $scope.drId = '';
+            }
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $ionicLoading.show({template: 'Loading...'});
             $http({
@@ -1594,6 +1622,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.imgpath = domain;
             $scope.specializations = {};
             $scope.userId = get('id');
+            $scope.drId = '';
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $ionicLoading.show({template: 'Loading...'});
             $http({
@@ -1645,6 +1674,17 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, function errorCallback(e) {
                 console.log(e);
             });
+
+            $scope.checkspec = function () {
+                if (get('drId') != null) {
+                    $scope.drId = get('drId');
+                    console.log($scope.drId);
+                    $state.go('app.single-profile', {'id': $scope.drId});
+                } else {
+                    $scope.drId = '';
+                    $state.go('app.consultations-list', {}, {reload: true});
+                }
+            };
 
             $scope.deleteApp = function (appId, prodId, mode, startTime) {
                 $ionicLoading.show({template: 'Loading...'});
@@ -1768,6 +1808,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     alert("You can join video 15 minutes before the appointment");
                 }
             };
+
         })
 
         .controller('ConsultationCardsCtrl', function ($scope, $http, $stateParams, $ionicLoading) {
@@ -3193,6 +3234,28 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     }).then(function successCallback(response) {
                         console.log(response.data.doctr);
                         $scope.doc = response.data.doctr;
+                        //$ionicLoading.hide();
+                        $scope.modal.show();
+                    }, function errorCallback(e) {
+                        console.log(e);
+                    });
+                };
+            });
+        })
+        .controller('doctrsInfoCtrl', function ($scope, $ionicModal, $http, $ionicLoading) {
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $ionicModal.fromTemplateUrl('catdoctrs', {
+                scope: $scope
+            }).then(function ($ionicModal) {
+                $scope.modal = $ionicModal;
+                $scope.showDrs = function (catId) {
+                    $http({
+                        method: 'GET',
+                        url: domain + 'patient/get-cat-doctrs',
+                        params: {catId: catId, interface: $scope.interface}
+                    }).then(function successCallback(response) {
+                        console.log(response.data.doctrs);
+                        $scope.doctrs = response.data.doctrs;
                         //$ionicLoading.hide();
                         $scope.modal.show();
                     }, function errorCallback(e) {

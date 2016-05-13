@@ -341,6 +341,16 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    .state('app.single-profile', {
+                        //  cache: false,
+                        url: "/single-profile/{id:string}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/consultations/consultation-single-profile.html",
+                                controller: 'ConsultationProfileCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.current-tab', {
                         cache: false,

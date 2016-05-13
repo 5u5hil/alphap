@@ -8,10 +8,8 @@
                 </button>
             </ion-nav-buttons>
         </ion-nav-bar>
-
         <ion-nav-view name="menuContent"></ion-nav-view>
     </ion-side-menu-content>
-
     <ion-side-menu side="left" class="main-menu" expose-aside-when="large">
         <ion-content>
             <ion-list>
@@ -25,24 +23,21 @@
                     <p class="message" ng-if="apkLanguage == 'english'">Welcome </p>
                     <p class="message" ng-if="apkLanguage != 'english'">{{menutext.welcome[language]}}  </p>
                 </ion-item>
-
                 <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.category-list">
                     <i class="icon ion-android-home"></i>
                     <h2 class="menu-text" ng-if="apkLanguage == 'english'">Home</h2>
                     <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.home[language]}}</h2>
                 </ion-item>
-
                 <!--   <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.test">
                          <i class="icon ion-android-home"></i>
     <h2 class="menu-text">Home</h2>
 </ion-item> -->
-
-
-                <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.consultations-list">
+                <ion-item class="item-icon-left logoutbtn" nav-clear menu-close ng-click="checkCat()">
                     <i class="icon ion-medkit"></i>
                     <h2 class="menu-text" ng-if="apkLanguage == 'english'">Consultations</h2>
                     <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.consultations[language]}}</h2>
                 </ion-item>
+                
                 <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.category-detail" >
                     <i class="icon ion-folder"></i>
                     <h2 class="menu-text" ng-if="apkLanguage == 'english'">Records</h2>
@@ -54,6 +49,7 @@
                     <h2 class="menu-text" ng-if="apkLanguage == 'english'">Chats</h2>
                     <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.chat[language]}}</h2>
                 </ion-item>
+                
                 <ion-item class="item-icon-left greyitem" nav-clear menu-close ui-sref="app.packaging" >
                     <i class="icon ion-cube"></i>
                     <h2 class="menu-text" ng-if="apkLanguage == 'english'">Packages</h2>
