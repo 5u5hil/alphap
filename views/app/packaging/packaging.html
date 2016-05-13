@@ -17,41 +17,80 @@
                 </div>-->
 
         <div class="posts-list">
-            <div class="list card post-item" ng-repeat="pack in packages">
+            <div class="list card post-item newcard" ng-repeat="pack in packages">
                 <div class="post-content item item-text-wrap p0">
                     <div ui-sref="#" class="card-content p0">
-                        <div class="item item-divider">{{pack.packages.name}}
+                        <div class="item item-divider grndivider">{{pack.packages.name}}
                             <div class="cardprice">INR {{pack.packages.interfacePrice|ceil}}</div>
                         </div>
                     </div>
                     <div class="cardcont">
-                        <p><strong>Duration : </strong>
-                            <span ng-if="pack.packages.validity_in_days != 0">{{pack.packages.validity_in_days}} Days</span>
-                            <span ng-if="pack.packages.validity_in_days == 0">NA</span>
-                        </p>
-                        <p><strong>Description : </strong>
-                            {{pack.packages.desc}}</p>
+                        
+                        <p ><strong>Description : </strong>
+                            <span class="fitalic">{{pack.packages.desc}}</span>
+							</p>
                     </div>
-                    <div class="item item-divider">Consultations</div>
+                    <div class="item item-divider">Inclusions</div>
                     <div class="flexcont btnpd">
                         <div class="innerdiv brdright" ng-if="pack.packages.video_limit != 0">
-                            Video <span class="countconsult" ng-if="pack.packages.video_limit != '-1'">{{pack.packages.video_limit}}</span>
+                           <i class="ion-ios-videocam"></i>  Video <span class="countconsult" ng-if="pack.packages.video_limit != '-1'">{{pack.packages.video_limit}}</span>
                             <span class="countconsult" ng-if="pack.packages.video_limit == '-1'">Unlimited</span>
                         </div>
                         <div class="innerdiv brdright" ng-if="pack.packages.clinic_limit != 0">
-                            Clinic <span class="countconsult" ng-if="pack.packages.clinic_limit != '-1'">{{pack.packages.clinic_limit}}</span>
+                             <i class="ion-medkit"></i> Clinic <span class="countconsult" ng-if="pack.packages.clinic_limit != '-1'">{{pack.packages.clinic_limit}}</span>
                             <span class="countconsult" ng-if="pack.packages.clinic_limit == '-1'">Unlimited</span>
                         </div>
                         <div class="innerdiv brdright" ng-if="pack.packages.home_limit != 0">
-                            Home <span class="countconsult" ng-if="pack.packages.home_limit != '-1'">{{pack.packages.home_limit}}</span>
+                             <i class="ion-home"></i>  Home <span class="countconsult" ng-if="pack.packages.home_limit != '-1'">{{pack.packages.home_limit}}</span>
                             <span class="countconsult" ng-if="pack.packages.home_limit == '-1'">Unlimited</span>
                         </div>
                         <div class="innerdiv" ng-if="pack.packages.chat_limit != 0">
-                            Chat  <span class="countconsult" ng-if="pack.packages.chat_limit != '-1'">{{pack.packages.chat_limit}} Days</span>
+                           <i class="ion-chatboxes"></i>  Chat  <span class="countconsult" ng-if="pack.packages.chat_limit != '-1'">{{pack.packages.chat_limit}} Days</span>
                             <span class="countconsult" ng-if="pack.packages.chat_limit == '-1'">Unlimited</span>
                         </div>
                     </div>
-                    <div class="cardcont">
+					
+					
+				
+				<div class="item item-divider">Validity
+				<div class="rtbtn">View Details</div>
+				</div>
+					<div class="flexcont btnpd">
+                       <div class="innerdiv brdright">
+                              Duration 
+                            <span class="countconsult">
+							<span ng-if="pack.packages.validity_in_days != 0">{{pack.packages.validity_in_days}} Days</span>
+                            <span ng-if="pack.packages.validity_in_days == 0">NA</span>
+							
+							</span>
+                        </div>
+						
+                        <div class="innerdiv">
+                           Specialist(s)  
+						   <span class="countconsult" >3</span>
+                           
+                        </div>
+                    </div>
+					
+
+
+					<div class="flexcont btnpd">
+                       <div class="innerdiv f13 txt-left">
+                              Recommernded <br/>
+							  <span class="fitalic">Lorem ipsum</span>
+                        </div>
+						
+                        <div class="innerdiv txt-right">
+                           
+                           <a class="crdbtn btn-add txt-center" ui-sref="app.packaging-detail({'id': pack.packages.id})">Subscribe Now</a>
+                        </div>
+                    </div>
+
+
+
+
+				
+               <!--  <div class="cardcont">
                         <div class="row p0" ng-if="pack.packages.restricted_to == 1">
                             <div class="col col-33"><strong>Specialist</strong></div>
                             <div class="col col-67" > 
@@ -74,8 +113,10 @@
                                 Any
                             </div>
                         </div>
-                    </div>
-                    <a class="cardbtn btn-add txt-center" ui-sref="app.packaging-detail({'id': pack.packages.id})">Subscribe</a>
+                    </div> -->
+				
+					
+                    
                 </div>
             </div>
         </div>

@@ -8615,7 +8615,7 @@ select.selectheader{ /* width:80%; */ padding:3px; border:0; /* text-indent:35%;
 .profile .tab-title{    font-size: 14px;
                         padding: 5px 0;}
 .profile .tab-item .icon{}
-.txt-left{text-align:left;}
+.txt-left{text-align:left !important;}
 .profile .post-footer{margin-top:0;}
 .profile-head{background:#eee; padding:5px 0; position:fixed; width:100%;
               z-index: 9;
@@ -9150,7 +9150,7 @@ label.item .col{position:relative;}
 .btnpd  .innerdiv{padding:8px;}
 .brdright{border-right:1px #eee solid;}
 .brdrht{border-right:1px #ccc solid;}
-.countconsult{display:block; text-align:center;}
+.countconsult{display:block; text-align:center; font-weight:normal;}
 
 input[type="date"]:before{
        font-family: "Ionicons";
@@ -9255,10 +9255,33 @@ color: #fff;
  .imgincard{margin-top:10px;}
 .imgincard img{max-width:100%;} 
   
+ .newcard{border: 1px #28A54C solid;}
   
-  
-  
-  
+   .newcard .flexcont div.innerdiv{background:#fff;}
+  .rtbtn{    float: right;
+    /* padding: 10px; */
+    /* background: #387EF5; */
+    position: absolute;
+    top: 4px;
+    height: 80%;
+    right: 5px;
+    padding: 3px 5px;
+    color: #387EF5;
+    border-radius: 5px;
+    border: 1px #387EF5 solid;
+    font-size: 12px;}
+	
+	.grndivider{font-size: 16px;
+    background: #28A54C;
+    border-radius: 0 !important;
+    color: #fff;}
+	.grndivider .cardprice{color:#fff;}
+	.fitalic{font-style:italic; font-weight:normal;}
+	.f13{font-size:13px;}
+	.crdbtn{    padding: 8px;
+    border-radius: 5px;
+    text-decoration: none;}
+	.txt-right{text-align:right !important;}
   
 /* endcss */
 

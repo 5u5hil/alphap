@@ -8,7 +8,7 @@
 
             <div  class="list card post-item greenbox" ng-repeat="contentLab in clab">
                 <a ui-sref="app.view-content-value({'id': contentLab.id})" class="card-content p0">
-                    <div class="post-heading item item-text-wrap"  ng-class="{'fillbg': contentLab.content_type == 'video' }">
+                    <div class="row post-heading item item-text-wrap"  ng-class="{'fillbg': contentLab.content_type == 'video' }">
                         <div class="col col-75">
                             <h2 class="post-title">{{contentLab.content_title| capitalize}}</h2>
                             <p class="post-author">
