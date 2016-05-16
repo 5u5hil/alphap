@@ -55,7 +55,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     if (response.data) {
                         $scope.menutext = response.data.dataMenu;
                         $scope.language = response.data.lang.language;
-                        window.location.reload();
+                        window.location.href = window.location.href ;
                     } else {
                     }
                 }, function errorCallback(response) {
