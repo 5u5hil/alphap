@@ -2229,6 +2229,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.counter1 = 300;
             var stopped1;
+            $scope.$on('$destroy', function () {
+                $timeout.cancel(stopped1);
+            })
             $scope.paynowcountdown = function () {
                 stopped1 = $timeout(function () {
                     console.log($scope.counter1);
@@ -2250,9 +2253,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         alert('Sorry, Your payment time expired');
                         window.localStorage.removeItem('kookooid');
                         window.localStorage.removeItem('kookooid1');
-                        $timeout(function () {
-                            //$state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
-                        }, 3000);
+                        $state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
+                        // $timeout(function () {
+                        //
+                        // }, 3000);
                     }, function errorCallback(response) {
                         $state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
                         //$state.go('app.consultations-list', {reload: true});
@@ -2277,6 +2281,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.orderId = 0;
             $scope.selPack = '';
             $scope.packages = [];
+
             $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
@@ -3330,7 +3335,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
         })
 
-        .controller('packageConfirmCtrl', function ($scope, $ionicModal, $http, $ionicLoading, $stateParams, $timeout, $filter, $ionicHistory, $state, $location) {
+        .controller('packageConfirmCtrl', function ($scope, $ionicModal, $rootScope, $http, $ionicLoading, $stateParams, $timeout, $filter, $ionicHistory, $state, $location) {
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = get('id');
@@ -3346,6 +3351,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.ccode = '';
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $scope.discountApplied = '0';
+
+            $scope.$on('$destroy', function () {
+                $timeout.cancel(stopped1);
+            })
+
             $scope.paynowcountdown = function () {
                 stopped1 = $timeout(function () {
                     console.log($scope.counter1);
@@ -3356,6 +3366,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     //console.log('fadsf af daf');
                     $timeout.cancel(stopped1);
                     alert('Sorry, Your payment time expired');
+                    $state.go('app.packaging', {reload: true});
+
                 }
             };
             $ionicLoading.show({'template': 'Loading..'});
@@ -3446,9 +3458,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     window.localStorage.setItem('coupondiscount', '')
                     console.log(response.data);
                     if (finalamount > 0) {
-                        //$timeout.cancel(stopped1);
+                        $timeout.cancel(stopped1);
                         $state.go('app.gopayment', {'link': response.data});
-                        console.log(response.data);
+                        // console.log(response.data);
                     } else {
                         $scope.discountval = response.data.discount;
                         $ionicHistory.nextViewOptions({
@@ -3461,6 +3473,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     console.log(response);
                 })
             };
+
+
         })
 
         .controller('GoPaymentCtrl', function ($scope, $http, $state, $location, $stateParams, $rootScope, $ionicGesture, $timeout, $sce, $ionicHistory) {
