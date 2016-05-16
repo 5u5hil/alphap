@@ -53,7 +53,7 @@
 
 
                     <div class="item item-divider">Validity
-                        <div class="rtbtn" ng-controller="doctrsInfoCtrl" ng-click="showDrs(spec.id);">View Details</div>
+                        <div class="rtbtn" ng-controller="alldoctrsCtrl" ng-click="showDrs($index);">View Details</div>
                     </div>
                     <div class="flexcont btnpd">
                         <div class="innerdiv brdright">
@@ -65,7 +65,7 @@
                             </span>
                         </div>
                         <div class="innerdiv">
-                            {{pack.packages.restricted_to == 1? 'Specialist(s)':pack.packages.restricted_to == 1? 'Category': 'Any'}}  
+                            {{pack.packages.restricted_to == 1? 'Specialist(s)':pack.packages.restricted_to == 2? 'Category': 'Any'}}  
                             <span class="countconsult" >3</span>
                         </div>
                     </div>

@@ -3263,7 +3263,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             
              $scope.showDrs = function (ind) {
                     console.log(ind);
-                    $scope.doctrs = $scope.packages[ind];
+                    $scope.doctrs = $scope.packages[ind].specialist;
                     $scope.modal.show();
                 };
             
