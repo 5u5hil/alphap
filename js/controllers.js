@@ -44,6 +44,25 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, function errorCallback(response) {
                 // console.log(response);
             });
+
+            $rootScope.$on("sideMenu", function () {
+               
+                $http({
+                    method: 'GET',
+                    url: domain + 'get-sidemenu-lang',
+                    params: {id: $scope.userId, interface: $scope.interface}
+                }).then(function successCallback(response) {
+                    if (response.data) {
+                        $scope.menutext = response.data.dataMenu;
+                        $scope.language = response.data.lang.language;
+                        window.location.reload();
+                    } else {
+                    }
+                }, function errorCallback(response) {
+                    // console.log(response);
+                });
+            });
+
             $scope.logout = function () {
                 $ionicLoading.show({template: 'Logging out....'});
                 window.localStorage.clear();
@@ -1275,6 +1294,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('PatientSettingsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $ionicLoading, $rootScope, $sce) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.lang_id = '';
             $http({
                 method: 'GET',
                 url: domain + 'doctors/get-patient-setting',
@@ -1282,8 +1302,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }).then(function successCallback(response) {
                 $scope.allow_lang = response.data.allow_lang;
                 $scope.getlang = response.data.getlang;
+                $scope.lang_id = response.data.getlang.language_id;
                 $scope.langtext = response.data.langtext;
                 $scope.language = response.data.lang.language;
+              
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -1295,11 +1317,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     params: {langId: langId, patientId: window.localStorage.getItem('id'), interface: $scope.interface}
                 }).then(function successCallback(response) {
                     console.log(response);
-                    if (response.data == 'Success') {
-                        alert("Records shared successfully!");
-                        $timeout(function () {
-                            window.location.reload();
-                        }, 1000);
+                    if (response.data == '1') {
+                        alert("Setting updated!");
+                        
+                          $rootScope.$emit("sideMenu");
                     }
                 }, function errorCallback(e) {
                     console.log(e);
@@ -3775,7 +3796,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }
         })
 
-        .controller('ViewContentCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter) {
+        .controller('ViewContentCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $sce) {
             $scope.contentId = $stateParams.id;
             $http({
                 method: 'GET',
@@ -3788,5 +3809,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e);
             });
 
+            $scope.trustSrc = function (src) {
+                return $sce.trustAsResourceUrl($filter('split')(src, '?', 0));
+            };
         })
         ;

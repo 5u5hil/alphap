@@ -9,23 +9,15 @@
   <ion-content>
        
     <ul class="list">
-      
 
-	 
-	 
-	
       <div class="item item-divider">Prefered language </div>
 
-	
-      <ion-list ng-repeat="lang in allow_lang">
-          <ion-radio ng-model="lang.language_id"  class="radioptions" ng-checked="lang.language_id == getlang.language_id" ng-click="patient_language({{lang.language_id}})" ng-value="{{lang.language_id}}">{{lang.language}}</ion-radio>		  
-		
-                   
+      <ion-list class="cradioselect">
+        
+          <ion-radio ng-model="lang_id"  ng-repeat="alang in allow_lang"  ng-checked="lang_id == alang.language_id" ng-click="patient_language({{alang.language_id}})" value="{{alang.language_id}}">{{alang.language |capitalize}}</ion-radio>     
+          
       </ion-list> 
-	 
-	 
-
-      
+	
     </ul>
   </ion-content>
 </ion-view>
