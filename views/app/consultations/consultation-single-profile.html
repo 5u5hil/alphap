@@ -16,9 +16,9 @@
             <div class="col"><a nav-clear menu-close ui-sref="app.consultations-past">Past</a></div>
         </div>
         <div class="row tabnav" ng-if="apkLanguage != 'english'">
-            <div class="col"><a nav-clear menu-close ui-sref="app.single-profile({'id': drId})" class="active">{{langtext.book[language]}}</a></div>
-            <div class="col"><a nav-clear menu-close ui-sref="app.consultations-current"  >{{langtext.active[language]}}</a></div>
-            <div class="col"><a nav-clear menu-close ui-sref="app.consultations-past">{{langtext.past[language]}}</a></div>
+            <div class="col"><a nav-clear menu-close ui-sref="app.single-profile({'id': drId})" class="active">{{book[language]}}</a></div>
+            <div class="col"><a nav-clear menu-close ui-sref="app.consultations-current"  >{{active[language]}}</a></div>
+            <div class="col"><a nav-clear menu-close ui-sref="app.consultations-past">{{past[language]}}</a></div>
         </div>
 
         <div ng-repeat="doc in doctor">

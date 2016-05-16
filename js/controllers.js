@@ -65,19 +65,22 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     url: domain + 'doctors/check-doctrs',
                     params: {id: $scope.userId, interface: $scope.interface}
                 }).then(function successCallback(response) {
-//                    console.log(response.data.doctrs);
+                    console.log(response.data);
 //                    console.log(response.data.doctrs[0].user_id);
 //                    console.log(response.data.doctrs.length);
                     if (response.data.doctrs.length == 1) {
                         $state.go('app.single-profile', {id: response.data.doctrs[0].user_id}, {reload: true});
-                        window.localStorage.setItem('drId', response.data.doctrs[0].user_id);
+                        window.localStorage.setItem('category', response.data.doctrs[0].user_id);
+                    } else if (response.data.spec.length == 1) {
+                        $state.go('app.consultation-cards', {id: response.data.spec[0].category_id}, {reload: true});
+                        window.localStorage.setItem('category', response.data.spec[0].category_id);
                     } else {
                         $state.go('app.consultations-list', {}, {reload: true});
                     }
                 }, function errorCallback(e) {
                     console.log(e);
                 });
-          
+
 
             };
         })
@@ -1675,17 +1678,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e);
             });
 
-            $scope.checkspec = function () {
-                if (get('drId') != null) {
-                    $scope.drId = get('drId');
-                    console.log($scope.drId);
-                    $state.go('app.single-profile', {'id': $scope.drId});
-                } else {
-                    $scope.drId = '';
-                    $state.go('app.consultations-list', {}, {reload: true});
-                }
-            };
-
             $scope.deleteApp = function (appId, prodId, mode, startTime) {
                 $ionicLoading.show({template: 'Loading...'});
                 $http({
@@ -1865,6 +1857,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = window.localStorage.getItem('id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            console.log($scope.apkLanguage);
             $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
@@ -1899,6 +1892,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.scheduled_video = response.data.scheduled_video;
                 $scope.earliest_slot = response.data.earliest_slot;
                 $scope.next_slot = response.data.next_slot;
+                $scope.active = response.data.active;
+                $scope.book = response.data.book;
+                $scope.past = response.data.past;
                 $scope.language = response.data.lang.language;
                 //console.log("prodId " + $scope.instVideo + "popopo");
                 //$ionicLoading.hide();
