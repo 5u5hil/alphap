@@ -46,7 +46,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
 
             $rootScope.$on("sideMenu", function () {
-               
+
                 $http({
                     method: 'GET',
                     url: domain + 'get-sidemenu-lang',
@@ -55,7 +55,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     if (response.data) {
                         $scope.menutext = response.data.dataMenu;
                         $scope.language = response.data.lang.language;
-                        window.location.href = window.location.href ;
+                        window.location.href = window.location.href;
                     } else {
                     }
                 }, function errorCallback(response) {
@@ -1305,7 +1305,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.lang_id = response.data.getlang.language_id;
                 $scope.langtext = response.data.langtext;
                 $scope.language = response.data.lang.language;
-              
+
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -1319,8 +1319,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     console.log(response);
                     if (response.data == '1') {
                         alert("Setting updated!");
-                        
-                          $rootScope.$emit("sideMenu");
+
+                        $rootScope.$emit("sideMenu");
                     }
                 }, function errorCallback(e) {
                     console.log(e);
@@ -3258,17 +3258,17 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 scope: $scope
             }).then(function ($ionicModal) {
                 $scope.modal = $ionicModal;
-               
+
             });
-            
-             $scope.showDrs = function (ind) {
-                    console.log(ind);
-                    $scope.doctrs = $scope.packages[ind].specialist;
-                    $scope.modal.show();
-                };
-            
-            
-            
+
+            $scope.showDrs = function (ind) {
+                console.log(ind);
+                $scope.doctrs = $scope.packages[ind].specialist;
+                $scope.modal.show();
+            };
+
+
+
         })
 
         .controller('infodoctrsCtrl', function ($scope, $ionicModal, $http, $ionicLoading) {
