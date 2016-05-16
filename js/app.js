@@ -330,6 +330,17 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
+                    .state('app.consultation-single-cat-cards', {
+                        cache: false,
+                        url: "/consultation-single-cat-cards/{id:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/consultations/consultation-single-cat-cards.html",
+                                controller: 'ConsultationCardsCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.consultation-profile', {
                         //  cache: false,

@@ -53,7 +53,9 @@
 
 
                     <div class="item item-divider">Validity
-                        <div class="rtbtn" ng-controller="alldoctrsCtrl" ng-click="showDrs($index);">View Details</div>
+                        <div class="rtbtn" ng-controller="alldoctrsCtrl" ng-click="showDrs($index);" ng-if="pack.packages.restricted_to == 1 || pack.packages.restricted_to == 2">View Details</div>
+                        <div class="rtbtn" ng-controller="anydoctrsCtrl" ng-click="showDrs($index);" ng-if="pack.packages.restricted_to == 0">View Details</div>
+
                     </div>
                     <div class="flexcont btnpd">
                         <div class="innerdiv brdright">
@@ -65,13 +67,13 @@
                             </span>
                         </div>
                         <div class="innerdiv">
-                            {{pack.packages.restricted_to == 1? 'Specialist(s)':pack.packages.restricted_to == 2? 'Category': 'Any'}}  
-                            <span class="countconsult" >3</span>
+                            {{pack.packages.restricted_to == 1 ? 'Specialist(s)' : pack.packages.restricted_to == 2 ? 'Category' : 'Any'}}  
+                            <span class="countconsult" >{{pack.packages.restricted_to == 1? pack.specialist.length:pack.packages.restricted_to == 2? pack.categories.length: 'Any'}}</span>
                         </div>
                     </div>
                     <div class="flexcont btnpd">
                         <div class="innerdiv f13 txt-left">
-                            Recommernded <br/>
+                            Recommended <br/>
                             <span class="fitalic">Lorem ipsum</span>
                         </div>
                         <div class="innerdiv txt-right">
@@ -107,10 +109,10 @@
             <br/><br/>
         </div>
     </ion-content>
-<!--    <div class="fixedbar">
-        <div class="button btn-share" nav-clear ng-click="modal.hide()" ><i class="icon ion-funnel"></i> Filter</div>
-        <div class="button btn-delete" ng-click="submitmodal()"><i class="icon ion-ion-refresh"></i> Sort</div>
-    </div>-->
+    <!--    <div class="fixedbar">
+            <div class="button btn-share" nav-clear ng-click="modal.hide()" ><i class="icon ion-funnel"></i> Filter</div>
+            <div class="button btn-delete" ng-click="submitmodal()"><i class="icon ion-ion-refresh"></i> Sort</div>
+        </div>-->
 </ion-view>
 
 <script id="pkg-details" type="text/ng-template">
@@ -193,10 +195,12 @@
 <script id="catdoctrs" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Doctor Information</h1>
+    <h1 class="title">Details</h1>
     <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
     </ion-header-bar>
     <ion-content>
+    <my-tabs class="themetabs">
+    <my-tab title="Doctors">
     <div class="list consultview">
     <div class="posts-list" ng-repeat="doc in doctrs">
     <div  class="list card post-item">
@@ -232,6 +236,38 @@
     </div>
     </div>
     </div>
+    </my-tab>
+    <my-tab title="Terms & Conditions">
+    <div class="tabcontainer p0" >
+    <p>
+    {{terms}}
+    </p>
+    </div>
+    </my-tab>
+    </my-tabs>
+    </ion-content>
+    </ion-modal-view>
+</script>
+<script id="anydoctrs" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Details</h1>
+    <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+    </ion-header-bar>
+    <ion-content>
+    <my-tabs class="themetabs">
+    <my-tab title="Valid For">
+    <p><strong> Speciality : </strong> Any</p>
+    <p><strong> Category : </strong> Any </p>
+    </my-tab>
+    <my-tab title="Terms & Conditions">
+    <div class="tabcontainer p0" >
+    <p>
+    {{terms}}
+    </p>
+    </div>
+    </my-tab>
+    </my-tabs>
     </ion-content>
     </ion-modal-view>
 </script>

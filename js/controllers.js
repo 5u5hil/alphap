@@ -46,7 +46,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
 
             $rootScope.$on("sideMenu", function () {
-               
+
                 $http({
                     method: 'GET',
                     url: domain + 'get-sidemenu-lang',
@@ -55,7 +55,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     if (response.data) {
                         $scope.menutext = response.data.dataMenu;
                         $scope.language = response.data.lang.language;
-                        window.location.href = window.location.href ;
+                        window.location.href = window.location.href;
                     } else {
                     }
                 }, function errorCallback(response) {
@@ -91,7 +91,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $state.go('app.single-profile', {id: response.data.doctrs[0].user_id}, {reload: true});
                         window.localStorage.setItem('category', response.data.doctrs[0].user_id);
                     } else if (response.data.spec.length == 1) {
-                        $state.go('app.consultation-cards', {id: response.data.spec[0].category_id}, {reload: true});
+                        $state.go('app.consultation-single-cat-cards', {id: response.data.spec[0].category_id}, {reload: true});
                         window.localStorage.setItem('category', response.data.spec[0].category_id);
                     } else {
                         $state.go('app.consultations-list', {}, {reload: true});
@@ -1305,7 +1305,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.lang_id = response.data.getlang.language_id;
                 $scope.langtext = response.data.langtext;
                 $scope.language = response.data.lang.language;
-              
+
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -1319,8 +1319,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     console.log(response);
                     if (response.data == '1') {
                         alert("Setting updated!");
-                        
-                          $rootScope.$emit("sideMenu");
+
+                        $rootScope.$emit("sideMenu");
                     }
                 }, function errorCallback(e) {
                     console.log(e);
@@ -3258,17 +3258,29 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 scope: $scope
             }).then(function ($ionicModal) {
                 $scope.modal = $ionicModal;
-               
+
             });
-            
-             $scope.showDrs = function (ind) {
-                    console.log(ind);
-                    $scope.doctrs = $scope.packages[ind].specialist;
-                    $scope.modal.show();
-                };
-            
-            
-            
+
+            $scope.showDrs = function (ind) {
+                console.log(ind);
+                $scope.doctrs = $scope.packages[ind].specialist;
+                $scope.terms = $scope.packages[ind].packages.terms_and_conditions;
+                $scope.modal.show();
+            };
+        })
+        .controller('anydoctrsCtrl', function ($scope, $ionicModal, $http, $ionicLoading) {
+            $ionicModal.fromTemplateUrl('anydoctrs', {
+                scope: $scope
+            }).then(function ($ionicModal) {
+                $scope.modal = $ionicModal;
+
+            });
+            $scope.showDrs = function (ind) {
+                console.log(ind);
+                //$scope.doctrs = $scope.packages[ind].specialist;
+                $scope.terms = $scope.packages[ind].packages.terms_and_conditions;
+                $scope.modal.show();
+            };
         })
 
         .controller('infodoctrsCtrl', function ($scope, $ionicModal, $http, $ionicLoading) {
