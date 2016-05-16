@@ -46,7 +46,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
 
             $rootScope.$on("sideMenu", function () {
-
                 $http({
                     method: 'GET',
                     url: domain + 'get-sidemenu-lang',
@@ -89,12 +88,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 //                    console.log(response.data.doctrs.length);
                     if (response.data.doctrs.length == 1) {
                         $state.go('app.single-profile', {id: response.data.doctrs[0].user_id}, {reload: true});
-                        window.localStorage.setItem('category', response.data.doctrs[0].user_id);
+                        $rootScope.single = 'profile';
                     } else if (response.data.spec.length == 1) {
                         $state.go('app.consultation-single-cat-cards', {id: response.data.spec[0].category_id}, {reload: true});
-                        window.localStorage.setItem('category', response.data.spec[0].category_id);
+                        $rootScope.single = 'cat';
                     } else {
                         $state.go('app.consultations-list', {}, {reload: true});
+                        $rootScope.single = '';
                     }
                 }, function errorCallback(e) {
                     console.log(e);
@@ -2225,10 +2225,16 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, 10);
         })
 
-        .controller('PaymentCtrl', function ($scope, $http, $state, $filter, $location, $stateParams, $rootScope, $ionicLoading, $ionicGesture, $timeout, $ionicHistory, $ionicModal) {
+        .controller('PaymentCtrl', function ($scope, $http, $state, $filter, $location, $stateParams, $rootScope, $ionicLoading, $ionicPlatform, $timeout, $ionicHistory, $ionicModal) {
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.counter1 = 300;
             var stopped1;
+            console.log($rootScope.single);
+            $scope.$on('$destroy', function () {
+                $ionicPlatform.registerBackButtonAction(
+                        customBackButton, 0
+                        );
+            });
             $scope.paynowcountdown = function () {
                 stopped1 = $timeout(function () {
                     console.log($scope.counter1);
@@ -2254,7 +2260,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             //$state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
                         }, 3000);
                     }, function errorCallback(response) {
-                        $state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
+                        if ($rootScope.single == 'profile') {
+                            $state.go('app.single-profile', {'id': $scope.product[0].user_id}, {reload: true});
+                        } else {
+                            $state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
+                        }
                         //$state.go('app.consultations-list', {reload: true});
                     });
                 }
@@ -3056,7 +3066,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             console.log(patientresponse.data);
                             window.localStorage.removeItem('kookooid');
                             //$state.go('app.consultations-profile', {'data': $scope.prodid}, {reload: true});
-                            $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
+                            if ($rootScope.single == 'profile') {
+                                $state.go('app.single-profile', {'id': $scope.uid}, {reload: true});
+                            } else {
+                                $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
+                            }
                         }, function errorCallback(patientresponse) {
                             //  alert('Oops something went wrong!');
                         });
@@ -3118,7 +3132,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $timeout.cancel(stopped);
                         window.localStorage.removeItem('kookooid');
                         alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
-                        $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
+                        if ($rootScope.single == 'profile') {
+                            $state.go('app.single-profile', {'id': $scope.uid}, {reload: true});
+                        } else {
+                            $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
+                        }
                     }
 
                 }, function errorCallback(responsekookoo) {
@@ -3154,7 +3172,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         {
                             alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
                             $timeout.cancel(stopped);
-                            $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
+                            if ($rootScope.single == 'profile') {
+                                $state.go('app.single-profile', {'id': $scope.uid}, {reload: true});
+                            } else {
+                                $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
+                            }
                             // alert('Doctor Not Available');
                         } else {
                             window.localStorage.setItem('kookooid', response.data);
@@ -3164,7 +3186,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     }, function errorCallback(response) {
                         alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
                         //$state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
-                        $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
+                        if ($rootScope.single == 'profile') {
+                            $state.go('app.single-profile', {'id': $scope.uid}, {reload: true});
+                        } else {
+                            $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
+                        }
                     });
                 }
 
@@ -3190,7 +3216,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     window.localStorage.removeItem('kookooid');
                     // $state.go('app.consultations-list', {reload: true});
                     $ionicLoading.hide();
-                    $state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
+                    if ($rootScope.single == 'profile') {
+                        $state.go('app.single-profile', {'id': $scope.product[0].user_id}, {reload: true});
+                    } else {
+                        $state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
+                    }
                 }, function errorCallback(patientresponse) {
 
                 });
