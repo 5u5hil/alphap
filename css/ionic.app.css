@@ -9284,6 +9284,14 @@ color: #fff;
 	.txt-right{text-align:right !important;}
         
         .radioptions{ width:33.33%; float:left;}
+		
+		.setting{    color: #fff;
+    text-decoration: none;
+    padding: 6px; font-size:20px; 
+}
+	.setting i{color:#fff;}
+
+		
   
 /* endcss */
 
