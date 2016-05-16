@@ -79,20 +79,25 @@
                             </p>
                         </div>
                     </my-tab>
-
-                    <my-tab title="I have Package" ng-if="packages.length != 0">
-                        <div class="tabcontainer" >
-                            <div class="item item-body allp" ng-if="packageId != 0">
-                                <p>{{selPack.packages.name}}<br/>
-                                    Desc: {{selPack.packages.desc}}</p>
+                    <div ng-if="packages.length != 0">
+                        <my-tab title="I have Package">
+                            <div class="tabcontainer" >
+                                <div class="item item-body allp" ng-if="packages.length == 0">
+                                    <p>You have not subscribed to any packages!
+                                    </p>
+                                </div>
+                                <div class="item item-body allp" ng-if="packageId != 0">
+                                    <p>{{selPack.packages.name}}<br/>
+                                        Desc: {{selPack.packages.desc}}</p>
+                                </div>
+                                <button class="button button-full" ng-if="packages.length != 0" ng-click="modal.show()" > {{packages.length}} package{{packages.length>1? 's':''}} you have subscribed</button><br/>
+                                <div class="section-footer" ng-if="packageId != 0"> <!---ui-sref="app.success"-->
+                                    <a ng-click="bookWithPackage()" class="button button-full button-positive">Book Now</a>
+                                </div>
                             </div>
-                            <button  class="button button-full" ng-click="modal.show()" > {{packages.length}} package{{packages.length>1? 's':''}} you have subscribed</button><br/>
-                            <div class="section-footer" ng-if="packageId != 0"> <!---ui-sref="app.success"-->
-                                <a ng-click="bookWithPackage()" class="button button-full button-positive">Book Now</a>
-                            </div>
-                        </div>
 
-                    </my-tab> 
+                        </my-tab> 
+                    </div>
                 </my-tabs>
                 </ion-tabs>
             </div>
@@ -108,20 +113,20 @@
     </ion-header-bar>
     <ion-content>
     <div class="cardcont txt-justify">
-        <div class="posts-list">
-            <div class="list card post-item" ng-repeat="pack in packages | orderBy:'-pack.valid'">
-                <a class="post-content item item-text-wrap p0">
-                    <div class="item item-divider">{{pack.packages.name}}</div>
-                    <div class="filelabel button button-positive" ng-click="validate(pack.packages.id, $index, pack.order.id)"> Select & Proceed </div>
-                    <!---<div class="list">
-                    <ion-radio ng-model="packId[pack.packages.id]" ng-value="{{pack.packages.id}}" ng-change="getIds('{{pack.packages.id}}')" value="Select">Select</ion-radio>
-                    </div>--->
-                    <div class="row">
-                        <div class="col txt-center">{{pack.packages.desc}}</div>
-                    </div>
-                </a>
-            </div>
-        </div> 
+    <div class="posts-list">
+    <div class="list card post-item" ng-repeat="pack in packages | orderBy:'-pack.valid'">
+    <a class="post-content item item-text-wrap p0">
+    <div class="item item-divider">{{pack.packages.name}}</div>
+    <div class="filelabel button button-positive" ng-click="validate(pack.packages.id, $index, pack.order.id)"> Select & Proceed </div>
+    <!---<div class="list">
+    <ion-radio ng-model="packId[pack.packages.id]" ng-value="{{pack.packages.id}}" ng-change="getIds('{{pack.packages.id}}')" value="Select">Select</ion-radio>
+    </div>--->
+    <div class="row">
+    <div class="col txt-center">{{pack.packages.desc}}</div>
+    </div>
+    </a>
+    </div>
+    </div> 
     </div>
     </ion-content>
     </ion-modal-view>

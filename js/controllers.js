@@ -2255,6 +2255,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.packageId = 0;
             $scope.orderId = 0;
             $scope.selPack = '';
+            $scope.packages = [];
             $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
@@ -2274,6 +2275,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.IVstartSlot = responseData.data.IVstart;
                 $scope.IVendSlot = responseData.data.IVend;
                 $scope.packages = responseData.data.packages;
+                console.log($scope.packages.length);
                 window.localStorage.setItem('IVstartSlot', $scope.IVstartSlot);
                 window.localStorage.setItem('IVendSlot', $scope.IVendSlot);
                 $ionicLoading.hide();
@@ -2304,6 +2306,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
             };
             $scope.payNow = function (finalamount) {
+                console.log(finalamount);
                 $timeout.cancel(stopped1);
                 $scope.interface = window.localStorage.getItem('interface_id');
                 if (window.localStorage.getItem('instantV') == 'instantV') {
@@ -2345,7 +2348,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     }
                 }, function errorCallback(response) {
                     console.log(response);
-                })
+                });
             };
             $scope.applyCouponCode = function (ccode) {
                 $scope.apply = '0';
@@ -3174,10 +3177,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-        .controller('packagingCtrl', function ($scope, $http, $rootScope, $ionicLoading, $state, $stateParams) {
+        .controller('packagingCtrl', function ($scope, $http, $rootScope, $ionicLoading, $state, $stateParams, $ionicModal) {
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = get('id');
+            $scope.doctrs = [];
             $ionicLoading.show({'template': 'Loading..'});
             $http({
                 method: 'GET',
@@ -3190,6 +3194,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, function errorCallback(e) {
                 console.log(e);
             });
+
         })
 
         .controller('PackagingDetailCtrl', function ($scope, $http, $rootScope, $ionicLoading, $state, $stateParams) {
@@ -3227,6 +3232,24 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
         })
 
+        .controller('alldoctrsCtrl', function ($scope, $ionicModal, $http, $ionicLoading) {
+            $ionicModal.fromTemplateUrl('catdoctrs', {
+                scope: $scope
+            }).then(function ($ionicModal) {
+                $scope.modal = $ionicModal;
+               
+            });
+            
+             $scope.showDrs = function (ind) {
+                    console.log(ind);
+                    $scope.doctrs = $scope.packages[ind];
+                    $scope.modal.show();
+                };
+            
+            
+            
+        })
+
         .controller('infodoctrsCtrl', function ($scope, $ionicModal, $http, $ionicLoading) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $ionicModal.fromTemplateUrl('infodoctrs', {
@@ -3249,6 +3272,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 };
             });
         })
+
         .controller('doctrsInfoCtrl', function ($scope, $ionicModal, $http, $ionicLoading) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $ionicModal.fromTemplateUrl('catdoctrs', {
@@ -3256,6 +3280,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }).then(function ($ionicModal) {
                 $scope.modal = $ionicModal;
                 $scope.showDrs = function (catId) {
+
                     $http({
                         method: 'GET',
                         url: domain + 'patient/get-cat-doctrs',
