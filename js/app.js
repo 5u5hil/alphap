@@ -178,6 +178,17 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
+                    .state('app.shared-with-you', {
+                        cache: false,
+                        url: "/shared-with-you",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/shared-with-you.html",
+                                controller: 'SharedwithYouCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.add-category', {
                         cache: false,
@@ -202,7 +213,7 @@ angular.module('your_app_name', [
 
                     .state('app.records-view', {
                         cache: false,
-                        url: "/records-view/{id:int}",
+                        url: "/records-view/{id:int}/{shared:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/records/records-view.html",
@@ -244,7 +255,7 @@ angular.module('your_app_name', [
 
                     .state('app.record-details', {
                         cache: false,
-                        url: "/record-details/{id:int}",
+                        url: "/record-details/{id:int}/{shared:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/records/record-details.html",
@@ -330,7 +341,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.consultation-single-cat-cards', {
                         cache: false,
                         url: "/consultation-single-cat-cards/{id:int}",
@@ -438,7 +449,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.gopayment', {
                         url: "/gopayment/{link:string}",
                         views: {
@@ -468,6 +479,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
                     .state('app.thankyou', {
                         url: "/thankyou/{data:string}",
                         views: {
@@ -477,7 +489,17 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
+                    .state('app.chat-thankyou', {
+                        url: "/chat-thankyou/{data:string}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/chat-thankyou.html",
+                                controller: 'ThankyouChatCtrl'
+                            }
+                        }
+                    })
+
                     .state('app.thankyoup', {
                         url: "/thankyoup/{data:string}",
                         views: {
@@ -583,9 +605,9 @@ angular.module('your_app_name', [
 
 
                     /* End Pathology  */
-                    
-                     .state('app.content-library', {
-                       cache: false,
+
+                    .state('app.content-library', {
+                        cache: false,
                         url: "/content-library",
                         views: {
                             'menuContent': {
@@ -594,9 +616,9 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.content-library-setting', {
-                       cache: false,
+                        cache: false,
                         url: "/content-library-setting",
                         views: {
                             'menuContent': {
@@ -605,8 +627,8 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                   
-                   .state('app.view-content-value', {
+
+                    .state('app.view-content-value', {
                         //  cache: false,
                         url: "/view-content-value/{id:int}",
                         views: {

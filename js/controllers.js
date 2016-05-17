@@ -54,6 +54,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     if (response.data) {
                         $scope.menutext = response.data.dataMenu;
                         $scope.language = response.data.lang.language;
+                        window.localStorage.setItem('apkLanguage', $scope.language);
                         window.location.href = window.location.href;
                     } else {
                     }
@@ -443,10 +444,47 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         })
 
+        .controller('PatientSettingsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $ionicLoading, $rootScope, $sce) {
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.lang_id = '';
+            $http({
+                method: 'GET',
+                url: domain + 'doctors/get-patient-setting',
+                params: {patientId: window.localStorage.getItem('id'), interface: $scope.interface}
+            }).then(function successCallback(response) {
+                $scope.allow_lang = response.data.allow_lang;
+                $scope.getlang = response.data.getlang;
+                $scope.lang_id = response.data.getlang.language_id;
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.lang.language;
+
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
+            $scope.patient_language = function (langId) {
+                $http({
+                    method: 'POST',
+                    url: domain + 'doctors/update-patient-language',
+                    params: {langId: langId, patientId: window.localStorage.getItem('id'), interface: $scope.interface}
+                }).then(function successCallback(response) {
+                    console.log(response);
+                    if (response.data == '1') {
+                        alert("Setting updated!");
+                        $rootScope.$emit("sideMenu");
+                    }
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            }
+        })
+
         .controller('CategoryDetailCtrl', function ($scope, $http, $stateParams, $ionicFilterBar, $ionicModal, $timeout, $ionicLoading) {
             $scope.catIds = [];
             $scope.catId = [];
             $scope.docId = '';
+            $scope.shared = 0;
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.categoryId = $stateParams.categoryId;
@@ -579,6 +617,102 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     getItems();
                     $scope.$broadcast('scroll.refreshComplete');
                 }, 1000);
+            };
+        })
+
+        .controller('SharedwithYouCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.patientId = get('id');
+            $scope.shared = 1;
+            $scope.userId = get('id');
+            $scope.catIds = [];
+            $scope.catId = [];
+            $scope.docId = '';
+            $http({
+                method: 'GET',
+                url: domain + 'records/get-shared-record-category',
+                params: {userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, shared: $scope.shared}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.categories = response.data.categories;
+                $scope.doctrs = response.data.doctrs;
+                $scope.userRecords = response.data.recordCount;
+                $scope.patient = response.data.patient;
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            $scope.getIds = function (id) {
+                console.log(id);
+                if ($scope.catId[id]) {
+                    $scope.catIds.push(id);
+                } else {
+                    var index = $scope.catIds.indexOf(id);
+                    $scope.catIds.splice(index, 1);
+                }
+                console.log($scope.catIds);
+            };
+            $scope.getDocId = function (id) {
+                console.log(id);
+                $scope.docId = id;
+            };
+            //Delete all Records by category
+            $scope.delete = function () {
+                if ($scope.catIds.length > 0) {
+                    var confirm = window.confirm("Do you really want to delete?");
+                    if (confirm) {
+                        console.log($scope.catIds);
+                        $http({
+                            method: 'GET',
+                            url: domain + 'records/delete-all',
+                            params: {ids: JSON.stringify($scope.catIds), userId: $scope.userId, shared: $scope.shared}
+                        }).then(function successCallback(response) {
+                            alert("Records deleted successfully!");
+                            window.location.reload();
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+                    }
+                } else {
+                    alert("Please select records to delete!");
+                }
+            };
+            //Share all records by Category
+            $scope.share = function () {
+                if ($scope.catIds.length > 0) {
+                    if ($scope.docId != '') {
+                        var confirm = window.confirm("Do you really want to share?");
+                        if (confirm) {
+                            console.log($scope.catIds);
+                            $http({
+                                method: 'GET',
+                                url: domain + 'records/share-all',
+                                params: {ids: JSON.stringify($scope.catIds), userId: $scope.userId, patientId: $scope.patientId, docId: $scope.docId, shared: $scope.shared}
+                            }).then(function successCallback(response) {
+                                console.log(response);
+                                if (response.data == 'Success') {
+                                    alert("Records shared successfully!");
+                                }
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
+                        }
+                    } else {
+                        alert("Please select doctor to share with!");
+                    }
+                } else {
+                    alert("Please select records to share!");
+                }
+            };
+            $ionicModal.fromTemplateUrl('share', {
+                scope: $scope,
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+
+            $scope.submitmodal = function () {
+                console.log($scope.catIds);
+                $scope.modal.hide();
             };
         })
 
@@ -1111,6 +1245,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.category = [];
             $scope.catId = $stateParams.id;
+            $scope.shared = $stateParams.shared;
             $scope.limit = 3;
             $scope.recId = [];
             $scope.recIds = [];
@@ -1120,7 +1255,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $http({
                 method: 'GET',
                 url: domain + 'records/get-records-details',
-                params: {id: $stateParams.id, userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface}
+                params: {id: $stateParams.id, userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, shared: $scope.shared}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.records = response.data.records;
@@ -1191,14 +1326,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     if (confirm) {
                         console.log($scope.recIds);
                         $http({
-                            method: 'POST',
+                            method: 'GET',
                             url: domain + 'records/delete-by-category',
-                            params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId}
+                            params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId, shared: $scope.shared}
                         }).then(function successCallback(response) {
                             alert("Records deleted successfully!");
-                            $timeout(function () {
-                                window.location.reload();
-                            }, 1000);
+                            //window.location.reload();
                         }, function errorCallback(e) {
                             console.log(e);
                         });
@@ -1217,19 +1350,15 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             $http({
                                 method: 'POST',
                                 url: domain + 'records/share-by-category',
-                                params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId, docId: $scope.docId}
+                                params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId, docId: $scope.docId, shared: $scope.shared}
                             }).then(function successCallback(response) {
                                 console.log(response);
                                 if (response.data == 'Success') {
                                     alert("Records shared successfully!");
-                                    $timeout(function () {
-                                        window.location.reload();
-                                    }, 1000);
                                 }
                             }, function errorCallback(e) {
                                 console.log(e);
                             });
-
                         }
                     } else {
                         alert("Please select doctor to share with!");
@@ -1291,46 +1420,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-        .controller('PatientSettingsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $ionicLoading, $rootScope, $sce) {
-            $scope.interface = window.localStorage.getItem('interface_id');
-            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
-            $scope.lang_id = '';
-            $http({
-                method: 'GET',
-                url: domain + 'doctors/get-patient-setting',
-                params: {patientId: window.localStorage.getItem('id'), interface: $scope.interface}
-            }).then(function successCallback(response) {
-                $scope.allow_lang = response.data.allow_lang;
-                $scope.getlang = response.data.getlang;
-                $scope.lang_id = response.data.getlang.language_id;
-                $scope.langtext = response.data.langtext;
-                $scope.language = response.data.lang.language;
-
-            }, function errorCallback(e) {
-                console.log(e);
-            });
-
-            $scope.patient_language = function (langId) {
-                $http({
-                    method: 'POST',
-                    url: domain + 'doctors/update-patient-language',
-                    params: {langId: langId, patientId: window.localStorage.getItem('id'), interface: $scope.interface}
-                }).then(function successCallback(response) {
-                    console.log(response);
-                    if (response.data == '1') {
-                        alert("Setting updated!");
-
-                        $rootScope.$emit("sideMenu");
-                    }
-                }, function errorCallback(e) {
-                    console.log(e);
-                });
-            }
-        })
-
         .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $ionicLoading, $rootScope, $sce) {
             $scope.recordId = $stateParams.id;
             $scope.userId = get('id');
+            $scope.shared = $stateParams.shared;
             $scope.Bstatus = '';
             $scope.Istatus = '';
             $scope.repeatStatus = '';
@@ -1420,15 +1513,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.delete = function (id) {
                 console.log($scope.category.category);
                 $http({
-                    method: 'POST',
+                    method: 'GET',
                     url: domain + 'records/delete',
-                    params: {id: id}
+                    params: {id: $scope.recordId, shared: $scope.shared, userId: $scope.userId}
                 }).then(function successCallback(response) {
                     alert("Record deleted successfully!");
-                    $timeout(function () {
-                        $state.go('app.records-view', {'id': $scope.category.category}, {}, {reload: true});
-                        //$state.go('app.category-detail');
-                    }, 1000);
+                    $state.go('app.records-view', {'id': $scope.category.category, shared: $scope.shared},  {reload: true});
                 }, function errorCallback(e) {
                     console.log(e);
                 });
@@ -1446,14 +1536,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $http({
                             method: 'POST',
                             url: domain + 'records/share',
-                            params: {id: $scope.recordId, userId: $scope.userId, docId: $scope.docId}
+                            params: {id: $scope.recordId, userId: $scope.userId, docId: $scope.docId, shared: $scope.shared}
                         }).then(function successCallback(response) {
                             console.log(response);
                             if (response.data == 'Success') {
                                 alert("Records shared successfully!");
-                                $timeout(function () {
-                                    window.location.reload();
-                                }, 1000);
                             }
                         }, function errorCallback(e) {
                             console.log(e);
@@ -2337,6 +2424,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicHistory.nextViewOptions({
                         disableBack: true
                     });
+                    if ($scope.mode == '2') {
+                    }
                     $state.go('app.thankyou', {'data': 'success'}, {reload: true});
                 }, function errorCallback(response) {
                     console.log(response);
@@ -2380,8 +2469,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $ionicHistory.nextViewOptions({
                             disableBack: true
                         });
-                        //$timeout.cancel(stopped1);
-                        $state.go('app.thankyou', {'data': response.data}, {reload: true});
+                        if ($scope.mode == 2) {
+                            //$timeout.cancel(stopped1);
+                            $state.go('app.chat-thankyou', {'data': response.data}, {reload: true});
+                        } else {
+                            $state.go('app.thankyou', {'data': response.data}, {reload: true});
+                        }
                     }
                 }, function errorCallback(response) {
                     console.log(response);
@@ -2544,7 +2637,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 url: domain + 'assistants/thankyou-lang',
                 params: {id: $scope.id, interface: $scope.interface}
             }).then(function successCallback(response) {
-                //console.log(response.data);
+                console.log($scope.apkLanguage);
                 $scope.tabmenu = response.data.tabmenu;
                 $scope.language = response.data.lang.language;
             }, function errorCallback(response) {
@@ -2586,6 +2679,39 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 //$state.go('app.category-list', {}, {reload: true});
                 $state.go('app.consultations-current', {}, {reload: true});
             }
+        })
+
+        .controller('ThankyouChatCtrl', function ($scope, $http, $state, $location, $stateParams, $rootScope, $ionicGesture, $timeout, $sce, $ionicHistory) {
+            console.log($stateParams.data);
+            $scope.data = $stateParams.data;
+            $scope.id = window.localStorage.getItem('id');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $ionicHistory.nextViewOptions({
+                disableBack: true
+            });
+            $http({
+                method: 'GET',
+                url: domain + 'assistants/thankyou-lang',
+                params: {id: $scope.id, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                //console.log($scope.apkLanguage);
+                $scope.tabmenu = response.data.tabmenu;
+                $scope.language = response.data.lang.language;
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+            window.localStorage.removeItem('startSlot');
+            window.localStorage.removeItem('endSlot');
+            window.localStorage.removeItem('prodId');
+            window.localStorage.removeItem('supid');
+            window.localStorage.removeItem('mode');
+            window.localStorage.removeItem('kookooid');
+            window.localStorage.removeItem('kookooid1');
+            window.localStorage.removeItem('coupondiscount');
+            window.localStorage.removeItem('IVendSlot');
+            window.localStorage.removeItem('IVstartSlot');
+            window.localStorage.removeItem('instantV');
         })
 
         .controller('GoPayCtrl', function ($scope, $http, $state, $location, $stateParams, $rootScope, $ionicGesture, $timeout, $sce, $ionicHistory) {
@@ -3304,6 +3430,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.modal.show();
             };
         })
+
         .controller('anydoctrsCtrl', function ($scope, $ionicModal, $http, $ionicLoading) {
             $ionicModal.fromTemplateUrl('anydoctrs', {
                 scope: $scope
