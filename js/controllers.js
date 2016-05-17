@@ -1518,7 +1518,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     params: {id: $scope.recordId, shared: $scope.shared, userId: $scope.userId}
                 }).then(function successCallback(response) {
                     alert("Record deleted successfully!");
-                    $state.go('app.records-view', {'id': $scope.category.category, shared: $scope.shared},  {reload: true});
+                    $state.go('app.records-view', {'id': $scope.category.category, shared: $scope.shared}, {reload: true});
                 }, function errorCallback(e) {
                     console.log(e);
                 });
@@ -2820,6 +2820,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             // $ionicHistory.clearCache();
             $scope.appId = $stateParams.id;
             $scope.mode = $stateParams.mode;
+             $scope.vjhId = '';
             $scope.userId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
 
@@ -2850,6 +2851,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $ionicLoading.hide();
                 $scope.user = response.data.user;
                 $scope.app = response.data.app;
+                $scope.vjhId = response.data.vjhId;
                 //$scope.oToken = "https://test.doctrs.in/opentok/opentok?session=" + response.data.app[0].appointments.opentok_session_id;
                 var apiKey = '45121182';
                 var sessionId = response.data.app[0].appointments.opentok_session_id;
@@ -2896,10 +2898,20 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $ionicLoading.hide();
                         alert("Error connecting: ", error.code, error.message);
                     } else {
-                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%", resolution: "1280*720", frameRate: 7});
+                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                         session.publish(publisher);
                         publisher.on('streamCreated', function (event) {
-                            console.log('Frame rate: ' + event.stream.frameRate);
+//                            console.log('Frame rate: ' + event.stream.frameRate);
+                            $http({
+                                method: 'GET',
+                                url: domain + 'appointment/update-frame-rate',
+                                params: {vjhId: $scope.vjhId}
+                            }).then(function sucessCallback(response) {
+                                console.log(response);
+                            }, function errorCallback(e) {
+                               console.log(e);
+                            });
+
                         });
                         var mic = 1;
                         var mute = 1;
