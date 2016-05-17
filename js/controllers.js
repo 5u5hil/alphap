@@ -2905,7 +2905,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             $http({
                                 method: 'GET',
                                 url: domain + 'appointment/update-frame-rate',
-                                params: {vjhId: $scope.vjhId}
+                                params: {vjhId: $scope.vjhId,framerate:event.stream.frameRate}
                             }).then(function sucessCallback(response) {
                                 console.log(response);
                             }, function errorCallback(e) {
