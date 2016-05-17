@@ -2820,7 +2820,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             // $ionicHistory.clearCache();
             $scope.appId = $stateParams.id;
             $scope.mode = $stateParams.mode;
-             $scope.vjhId = '';
+            $scope.vjhId = '';
+            $scope.framerate = '';
             $scope.userId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
 
@@ -2901,15 +2902,17 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                         session.publish(publisher);
                         publisher.on('streamCreated', function (event) {
-//                            console.log('Frame rate: ' + event.stream.frameRate);
+                            console.log('Frame rate: ' + event.stream.frameRate);
+                            $scope.framerate = event.stream.frameRate;
+                            console.log('Frame: ' + $scope.framerate);
                             $http({
                                 method: 'GET',
                                 url: domain + 'appointment/update-frame-rate',
-                                params: {vjhId: $scope.vjhId,framerate:event.stream.frameRate}
+                                params: {vjhId: $scope.vjhId, framerate: $scope.framerate}
                             }).then(function sucessCallback(response) {
                                 console.log(response);
                             }, function errorCallback(e) {
-                               console.log(e);
+                                console.log(e);
                             });
 
                         });
