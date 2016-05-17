@@ -1805,15 +1805,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
             };
 
-            $scope.recordVideo = function () {
-                $state.go('app.doctor-record-join', {}, {cache: false}, {reload: true});
-            }
+
 
             $scope.joinVideo = function (mode, start, end, appId) {
                 console.log(mode + "===" + start + '===' + end + "===" + $scope.curTime + "==" + appId);
                 if ($scope.curTime >= start || $scope.curTime <= end) {
-                    console.log('redirect');
-                    //$state.go('app.patient-join', {}, {reload: true});
+                    console.log('redirect to join');
+
                     $state.go('app.patient-join', {'id': appId, 'mode': mode}, {cache: false}, {reload: true});
                 } else {
                     alert("You can join video 15 minutes before the appointment");
@@ -2824,17 +2822,25 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.mode = $stateParams.mode;
             $scope.userId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
-            var customBackButton = function () {
-                console.log("this is custom behaviour");
-                $scope.exitVideo();
-            };
+
             $scope.$on('$destroy', function () {
 
-                $ionicPlatform.registerBackButtonAction(
-                        customBackButton, 101
-                        );
-                $scope.exitVideo();
+                try {
+                    publisher.destroy();
+                    subscriber.destroy();
+                    session.unsubscribe();
+                    session.disconnect();
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+                } catch (err) {
+
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+                }
             });
+
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-doctor',
@@ -2890,8 +2896,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $ionicLoading.hide();
                         alert("Error connecting: ", error.code, error.message);
                     } else {
-                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
+                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%", resolution: "1280*720", frameRate: 7});
                         session.publish(publisher);
+                        publisher.on('streamCreated', function (event) {
+                            console.log('Frame rate: ' + event.stream.frameRate);
+                        });
                         var mic = 1;
                         var mute = 1;
                         var mutevideo = 1;
@@ -2934,22 +2943,34 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $ionicLoading.hide();
             });
             $scope.exitVideo = function () {
-                try {
-                    publisher.destroy();
-                    subscriber.destroy();
-                    session.unsubscribe();
-                    session.disconnect();
-                    $ionicHistory.nextViewOptions({
-                        historyRoot: true
-                    })
+
+                $http({
+                    method: 'GET',
+                    url: domain + 'appointment/patient-exit-video',
+                    params: {id: $scope.appId, userId: $scope.userId}
+                }).then(function successCallback(response) {
+                    try {
+                        publisher.destroy();
+                        subscriber.destroy();
+                        session.unsubscribe();
+                        session.disconnect();
+                        $ionicHistory.nextViewOptions({
+                            historyRoot: true
+                        })
+                        $state.go('app.consultations-current', {}, {reload: true});
+
+                    } catch (err) {
+
+                        $ionicHistory.nextViewOptions({
+                            historyRoot: true
+                        })
+                        $state.go('app.consultations-current', {}, {reload: true});
+                    }
+                }, function errorCallback(e) {
+
                     $state.go('app.consultations-current', {}, {reload: true});
-                    //window.location.href = "#/app/category-listing";
-                } catch (err) {
-                    $ionicHistory.nextViewOptions({
-                        historyRoot: true
-                    })
-                    $state.go('app.consultations-current', {}, {reload: true});
-                }
+                });
+
 
 
             };
@@ -3255,7 +3276,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.$on('$destroy', myListenern);
                 $scope.$on('$destroy', function () {
                     $scope.checkavailval = 0;
-                    console.log("jhffffhjfhj" + $scope.checkavailval);
+                    // console.log("jhffffhjfhj" + $scope.checkavailval);
                     $timeout.cancel(stopped);
                     window.localStorage.removeItem('kookooid');
                 });
@@ -3308,7 +3329,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $http({
                         method: 'GET',
                         url: domain + 'kookoo/check-doctrs-response',
-                        params: {uid: $scope.uid, pid: window.localStorage.getItem('id')}
+                        params: {uid: $scope.uid, pid: window.localStorage.getItem('id'), interface: $scope.interface}
                     }).then(function successCallback(response) {
                         console.log(response.data);
                         if (response.data == '0')
@@ -3341,6 +3362,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $scope.IsVisible = false;
                     // $scope.showConfirm();
                     $timeout.cancel(stopped);
+                    $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
                 }
             };
             $scope.hidediv = function () {
@@ -3357,7 +3379,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     console.log(patientresponse.data);
                     $timeout.cancel(stopped);
                     window.localStorage.removeItem('kookooid');
-                    // $state.go('app.consultations-list', {reload: true});
+                    $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
                     $ionicLoading.hide();
                     if ($rootScope.single == 'profile') {
                         $state.go('app.single-profile', {'id': $scope.product[0].user_id}, {reload: true});
