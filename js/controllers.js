@@ -2807,7 +2807,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-        .controller('PatientJoinCtrl', function ($window, $scope, $http, $stateParams, $sce, $filter, $timeout, $state, $ionicHistory, $ionicLoading) {
+        .controller('PatientJoinCtrl', function ($window, $ionicPlatform, $scope, $http, $stateParams, $sce, $filter, $timeout, $state, $ionicHistory, $ionicLoading) {
             $ionicLoading.show({template: 'Loading...'});
             if (!get('loadedOnce')) {
                 store({'loadedOnce': 'true'});
@@ -2824,6 +2824,17 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.mode = $stateParams.mode;
             $scope.userId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+            var customBackButton = function () {
+                console.log("this is custom behaviour");
+                $scope.exitVideo();
+            };
+            $scope.$on('$destroy', function () {
+
+                $ionicPlatform.registerBackButtonAction(
+                        customBackButton, 101
+                        );
+                $scope.exitVideo();
+            });
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-doctor',
