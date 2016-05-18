@@ -2899,7 +2899,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $ionicLoading.hide();
                         alert("Error connecting: ", error.code, error.message);
                     } else {
-                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%", resolution: "1280*720", frameRate: 30})});
+                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%", resolution: "1280*720", frameRate: 30});
                         session.publish(publisher);
                         publisher.on('streamCreated', function (event) {
                             console.log('Frame rate: ' + event.stream.frameRate);
