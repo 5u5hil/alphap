@@ -7,9 +7,15 @@
             <div class="post-view  post-content item-text-wrap p10">
                 <h2 class="post-title">{{cval.content_title}}</h2>
                 <p class="post-author">
-                    By <span>{{cval.fname}} {{cval.lname}}</span> <span>{{cval.created_at| dateFormat3}}</span>
+                    By <span>{{cval.fname}} {{cval.lname}}</span> <span><em>{{cval.created_at| dateFormat3}}</em></span>
                 </p>
-                <p class="post-excerpt pb10" dynamic-anchor-fix>
+                <div class="post-actions" style="font-style: italic;">
+                    <p  class="pb10"> <strong>Category </strong>|  <span ng-repeat="specialisation in cval.spec">{{specialisation}}{{$last==true? '': ',&nbsp;'}} </span>
+                    </p>
+
+                    <p class="pb10"> <strong>Language </strong>| <span ng-repeat="language in cval.lang">{{language| capitalize}}{{$last==true? '': ',&nbsp;'}} </span> </p>
+                </div>
+                <p class="post-excerpt pb10" dynamic-anchor-fix style="font-style: italic;"> 
                     {{cval.content_desc}}
                 </p>
                 <div ng-if="cval.content_type == 'artcle'">
@@ -27,6 +33,7 @@
                 <p class="post-text">
                     {{cval.content_value}}
                 </p>
+
             </div>
         </div>
 

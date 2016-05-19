@@ -4017,7 +4017,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 params: {conId: $scope.contentId}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
-                $scope.cval = response.data.aa;
+                $scope.cval = response.data;
             }, function errorCallback(e) {
                 console.log(e);
             });
