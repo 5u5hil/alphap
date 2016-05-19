@@ -2894,23 +2894,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $ionicLoading.hide();
                         alert("Error connecting: ", error.code, error.message);
                     } else {
-                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%", resolution: "1280*720", frameRate: 30});
+                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                         session.publish(publisher);
-                        publisher.on('streamCreated', function (event) {
-                            console.log('Frame rate: ' + event.stream.frameRate);
-                            $scope.framerate = event.stream.frameRate;
-                            console.log('Frame: ' + $scope.framerate);
-                            $http({
-                                method: 'GET',
-                                url: domain + 'appointment/update-frame-rate',
-                                params: {vjhId: $scope.vjhId, framerate: $scope.framerate}
-                            }).then(function sucessCallback(response) {
-                                console.log(response);
-                            }, function errorCallback(e) {
-                                console.log(e);
-                            });
-
-                        });
+                        
                         var mic = 1;
                         var mute = 1;
                         var mutevideo = 1;
