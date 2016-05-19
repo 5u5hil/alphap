@@ -536,10 +536,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         }).then(function successCallback(response) {
                             alert("Records deleted successfully!");
                             $ionicLoading.hide();
-                            $timeout(function () {
-                                window.location.reload();
-                                //$state.go('app.category-detail');
-                            }, 1000);
+                            window.location.reload();
                         }, function errorCallback(e) {
                             console.log(e);
                         });
@@ -565,9 +562,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                 if (response.data == 'Success') {
                                     alert("Records shared successfully!");
                                     $ionicLoading.hide();
-                                    $timeout(function () {
-                                        window.location.reload();
-                                    }, 1000);
+                                    window.location.reload();
                                 }
                             }, function errorCallback(e) {
                                 console.log(e);
@@ -1326,7 +1321,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     if (confirm) {
                         console.log($scope.recIds);
                         $http({
-                            method: 'GET',
+                            method: 'POST',
                             url: domain + 'records/delete-by-category',
                             params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId, shared: $scope.shared}
                         }).then(function successCallback(response) {
@@ -1513,7 +1508,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.delete = function (id) {
                 console.log($scope.category.category);
                 $http({
-                    method: 'GET',
+                    method: 'POST',
                     url: domain + 'records/delete',
                     params: {id: $scope.recordId, shared: $scope.shared, userId: $scope.userId}
                 }).then(function successCallback(response) {

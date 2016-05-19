@@ -213,7 +213,7 @@ angular.module('your_app_name', [
 
                     .state('app.records-view', {
                         cache: false,
-                        url: "/records-view/{id:int}/{shared:int}",
+                        url: "/records-view/{id:int}/{shared:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/records/records-view.html",
@@ -255,7 +255,7 @@ angular.module('your_app_name', [
 
                     .state('app.record-details', {
                         cache: false,
-                        url: "/record-details/{id:int}/{shared:int}",
+                        url: "/record-details/{id:int}/{shared:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/records/record-details.html",
