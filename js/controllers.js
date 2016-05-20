@@ -2972,7 +2972,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-        .controller('ChatListCtrl', function ($scope, $filter, $http,  $stateParams, $rootScope, $ionicLoading) {
+        .controller('ChatListCtrl', function ($scope, $filter, $http, $stateParams, $rootScope, $ionicLoading) {
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
@@ -3011,7 +3011,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
         })
 
-        .controller('PastChatListCtrl', function ($scope,$filter, $http, $stateParams, $rootScope, $ionicLoading) {
+        .controller('PastChatListCtrl', function ($scope, $filter, $http, $stateParams, $rootScope, $ionicLoading) {
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
@@ -3050,7 +3050,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
         })
 
-        .controller('ChatCtrl', function ($scope, $http,  $stateParams,  $timeout, $filter, $ionicLoading) {
+        .controller('ChatCtrl', function ($scope, $http, $stateParams, $timeout, $filter, $ionicLoading) {
             $scope.chatId = $stateParams.id;
             window.localStorage.setItem('chatId', $stateParams.id);
             $scope.partId = window.localStorage.getItem('id');
@@ -3134,7 +3134,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         })
 
-          .controller('PastChatCtrl', function ($scope, $ionicLoading, $http, $stateParams, $timeout, $filter) {
+        .controller('PastChatCtrl', function ($scope, $ionicLoading, $http, $stateParams, $timeout, $filter) {
             $scope.chatId = $stateParams.id;
             window.localStorage.setItem('chatId', $stateParams.id);
             $scope.partId = window.localStorage.getItem('id');
@@ -3157,7 +3157,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.session = session;
                 var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
                 console.log("error source 1" + chatWidget);
-               
+
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -3174,9 +3174,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             //Previous Chat 
 
             $scope.appendprevious = function () {
-                $ionicLoading.show({template: 'Retrieving messages...'});         
-                $(function () {         
-                    angular.forEach($scope.chatMsgs, function (value, key) {                   
+                $ionicLoading.show({template: 'Retrieving messages...'});
+                $(function () {
+                    angular.forEach($scope.chatMsgs, function (value, key) {
                         var msgTime = $filter('date')(new Date(value.tstamp), 'd MMM, yyyy - HH:mm a');
                         if (value.sender_id == $scope.partId) {
                             $ionicLoading.hide();
@@ -3204,7 +3204,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.movebottom();
             }, 1000);
         })
-        
+
         .controller('JoinChatCtrl', function ($scope, $http, $stateParams, $sce, $ionicLoading) {
             $scope.appId = $stateParams.id;
             $scope.mode = $stateParams.mode;
@@ -3378,7 +3378,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }, function errorCallback(responsekookoo) {
                     if (responsekookoo.data == 0)
                     {
-                        alert('No doctrs available');
+                        alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
                         $state.go('app.consultations-list', {}, {reload: true});
                     }
                 });
@@ -3413,7 +3413,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             } else {
                                 $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
                             }
-                            // alert('Doctor Not Available');
+                           
                         } else {
                             window.localStorage.setItem('kookooid', response.data);
                             window.localStorage.setItem('kookooid1', response.data);
@@ -3423,9 +3423,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
                         //$state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
                         if ($rootScope.single == 'profile') {
-                            $state.go('app.single-profile', {'id': $scope.uid}, {reload: true});
+                            $state.go('app.single-profile',{'id': $scope.uid}, {reload: true});
                         } else {
-                            $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
+                            $state.go('app.consultation-profile',{'id': $scope.uid}, {reload: true});
                         }
                     });
                 }
@@ -3434,6 +3434,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $scope.IsVisible = false;
                     // $scope.showConfirm();
                     $timeout.cancel(stopped);
+                    alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
                     $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
                 }
             };
