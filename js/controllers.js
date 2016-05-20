@@ -2868,7 +2868,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         jQuery("#subscribersDiv").html("Doctor left the consultation");
                     },
                     streamCreated: function (event) {
-                        subscriber = session.subscribe(event.stream, 'subscribersDiv', {width: "100%", height: "100%", subscribeToAudio: true, nameDisplayMode:"on",buttonDisplayMode:"off"});
+                        subscriber = session.subscribe(event.stream, 'subscribersDiv', {width: "100%", height: "100%", subscribeToAudio: true});
                         $http({
                             method: 'GET',
                             url: domain + 'appointment/update-join',
@@ -2894,7 +2894,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $ionicLoading.hide();
                         alert("Error connecting: ", error.code, error.message);
                     } else {
-                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%",name:"You", nameDisplayMode:"on", buttonDisplayMode:"off"});
+                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                         session.publish(publisher);
 
                         var mic = 1;
