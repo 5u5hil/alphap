@@ -1,6 +1,6 @@
 <ion-view class="category-detail-view">
     <ion-nav-title>
-     
+
         <span  ng-if="apkLanguage == 'english'">Chats</span>
         <span  ng-if="apkLanguage != 'english'">{{langtext.chats[language]}}</span>
     </ion-nav-title>
@@ -9,7 +9,7 @@
             <div class="col"><a nav-clear menu-close ui-sref="app.chatlist" class="active" ui-sref-opts="{reload: true}">Active</a></div>
             <div class="col"><a nav-clear menu-close ui-sref="app.past-chatlist" ui-sref-opts="{reload: true}">Past</a></div>
         </div>
-         <div class="row tabnav" ng-if="apkLanguage != 'english'">
+        <div class="row tabnav" ng-if="apkLanguage != 'english'">
             <div class="col"><a nav-clear menu-close ui-sref="app.chatlist" class="active" ui-sref-opts="{reload: true}">{{langtext.active[language]}}</a></div>
             <div class="col"><a nav-clear menu-close ui-sref="app.past-chatlist" ui-sref-opts="{reload: true}">{{langtext.past[language]}}</a></div>
         </div>
@@ -21,7 +21,9 @@
                     <span class="title">{{participant[$index][0].fname}}</span>
                     <div ng-if="msg[$index] != ''" >
                         <p class="description">{{msg[$index].message}}</p>
-                        <span class="listright">{{msg[$index].tstamp|time}}</span>
+                        <span class="listright" ng-if="curDate == (msg[$index].tstamp | dateFormat2)">{{msg[$index].tstamp| time1}} </span>
+                        <span class="listright" ng-if="curDate != (msg[$index].tstamp | dateFormat2)">{{msg[$index].tstamp| dateFormat3}} </span>
+
                     </div>
                 </a>
             </div>

@@ -23,7 +23,7 @@
             <div class="col"><a  ui-sref="app.shared-with-you" class="active">Shared with you</a></div>
         </div>
         <div class="list cdetail-list">
-            <div class="mt5 pt50p" ng-if="userRecords.length == 0"> <p class="txt-center" >No records has been shared with you.</p></div>
+            <div class="mt5 pt50p" ng-if="userRecords.length == 0"> <p class="txt-center" >No records have been shared with you.</p></div>
             <div class="crecordlist" ng-repeat="cat in userRecords| orderBy: 'category'">
                 <div class="clistck">
                     <ion-checkbox ng-model="catId[cat.id]" ng-value="{{cat.id}}" ng-change="getIds('{{cat.id}}')" class="chkcat">Checkbox Label</ion-checkbox>

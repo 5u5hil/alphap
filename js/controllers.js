@@ -2865,10 +2865,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 session.on({
                     streamDestroyed: function (event) {
                         event.preventDefault();
-                        jQuery("#subscribersDiv").html("Doctor Left the Consultation");
+                        jQuery("#subscribersDiv").html("Doctor left the consultation");
                     },
                     streamCreated: function (event) {
-                        subscriber = session.subscribe(event.stream, 'subscribersDiv', {width: "100%", height: "100%", subscribeToAudio: true});
+                        subscriber = session.subscribe(event.stream, 'subscribersDiv', {width: "100%", height: "100%", subscribeToAudio: true, nameDisplayMode:"on",buttonDisplayMode:"off"});
                         $http({
                             method: 'GET',
                             url: domain + 'appointment/update-join',
@@ -2894,9 +2894,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $ionicLoading.hide();
                         alert("Error connecting: ", error.code, error.message);
                     } else {
-                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
+                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%",name:"You", nameDisplayMode:"on", buttonDisplayMode:"off"});
                         session.publish(publisher);
-                        
+
                         var mic = 1;
                         var mute = 1;
                         var mutevideo = 1;
@@ -2972,10 +2972,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-        .controller('ChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $ionicLoading) {
+        .controller('ChatListCtrl', function ($scope, $filter, $http,  $stateParams, $rootScope, $ionicLoading) {
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd');
             $scope.participant = [];
             $scope.msg = [];
             $ionicLoading.show({template: 'Loading...'});
@@ -3010,10 +3011,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
         })
 
-        .controller('PastChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $ionicLoading) {
+        .controller('PastChatListCtrl', function ($scope,$filter, $http, $stateParams, $rootScope, $ionicLoading) {
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd');
             $scope.participant = [];
             $scope.msg = [];
             $ionicLoading.show({template: 'Loading...'});
@@ -3048,7 +3050,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
         })
 
-        .controller('ChatCtrl', function ($scope, $http, $stateParams, $timeout, $filter, $ionicLoading) {
+        .controller('ChatCtrl', function ($scope, $http,  $stateParams,  $timeout, $filter, $ionicLoading) {
             $scope.chatId = $stateParams.id;
             window.localStorage.setItem('chatId', $stateParams.id);
             $scope.partId = window.localStorage.getItem('id');
@@ -3102,12 +3104,15 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $('#chat').css('height', $scope.iframeHeight);
             //Previous Chat 
             $scope.appendprevious = function () {
+                $ionicLoading.show({template: 'Retrieving messages...'});
                 $(function () {
                     angular.forEach($scope.chatMsgs, function (value, key) {
-                        var msgTime = $filter('date')(new Date(value.tstamp), 'hh:mm a');
+                        var msgTime = $filter('date')(new Date(value.tstamp), 'd MMM, yyyy - HH:mm a');
                         if (value.sender_id == $scope.partId) {
+                            $ionicLoading.hide();
                             $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble mine" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
                         } else {
+                            $ionicLoading.hide();
                             $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
                         }
                     });
@@ -3129,6 +3134,77 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         })
 
+          .controller('PastChatCtrl', function ($scope, $ionicLoading, $http, $stateParams, $timeout, $filter) {
+            $scope.chatId = $stateParams.id;
+            window.localStorage.setItem('chatId', $stateParams.id);
+            $scope.partId = window.localStorage.getItem('id');
+            $scope.msg = '';
+            var apiKey = '45121182';
+            //console.log($scope.chatId);
+            $http({
+                method: 'GET',
+                url: domain + 'doctorsapp/get-chat-token-past',
+                params: {chatId: $scope.chatId, userId: $scope.partId}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.user = response.data.user;
+                $scope.otherUser = response.data.otherUser;
+                $scope.chatMsgs = response.data.chatMsgs;
+                $scope.sessionId = response.data.chatSession;
+                console.log(response.data.chatMsgs);
+                $scope.apiKey = apiKey;
+                var session = OT.initSession($scope.apiKey, $scope.sessionId);
+                $scope.session = session;
+                var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
+                console.log("error source 1" + chatWidget);
+               
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            $scope.returnjs = function () {
+                jQuery(function () {
+                    var wh = jQuery('window').height();
+                    jQuery('#chat').css('height', wh);
+                    //	console.log(wh);
+                })
+            };
+            $scope.returnjs();
+            $scope.iframeHeight = $(window).height() - 88;
+            $('#chat').css('height', $scope.iframeHeight);
+            //Previous Chat 
+
+            $scope.appendprevious = function () {
+                $ionicLoading.show({template: 'Retrieving messages...'});         
+                $(function () {         
+                    angular.forEach($scope.chatMsgs, function (value, key) {                   
+                        var msgTime = $filter('date')(new Date(value.tstamp), 'd MMM, yyyy - HH:mm a');
+                        if (value.sender_id == $scope.partId) {
+                            $ionicLoading.hide();
+                            $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble mine" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
+                        } else {
+                            $ionicLoading.hide();
+                            $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
+                        }
+                    });
+                })
+            };
+
+            $scope.movebottom = function () {
+                jQuery(function () {
+                    var dh = $('.ot-bubbles').height();
+                    $('.chatscroll').scrollTop(dh);
+                    //	console.log(wh);
+
+                })
+            };
+
+            $timeout(function () {
+
+                $scope.appendprevious();
+                $scope.movebottom();
+            }, 1000);
+        })
+        
         .controller('JoinChatCtrl', function ($scope, $http, $stateParams, $sce, $ionicLoading) {
             $scope.appId = $stateParams.id;
             $scope.mode = $stateParams.mode;
