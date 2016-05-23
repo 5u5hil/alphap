@@ -2969,7 +2969,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                     // session.unsubscribe();
                                     subscriber.destroy();
                                    // console.log("subscriber.destroy" + subscriber.destroy);
-                                    alert("publisher.destroy");
+                                    alert("subscriber destroy");
                                    // session.disconnect()
                                 });
 
@@ -3025,7 +3025,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                       alert('subscriber destroy');
                     //session.unsubscribe();
                     session.disconnect();
-                     alert('session disconnected');
+                     alert('session disconnected try');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
@@ -3034,7 +3034,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 } catch (err) {
                     alert('err while exitvideo ' + err);
                      session.disconnect();
-                          alert('session disconnected');
+                          alert('session disconnected catch');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
