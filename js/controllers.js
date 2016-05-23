@@ -2878,18 +2878,41 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         subscriber = session.subscribe(event.stream, 'subscribersDiv', {width: "100%", height: "100%", subscribeToAudio: true},
                                 function (error) {
                                     if (error) {
-                                        console.log("subscriber Error " + error.code+'--'+error.message);
+                                        console.log("subscriber Error " + error.code + '--' + error.message);
                                     } else {
                                         console.log('Subscriber added.');
                                         var subscribers2 = session.getSubscribersForStream(event.stream);
                                         console.log('Subscriber length.' + subscribers2.length);
-                                        alert('APK Subscriber length.'+subscribers2.length)
+                                        alert('APK Subscriber length.' + subscribers2.length)
                                         console.log('stream created: ' + subscribers2);
-                                        
+
+                                        var prevStats;
+                                        window.setInterval(function () {
+                                            subscriber.getStats(function (error, stats) {
+                                                if (error) {
+                                                    console.error('Error getting subscriber stats. ', error.message);
+                                                    return;
+                                                }
+                                                if (prevStats) {
+                                                    var videoPacketLossRatio = stats.video.packetsLost /
+                                                            (stats.video.packetsLost + stats.video.packetsReceived);
+                                                    console.log('video packet loss ratio: ', videoPacketLossRatio);
+                                                    var videoBitRate = 8 * (stats.video.bytesReceived - prevStats.video.bytesReceived);
+                                                    console.log('video bit rate: ', videoBitRate, 'bps');
+                                                    var audioPacketLossRatio = stats.audio.packetsLost /
+                                                            (stats.audio.packetsLost + stats.audio.packetsReceived);
+                                                    console.log('audio packet loss ratio: ', audioPacketLossRatio);
+                                                    var audioBitRate = 8 * (stats.audio.bytesReceived - prevStats.audio.bytesReceived);
+                                                    console.log('audio bit rate: ', audioBitRate, 'bps');
+                                                }
+                                                prevStats = stats;
+                                            });
+                                        }, 1000);
+
                                     }
                                 });
-                      
-                     $http({
+
+                        $http({
                             method: 'GET',
                             url: domain + 'appointment/update-join',
                             params: {id: $scope.appId, userId: $scope.userId}
@@ -2928,8 +2951,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                     var subscribers5 = session.getSubscribersForStream(event.stream);
                                     //console.log('on publish: ' + subscribers5);
                                     console.log('on publish lenghth.' + subscribers5.length);
-                                        alert('APK on publish lenghth.'+subscribers5.length)
-                                      //  console.log('stream created: ' + subscribers5);
+                                    alert('APK on publish lenghth.' + subscribers5.length)
+                                    //  console.log('stream created: ' + subscribers5);
                                 })
 
                                 publisher.on('streamDestroyed', function (event) {
