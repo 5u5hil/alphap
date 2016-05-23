@@ -471,8 +471,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }).then(function successCallback(response) {
                     console.log(response);
                     if (response.data == '1') {
-                        alert("Setting updated!");
                         $rootScope.$emit("sideMenu");
+                        alert("Setting updated!");
+
                     }
                 }, function errorCallback(e) {
                     console.log(e);
@@ -2824,8 +2825,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
                 try {
                     publisher.destroy();
-                    subscriber.destroy();
                     session.unsubscribe();
+                    subscriber.destroy();
                     session.disconnect();
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
@@ -2865,10 +2866,18 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 session.on({
                     streamDestroyed: function (event) {
                         event.preventDefault();
+                        var subscribers = session.getSubscribersForStream(event.stream);
+                        console.log('stream distroy: ' + subscribers);
+                        console.log('on session Destroy reason: ' + event.reason);
+
                         jQuery("#subscribersDiv").html("Doctor left the consultation");
+                        session.unsubscribe();
                     },
                     streamCreated: function (event) {
                         subscriber = session.subscribe(event.stream, 'subscribersDiv', {width: "100%", height: "100%", subscribeToAudio: true});
+                        var subscribers2 = session.getSubscribersForStream(event.stream);
+                        console.log('stream created: ' + subscribers2);
+                        // console.log('count'+ count(subscribers2));
                         $http({
                             method: 'GET',
                             url: domain + 'appointment/update-join',
@@ -2882,54 +2891,82 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         });
                     },
                     sessionDisconnected: function (event) {
+                        var subscribers3 = session.getSubscribersForStream(event.stream);
+                        console.log('sessionDisconnected : ' + subscribers3);
                         if (event.reason === 'networkDisconnected') {
+                            var subscribers4 = session.getSubscribersForStream(event.stream);
+                            console.log('sessionDisconnected----1 : ' + subscribers4);
                             $ionicLoading.hide();
                             alert('You lost your internet connection.'
                                     + 'Please check your connection and try connecting again.');
                         }
                     }
                 });
+                publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                 session.connect(token, function (error) {
                     if (error) {
                         $ionicLoading.hide();
                         alert("Error connecting: ", error.code, error.message);
                     } else {
-                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
-                        session.publish(publisher);
 
-                        var mic = 1;
-                        var mute = 1;
-                        var mutevideo = 1;
-                        jQuery(".muteVideo").click(function () {
+                        session.publish(publisher, function (error) {
+                            if (error) {
+                                console.log("publisher Error code/msg: ", error.code, error.message);
+                            } else {
 
-                            if (mutevideo == 1) {
-                                publisher.publishVideo(false);
-                                mutevideo = 0;
-                            } else {
-                                publisher.publishVideo(true);
-                                mutevideo = 1;
-                            }
-                        });
-                        jQuery(".muteMic").click(function () {
-                            if (mic == 1) {
-                                publisher.publishAudio(false);
-                                mic = 0;
-                                $ionicLoading.hide();
-                            } else {
-                                publisher.publishAudio(true);
-                                mic = 1;
-                                $ionicLoading.hide();
-                            }
-                        });
-                        jQuery(".muteSub").click(function () {
-                            if (mute == 1) {
-                                subscriber.subscribeToAudio(false);
-                                mute = 0;
-                                $ionicLoading.hide();
-                            } else {
-                                subscriber.subscribeToAudio(true);
-                                mute = 1;
-                                $ionicLoading.hide();
+
+
+                                publisher.on('streamCreated', function (event) {
+                                    var subscribers5 = session.getSubscribersForStream(event.stream);
+                                    console.log('on publish: ' + subscribers5);
+                                })
+
+                                publisher.on('streamDestroyed', function (event) {
+                                    var subscribers6 = session.getSubscribersForStream(event.stream);
+                                    console.log('on Destroy: ' + subscribers6);
+                                    console.log('on Destroy reason: ' + event.reason);
+                                    subscriber.destroy();
+                                    console.log("subscriber.destroy" + subscriber.destroy);
+                                    session.unsubscribe();
+                                    session.disconnect()
+                                })
+
+                                var mic = 1;
+                                var mute = 1;
+                                var mutevideo = 1;
+                                jQuery(".muteVideo").click(function () {
+
+                                    if (mutevideo == 1) {
+                                        publisher.publishVideo(false);
+                                        mutevideo = 0;
+                                    } else {
+                                        publisher.publishVideo(true);
+                                        mutevideo = 1;
+                                    }
+                                });
+                                jQuery(".muteMic").click(function () {
+                                    if (mic == 1) {
+                                        publisher.publishAudio(false);
+                                        mic = 0;
+                                        $ionicLoading.hide();
+                                    } else {
+                                        publisher.publishAudio(true);
+                                        mic = 1;
+                                        $ionicLoading.hide();
+                                    }
+                                });
+                                jQuery(".muteSub").click(function () {
+                                    if (mute == 1) {
+                                        subscriber.subscribeToAudio(false);
+                                        mute = 0;
+                                        $ionicLoading.hide();
+                                    } else {
+                                        subscriber.subscribeToAudio(true);
+                                        mute = 1;
+                                        $ionicLoading.hide();
+                                    }
+                                });
+
                             }
                         });
                     }
@@ -2939,35 +2976,33 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $ionicLoading.hide();
             });
             $scope.exitVideo = function () {
+                try {
+                    publisher.destroy();
+                    session.unsubscribe();
+                    subscriber.destroy();
+                    session.disconnect();
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
 
+
+                } catch (err) {
+                    alert('err while exitvideo ' + err);
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+
+                }
                 $http({
                     method: 'GET',
                     url: domain + 'appointment/patient-exit-video',
                     params: {id: $scope.appId, userId: $scope.userId}
                 }).then(function successCallback(response) {
-                    try {
-                        publisher.destroy();
-                        subscriber.destroy();
-                        session.unsubscribe();
-                        session.disconnect();
-                        $ionicHistory.nextViewOptions({
-                            historyRoot: true
-                        })
-                        $state.go('app.consultations-current', {}, {reload: true});
-
-                    } catch (err) {
-
-                        $ionicHistory.nextViewOptions({
-                            historyRoot: true
-                        })
-                        $state.go('app.consultations-current', {}, {reload: true});
-                    }
+                    $state.go('app.consultations-current', {}, {reload: true});
                 }, function errorCallback(e) {
 
                     $state.go('app.consultations-current', {}, {reload: true});
                 });
-
-
 
             };
         })
@@ -3413,7 +3448,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             } else {
                                 $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
                             }
-                           
+
                         } else {
                             window.localStorage.setItem('kookooid', response.data);
                             window.localStorage.setItem('kookooid1', response.data);
@@ -3423,9 +3458,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
                         //$state.go('app.consultation-profile', {'id': $scope.product[0].user_id}, {reload: true});
                         if ($rootScope.single == 'profile') {
-                            $state.go('app.single-profile',{'id': $scope.uid}, {reload: true});
+                            $state.go('app.single-profile', {'id': $scope.uid}, {reload: true});
                         } else {
-                            $state.go('app.consultation-profile',{'id': $scope.uid}, {reload: true});
+                            $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
                         }
                     });
                 }
