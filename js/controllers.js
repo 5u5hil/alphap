@@ -2874,11 +2874,22 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         session.unsubscribe();
                     },
                     streamCreated: function (event) {
-                        subscriber = session.subscribe(event.stream, 'subscribersDiv', {width: "100%", height: "100%", subscribeToAudio: true});
-                        var subscribers2 = session.getSubscribersForStream(event.stream);
-                        console.log('stream created: ' + subscribers2);
-                        // console.log('count'+ count(subscribers2));
-                        $http({
+                        console.log('stream created....');
+                        subscriber = session.subscribe(event.stream, 'subscribersDiv', {width: "100%", height: "100%", subscribeToAudio: true},
+                                function (error) {
+                                    if (error) {
+                                        console.log("subscriber Error " + error.code+'--'+error.message);
+                                    } else {
+                                        console.log('Subscriber added.');
+                                        var subscribers2 = session.getSubscribersForStream(event.stream);
+                                        console.log('Subscriber length.' + subscribers2.length);
+                                        alert('APK Subscriber length.'+subscribers2.length)
+                                        console.log('stream created: ' + subscribers2);
+                                        
+                                    }
+                                });
+                      
+                     $http({
                             method: 'GET',
                             url: domain + 'appointment/update-join',
                             params: {id: $scope.appId, userId: $scope.userId}
@@ -2913,12 +2924,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             if (error) {
                                 console.log("publisher Error code/msg: ", error.code, error.message);
                             } else {
-
-
-
                                 publisher.on('streamCreated', function (event) {
                                     var subscribers5 = session.getSubscribersForStream(event.stream);
-                                    console.log('on publish: ' + subscribers5);
+                                    //console.log('on publish: ' + subscribers5);
+                                    console.log('on publish lenghth.' + subscribers5.length);
+                                        alert('APK on publish lenghth.'+subscribers5.length)
+                                      //  console.log('stream created: ' + subscribers5);
                                 })
 
                                 publisher.on('streamDestroyed', function (event) {
