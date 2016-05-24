@@ -55,7 +55,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.menutext = response.data.dataMenu;
                         $scope.language = response.data.lang.language;
                         window.localStorage.setItem('apkLanguage', $scope.language);
-                        window.location.href = window.location.href;
+                        window.location.reload = window.location.reload;
                     } else {
                     }
                 }, function errorCallback(response) {
@@ -2814,6 +2814,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $ionicLoading.hide();
             }
             // $ionicHistory.clearCache();
+            var statstimer;
             $scope.appId = $stateParams.id;
             $scope.mode = $stateParams.mode;
             $scope.vjhId = '';
@@ -2824,18 +2825,32 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.$on('$destroy', function () {
 
                 try {
+                    publisher.off();
+                    alert('EXIT : publisher off try');
                     publisher.destroy();
-                    session.unsubscribe();
+                    alert('publisher destroy');
                     subscriber.destroy();
+                    alert('subscriber destroy');
+                    //session.unsubscribe();
+                    session.off();
+                    alert('EXIT : session off try');
                     session.disconnect();
+                    alert('session disconnected try');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
-                } catch (err) {
 
+
+                } catch (err) {
+                    alert('err while exitvideo ' + err);
+                    session.off();
+                    alert('EXIT : session off catch');
+                    session.disconnect();
+                    alert('session disconnected catch');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
+
                 }
             });
 
@@ -2866,11 +2881,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 session.on({
                     streamDestroyed: function (event) {
                         event.preventDefault();
+                        window.clearInterval(statstimer);
+                        statstimer = '';
                         var subscribers = session.getSubscribersForStream(event.stream);
                         console.log('stream distroy: ' + subscribers);
-                        alert('stream distroy length: ' +subscribers.length);
+                        alert('stream distroy length: ' + subscribers.length);
                         console.log('on streamDestroyed Destroy reason: ' + event.reason);
-                       alert('on streamDestroyed  reason: ' + event.reason);
+                        alert('on streamDestroyed  reason: ' + event.reason);
 
                         jQuery("#subscribersDiv").html("Doctor left the consultation");
                         session.unsubscribe();
@@ -2889,7 +2906,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                         console.log('stream created: ' + subscribers2);
 
                                         var prevStats;
-                                        window.setInterval(function () {
+                                        statstimer = window.setInterval(function () {
                                             subscriber.getStats(function (error, stats) {
                                                 if (error) {
                                                     console.error('Error getting subscriber stats. ', error.message);
@@ -2930,17 +2947,17 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         var subscribers3 = session.getSubscribersForStream(event.stream);
                         console.log('sessionDisconnected : ' + subscribers3.length);
                         if (event.reason === 'networkDisconnected') {
-                             $ionicLoading.hide();
-                             alert('You lost your internet connection.'
+                            $ionicLoading.hide();
+                            alert('You lost your internet connection.'
                                     + 'Please check your connection and try connecting again.');
                             var subscribers4 = session.getSubscribersForStream(event.stream);
                             console.log('sessionDisconnected----1 : ' + subscribers4.length);
-                           
-                           
+
+
                         }
                     }
                 });
-               
+
                 session.connect(token, function (error) {
                     if (error) {
                         $ionicLoading.hide();
@@ -2955,7 +2972,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                     var subscribers5 = session.getSubscribersForStream(event.stream);
                                     //console.log('on publish: ' + subscribers5);
                                     console.log('on publish lenghth.' + subscribers5.length);
-                                    alert('APK on publish lenghth.' );
+                                    alert('APK on publish lenghth.');
                                     //  console.log('stream created: ' + subscribers5);
                                 });
 
@@ -2964,13 +2981,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                     console.log('on Destroy: ' + subscribers6);
                                     alert('on publisher Destroy: ' + subscribers6.length);
                                     console.log('on publisher Destroy reason: ' + event.reason);
-                                   alert('on publisher Destroy reason: ' + event.reason);
-                                   
+                                    alert('on publisher Destroy reason: ' + event.reason);
+
                                     // session.unsubscribe();
                                     subscriber.destroy();
-                                   // console.log("subscriber.destroy" + subscriber.destroy);
-                                    alert("subscriber destroy");
-                                   // session.disconnect()
+                                    // console.log("subscriber.destroy" + subscriber.destroy);
+                                    alert("subscriber destroy because publish stream destroyed");
+                                    // session.disconnect()
                                 });
 
                                 var mic = 1;
@@ -3019,13 +3036,17 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
             $scope.exitVideo = function () {
                 try {
-                   publisher.destroy();
-                     alert('publisher destroy');
+                    publisher.off();
+                    alert('EXIT : publisher off try');
+                    publisher.destroy();
+                    alert('publisher destroy');
                     subscriber.destroy();
-                      alert('subscriber destroy');
+                    alert('subscriber destroy');
                     //session.unsubscribe();
+                    session.off();
+                    alert('EXIT : session off try');
                     session.disconnect();
-                     alert('session disconnected try');
+                    alert('session disconnected try');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
@@ -3033,8 +3054,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
                 } catch (err) {
                     alert('err while exitvideo ' + err);
-                     session.disconnect();
-                          alert('session disconnected catch');
+                    session.off();
+                    alert('EXIT : session off catch');
+                    session.disconnect();
+                    alert('session disconnected catch');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
