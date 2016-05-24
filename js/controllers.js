@@ -2923,10 +2923,26 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                                     console.log('audio packet loss ratio: ', audioPacketLossRatio);
                                                     var audioBitRate = 8 * (stats.audio.bytesReceived - prevStats.audio.bytesReceived);
                                                     console.log('audio bit rate: ', audioBitRate, 'bps');
+                                                $http({
+                                                method: 'GET',
+                                                url: domain + 'log/stats-log',
+                                                params: {id: $scope.appId,
+                                                    userId: $scope.userId,
+                                                    videoPacketLossRatio: videoPacketLossRatio,
+                                                    videoBitRate: videoBitRate,
+                                                    audioPacketLossRatio: audioPacketLossRatio,
+                                                    audioBitRate: audioBitRate
+                                                }
+                                            }).then(function successCallback(response) {
+
+                                            }, function errorCallback(e) {
+
+                                            });
                                                 }
                                                 prevStats = stats;
                                             });
-                                        }, 1000);
+                                            
+                                        }, 5000);
 
                                     }
                                 });
