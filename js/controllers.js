@@ -2885,9 +2885,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         statstimer = '';
                         var subscribers = session.getSubscribersForStream(event.stream);
                         console.log('stream distroy: ' + subscribers);
-                        alert('stream distroy length: ' + subscribers.length);
+                       // alert('stream distroy length: ' + subscribers.length);
                         console.log('on streamDestroyed Destroy reason: ' + event.reason);
-                        alert('on streamDestroyed  reason: ' + event.reason);
+                       // alert('on streamDestroyed  reason: ' + event.reason);
 
                         jQuery("#subscribersDiv").html("Doctor left the consultation");
                         session.unsubscribe();
@@ -2902,7 +2902,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                         console.log('Subscriber added.');
                                         var subscribers2 = session.getSubscribersForStream(event.stream);
                                         console.log('Subscriber length.' + subscribers2.length);
-                                        alert('APK Subscriber length.' + subscribers2.length)
+                                       // alert('APK Subscriber length.' + subscribers2.length)
                                         console.log('stream created: ' + subscribers2);
 
                                         var prevStats;
@@ -2966,7 +2966,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                         session.publish(publisher, function (error) {
                             if (error) {
-                                console.log("publisher Error code/msg: ", error.code, error.message);
+                              //  console.log("publisher Error code/msg: ", error.code, error.message);
                             } else {
                                 publisher.on('streamCreated', function (event) {
                                     var subscribers5 = session.getSubscribersForStream(event.stream);
@@ -2979,9 +2979,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                 publisher.on('streamDestroyed', function (event) {
                                     var subscribers6 = session.getSubscribersForStream(event.stream);
                                     console.log('on Destroy: ' + subscribers6);
-                                    alert('on publisher Destroy: ' + subscribers6.length);
+                                   // alert('on publisher Destroy: ' + subscribers6.length);
                                     console.log('on publisher Destroy reason: ' + event.reason);
-                                    alert('on publisher Destroy reason: ' + event.reason);
+                                   // alert('on publisher Destroy reason: ' + event.reason);
 
                                     // session.unsubscribe();
                                     subscriber.destroy();
