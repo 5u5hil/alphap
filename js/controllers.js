@@ -2826,27 +2826,27 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
                 try {
                     publisher.off();
-                    alert('EXIT : publisher off try');
+                    //alert('EXIT : publisher off try');
                     publisher.destroy();
-                    alert('publisher destroy');
+                    //alert('publisher destroy');
                     subscriber.destroy();
-                    alert('subscriber destroy');
+                    //alert('subscriber destroy');
                     //session.unsubscribe();
                     session.off();
-                    alert('EXIT : session off try');
+                    //alert('EXIT : session off try');
                     session.disconnect();
-                    alert('session disconnected try');
+                   // alert('session disconnected try');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
 
 
                 } catch (err) {
-                    alert('err while exitvideo ' + err);
+                   // alert('err while exitvideo ' + err);
                     session.off();
-                    alert('EXIT : session off catch');
+                   // alert('EXIT : session off catch');
                     session.disconnect();
-                    alert('session disconnected catch');
+                   // alert('session disconnected catch');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
@@ -3037,27 +3037,27 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.exitVideo = function () {
                 try {
                     publisher.off();
-                    alert('EXIT : publisher off try');
+                   // alert('EXIT : publisher off try');
                     publisher.destroy();
-                    alert('publisher destroy');
+                    //alert('publisher destroy');
                     subscriber.destroy();
-                    alert('subscriber destroy');
+                    //alert('subscriber destroy');
                     //session.unsubscribe();
                     session.off();
-                    alert('EXIT : session off try');
+                    //alert('EXIT : session off try');
                     session.disconnect();
-                    alert('session disconnected try');
+                   // alert('session disconnected try');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
 
 
                 } catch (err) {
-                    alert('err while exitvideo ' + err);
+                 //   alert('err while exitvideo ' + err);
                     session.off();
-                    alert('EXIT : session off catch');
+                 //   alert('EXIT : session off catch');
                     session.disconnect();
-                    alert('session disconnected catch');
+                  //  alert('session disconnected catch');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
