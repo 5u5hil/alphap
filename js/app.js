@@ -60,7 +60,7 @@ angular.module('your_app_name', [
                         // window.location.href = '/content-library-setting';
                     } catch (err)
                     {
-                        alert('NO redirection '+err);
+                        alert('No redirection '+err);
                     }
 
 
