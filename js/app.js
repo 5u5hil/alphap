@@ -27,7 +27,7 @@ angular.module('your_app_name', [
     'jett.ionic.filter.bar',
     'youtube-embed'
 ])
-        .run(function ($ionicPlatform, PushNotificationsService,$state, $rootScope, $ionicConfig, $timeout, $ionicLoading, $ionicHistory) {
+        .run(function ($ionicPlatform, PushNotificationsService, $state, $rootScope, $ionicConfig, $timeout, $ionicLoading, $ionicHistory) {
             $ionicPlatform.onHardwareBackButton(function (event) {
                 event.preventDefault();
             });
@@ -39,24 +39,34 @@ angular.module('your_app_name', [
                 // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
 
                 var notificationOpenedCallback = function (jsonData) {
+                    alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
                     console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
-                     $state.go("app.view-content-value", {reload: true});
+                    $state.go("app.view-content-value");
+                    try
+                    {
+                        $state.go("app.view-content-value");
+                    } catch(err)
+                    {
+                        alert('NO redirection');
+                    }
                 };
 
                 window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
-                        {googleProjectNumber: "769295732267", autoRegister: true}, // jainam account GCM id
+                        {googleProjectNumber: "769295732267"}, // jainam account GCM id
                         notificationOpenedCallback);
 
+                window.plugins.OneSignal.enableInAppAlertNotification(true);
+
                 // Show an alert box if a notification comes in when the user is in your app.
-               // window.plugins.OneSignal.enableInAppAlertNotification(true);
-                
+                // 
+
 //                window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
 //                               {googleProjectNumber: "769295732267",
 //                                autoRegister: true},
 //                                app.didReceiveRemoteNotificationCallBack);
 //                                
                 // window.plugins.OneSignal.registerForPushNotifications();
-                 
+
                 if (window.cordova && window.cordova.plugins.Keyboard) {
                     cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                 }
@@ -64,7 +74,7 @@ angular.module('your_app_name', [
                     StatusBar.styleDefault();
                 }
 
-              //  PushNotificationsService.register();
+                //  PushNotificationsService.register();
             });
             $rootScope.$on('loading:show', function () {
                 //$ionicLoading.show({template: 'Loading'})
@@ -100,7 +110,7 @@ angular.module('your_app_name', [
             });
 
             $ionicPlatform.on("resume", function () {
-               // PushNotificationsService.register();
+             //   PushNotificationsService.register();
             });
 
         })
