@@ -48,14 +48,14 @@ angular.module('your_app_name', [
                         notificationOpenedCallback);
 
                 // Show an alert box if a notification comes in when the user is in your app.
-                window.plugins.OneSignal.enableInAppAlertNotification(true);
+               // window.plugins.OneSignal.enableInAppAlertNotification(true);
                 
 //                window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
 //                               {googleProjectNumber: "769295732267",
 //                                autoRegister: true},
 //                                app.didReceiveRemoteNotificationCallBack);
 //                                
-                 window.plugins.OneSignal.registerForPushNotifications();
+                // window.plugins.OneSignal.registerForPushNotifications();
                  
                 if (window.cordova && window.cordova.plugins.Keyboard) {
                     cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -100,7 +100,7 @@ angular.module('your_app_name', [
             });
 
             $ionicPlatform.on("resume", function () {
-                PushNotificationsService.register();
+               // PushNotificationsService.register();
             });
 
         })
