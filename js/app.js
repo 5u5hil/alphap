@@ -27,7 +27,7 @@ angular.module('your_app_name', [
     'jett.ionic.filter.bar',
     'youtube-embed'
 ])
-        .run(function ($ionicPlatform, PushNotificationsService, $rootScope, $ionicConfig, $timeout, $ionicLoading, $ionicHistory) {
+        .run(function ($ionicPlatform, PushNotificationsService,$state, $rootScope, $ionicConfig, $timeout, $ionicLoading, $ionicHistory) {
             $ionicPlatform.onHardwareBackButton(function (event) {
                 event.preventDefault();
             });
@@ -40,20 +40,21 @@ angular.module('your_app_name', [
 
                 var notificationOpenedCallback = function (jsonData) {
                     console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+                     $state.go("app.view-content-value", {reload: true});
                 };
 
                 window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
-                        {googleProjectNumber: "769295732267"}, // jainam account GCM id
+                        {googleProjectNumber: "769295732267", autoRegister: true}, // jainam account GCM id
                         notificationOpenedCallback);
 
                 // Show an alert box if a notification comes in when the user is in your app.
                 window.plugins.OneSignal.enableInAppAlertNotification(true);
                 
-                window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
-                               {googleProjectNumber: "769295732267",
-                                autoRegister: true},
-                                app.didReceiveRemoteNotificationCallBack);
-                                
+//                window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
+//                               {googleProjectNumber: "769295732267",
+//                                autoRegister: true},
+//                                app.didReceiveRemoteNotificationCallBack);
+//                                
                  window.plugins.OneSignal.registerForPushNotifications();
                  
                 if (window.cordova && window.cordova.plugins.Keyboard) {
