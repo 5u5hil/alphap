@@ -2835,18 +2835,18 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     session.off();
                     //alert('EXIT : session off try');
                     session.disconnect();
-                   // alert('session disconnected try');
+                    // alert('session disconnected try');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
 
 
                 } catch (err) {
-                   // alert('err while exitvideo ' + err);
+                    // alert('err while exitvideo ' + err);
                     session.off();
-                   // alert('EXIT : session off catch');
+                    // alert('EXIT : session off catch');
                     session.disconnect();
-                   // alert('session disconnected catch');
+                    // alert('session disconnected catch');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
@@ -2885,9 +2885,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         statstimer = '';
                         var subscribers = session.getSubscribersForStream(event.stream);
                         console.log('stream distroy: ' + subscribers);
-                       // alert('stream distroy length: ' + subscribers.length);
+                        // alert('stream distroy length: ' + subscribers.length);
                         console.log('on streamDestroyed Destroy reason: ' + event.reason);
-                       // alert('on streamDestroyed  reason: ' + event.reason);
+                        // alert('on streamDestroyed  reason: ' + event.reason);
 
                         jQuery("#subscribersDiv").html("Doctor left the consultation");
                         session.unsubscribe();
@@ -2902,7 +2902,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                         console.log('Subscriber added.');
                                         var subscribers2 = session.getSubscribersForStream(event.stream);
                                         console.log('Subscriber length.' + subscribers2.length);
-                                       // alert('APK Subscriber length.' + subscribers2.length)
+                                        // alert('APK Subscriber length.' + subscribers2.length)
                                         console.log('stream created: ' + subscribers2);
 
                                         var prevStats;
@@ -2923,25 +2923,25 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                                     console.log('audio packet loss ratio: ', audioPacketLossRatio);
                                                     var audioBitRate = 8 * (stats.audio.bytesReceived - prevStats.audio.bytesReceived);
                                                     console.log('audio bit rate: ', audioBitRate, 'bps');
-                                                $http({
-                                                method: 'GET',
-                                                url: domain + 'log/stats-log',
-                                                params: {id: $scope.appId,
-                                                    userId: $scope.userId,
-                                                    videoPacketLossRatio: videoPacketLossRatio,
-                                                    videoBitRate: videoBitRate,
-                                                    audioPacketLossRatio: audioPacketLossRatio,
-                                                    audioBitRate: audioBitRate
-                                                }
-                                            }).then(function successCallback(response) {
+                                                    $http({
+                                                        method: 'GET',
+                                                        url: domain + 'log/stats-log',
+                                                        params: {id: $scope.appId,
+                                                            userId: $scope.userId,
+                                                            videoPacketLossRatio: videoPacketLossRatio,
+                                                            videoBitRate: videoBitRate,
+                                                            audioPacketLossRatio: audioPacketLossRatio,
+                                                            audioBitRate: audioBitRate
+                                                        }
+                                                    }).then(function successCallback(response) {
 
-                                            }, function errorCallback(e) {
+                                                    }, function errorCallback(e) {
 
-                                            });
+                                                    });
                                                 }
                                                 prevStats = stats;
                                             });
-                                            
+
                                         }, 5000);
 
                                     }
@@ -2982,7 +2982,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                         session.publish(publisher, function (error) {
                             if (error) {
-                              //  console.log("publisher Error code/msg: ", error.code, error.message);
+                                //  console.log("publisher Error code/msg: ", error.code, error.message);
                             } else {
                                 publisher.on('streamCreated', function (event) {
                                     var subscribers5 = session.getSubscribersForStream(event.stream);
@@ -2990,14 +2990,26 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                     console.log('on publish lenghth.' + subscribers5.length);
                                     alert('APK on publish lenghth.');
                                     //  console.log('stream created: ' + subscribers5);
+
+                                    $http({
+                                        method: 'GET',
+                                        url: domain + 'notification/push-notification',
+                                        params: {id: $scope.appId, userId: $scope.userId}
+                                    }).then(function successCallback(response) {
+
+
+                                    }, function errorCallback(e) {
+
+
+                                    });
                                 });
 
                                 publisher.on('streamDestroyed', function (event) {
                                     var subscribers6 = session.getSubscribersForStream(event.stream);
                                     console.log('on Destroy: ' + subscribers6);
-                                   // alert('on publisher Destroy: ' + subscribers6.length);
+                                    // alert('on publisher Destroy: ' + subscribers6.length);
                                     console.log('on publisher Destroy reason: ' + event.reason);
-                                   // alert('on publisher Destroy reason: ' + event.reason);
+                                    // alert('on publisher Destroy reason: ' + event.reason);
 
                                     // session.unsubscribe();
                                     subscriber.destroy();
@@ -3053,7 +3065,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.exitVideo = function () {
                 try {
                     publisher.off();
-                   // alert('EXIT : publisher off try');
+                    // alert('EXIT : publisher off try');
                     publisher.destroy();
                     //alert('publisher destroy');
                     subscriber.destroy();
@@ -3062,18 +3074,18 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     session.off();
                     //alert('EXIT : session off try');
                     session.disconnect();
-                   // alert('session disconnected try');
+                    // alert('session disconnected try');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
 
 
                 } catch (err) {
-                 //   alert('err while exitvideo ' + err);
+                    //   alert('err while exitvideo ' + err);
                     session.off();
-                 //   alert('EXIT : session off catch');
+                    //   alert('EXIT : session off catch');
                     session.disconnect();
-                  //  alert('session disconnected catch');
+                    //  alert('session disconnected catch');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
