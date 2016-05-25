@@ -2984,6 +2984,17 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             if (error) {
                                 //  console.log("publisher Error code/msg: ", error.code, error.message);
                             } else {
+                                $http({
+                                    method: 'GET',
+                                    url: domain + 'notification/push-notification',
+                                    params: {id: $scope.appId, userId: $scope.userId}
+                                }).then(function successCallback(response) {
+
+
+                                }, function errorCallback(e) {
+
+
+                                });
                                 publisher.on('streamCreated', function (event) {
                                     var subscribers5 = session.getSubscribersForStream(event.stream);
                                     //console.log('on publish: ' + subscribers5);
@@ -2991,17 +3002,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                     alert('APK on publish lenghth.');
                                     //  console.log('stream created: ' + subscribers5);
 
-                                    $http({
-                                        method: 'GET',
-                                        url: domain + 'notification/push-notification',
-                                        params: {id: $scope.appId, userId: $scope.userId}
-                                    }).then(function successCallback(response) {
 
-
-                                    }, function errorCallback(e) {
-
-
-                                    });
                                 });
 
                                 publisher.on('streamDestroyed', function (event) {
