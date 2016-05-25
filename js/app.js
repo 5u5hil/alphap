@@ -34,6 +34,28 @@ angular.module('your_app_name', [
             $ionicPlatform.on("deviceready", function () {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
+
+                // Enable to debug issues.
+                // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
+
+                var notificationOpenedCallback = function (jsonData) {
+                    console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+                };
+
+                window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
+                        {googleProjectNumber: "769295732267"}, // jainam account GCM id
+                        notificationOpenedCallback);
+
+                // Show an alert box if a notification comes in when the user is in your app.
+                window.plugins.OneSignal.enableInAppAlertNotification(true);
+                
+                window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
+                               {googleProjectNumber: "769295732267",
+                                autoRegister: true},
+                                app.didReceiveRemoteNotificationCallBack);
+                                
+                 window.plugins.OneSignal.registerForPushNotifications();
+                 
                 if (window.cordova && window.cordova.plugins.Keyboard) {
                     cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                 }
@@ -41,7 +63,7 @@ angular.module('your_app_name', [
                     StatusBar.styleDefault();
                 }
 
-                PushNotificationsService.register();
+              //  PushNotificationsService.register();
             });
             $rootScope.$on('loading:show', function () {
                 //$ionicLoading.show({template: 'Loading'})
@@ -178,7 +200,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.shared-with-you', {
                         cache: false,
                         url: "/shared-with-you",
@@ -479,7 +501,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.thankyou', {
                         url: "/thankyou/{data:string}",
                         views: {
