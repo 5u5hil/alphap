@@ -41,14 +41,29 @@ angular.module('your_app_name', [
                 var notificationOpenedCallback = function (jsonData) {
                     alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
                     console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
-                    $state.go("app.view-content-value");
+
+                    // $state.go("app.content-library-setting");
                     try
                     {
-                        $state.go("app.view-content-value");
-                    } catch(err)
+                        if (jsonData.additionalData) {
+                            alert("Inside additionalData");
+                            if (jsonData.additionalData.yourUrlKey) {
+                                 alert("Inside additionalData yourUrlKey");
+                                location.href = jsonData.additionalData.yourUrlKey;
+                            }
+                            if (jsonData.additionalData.actionSelected && jsonData.additionalData.actionSelected.id == "id1")
+                                alert("Button id1 pressed!");
+                        }
+                        alert("befre state go");
+                        $state.go("app.content-library-setting");
+                         alert("after state go");
+                        // window.location.href = '/content-library-setting';
+                    } catch (err)
                     {
-                        alert('NO redirection');
+                        alert('NO redirection '+err);
                     }
+
+
                 };
 
                 window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
@@ -110,7 +125,7 @@ angular.module('your_app_name', [
             });
 
             $ionicPlatform.on("resume", function () {
-             //   PushNotificationsService.register();
+                //   PushNotificationsService.register();
             });
 
         })
