@@ -446,6 +446,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('PatientSettingsCtrl', function ($scope, $http, $ionicPlatform, $state, $stateParams, $timeout, $ionicModal, $ionicLoading, $rootScope, $sce) {
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userId = window.localStorage.getItem('id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.lang_id = '';
             $http({
@@ -458,6 +459,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.lang_id = response.data.getlang.language_id;
                 $scope.langtext = response.data.langtext;
                 $scope.language = response.data.lang.language;
+                $scope.notification = response.data.notification;
 
             }, function errorCallback(e) {
                 console.log(e);
@@ -485,27 +487,20 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 if (notification == true) {
 //               alert('register user');
                     $ionicPlatform.on("deviceready", function () {
-//                    window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
-//                            {googleProjectNumber: "769295732267"}, // jainam account GCM id
-//                            notificationOpenedCallback);
-//
-//                    window.plugins.OneSignal.enableInAppAlertNotification(true);
-//                    var notificationOpenedCallback = function (jsonData) {
-//                        alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
-//                        console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
-//                    }
+
 
                         window.plugins.OneSignal.getIds(function (ids) {
-                            // document.getElementById("OneSignalUserID").innerHTML = "UserID: " + ids.userId;
-                            // document.getElementById("OneSignalPushToken").innerHTML = "PushToken: " + ids.pushToken;
+
                             console.log('getIds: ' + JSON.stringify(ids));
-                            alert('UserID: ' + JSON.stringify(ids.userId));
+                          //  alert('UserID: ' + JSON.stringify(ids.userId));
                             $http({
                                 method: 'GET',
                                 url: domain + 'notification/insertPlayerId',
                                 params: {patientId: window.localStorage.getItem('id'), playerId: ids.userId}
                             }).then(function successCallback(response) {
-                                
+                                if(response.data == 1){
+                                    alert('Notification setting updated');
+                                }
                             }, function errorCallback(e) {
                                 console.log(e);
                             });
@@ -520,7 +515,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                 url: domain + 'notification/changeStatus',
                                 params: {patientId: window.localStorage.getItem('id')}
                             }).then(function successCallback(response) {
-                                
+                                   alert('Notification setting updated');
                             }, function errorCallback(e) {
                                 console.log(e);
                             });

@@ -7,6 +7,7 @@
     </ion-nav-title>
 
     <ion-content>
+     
 
         <ul class="list">
 
@@ -18,7 +19,7 @@
 
             </ion-list> 
 
-            <ion-toggle ng-model="notification" ng-checked="instant_permission.instant_permission" ng-click="pushNotification(notification)" name="notification"  toggle-class="toggle-positive"> Allow Notification </ion-toggle>
+            <ion-toggle ng-model="notification" ng-checked="notification.user_id == userId" ng-click="pushNotification(notification)" name="notification"  toggle-class="toggle-positive"> Allow Notification </ion-toggle>
 
         </ul>
     </ion-content>
