@@ -496,7 +496,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             $http({
                                 method: 'GET',
                                 url: domain + 'notification/insertPlayerId',
-                                params: {patientId: window.localStorage.getItem('id'), playerId: ids.userId}
+                                params: {userId: window.localStorage.getItem('id'), playerId: ids.userId}
                             }).then(function successCallback(response) {
                                 if(response.data == 1){
                                     alert('Notification setting updated');
@@ -513,7 +513,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $http({
                                 method: 'GET',
                                 url: domain + 'notification/changeStatus',
-                                params: {patientId: window.localStorage.getItem('id')}
+                                params: {userId: window.localStorage.getItem('id')}
                             }).then(function successCallback(response) {
                                    alert('Notification setting updated');
                             }, function errorCallback(e) {
@@ -2896,11 +2896,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
                 }
             });
-
+            $scope.pushEvent = 'video_join';
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-doctor',
-                params: {id: $scope.appId, userId: $scope.userId, mode: $scope.mode}
+                params: {id: $scope.appId, userId: $scope.userId, mode: $scope.mode,pushEvent:$scope.pushEvent}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
                 $ionicLoading.hide();
@@ -3330,10 +3330,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.sessionId = response.data.chatSession;
                 console.log(response.data.chatMsgs);
                 $scope.apiKey = apiKey;
-                var session = OT.initSession($scope.apiKey, $scope.sessionId);
-                $scope.session = session;
-                var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
-                console.log("error source 1" + chatWidget);
+               // var session = OT.initSession($scope.apiKey, $scope.sessionId);
+               // $scope.session = session;
+               // var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
+               // console.log("error source 1" + chatWidget);
 
             }, function errorCallback(e) {
                 console.log(e);
