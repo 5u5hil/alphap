@@ -480,26 +480,52 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
             }
 
-            $scope.pushNotification = function () {
-                alert('register user');
-                $ionicPlatform.on("deviceready", function () {
-                    window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
-                            {googleProjectNumber: "769295732267"}, // jainam account GCM id
-                            notificationOpenedCallback);
+            $scope.pushNotification = function (notification) {
+                console.log("val " + notification);
+                if (notification == true) {
+//               alert('register user');
+                    $ionicPlatform.on("deviceready", function () {
+//                    window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
+//                            {googleProjectNumber: "769295732267"}, // jainam account GCM id
+//                            notificationOpenedCallback);
+//
+//                    window.plugins.OneSignal.enableInAppAlertNotification(true);
+//                    var notificationOpenedCallback = function (jsonData) {
+//                        alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+//                        console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+//                    }
 
-                    window.plugins.OneSignal.enableInAppAlertNotification(true);
-                    var notificationOpenedCallback = function (jsonData) {
-                        alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
-                        console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
-                    }
+                        window.plugins.OneSignal.getIds(function (ids) {
+                            // document.getElementById("OneSignalUserID").innerHTML = "UserID: " + ids.userId;
+                            // document.getElementById("OneSignalPushToken").innerHTML = "PushToken: " + ids.pushToken;
+                            console.log('getIds: ' + JSON.stringify(ids));
+                            alert('UserID: ' + JSON.stringify(ids.userId));
+                            $http({
+                                method: 'GET',
+                                url: domain + 'notification/insertPlayerId',
+                                params: {patientId: window.localStorage.getItem('id'), playerId: ids.userId}
+                            }).then(function successCallback(response) {
+                                
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
 
-                    window.plugins.OneSignal.getIds(function (ids) {
-                        // document.getElementById("OneSignalUserID").innerHTML = "UserID: " + ids.userId;
-                        // document.getElementById("OneSignalPushToken").innerHTML = "PushToken: " + ids.pushToken;
-                        console.log('getIds: ' + JSON.stringify(ids));
-                        alert('getIds: ' + JSON.stringify(ids));
+                        });
                     });
-                });
+                } else {
+                    $ionicPlatform.on("deviceready", function () {
+                        window.plugins.OneSignal.enableInAppAlertNotification(true);
+                        $http({
+                                method: 'GET',
+                                url: domain + 'notification/changeStatus',
+                                params: {patientId: window.localStorage.getItem('id')}
+                            }).then(function successCallback(response) {
+                                
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
+                    });
+                }
             }
         })
 
