@@ -444,7 +444,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         })
 
-        .controller('PatientSettingsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $ionicLoading, $rootScope, $sce) {
+        .controller('PatientSettingsCtrl', function ($scope, $http, $ionicPlatform, $state, $stateParams, $timeout, $ionicModal, $ionicLoading, $rootScope, $sce) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.lang_id = '';
@@ -477,6 +477,28 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     }
                 }, function errorCallback(e) {
                     console.log(e);
+                });
+            }
+
+            $scope.pushNotification = function () {
+                alert('register user');
+                $ionicPlatform.on("deviceready", function () {
+                    window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
+                            {googleProjectNumber: "769295732267"}, // jainam account GCM id
+                            notificationOpenedCallback);
+
+                    window.plugins.OneSignal.enableInAppAlertNotification(true);
+                    var notificationOpenedCallback = function (jsonData) {
+                        alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+                        console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+                    }
+
+                    window.plugins.OneSignal.getIds(function (ids) {
+                        // document.getElementById("OneSignalUserID").innerHTML = "UserID: " + ids.userId;
+                        // document.getElementById("OneSignalPushToken").innerHTML = "PushToken: " + ids.pushToken;
+                        console.log('getIds: ' + JSON.stringify(ids));
+                        alert('getIds: ' + JSON.stringify(ids));
+                    });
                 });
             }
         })

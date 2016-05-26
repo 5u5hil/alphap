@@ -1,23 +1,25 @@
 <ion-view class="settings-view">
-<!--   <ion-nav-buttons side="left">
-    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
-  </ion-nav-buttons> -->
-  <ion-nav-title>
-    <span>Settings</span>
-  </ion-nav-title>
+    <!--   <ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+      </ion-nav-buttons> -->
+    <ion-nav-title>
+        <span>Settings</span>
+    </ion-nav-title>
 
-  <ion-content>
-       
-    <ul class="list">
+    <ion-content>
 
-      <div class="item item-divider">Prefered language </div>
+        <ul class="list">
 
-      <ion-list class="cradioselect">
-        
-          <ion-radio ng-model="lang_id"  ng-repeat="alang in allow_lang"  ng-checked="lang_id == alang.language_id" ng-click="patient_language({{alang.language_id}})" value="{{alang.language_id}}">{{alang.language |capitalize}}</ion-radio>     
-          
-      </ion-list> 
-	
-    </ul>
-  </ion-content>
+            <div class="item item-divider">Prefered language </div>
+
+            <ion-list class="cradioselect">
+
+                <ion-radio ng-model="lang_id"  ng-repeat="alang in allow_lang"  ng-checked="lang_id == alang.language_id" ng-click="patient_language({{alang.language_id}})" value="{{alang.language_id}}">{{alang.language|capitalize}}</ion-radio>     
+
+            </ion-list> 
+
+            <ion-toggle ng-model="notification" ng-checked="instant_permission.instant_permission" ng-click="pushNotification()" name="notification"  toggle-class="toggle-positive"> Allow Notification </ion-toggle>
+
+        </ul>
+    </ion-content>
 </ion-view>
