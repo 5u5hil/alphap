@@ -2900,7 +2900,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-doctor',
-                params: {id: $scope.appId, userId: $scope.userId, mode: $scope.mode,pushEvent:$scope.pushEvent}
+                params: {id: $scope.appId, userId: $scope.userId, mode: $scope.mode}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
                 $ionicLoading.hide();
@@ -3030,7 +3030,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                 $http({
                                     method: 'GET',
                                     url: domain + 'notification/push-notification',
-                                    params: {id: $scope.appId, userId: $scope.userId}
+                                    params: {id: $scope.appId, userId: $scope.userId,pushEvent:$scope.pushEvent}
                                 }).then(function successCallback(response) {
 
 
