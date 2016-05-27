@@ -407,7 +407,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
 //bring specific category providers
         .controller('CategoryListCtrl', function ($scope, $http, $stateParams, $rootScope) {
+            
             if (get('id') != null) {
+                
+                
                 $rootScope.userLogged = 1;
                 $scope.interface = window.localStorage.getItem('interface_id');
                 $scope.userId = window.localStorage.getItem('id');
