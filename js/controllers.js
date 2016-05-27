@@ -3033,9 +3033,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                     params: {id: $scope.appId, userId: $scope.userId,pushEvent:$scope.pushEvent}
                                 }).then(function successCallback(response) {
 
-
                                 }, function errorCallback(e) {
-
 
                                 });
                                 publisher.on('streamCreated', function (event) {
