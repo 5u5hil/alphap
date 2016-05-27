@@ -3148,6 +3148,42 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
 
             };
+			
+			
+			/* rightsidetab */
+			$scope.intext='more';
+			 $scope.infomore = function (r) {
+                jQuery('#' + r).toggleClass('active');
+				if(jQuery('#' + r).hasClass('active')){
+					$scope.intext='less'
+				}
+				else{
+					$scope.intext='more';
+				}
+
+            }
+
+			sidetab('#cstab1');
+            sidetab('#cstab2');
+
+            $scope.pulltab = function (d) {
+                var ww = (jQuery(window).width()) - 40;
+                jQuery('#' + d).toggleClass('active');
+
+                if (jQuery('#' + d).hasClass('active')) {
+                    jQuery('#' + d).css('transform', 'translate3d(0px, 0px, 0px)')
+                } else {
+                    jQuery('#' + d).css('transform', 'translate3d(' + ww + 'px, 0px, 0px)')
+                }
+
+
+            }
+
+			/* end of rightsidetab */
+
+			
+			
+			
         })
 
         .controller('ChatListCtrl', function ($scope, $filter, $http, $stateParams, $rootScope, $ionicLoading) {
