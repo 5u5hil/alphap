@@ -27,7 +27,7 @@ angular.module('your_app_name', [
     'jett.ionic.filter.bar',
     'youtube-embed'
 ])
-        .run(function ($scope,$ionicPlatform,$http, PushNotificationsService, $state, $rootScope, $ionicConfig, $timeout, $ionicLoading, $ionicHistory) {
+        .run(function ($ionicPlatform,$http, PushNotificationsService, $state, $rootScope, $ionicConfig, $timeout, $ionicLoading, $ionicHistory) {
             $ionicPlatform.onHardwareBackButton(function (event) {
                 event.preventDefault();
             });
@@ -70,15 +70,15 @@ angular.module('your_app_name', [
                 window.plugins.OneSignal.getIds(function (ids) {
                     console.log('getIds: ' + JSON.stringify(ids));
                     if (window.localStorage.getItem('id')) {
-                        $scope.userId = window.localStorage.getItem('id');
+                       var userId = window.localStorage.getItem('id');
                     } else {
-                        $scope.userId = '';
+                        var userId = '';
                     }
 
                     $http({
                         method: 'GET',
                         url: domain + 'notification/insertPlayerId',
-                        params: {userId:$scope.userId, playerId: ids.userId, pushToken: ids.pushToken}
+                        params: {userId:userId, playerId: ids.userId, pushToken: ids.pushToken}
                     }).then(function successCallback(response) {
                         if (response.data == 1) {
                             alert('Notification setting updated');
@@ -87,6 +87,7 @@ angular.module('your_app_name', [
                         console.log(e);
                     });
                 });
+                
 
                 window.plugins.OneSignal.enableInAppAlertNotification(true);
 
