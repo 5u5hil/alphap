@@ -55,7 +55,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.menutext = response.data.dataMenu;
                         $scope.language = response.data.lang.language;
                         window.localStorage.setItem('apkLanguage', $scope.language);
-                        window.location.reload = window.location.reload;
+                        window.location.url = window.location.url;
                     } else {
                     }
                 }, function errorCallback(response) {
