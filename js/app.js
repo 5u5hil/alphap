@@ -67,7 +67,7 @@ angular.module('your_app_name', [
                         {googleProjectNumber: "769295732267"}, // jainam account GCM id
                         notificationOpenedCallback);
 
-            
+            try{
                 window.plugins.OneSignal.getIds(function (ids) {
                     console.log('getIds: ' + JSON.stringify(ids));
                     if (window.localStorage.getItem('id')) {
@@ -88,6 +88,9 @@ angular.module('your_app_name', [
                         console.log(e);
                     });
                 });
+            }catch(err){
+                console.log(err);
+            }
                  
                 
 

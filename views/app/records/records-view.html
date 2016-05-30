@@ -18,8 +18,9 @@
             <div class="posts-list"  ng-repeat="rec in records track by $index" ng-if="records.length > 0">
                 <div  class="list card post-item">
                     <a ui-sref="app.record-details({'id' : rec.id, 'shared': shared, 'res' : 'json'})" class="post-content item item-text-wrap">
+                        <div class="item item-divider mt15 ng-binding" >{{rec.share_with.fname}} {{rec.share_with.lname}}</div>
                         <div class="row pr-b10">
-                            <div class="col" ng-repeat="detail in rec.record_metadata| limitTo: limit">
+                            <div class="col" ng-repeat="detail in rec.record_metadata| limitTo: limit"> 
                                 <!--{{$index == 0 ? '<p>': ''}} -->
                                 <p>
                                     <strong>{{detail.fields.field| capitalize}}</strong><br/>
