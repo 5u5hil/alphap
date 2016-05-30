@@ -150,8 +150,31 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             $rootScope.userLogged = 1;
                             $rootScope.username = response.fname;
                             $ionicLoading.hide();
-                            $state.go('app.category-list');
-                            //}
+                            window.plugins.OneSignal.getIds(function (ids) {
+                                console.log('getIds: ' + JSON.stringify(ids));
+                                if (window.localStorage.getItem('id')) {
+                                    $scope.userId = window.localStorage.getItem('id');
+                                } else {
+                                    $scope.userId = '';
+                                }
+
+                                $http({
+                                    method: 'GET',
+                                    url: domain + 'notification/insertPlayerId',
+                                    params: {userId: $scope.userId, playerId: ids.userId, pushToken: ids.pushToken}
+                                }).then(function successCallback(response) {
+                                    if (response.data == 1) {
+                                       // alert('Notification setting updated');
+                                         $state.go('app.category-list');
+                                    }
+                                }, function errorCallback(e) {
+                                    console.log(e);
+                                      $state.go('app.category-list');
+                                });
+                            });
+
+                           // $state.go('app.category-list');
+                            
                         } else {
                             $rootScope.userLogged = 0;
                             $scope.loginError = response;
@@ -244,6 +267,27 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             if (angular.isObject(response)) {
                                 store(response);
                                 $rootScope.userLogged = 1;
+                                window.plugins.OneSignal.getIds(function (ids) {
+                                    console.log('getIds: ' + JSON.stringify(ids));
+                                    if (window.localStorage.getItem('id')) {
+                                        $scope.userId = window.localStorage.getItem('id');
+                                    } else {
+                                        $scope.userId = '';
+                                    }
+
+                                    $http({
+                                        method: 'GET',
+                                        url: domain + 'notification/insertPlayerId',
+                                        params: {userId: $scope.userId, playerId: ids.userId, pushToken: ids.pushToken}
+                                    }).then(function successCallback(response) {
+                                        if (response.data == 1) {
+                                          //  alert('Notification setting updated');
+                                        }
+                                    }, function errorCallback(e) {
+                                        console.log(e);
+                                    });
+                                });
+
                                 alert('Your sucessfully registered');
                                 $state.go('app.category-list', {}, {reload: true});
                             } else {
@@ -406,8 +450,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
 //bring specific category providers
-        .controller('CategoryListCtrl', function ($scope,$scopeProvider,$state, $http, $stateParams, $rootScope) {
+        .controller('CategoryListCtrl', function ($scope, $state, $http, $stateParams, $rootScope) {
             if (get('id') != null) {
+
+
                 $rootScope.userLogged = 1;
                 $scope.interface = window.localStorage.getItem('interface_id');
                 $scope.userId = window.localStorage.getItem('id');
@@ -492,13 +538,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         window.plugins.OneSignal.getIds(function (ids) {
 
                             console.log('getIds: ' + JSON.stringify(ids));
-                          //  alert('UserID: ' + JSON.stringify(ids.userId));
+                            //  alert('UserID: ' + JSON.stringify(ids.userId));
                             $http({
                                 method: 'GET',
                                 url: domain + 'notification/insertPlayerId',
                                 params: {userId: window.localStorage.getItem('id'), playerId: ids.userId}
                             }).then(function successCallback(response) {
-                                if(response.data == 1){
+                                if (response.data == 1) {
                                     alert('Notification setting updated');
                                 }
                             }, function errorCallback(e) {
@@ -511,14 +557,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicPlatform.on("deviceready", function () {
                         window.plugins.OneSignal.enableInAppAlertNotification(true);
                         $http({
-                                method: 'GET',
-                                url: domain + 'notification/changeStatus',
-                                params: {userId: window.localStorage.getItem('id')}
-                            }).then(function successCallback(response) {
-                                   alert('Notification setting updated');
-                            }, function errorCallback(e) {
-                                console.log(e);
-                            });
+                            method: 'GET',
+                            url: domain + 'notification/changeStatus',
+                            params: {userId: window.localStorage.getItem('id')}
+                        }).then(function successCallback(response) {
+                            alert('Notification setting updated');
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
                     });
                 }
             }
@@ -3030,7 +3076,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                 $http({
                                     method: 'GET',
                                     url: domain + 'notification/push-notification',
-                                    params: {id: $scope.appId, userId: $scope.userId,pushEvent:$scope.pushEvent}
+                                    params: {id: $scope.appId, userId: $scope.userId, pushEvent: $scope.pushEvent}
                                 }).then(function successCallback(response) {
 
                                 }, function errorCallback(e) {
@@ -3145,22 +3191,21 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
 
             };
-			
-			
-			/* rightsidetab */
-			$scope.intext='more';
-			 $scope.infomore = function (r) {
+
+
+            /* rightsidetab */
+            $scope.intext = 'more';
+            $scope.infomore = function (r) {
                 jQuery('#' + r).toggleClass('active');
-				if(jQuery('#' + r).hasClass('active')){
-					$scope.intext='less'
-				}
-				else{
-					$scope.intext='more';
-				}
+                if (jQuery('#' + r).hasClass('active')) {
+                    $scope.intext = 'less'
+                } else {
+                    $scope.intext = 'more';
+                }
 
             }
 
-			sidetab('#cstab1');
+            sidetab('#cstab1');
             sidetab('#cstab2');
 
             $scope.pulltab = function (d) {
@@ -3176,11 +3221,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
             }
 
-			/* end of rightsidetab */
+            /* end of rightsidetab */
 
-			
-			
-			
+
+
+
         })
 
         .controller('ChatListCtrl', function ($scope, $filter, $http, $stateParams, $rootScope, $ionicLoading) {
@@ -3364,10 +3409,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.sessionId = response.data.chatSession;
                 console.log(response.data.chatMsgs);
                 $scope.apiKey = apiKey;
-               // var session = OT.initSession($scope.apiKey, $scope.sessionId);
-               // $scope.session = session;
-               // var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
-               // console.log("error source 1" + chatWidget);
+                // var session = OT.initSession($scope.apiKey, $scope.sessionId);
+                // $scope.session = session;
+                // var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
+                // console.log("error source 1" + chatWidget);
 
             }, function errorCallback(e) {
                 console.log(e);
