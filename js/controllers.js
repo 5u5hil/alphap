@@ -2539,7 +2539,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $http({
                     method: 'GET',
                     url: domain + 'buy/book-appointment',
-                    params: {prodId: $scope.prodid, userId: $scope.userId, supId: $scope.supid, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
+                    params: {prodId: $scope.prodid,interface: $scope.interface, userId: $scope.userId, supId: $scope.supid, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
                 }).then(function successCallback(response) {
                     $ionicLoading.hide();
                     $ionicHistory.nextViewOptions({
@@ -4171,6 +4171,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.schdate = [];
             $scope.nextdate = [];
             $scope.appId = window.localStorage.getItem('appId');
+            $scope.interface = window.localStorage.getItem('interface_id');
             $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
@@ -4297,7 +4298,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $http({
                         method: 'GET',
                         url: domain + 'appointment/schedule-new-app',
-                        params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, startSlot: $scope.bookingStart, endSlot: $scope.bookingEnd}
+                        params: {interface: $scope.interface, appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, startSlot: $scope.bookingStart, endSlot: $scope.bookingEnd}
                     }).then(function successCallback(response) {
                         console.log(response);
                         $ionicLoading.hide();
