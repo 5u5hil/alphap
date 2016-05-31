@@ -1,18 +1,18 @@
 <ion-view class="add-category-view">
     <ion-nav-title>
-    
-          <span  ng-if="apkLanguage == 'english'">Add Record</span>
+
+        <span  ng-if="apkLanguage == 'english'">Add Record</span>
         <span  ng-if="apkLanguage != 'english'">{{langtext.new[language]}} {{langtext.records[language]}}</span>
     </ion-nav-title>
     <ion-nav-buttons side="right"  >
         <button type="submit" ng-if="apkLanguage == 'english'" ng-click="submit()" class="button button-positive w100p brdradious0" ng-disabled="addRecordForm.$invalid"> 
             <strong>Submit</strong> </button>
-        
-         <button type="submit" ng-if="apkLanguage != 'english'" ng-click="submit()" class="button button-positive w100p brdradious0" ng-disabled="addRecordForm.$invalid"> 
+
+        <button type="submit" ng-if="apkLanguage != 'english'" ng-click="submit()" class="button button-positive w100p brdradious0" ng-disabled="addRecordForm.$invalid"> 
             <strong>{{langtext.submit[language]}} </strong> </button>
     </ion-nav-buttons> 
-    
-   
+
+
     <form name="addRecordForm" id="addRecordForm" enctype="multipart/form-data" novalidate >
         <ion-content>
             <ul class="list addform">
@@ -238,15 +238,15 @@
                                                 <div ng-repeat="dm in dayMeal track by $index" class="inbtn">
                                                     <input type="hidden" id="day{{$index}}" name="day-{{$index + 1}}" value="{{dm}}"/>
                                                     <button class="button filled-data button-small" id="fill{{$index}}" ng-click="daymodal({{dm}})" >
-<!--                                                        <span class="icon ion-plus-circled"></span> -->Day {{$index + 1}}
+                                                        <!--                                                        <span class="icon ion-plus-circled"></span> -->Day {{$index + 1}}
                                                     </button>
-                                                   
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-								
+
                                 <div ng-if="field.field != 'Frequency' && field.name != 'no-of-days'">
                                     <div ng-if="field.multi_value == 0">
                                         <div class="listreq" ng-if="field.is_mandatory == 1" >
@@ -347,27 +347,48 @@
                                 </div>
                                 <div ng-if="category != 2 && category != 4 && category != 5 && category != 8">
                                     <div ng-if="field.field == 'Start Date'">
-                                        <div class="listreq" ng-if="field.is_mandatory == 1">
-                                            <div class="item item-divider mt15">{{field.field}} *</div>
-                                            <label class="item item-input">
-                                                <input type="date" ng-model="curTime" placeholder="{{field.field}} *" required value="{{curTime|dateFormat1}}" name="{{field.name}}"  />  
-                                            </label>											
+                                        <div ng-if="category == 21">
+                                            <div class="listreq" ng-if="field.is_mandatory == 1">
+                                                <div class="item item-divider mt15">{{field.field}} *</div>
+                                                <label class="item item-input">
+                                                    <input type="date" id="diet-start" ng-model="curTime" placeholder="{{field.field}} *" required value="{{curTime|dateFormat1}}" name="{{field.name}}"  />  
+                                                </label>											
+                                            </div>
+                                            <div class="" ng-if="field.is_mandatory != 1">
+                                                <div class="item item-divider mt15">{{field.field}}</div>
+                                                <label class="item item-input">
+                                                    <input type="date" id="diet-start" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" />
+                                                </label>                            
+                                            </div>
                                         </div>
-                                        <div class="" ng-if="field.is_mandatory != 1">
-                                            <div class="item item-divider mt15">{{field.field}}</div>
-                                            <label class="item item-input">
-                                                <input type="date" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" />
-                                            </label>                            
+                                        <div ng-if="category != 21">
+                                            <div class="listreq" ng-if="field.is_mandatory == 1">
+                                                <div class="item item-divider mt15">{{field.field}} *</div>
+                                                <label class="item item-input">
+                                                    <input type="date" ng-model="curTime" placeholder="{{field.field}} *" required value="{{curTime|dateFormat1}}" name="{{field.name}}"  />  
+                                                </label>											
+                                            </div>
+                                            <div class="" ng-if="field.is_mandatory != 1">
+                                                <div class="item item-divider mt15">{{field.field}}</div>
+                                                <label class="item item-input">
+                                                    <input type="date" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" />
+                                                </label>                            
+                                            </div>
                                         </div>
                                     </div>
                                     <div ng-if="field.field == 'End Date'">
-                                        <div class="listreq" ng-if="field.is_mandatory == 1">
-                                            <div class="item item-divider mt15">{{field.field}} *</div>
-                                            <label class="item item-input"> <input type="date" placeholder="{{field.field}}" name="{{field.name}}" ng-model="endDate" ng-blur="chkDt(endDate)" id="enddt"/></label>                        
+                                        <div ng-if="category == 21">
+                                            <input type="hidden" id="diet-end" class="form-control" placeholder="{{field.field}}" name="{{field.name}}" />
                                         </div>
-                                        <div class="" ng-if="field.is_mandatory != 1">
-                                            <div class="item item-divider mt15">{{field.field}}</div>
-                                            <label class="item item-input">  <input type="date" placeholder="{{field.field}}" name="{{field.name}}" ng-model="endDate" ng-blur="chkDt(endDate)" id="enddt" /></label>                            
+                                        <div ng-if="category != 21">
+                                            <div class="listreq" ng-if="field.is_mandatory == 1">
+                                                <div class="item item-divider mt15">{{field.field}} *</div>
+                                                <label class="item item-input"> <input type="date" placeholder="{{field.field}}" name="{{field.name}}" ng-model="endDate" ng-blur="chkDt(endDate)" id="enddt"/></label>                        
+                                            </div>
+                                            <div class="" ng-if="field.is_mandatory != 1">
+                                                <div class="item item-divider mt15">{{field.field}}</div>
+                                                <label class="item item-input">  <input type="date" placeholder="{{field.field}}" name="{{field.name}}" ng-model="endDate" ng-blur="chkDt(endDate)" id="enddt" /></label>                            
+                                            </div>
                                         </div>
                                     </div>
                                     <div ng-if="field.field != 'Start Date' && field.field != 'End Date'">

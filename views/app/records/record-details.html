@@ -3,7 +3,7 @@
         <span>{{category.created_at| datetime3}}</span> <!---Specific Record ({{category[0].categories.category}}) --->
     </ion-nav-title>
     <ion-content class="pb50">
-        <div >
+        <div>
 
             <div ng-repeat="rec in recordDetails track by $index" class="mt15">
                 <div ng-if="category.category == 3">
@@ -23,7 +23,7 @@
                     <!--                        <div ng-if="rec.fields.field == 'Frequency'" ng-init="fdata = (rec.value).split('-')">
                                                 {{fdata[0]}} times in {{fdata[1]}}
                                             </div>-->
-                    <div ng-if="rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Conducted By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem' && rec.fields.field != 'Frequency'" class="fieldvalue">
+                    <div ng-if="rec.fields.field != 'Attachments' rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Conducted By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem' && rec.fields.field != 'Frequency'" >
                         <div ng-if="rec.fields.field_type == 8">
                             <div ng-if="rec.fields.field == 'End Date'">
                                 <div ng-if="rec.value == ''">NA</div>
@@ -117,7 +117,6 @@
                                 <div ng-if="rec.value != ''">{{rec.value}}</div>
                             </div>
                         </div>
-
                     </div>
                     <div class="clist-data-icon fieldvalue" ng-If="rec.fields.field == 'Attachments'" >
                         <h5 class="mt0">Attached Files ({{rec.attachments.length}})</h5>
@@ -673,7 +672,7 @@
     </ion-header-bar>
     <ion-content>
     <div ng-if="dietPlanDetails.length==0"><p class="text-center">No data added</p></div>
-    <div ng-repeat="diet in dietPlanDetails">
+    <div ng-repeat="diet in dietPlanDetails" ng-if="diet[1].value!=''">
     <div class="item item-divider mt15">Meal {{$index+1}}</div>
     <div ng-repeat="meal in diet">   
     <label class="item item-input" ng-if="meal.fields.name=='meal-1' || meal.fields.name=='value'">

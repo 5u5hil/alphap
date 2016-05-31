@@ -1301,6 +1301,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     //jQuery('#day' + (i - 1)).val(JSON.stringify($scope.mealDetails['day' + (i - 1)]));
                 }
                 console.log($scope.mealDetails);
+                var stdt = $('#diet-start').val();
+                var endDate = getDayAfter(stdt, days);
+                console.log(endDate);
+                $('#diet-end').val($filter('date')(endDate, 'yyyy-MM-dd'));
             };
             $scope.saveMeal = function (day) {
                 console.log(day);
