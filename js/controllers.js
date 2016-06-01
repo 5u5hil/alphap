@@ -900,6 +900,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.prescription = 'Yes';
             $scope.coverage = 'Family Floater';
             $scope.probstatus = 'Current';
+            $scope.taskstatus = 'Onetime';
             $scope.conId = [];
             $scope.conIds = [];
             $scope.selConditions = [];
@@ -1243,6 +1244,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         jQuery('#probend').addClass('hide');
                     } else {
                         jQuery('#probend').removeClass('hide');
+                    }
+                }
+                 if ($scope.categoryId == 30) {
+                    if (prob != 'Onetime') {
+                        jQuery('.taskn').removeClass('hide');
+                    } else {
+                        jQuery('.taskn').addClass('hide');
                     }
                 }
             };
