@@ -232,7 +232,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('LogoutCtrl', function ($scope, $state, $http, $ionicLoading, $ionicHistory, $timeout, $q, $rootScope) {
             $ionicLoading.show({template: 'Logging out....'});
-            
+
             window.localStorage.clear();
             $rootScope.userLogged = 0;
             $rootScope.$digest;
@@ -1246,7 +1246,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         jQuery('#probend').removeClass('hide');
                     }
                 }
-                 if ($scope.categoryId == 30) {
+                if ($scope.categoryId == 30) {
                     if (prob != 'Onetime') {
                         jQuery('.taskn').removeClass('hide');
                     } else {
@@ -2547,7 +2547,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $http({
                     method: 'GET',
                     url: domain + 'buy/book-appointment',
-                    params: {prodId: $scope.prodid,interface: $scope.interface, userId: $scope.userId, supId: $scope.supid, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
+                    params: {prodId: $scope.prodid, interface: $scope.interface, userId: $scope.userId, supId: $scope.supid, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
                 }).then(function successCallback(response) {
                     $ionicLoading.hide();
                     $ionicHistory.nextViewOptions({
@@ -3793,11 +3793,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = get('id');
             $scope.packageId = $stateParams.id;
+            $scope.ordId = '';
             $ionicLoading.show({'template': 'Loading..'});
             $http({
                 method: 'GET',
                 url: domain + 'patient/get-package-details',
-                params: {interface: $scope.interface, userId: $scope.userId, packageId: $scope.packageId}
+                params: {interface: $scope.interface, userId: $scope.userId, packageId: $scope.packageId, ordId: $scope.ordId}
             }).then(function successCallback(response) {
                 console.log(response.data.packages);
                 $scope.pack = response.data.packages;
@@ -3837,6 +3838,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.terms = $scope.packages[ind].packages.terms_and_conditions;
                 $scope.modal.show();
             };
+            $scope.showDr = function () {
+                console.log();
+                $scope.doctrs = $scope.pack.specialist;
+                $scope.terms = $scope.pack.package.terms_and_conditions;
+                $scope.modal.show();
+            };
         })
 
         .controller('anydoctrsCtrl', function ($scope, $ionicModal, $http, $ionicLoading) {
@@ -3850,6 +3857,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(ind);
                 //$scope.doctrs = $scope.packages[ind].specialist;
                 $scope.terms = $scope.packages[ind].packages.terms_and_conditions;
+                $scope.modal.show();
+            };
+            $scope.showDr = function () {
+                console.log();
+                //$scope.doctrs = $scope.packages[ind].specialist;
+                $scope.terms = $scope.pack.package.terms_and_conditions;
                 $scope.modal.show();
             };
         })
@@ -4002,6 +4015,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         window.localStorage.setItem('coupondiscount', response.data);
                     }
                     $ionicLoading.hide();
+                    console.log($scope.discount + '--' + $scope.discountApplied + '++++ ' + $scope.userId);
                 });
             };
             $scope.payNow = function (finalamount) {
@@ -4091,11 +4105,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = get('id');
             $scope.packageId = $stateParams.id;
+            $scope.ordId = $stateParams.ord;
             $ionicLoading.show({'template': 'Loading..'});
             $http({
                 method: 'GET',
                 url: domain + 'patient/get-package-details',
-                params: {interface: $scope.interface, userId: $scope.userId, packageId: $scope.packageId}
+                params: {interface: $scope.interface, userId: $scope.userId, packageId: $scope.packageId, ordId: $scope.ordId}
             }).then(function successCallback(response) {
                 console.log(response.data.packages);
                 $scope.pack = response.data.packages;
@@ -4103,9 +4118,25 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, function errorCallback(e) {
                 console.log(e);
             });
-            
+
         })
-        .controller('PastPackagesCtrl', function ($scope) {})
+        .controller('PastPackagesCtrl', function ($scope, $http, $ionicLoading, $state, $stateParams) {
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userId = get('id');
+            $ionicLoading.show({'template': 'Loading..'});
+            $http({
+                method: 'GET',
+                url: domain + 'patient/get-past-packages',
+                params: {interface: $scope.interface, userId: $scope.userId}
+            }).then(function successCallback(response) {
+                console.log(response.data.packages);
+                $scope.packages = response.data.packages;
+                $ionicLoading.hide();
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+        })
         /* packages */
 
         /* Pathology */

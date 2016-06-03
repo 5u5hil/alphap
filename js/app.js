@@ -27,7 +27,7 @@ angular.module('your_app_name', [
     'jett.ionic.filter.bar',
     'youtube-embed'
 ])
-        .run(function ($ionicPlatform,$http,  $state, $rootScope, $ionicConfig, $timeout, $ionicLoading, $ionicHistory) {
+        .run(function ($ionicPlatform, $http, $state, $rootScope, $ionicConfig, $timeout, $ionicLoading, $ionicHistory) {
             $ionicPlatform.onHardwareBackButton(function (event) {
                 event.preventDefault();
             });
@@ -67,32 +67,30 @@ angular.module('your_app_name', [
                         {googleProjectNumber: "769295732267"}, // jainam account GCM id
                         notificationOpenedCallback);
 
-            try{
-                window.plugins.OneSignal.getIds(function (ids) {
-                    console.log('getIds: ' + JSON.stringify(ids));
-                    if (window.localStorage.getItem('id')) {
-                       var userId = window.localStorage.getItem('id');
-                    } else {
-                        var userId = '';
-                    }
-
-                    $http({
-                        method: 'GET',
-                        url: domain + 'notification/insertPlayerId',
-                        params: {userId: userId, playerId: ids.userId, pushToken: ids.pushToken}
-                    }).then(function successCallback(response) {
-                        if (response.data == 1) {
-                           // alert('Notification setting updated');
+                try {
+                    window.plugins.OneSignal.getIds(function (ids) {
+                        console.log('getIds: ' + JSON.stringify(ids));
+                        if (window.localStorage.getItem('id')) {
+                            var userId = window.localStorage.getItem('id');
+                        } else {
+                            var userId = '';
                         }
-                    }, function errorCallback(e) {
-                        console.log(e);
+
+                        $http({
+                            method: 'GET',
+                            url: domain + 'notification/insertPlayerId',
+                            params: {userId: userId, playerId: ids.userId, pushToken: ids.pushToken}
+                        }).then(function successCallback(response) {
+                            if (response.data == 1) {
+                                // alert('Notification setting updated');
+                            }
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
                     });
-                });
-            }catch(err){
-                console.log(err);
-            }
-                 
-                
+                } catch (err) {
+                    console.log(err);
+                }
 
                 window.plugins.OneSignal.enableInAppAlertNotification(true);
 
@@ -628,7 +626,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.packages-view', {
-                        url: "/packages-view/{id:string}",
+                        url: "/packages-view/{id:string}/{ord:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/packaging/packages-view.html",
