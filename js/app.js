@@ -628,7 +628,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.packages-view', {
-                        url: "/packages-view",
+                        url: "/packages-view/{id:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/packaging/packages-view.html",

@@ -4086,7 +4086,25 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e);
             });
         })
-        .controller('PackagesViewCtrl', function ($scope) {})
+        .controller('PackagesViewCtrl', function ($scope, $http, $rootScope, $ionicLoading, $state, $stateParams) {
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userId = get('id');
+            $scope.packageId = $stateParams.id;
+            $ionicLoading.show({'template': 'Loading..'});
+            $http({
+                method: 'GET',
+                url: domain + 'patient/get-package-details',
+                params: {interface: $scope.interface, userId: $scope.userId, packageId: $scope.packageId}
+            }).then(function successCallback(response) {
+                console.log(response.data.packages);
+                $scope.pack = response.data.packages;
+                $ionicLoading.hide();
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            
+        })
         .controller('PastPackagesCtrl', function ($scope) {})
         /* packages */
 
