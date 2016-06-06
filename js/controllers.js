@@ -3820,11 +3820,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = get('id');
             $scope.packageId = $stateParams.id;
+            $scope.ordId = '';
             $ionicLoading.show({'template': 'Loading..'});
             $http({
                 method: 'GET',
                 url: domain + 'patient/get-package-details',
-                params: {interface: $scope.interface, userId: $scope.userId, packageId: $scope.packageId}
+                params: {interface: $scope.interface, userId: $scope.userId, packageId: $scope.packageId, ordId: $scope.ordId}
             }).then(function successCallback(response) {
                 console.log(response.data.packages);
                 $scope.pack = response.data.packages;
@@ -3864,6 +3865,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.terms = $scope.packages[ind].packages.terms_and_conditions;
                 $scope.modal.show();
             };
+            $scope.showDr = function () {
+                console.log();
+                $scope.doctrs = $scope.pack.specialist;
+                $scope.terms = $scope.pack.package.terms_and_conditions;
+                $scope.modal.show();
+            };
         })
 
         .controller('anydoctrsCtrl', function ($scope, $ionicModal, $http, $ionicLoading) {
@@ -3877,6 +3884,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(ind);
                 //$scope.doctrs = $scope.packages[ind].specialist;
                 $scope.terms = $scope.packages[ind].packages.terms_and_conditions;
+                $scope.modal.show();
+            };
+            $scope.showDr = function () {
+                console.log();
+                //$scope.doctrs = $scope.packages[ind].specialist;
+                $scope.terms = $scope.pack.package.terms_and_conditions;
                 $scope.modal.show();
             };
         })
@@ -4029,6 +4042,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         window.localStorage.setItem('coupondiscount', response.data);
                     }
                     $ionicLoading.hide();
+                    console.log($scope.discount + '--' + $scope.discountApplied + '++++ ' + $scope.userId);
                 });
             };
             $scope.payNow = function (finalamount) {
@@ -4113,8 +4127,43 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e);
             });
         })
-        .controller('PackagesViewCtrl', function ($scope) {})
-        .controller('PastPackagesCtrl', function ($scope) {})
+        .controller('PackagesViewCtrl', function ($scope, $http, $rootScope, $ionicLoading, $state, $stateParams) {
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userId = get('id');
+            $scope.packageId = $stateParams.id;
+            $scope.ordId = $stateParams.ord;
+            $ionicLoading.show({'template': 'Loading..'});
+            $http({
+                method: 'GET',
+                url: domain + 'patient/get-package-details',
+                params: {interface: $scope.interface, userId: $scope.userId, packageId: $scope.packageId, ordId: $scope.ordId}
+            }).then(function successCallback(response) {
+                console.log(response.data.packages);
+                $scope.pack = response.data.packages;
+                $ionicLoading.hide();
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
+        })
+        .controller('PastPackagesCtrl', function ($scope, $http, $ionicLoading, $state, $stateParams) {
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userId = get('id');
+            $ionicLoading.show({'template': 'Loading..'});
+            $http({
+                method: 'GET',
+                url: domain + 'patient/get-past-packages',
+                params: {interface: $scope.interface, userId: $scope.userId}
+            }).then(function successCallback(response) {
+                console.log(response.data.packages);
+                $scope.packages = response.data.packages;
+                $ionicLoading.hide();
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+        })
         /* packages */
 
         /* Pathology */
