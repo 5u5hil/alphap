@@ -52,7 +52,51 @@ angular.module('your_app_name', [
                                 location.href = jsonData.additionalData.yourUrlKey;
                             }
                             if (jsonData.additionalData.actionSelected && jsonData.additionalData.actionSelected.id == "id1")
+                            {
                                 alert("Button id1 pressed!");
+                               
+                                $http({
+                                    method: 'GET',
+                                    url: domain + 'tracker/captured',
+                                    params: {actionid: jsonData.additionalData.actionSelected.icon,status:1}
+                                }).then(function successCallback(response) {
+                                   // if (response.data == 1) {
+                                        // alert('Notification setting updated');
+                                   // }
+                                }, function errorCallback(e) {
+                                    console.log(e);
+                                });
+                            }
+                            if (jsonData.additionalData.actionSelected && jsonData.additionalData.actionSelected.id == "id2")
+                            {
+                                alert("Button id2 pressed!");
+                                $http({
+                                    method: 'GET',
+                                    url: domain + 'tracker/captured',
+                                    params: {actionid: jsonData.additionalData.actionSelected.icon,status:2}
+                                }).then(function successCallback(response) {
+                                   // if (response.data == 1) {
+                                        // alert('Notification setting updated');
+                                   // }
+                                }, function errorCallback(e) {
+                                    console.log(e);
+                                });
+                            }
+                            if (jsonData.additionalData.actionSelected && jsonData.additionalData.actionSelected.id == "id3")
+                            {
+                                alert("Button id3 pressed!");
+                                $http({
+                                    method: 'GET',
+                                    url: domain + 'tracker/captured',
+                                    params: {actionid: jsonData.additionalData.actionSelected.icon,status:3}
+                                }).then(function successCallback(response) {
+                                   // if (response.data == 1) {
+                                        // alert('Notification setting updated');
+                                   // }
+                                }, function errorCallback(e) {
+                                    console.log(e);
+                                });
+                            }
                         }
 
                     } catch (err)
