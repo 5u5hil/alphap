@@ -232,7 +232,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('LogoutCtrl', function ($scope, $state, $http, $ionicLoading, $ionicHistory, $timeout, $q, $rootScope) {
             $ionicLoading.show({template: 'Logging out....'});
-            
+
             window.localStorage.clear();
             $rootScope.userLogged = 0;
             $rootScope.$digest;
@@ -1246,7 +1246,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         jQuery('#probend').removeClass('hide');
                     }
                 }
-                 if ($scope.categoryId == 30) {
+                if ($scope.categoryId == 30) {
                     if (prob != 'Onetime') {
                         jQuery('.taskn').removeClass('hide');
                     } else {
@@ -1381,6 +1381,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.recIds = [];
             $scope.userId = get('id');
             $scope.patientId = get('id');
+            $scope.repeatFreq = [];
+            $scope.repeatNo = [];
             $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
@@ -1393,6 +1395,20 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     if ($scope.records[0].record_metadata.length == 6) {
                         $scope.limit = 3; //$scope.records[0].record_metadata.length;
                     }
+                    angular.forEach($scope.records, function (value, key) {
+                        console.log(key);
+                        angular.forEach(value.record_metadata, function (val, k) {
+                            console.log();
+                            if ($scope.catId == 30) {
+                                if (val.field_id == 'no-of-frequency') {
+                                    $scope.repeatFreq[key] = val.value;
+                                }
+                                if (val.field_id == 'no-of-times') {
+                                    $scope.repeatNo[key] = val.value;
+                                }
+                            }
+                        });
+                    });
                 }
                 $scope.createdby = response.data.createdby;
                 $scope.category = response.data.category;
@@ -1400,9 +1416,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.patient = response.data.patient;
                 $scope.problems = response.data.problems;
                 $scope.doctrs = response.data.shareDoctrs;
-
                 $scope.langtext = response.data.langtext;
                 $scope.language = response.data.lang.language;
+                console.log($scope.repeatNo);
+                console.log($scope.repeatFreq);
                 $ionicLoading.hide();
             }, function errorCallback(response) {
                 console.log(response);
@@ -1561,6 +1578,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.InvStatus = '';
             $scope.probstatus = '';
             $scope.prescstatus = '';
+            $scope.repeatFreq = '';
+            $scope.repeatNo = '';
             $scope.selConditions = [];
             $scope.diet = [];
             $scope.dietPlanDetails = [];
@@ -1599,6 +1618,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         console.log(val.fields.field);
                         if (val.fields.field == 'Status') {
                             $scope.Bstatus = val.value;
+                        }
+                    }
+                    if ($scope.category.categories.id == 30) {
+                        if (val.field_id == 'no-of-frequency') {
+                            $scope.repeatFreq = val.value;
+                        }
+                        if (val.field_id == 'no-of-times') {
+                            $scope.repeatNo = val.value;
                         }
                     }
                     if ($scope.category.categories.id == '19') {
@@ -2547,7 +2574,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $http({
                     method: 'GET',
                     url: domain + 'buy/book-appointment',
-                    params: {prodId: $scope.prodid,interface: $scope.interface, userId: $scope.userId, supId: $scope.supid, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
+                    params: {prodId: $scope.prodid, interface: $scope.interface, userId: $scope.userId, supId: $scope.supid, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
                 }).then(function successCallback(response) {
                     $ionicLoading.hide();
                     $ionicHistory.nextViewOptions({
