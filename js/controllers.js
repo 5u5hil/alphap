@@ -125,8 +125,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userType = 'patient';
             $scope.action = 'login';
-            $scope.val = {"message":"zxczc","additionalData":{"actionButtons":[{"id":"id1","text":"ignore","icon":"1"}],"actionSelected":"id1","title":"czxczxc"},"isActive":false};
-            console.log($scope.val.additionalData.actionButtons[0].id);
+           // $scope.val = {"message":"zxczc","additionalData":{"actionButtons":[{"id":"id1","text":"ignore","icon":"1"}],"actionSelected":"id1","title":"czxczxc"},"isActive":false};
+           // console.log($scope.val.additionalData.actionButtons[0].id);
             $http({
                 method: 'GET',
                 url: domain + 'get-login',
