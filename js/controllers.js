@@ -398,7 +398,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
             $scope.updatePassword = function (passcode, password, cpassword) {
                 var email = window.localStorage.getItem('email');
-                $scope.interface = window.localStorage.getItem('id');
+                $scope.interface = window.localStorage.getItem('interface_id');
                 $.ajax({
                     type: 'GET',
                     url: domain + "update-password",
