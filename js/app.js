@@ -47,15 +47,17 @@ angular.module('your_app_name', [
                     {
                         if (jsonData.additionalData) {
                             alert("Inside additionalData");
-                            alert("id "+jsonData.additionalData.actionSelected.id);
+                            alert("id " + jsonData.additionalData.actionSelected);
 
-                            if (jsonData.additionalData.actionSelected && jsonData.additionalData.actionSelected.id == "id1")
+                            if (jsonData.additionalData.actionSelected == "id1")
                             {
+                                alert("id " + jsonData.additionalData.actionButtons.id);
+                                alert('icon' + jsonData.additionalData.actionButtons.icon);
                                 alert("Button id1 pressed!");
                                 $http({
                                     method: 'GET',
                                     url: domain + 'tracker/captured',
-                                    params: {actionid: jsonData.additionalData.actionSelected.icon, status: 1}
+                                    params: {actionid: jsonData.additionalData.actionButtons.icon, status: 1}
                                 }).then(function successCallback(response) {
 
                                     if (jsonData.additionalData.yourUrlKey) {
@@ -66,13 +68,15 @@ angular.module('your_app_name', [
                                     console.log(e);
                                 });
                             }
-                            if (jsonData.additionalData.actionSelected && jsonData.additionalData.actionSelected.id == "id2")
+                            if (jsonData.additionalData.actionSelected == "id2")
                             {
                                 alert("Button id2 pressed!");
+                                alert("id " + jsonData.additionalData.actionButtons.id);
+                                alert('icon' + jsonData.additionalData.actionButtons.icon);
                                 $http({
                                     method: 'GET',
                                     url: domain + 'tracker/captured',
-                                    params: {actionid: jsonData.additionalData.actionSelected.icon, status: 2}
+                                    params: {actionid: jsonData.additionalData.actionButtons.icon, status: 2}
                                 }).then(function successCallback(response) {
 
                                     if (jsonData.additionalData.yourUrlKey) {
@@ -82,13 +86,15 @@ angular.module('your_app_name', [
                                     console.log(e);
                                 });
                             }
-                            if (jsonData.additionalData.actionSelected && jsonData.additionalData.actionSelected.id == "id3")
+                            if (jsonData.additionalData.actionSelected == "id3")
                             {
                                 alert("Button id3 pressed!");
+                                alert("id " + jsonData.additionalData.actionButtons.id);
+                                alert('icon' + jsonData.additionalData.actionButtons.icon);
                                 $http({
                                     method: 'GET',
                                     url: domain + 'tracker/captured',
-                                    params: {actionid: jsonData.additionalData.actionSelected.icon, status: 3}
+                                    params: {actionid: jsonData.additionalData.actionButtons.icon, status: 3}
                                 }).then(function successCallback(response) {
                                     if (jsonData.additionalData.yourUrlKey) {
                                         location.href = jsonData.additionalData.yourUrlKey;
