@@ -4469,6 +4469,53 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }
         })
 
+        .controller('reminderCtrl',function($scope,$http){
+            $scope.cards = [];
+
+
+    $scope.addCard = function(img, name) {
+        var newCard = {image: img, name: name};
+        newCard.id = Math.random();
+        $scope.cards.unshift(angular.extend({}, newCard));
+    };
+
+    $scope.addCards = function(count) {
+        $http.get('http://api.randomuser.me/?results=' + count).then(function(value) {
+            angular.forEach(value.data.results, function (v) {
+                $scope.addCard(v.user.picture.large, v.user.name.first + " " + v.user.name.last);
+            });
+        });
+    };
+
+    $scope.addFirstCards = function() {
+        $scope.addCard("https://dl.dropboxusercontent.com/u/30675090/envato/tinder-cards/left.png","Nope");
+        $scope.addCard("https://dl.dropboxusercontent.com/u/30675090/envato/tinder-cards/right.png", "Yes");
+    };
+
+    $scope.addFirstCards();
+    $scope.addCards(5);
+
+    $scope.cardDestroyed = function(index) {
+        $scope.cards.splice(index, 1);
+        $scope.addCards(1);
+    };
+
+    $scope.transitionOut = function(card) {
+        console.log('card transition out');
+    };
+
+    $scope.transitionRight = function(card) {
+        console.log('card removed to the right');
+        console.log(card);
+    };
+
+    $scope.transitionLeft = function(card) {
+        console.log('card removed to the left');
+        console.log(card);
+    };
+        })
+
+
         .controller('ViewContentCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $sce) {
             $scope.contentId = $stateParams.id;
             $http({

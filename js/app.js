@@ -321,6 +321,33 @@ angular.module('your_app_name', [
                         }
                     })
 
+
+                    .state('app.reminder', {
+                        cache: false,
+                        url: "/reminder",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/reminder.html",
+                                controller: 'reminderCtrl'
+                            }
+                        }
+                    })
+
+
+                    .state('app.reminder-recent', {
+                        cache: false,
+                        url: "/reminder-recent",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/reminder-recent.html",
+                                //controller: 'reminderRecentCtrl'
+                                controller: 'reminderCtrl'
+                            }
+                        }
+                    })
+
+
+
                     .state('app.edit-record', {
                         url: "/edit-record/{id:int}/{cat:int}",
                         views: {

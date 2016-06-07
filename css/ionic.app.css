@@ -9356,7 +9356,33 @@ transform: translate3d(600px, 0px, 0px);
 
 /* end of rightside tab */
 
-		
+		/* custom tinder cards */
+.tinder-cards-view td-card{position: inherit; 
+    margin: 50px 20px;
+    width: auto;
+     border-radius: 0px; 
+}
+.psrelative{position: relative; z-index: 999;}
+.tinder-cards-view td-cards{}
+.tinder-cards-view td-card .title{padding: 0; font-size: 15px;
+    border-top: 1px #eee solid;
+
+}
+.cardtitle{    background: #eee;
+    margin-top: 0;
+    padding: 10px;
+    margin-bottom: 0;
+    font-size: 16px;}
+    .citem{ padding: 10px 20px;  }
+    .tdincard{padding: 20px 10px;     height: 200px;}
+
+.fred,.fred i{color:#f00;}
+.fgreen,.fgreen i{color:green;}
+.mt40{margin-top: 40px;}
+
+/*end of custom tinder cards*/
+
+
   
 /* endcss */
 
