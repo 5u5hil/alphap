@@ -49,7 +49,7 @@ angular.module('your_app_name', [
                             alert("Inside additionalData");
                             if (jsonData.additionalData.yourUrlKey) {
                                 alert("Inside additionalData yourUrlKey");
-                                location.href = jsonData.additionalData.yourUrlKey;
+                               
                             }
                             if (jsonData.additionalData.actionSelected && jsonData.additionalData.actionSelected.id == "id1")
                             {
@@ -63,6 +63,7 @@ angular.module('your_app_name', [
                                    // if (response.data == 1) {
                                         // alert('Notification setting updated');
                                    // }
+                                    location.href = jsonData.additionalData.yourUrlKey;
                                 }, function errorCallback(e) {
                                     console.log(e);
                                 });
@@ -78,6 +79,7 @@ angular.module('your_app_name', [
                                    // if (response.data == 1) {
                                         // alert('Notification setting updated');
                                    // }
+                                    location.href = jsonData.additionalData.yourUrlKey;
                                 }, function errorCallback(e) {
                                     console.log(e);
                                 });
@@ -93,6 +95,7 @@ angular.module('your_app_name', [
                                    // if (response.data == 1) {
                                         // alert('Notification setting updated');
                                    // }
+                                    location.href = jsonData.additionalData.yourUrlKey;
                                 }, function errorCallback(e) {
                                     console.log(e);
                                 });
