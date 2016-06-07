@@ -4472,38 +4472,23 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
 
-        .controller('reminderCtrl',function($scope,$http){
-             $scope.doRefresh = function() {
-                $http.get('/new-items')
-                 .success(function(newItems) {
-                    
-                 })
-                 .finally(function() {
-                   // Stop the ion-refresher from spinning
-                   $scope.$broadcast('scroll.refreshComplete');
-                  
-                 });
-              };
+        .controller('reminderCtrl', function ($scope, $http) {
             $scope.cards = [];
-    
-                $http({
+
+            $scope.doRefresh = function () {
+                $scope.$broadcast('scroll.refreshComplete');
+            };
+            $http({
                 method: 'GET',
                 url: domain + 'tracker/get-reminder',
-                params: {patientId: window.localStorage.getItem('id')}
+                params: {userId: window.localStorage.getItem('id')}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
-                $scope.category = response.data.category;
-                $scope.cat = response.data.cat;
-                $scope.lang = response.data.lang;
-                $scope.languages = response.data.languages;
+                $scope.reminder = response.data.reminder;
 
             }, function errorCallback(e) {
                 console.log(e);
             });
-    
-            
-            
-
             $scope.addCard = function (img, name) {
                 var newCard = {image: img, name: name};
                 newCard.id = Math.random();
@@ -4524,25 +4509,134 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
 
             $scope.addFirstCards();
-            $scope.addCards(5);
+            // $scope.addCards(5);
 
             $scope.cardDestroyed = function (index) {
                 $scope.cards.splice(index, 1);
-                $scope.addCards(1);
+                //$scope.addCards(1);
             };
 
             $scope.transitionOut = function (card) {
                 console.log('card transition out');
+
+
             };
 
             $scope.transitionRight = function (card) {
+                $scope.card = card;
                 console.log('card removed to the right');
                 console.log(card);
+                $http({
+                    method: 'GET',
+                    url: domain + 'tracker/update-reminder',
+                    params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 3}
+                }).then(function sucessCallback(response) {
+                    
+                    
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
             };
 
             $scope.transitionLeft = function (card) {
+                $scope.card = card;
                 console.log('card removed to the left');
                 console.log(card);
+                $http({
+                    method: 'GET',
+                    url: domain + 'tracker/update-reminder',
+                    params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 2}
+                }).then(function sucessCallback(response) {
+                  
+
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            };
+        })
+        
+        
+        
+         .controller('reminderRecentCtrl', function ($scope, $http) {
+            $scope.cards = [];
+
+            $scope.doRefresh = function () {
+                $scope.$broadcast('scroll.refreshComplete');
+            };
+            $http({
+                method: 'GET',
+                url: domain + 'tracker/get-recent-reminder',
+                params: {userId: window.localStorage.getItem('id')}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.reminder = response.data.reminder;
+
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            $scope.addCard = function (img, name) {
+                var newCard = {image: img, name: name};
+                newCard.id = Math.random();
+                $scope.cards.unshift(angular.extend({}, newCard));
+            };
+
+            $scope.addCards = function (count) {
+                $http.get('http://api.randomuser.me/?results=' + count).then(function (value) {
+                    angular.forEach(value.data.results, function (v) {
+                        $scope.addCard(v.user.picture.large, v.user.name.first + " " + v.user.name.last);
+                    });
+                });
+            };
+
+            $scope.addFirstCards = function () {
+                $scope.addCard("https://dl.dropboxusercontent.com/u/30675090/envato/tinder-cards/left.png", "Nope");
+                $scope.addCard("https://dl.dropboxusercontent.com/u/30675090/envato/tinder-cards/right.png", "Yes");
+            };
+
+            $scope.addFirstCards();
+            // $scope.addCards(5);
+
+            $scope.cardDestroyed = function (index) {
+                $scope.cards.splice(index, 1);
+                //$scope.addCards(1);
+            };
+
+            $scope.transitionOut = function (card) {
+                console.log('card transition out');
+
+
+            };
+
+            $scope.transitionRight = function (card) {
+                $scope.card = card;
+                console.log('card removed to the right');
+                console.log(card);
+                $http({
+                    method: 'GET',
+                    url: domain + 'tracker/update-reminder',
+                    params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 3}
+                }).then(function sucessCallback(response) {
+                    
+                    
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            };
+
+            $scope.transitionLeft = function (card) {
+                $scope.card = card;
+                console.log('card removed to the left');
+                console.log(card);
+                $http({
+                    method: 'GET',
+                    url: domain + 'tracker/update-reminder',
+                    params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 2}
+                }).then(function sucessCallback(response) {
+                  
+
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
             };
         })
 
