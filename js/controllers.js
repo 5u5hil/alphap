@@ -28,6 +28,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = window.localStorage.getItem('id');
+            $scope.userType = 'patient';
+            $scope.action = 'logout';
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.CurrentDate = new Date();
             $http({
@@ -55,7 +57,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.menutext = response.data.dataMenu;
                         $scope.language = response.data.lang.language;
                         window.localStorage.setItem('apkLanguage', $scope.language);
-                        window.location.reload = window.location.reload;
+                        window.location.url = window.location.url;
                     } else {
                     }
                 }, function errorCallback(response) {
@@ -65,6 +67,15 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
             $scope.logout = function () {
                 $ionicLoading.show({template: 'Logging out....'});
+                $http({
+                    method: 'GET',
+                    url: domain + 'get-login-logout-log',
+                    params: {userId: window.localStorage.getItem('id'), interface: $scope.interface, type: $scope.userType, action: $scope.action}
+                }).then(function successCallback(response) {
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+
                 window.localStorage.clear();
                 $rootScope.userLogged = 0;
                 $rootScope.$digest;
@@ -112,6 +123,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('LoginCtrl', function ($scope, $state, $http, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
             window.localStorage.setItem('interface_id', '5');
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userType = 'patient';
+            $scope.action = 'login';
             $http({
                 method: 'GET',
                 url: domain + 'get-login',
@@ -150,8 +163,44 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             $rootScope.userLogged = 1;
                             $rootScope.username = response.fname;
                             $ionicLoading.hide();
+                            $http({
+                                method: 'GET',
+                                url: domain + 'get-login-logout-log',
+                                params: {userId: window.localStorage.getItem('id'), interface: $scope.interface, type: $scope.userType, action: $scope.action}
+                            }).then(function successCallback(response) {
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
+
+                            try {
+                                window.plugins.OneSignal.getIds(function (ids) {
+                                    console.log('getIds: ' + JSON.stringify(ids));
+                                    if (window.localStorage.getItem('id')) {
+                                        $scope.userId = window.localStorage.getItem('id');
+                                    } else {
+                                        $scope.userId = '';
+                                    }
+
+                                    $http({
+                                        method: 'GET',
+                                        url: domain + 'notification/insertPlayerId',
+                                        params: {userId: $scope.userId, playerId: ids.userId, pushToken: ids.pushToken}
+                                    }).then(function successCallback(response) {
+                                        if (response.data == 1) {
+                                            // alert('Notification setting updated');
+                                            //  $state.go('app.category-list');
+                                        }
+                                    }, function errorCallback(e) {
+                                        console.log(e);
+                                        // $state.go('app.category-list');
+                                    });
+                                });
+                            } catch (err) {
+                                // $state.go('app.category-list');
+                            }
                             $state.go('app.category-list');
-                            //}
+
+
                         } else {
                             $rootScope.userLogged = 0;
                             $scope.loginError = response;
@@ -181,8 +230,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
         })
 
-        .controller('LogoutCtrl', function ($scope, $state, $ionicLoading, $ionicHistory, $timeout, $q, $rootScope) {
+        .controller('LogoutCtrl', function ($scope, $state, $http, $ionicLoading, $ionicHistory, $timeout, $q, $rootScope) {
             $ionicLoading.show({template: 'Logging out....'});
+
             window.localStorage.clear();
             $rootScope.userLogged = 0;
             $rootScope.$digest;
@@ -193,6 +243,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $ionicHistory.nextViewOptions({disableBack: true, historyRoot: true});
                 $state.go('auth.walkthrough', {}, {reload: true});
             }, 30);
+
         })
 
         .controller('SignupCtrl', function ($scope, $state, $http, $rootScope) {
@@ -244,6 +295,32 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             if (angular.isObject(response)) {
                                 store(response);
                                 $rootScope.userLogged = 1;
+                                try {
+                                    window.plugins.OneSignal.getIds(function (ids) {
+                                        console.log('getIds: ' + JSON.stringify(ids));
+                                        if (window.localStorage.getItem('id')) {
+                                            $scope.userId = window.localStorage.getItem('id');
+                                        } else {
+                                            $scope.userId = '';
+                                        }
+
+                                        $http({
+                                            method: 'GET',
+                                            url: domain + 'notification/insertPlayerId',
+                                            params: {userId: $scope.userId, playerId: ids.userId, pushToken: ids.pushToken}
+                                        }).then(function successCallback(response) {
+                                            if (response.data == 1) {
+                                                // alert('Your sucessfully registered');
+                                                // $state.go('app.category-list', {}, {reload: true});
+                                            }
+                                        }, function errorCallback(e) {
+                                            console.log(e);
+                                        });
+                                    });
+                                } catch (err) {
+
+                                }
+
                                 alert('Your sucessfully registered');
                                 $state.go('app.category-list', {}, {reload: true});
                             } else {
@@ -406,8 +483,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
 //bring specific category providers
+
         .controller('CategoryListCtrl', function ($scope,$state, $http, $stateParams, $rootScope) {
+
             if (get('id') != null) {
+
+
                 $rootScope.userLogged = 1;
                 $scope.interface = window.localStorage.getItem('interface_id');
                 $scope.userId = window.localStorage.getItem('id');
@@ -492,13 +573,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         window.plugins.OneSignal.getIds(function (ids) {
 
                             console.log('getIds: ' + JSON.stringify(ids));
-                          //  alert('UserID: ' + JSON.stringify(ids.userId));
+                            //  alert('UserID: ' + JSON.stringify(ids.userId));
                             $http({
                                 method: 'GET',
                                 url: domain + 'notification/insertPlayerId',
                                 params: {userId: window.localStorage.getItem('id'), playerId: ids.userId}
                             }).then(function successCallback(response) {
-                                if(response.data == 1){
+                                if (response.data == 1) {
                                     alert('Notification setting updated');
                                 }
                             }, function errorCallback(e) {
@@ -511,14 +592,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicPlatform.on("deviceready", function () {
                         window.plugins.OneSignal.enableInAppAlertNotification(true);
                         $http({
-                                method: 'GET',
-                                url: domain + 'notification/changeStatus',
-                                params: {userId: window.localStorage.getItem('id')}
-                            }).then(function successCallback(response) {
-                                   alert('Notification setting updated');
-                            }, function errorCallback(e) {
-                                console.log(e);
-                            });
+                            method: 'GET',
+                            url: domain + 'notification/changeStatus',
+                            params: {userId: window.localStorage.getItem('id')}
+                        }).then(function successCallback(response) {
+                            alert('Notification setting updated');
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
                     });
                 }
             }
@@ -821,6 +902,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.prescription = 'Yes';
             $scope.coverage = 'Family Floater';
             $scope.probstatus = 'Current';
+            $scope.taskstatus = 'Onetime';
             $scope.conId = [];
             $scope.conIds = [];
             $scope.selConditions = [];
@@ -1166,6 +1248,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         jQuery('#probend').removeClass('hide');
                     }
                 }
+                if ($scope.categoryId == 30) {
+                    if (prob != 'Onetime') {
+                        jQuery('.taskn').removeClass('hide');
+                    } else {
+                        jQuery('.taskn').addClass('hide');
+                    }
+                }
             };
 
             $scope.setFile = function (element) {
@@ -1222,6 +1311,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     //jQuery('#day' + (i - 1)).val(JSON.stringify($scope.mealDetails['day' + (i - 1)]));
                 }
                 console.log($scope.mealDetails);
+                var stdt = $('#diet-start').val();
+                var endDate = getDayAfter(stdt, days);
+                console.log(endDate);
+                $('#diet-end').val($filter('date')(endDate, 'yyyy-MM-dd'));
             };
             $scope.saveMeal = function (day) {
                 console.log(day);
@@ -1290,6 +1383,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.recIds = [];
             $scope.userId = get('id');
             $scope.patientId = get('id');
+            $scope.repeatFreq = [];
+            $scope.repeatNo = [];
             $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
@@ -1302,6 +1397,20 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     if ($scope.records[0].record_metadata.length == 6) {
                         $scope.limit = 3; //$scope.records[0].record_metadata.length;
                     }
+                    angular.forEach($scope.records, function (value, key) {
+                        console.log(key);
+                        angular.forEach(value.record_metadata, function (val, k) {
+                            console.log();
+                            if ($scope.catId == 30) {
+                                if (val.field_id == 'no-of-frequency') {
+                                    $scope.repeatFreq[key] = val.value;
+                                }
+                                if (val.field_id == 'no-of-times') {
+                                    $scope.repeatNo[key] = val.value;
+                                }
+                            }
+                        });
+                    });
                 }
                 $scope.createdby = response.data.createdby;
                 $scope.category = response.data.category;
@@ -1311,6 +1420,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.doctrs = response.data.shareDoctrs;
                 $scope.langtext = response.data.langtext;
                 $scope.language = response.data.lang.language;
+                console.log($scope.repeatNo);
+                console.log($scope.repeatFreq);
                 $ionicLoading.hide();
             }, function errorCallback(response) {
                 console.log(response);
@@ -1469,6 +1580,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.InvStatus = '';
             $scope.probstatus = '';
             $scope.prescstatus = '';
+            $scope.repeatFreq = '';
+            $scope.repeatNo = '';
             $scope.selConditions = [];
             $scope.diet = [];
             $scope.dietPlanDetails = [];
@@ -1507,6 +1620,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         console.log(val.fields.field);
                         if (val.fields.field == 'Status') {
                             $scope.Bstatus = val.value;
+                        }
+                    }
+                    if ($scope.category.categories.id == 30) {
+                        if (val.field_id == 'no-of-frequency') {
+                            $scope.repeatFreq = val.value;
+                        }
+                        if (val.field_id == 'no-of-times') {
+                            $scope.repeatNo = val.value;
                         }
                     }
                     if ($scope.category.categories.id == '19') {
@@ -2455,7 +2576,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $http({
                     method: 'GET',
                     url: domain + 'buy/book-appointment',
-                    params: {prodId: $scope.prodid, userId: $scope.userId, supId: $scope.supid, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
+                    params: {prodId: $scope.prodid, interface: $scope.interface, userId: $scope.userId, supId: $scope.supid, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
                 }).then(function successCallback(response) {
                     $ionicLoading.hide();
                     $ionicHistory.nextViewOptions({
@@ -3030,7 +3151,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                 $http({
                                     method: 'GET',
                                     url: domain + 'notification/push-notification',
-                                    params: {id: $scope.appId, userId: $scope.userId,pushEvent:$scope.pushEvent}
+                                    params: {id: $scope.appId, userId: $scope.userId, pushEvent: $scope.pushEvent}
                                 }).then(function successCallback(response) {
 
                                 }, function errorCallback(e) {
@@ -3145,22 +3266,21 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
 
             };
-			
-			
-			/* rightsidetab */
-			$scope.intext='more';
-			 $scope.infomore = function (r) {
+
+
+            /* rightsidetab */
+            $scope.intext = 'more';
+            $scope.infomore = function (r) {
                 jQuery('#' + r).toggleClass('active');
-				if(jQuery('#' + r).hasClass('active')){
-					$scope.intext='less'
-				}
-				else{
-					$scope.intext='more';
-				}
+                if (jQuery('#' + r).hasClass('active')) {
+                    $scope.intext = 'less'
+                } else {
+                    $scope.intext = 'more';
+                }
 
             }
 
-			sidetab('#cstab1');
+            sidetab('#cstab1');
             sidetab('#cstab2');
 
             $scope.pulltab = function (d) {
@@ -3176,11 +3296,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
             }
 
-			/* end of rightsidetab */
+            /* end of rightsidetab */
 
-			
-			
-			
+
+
+
         })
 
         .controller('ChatListCtrl', function ($scope, $filter, $http, $stateParams, $rootScope, $ionicLoading) {
@@ -3364,10 +3484,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.sessionId = response.data.chatSession;
                 console.log(response.data.chatMsgs);
                 $scope.apiKey = apiKey;
-               // var session = OT.initSession($scope.apiKey, $scope.sessionId);
-               // $scope.session = session;
-               // var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
-               // console.log("error source 1" + chatWidget);
+                // var session = OT.initSession($scope.apiKey, $scope.sessionId);
+                // $scope.session = session;
+                // var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
+                // console.log("error source 1" + chatWidget);
 
             }, function errorCallback(e) {
                 console.log(e);
@@ -3702,11 +3822,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = get('id');
             $scope.packageId = $stateParams.id;
+            $scope.ordId = '';
             $ionicLoading.show({'template': 'Loading..'});
             $http({
                 method: 'GET',
                 url: domain + 'patient/get-package-details',
-                params: {interface: $scope.interface, userId: $scope.userId, packageId: $scope.packageId}
+                params: {interface: $scope.interface, userId: $scope.userId, packageId: $scope.packageId, ordId: $scope.ordId}
             }).then(function successCallback(response) {
                 console.log(response.data.packages);
                 $scope.pack = response.data.packages;
@@ -3746,6 +3867,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.terms = $scope.packages[ind].packages.terms_and_conditions;
                 $scope.modal.show();
             };
+            $scope.showDr = function () {
+                console.log();
+                $scope.doctrs = $scope.pack.specialist;
+                $scope.terms = $scope.pack.package.terms_and_conditions;
+                $scope.modal.show();
+            };
         })
 
         .controller('anydoctrsCtrl', function ($scope, $ionicModal, $http, $ionicLoading) {
@@ -3759,6 +3886,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(ind);
                 //$scope.doctrs = $scope.packages[ind].specialist;
                 $scope.terms = $scope.packages[ind].packages.terms_and_conditions;
+                $scope.modal.show();
+            };
+            $scope.showDr = function () {
+                console.log();
+                //$scope.doctrs = $scope.packages[ind].specialist;
+                $scope.terms = $scope.pack.package.terms_and_conditions;
                 $scope.modal.show();
             };
         })
@@ -3911,6 +4044,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         window.localStorage.setItem('coupondiscount', response.data);
                     }
                     $ionicLoading.hide();
+                    console.log($scope.discount + '--' + $scope.discountApplied + '++++ ' + $scope.userId);
                 });
             };
             $scope.payNow = function (finalamount) {
@@ -3995,8 +4129,43 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e);
             });
         })
-        .controller('PackagesViewCtrl', function ($scope) {})
-        .controller('PastPackagesCtrl', function ($scope) {})
+        .controller('PackagesViewCtrl', function ($scope, $http, $rootScope, $ionicLoading, $state, $stateParams) {
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userId = get('id');
+            $scope.packageId = $stateParams.id;
+            $scope.ordId = $stateParams.ord;
+            $ionicLoading.show({'template': 'Loading..'});
+            $http({
+                method: 'GET',
+                url: domain + 'patient/get-package-details',
+                params: {interface: $scope.interface, userId: $scope.userId, packageId: $scope.packageId, ordId: $scope.ordId}
+            }).then(function successCallback(response) {
+                console.log(response.data.packages);
+                $scope.pack = response.data.packages;
+                $ionicLoading.hide();
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
+        })
+        .controller('PastPackagesCtrl', function ($scope, $http, $ionicLoading, $state, $stateParams) {
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userId = get('id');
+            $ionicLoading.show({'template': 'Loading..'});
+            $http({
+                method: 'GET',
+                url: domain + 'patient/get-past-packages',
+                params: {interface: $scope.interface, userId: $scope.userId}
+            }).then(function successCallback(response) {
+                console.log(response.data.packages);
+                $scope.packages = response.data.packages;
+                $ionicLoading.hide();
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+        })
         /* packages */
 
         /* Pathology */
@@ -4088,6 +4257,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.schdate = [];
             $scope.nextdate = [];
             $scope.appId = window.localStorage.getItem('appId');
+            $scope.interface = window.localStorage.getItem('interface_id');
             $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
@@ -4214,7 +4384,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $http({
                         method: 'GET',
                         url: domain + 'appointment/schedule-new-app',
-                        params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, startSlot: $scope.bookingStart, endSlot: $scope.bookingEnd}
+                        params: {interface: $scope.interface, appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, startSlot: $scope.bookingStart, endSlot: $scope.bookingEnd}
                     }).then(function successCallback(response) {
                         console.log(response);
                         $ionicLoading.hide();
