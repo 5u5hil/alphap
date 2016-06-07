@@ -396,10 +396,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
             $scope.updatePassword = function (passcode, password, cpassword) {
                 var email = window.localStorage.getItem('email');
+                $scope.interface = window.localStorage.getItem('id');
                 $.ajax({
                     type: 'GET',
                     url: domain + "update-password",
-                    data: {passcode: passcode, password: password, cpassword: cpassword, email: email},
+                    data: {passcode: passcode, password: password, cpassword: cpassword, email: email,interface:$scope.interface},
                     cache: false,
                     success: function (response) {
                         if (response == 1) {

@@ -47,23 +47,21 @@ angular.module('your_app_name', [
                     {
                         if (jsonData.additionalData) {
                             alert("Inside additionalData");
-                            if (jsonData.additionalData.yourUrlKey) {
-                                alert("Inside additionalData yourUrlKey");
-                               
-                            }
+                            alert("id "+jsonData.additionalData.actionSelected.id);
+
                             if (jsonData.additionalData.actionSelected && jsonData.additionalData.actionSelected.id == "id1")
                             {
                                 alert("Button id1 pressed!");
-                               
                                 $http({
                                     method: 'GET',
                                     url: domain + 'tracker/captured',
-                                    params: {actionid: jsonData.additionalData.actionSelected.icon,status:1}
+                                    params: {actionid: jsonData.additionalData.actionSelected.icon, status: 1}
                                 }).then(function successCallback(response) {
-                                   // if (response.data == 1) {
-                                        // alert('Notification setting updated');
-                                   // }
-                                    location.href = jsonData.additionalData.yourUrlKey;
+
+                                    if (jsonData.additionalData.yourUrlKey) {
+                                        location.href = jsonData.additionalData.yourUrlKey;
+                                    }
+
                                 }, function errorCallback(e) {
                                     console.log(e);
                                 });
@@ -74,12 +72,12 @@ angular.module('your_app_name', [
                                 $http({
                                     method: 'GET',
                                     url: domain + 'tracker/captured',
-                                    params: {actionid: jsonData.additionalData.actionSelected.icon,status:2}
+                                    params: {actionid: jsonData.additionalData.actionSelected.icon, status: 2}
                                 }).then(function successCallback(response) {
-                                   // if (response.data == 1) {
-                                        // alert('Notification setting updated');
-                                   // }
-                                    location.href = jsonData.additionalData.yourUrlKey;
+
+                                    if (jsonData.additionalData.yourUrlKey) {
+                                        location.href = jsonData.additionalData.yourUrlKey;
+                                    }
                                 }, function errorCallback(e) {
                                     console.log(e);
                                 });
@@ -90,12 +88,11 @@ angular.module('your_app_name', [
                                 $http({
                                     method: 'GET',
                                     url: domain + 'tracker/captured',
-                                    params: {actionid: jsonData.additionalData.actionSelected.icon,status:3}
+                                    params: {actionid: jsonData.additionalData.actionSelected.icon, status: 3}
                                 }).then(function successCallback(response) {
-                                   // if (response.data == 1) {
-                                        // alert('Notification setting updated');
-                                   // }
-                                    location.href = jsonData.additionalData.yourUrlKey;
+                                    if (jsonData.additionalData.yourUrlKey) {
+                                        location.href = jsonData.additionalData.yourUrlKey;
+                                    }
                                 }, function errorCallback(e) {
                                     console.log(e);
                                 });
