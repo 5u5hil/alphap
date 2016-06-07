@@ -9,6 +9,12 @@
             <div class="col"><a ui-sref="app.reminder-recent"  class="active" href="#">Recent</a></div>
         </div>
 <ion-content scroll="true" class="bgwhite">
+<ion-refresher
+    pulling-text="Pull to refresh..."
+    on-refresh="doRefresh()">
+  </ion-refresher>
+
+
 <div class="mt40 p15">
     <p>Swipe right to mark a task as completed or swipe left to mark it as missed</p>
   

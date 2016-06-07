@@ -4472,6 +4472,21 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('reminderCtrl',function($scope,$http){
+
+
+             $scope.doRefresh = function() {
+                $http.get('/new-items')
+                 .success(function(newItems) {
+                    
+                 })
+                 .finally(function() {
+                   // Stop the ion-refresher from spinning
+                   $scope.$broadcast('scroll.refreshComplete');
+                  
+                 });
+              };
+
+
             $scope.cards = [];
 
 
