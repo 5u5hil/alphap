@@ -29,7 +29,7 @@
                 <div class="whitetab profile" style="margin-top:87px;">
                     <div class="schedule">
                         <my-tabs class="themetabs">
-                            <div ng-repeat="serv in services">          
+                            <div ng-repeat="serv in service">   
                                 <my-tab  icon="ion-ios-videocam tabicon" title="Video"  ng-if="serv == 1">
                                     <my-tabs class="themetabs">
                                         <div ng-if="apkLanguage == 'english'">
@@ -228,7 +228,7 @@
                                                 </div>
                                             </div>
                                             <div class="section-footer">   
-                                                <a class="button button-full button-positive" ng-click="bookAppointment(clinicProd.id, serv)">Proceed</a>
+                                                <a class="button button-full button-positive" ng-click="bookAppointment(clinicProd.id, serv, cs.id)">Proceed</a>
                                             </div>	
                                         </div>
                                     </div>
@@ -257,7 +257,7 @@
                                     </div>
                                 </my-tab>
                             </div>
-
+                        </my-tabs>
                     </div>
                 </div>
             </div>

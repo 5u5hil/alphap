@@ -2392,7 +2392,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.bookingEnd = endtime;
                 $scope.supId = supid;
             };
-            $scope.bookAppointment = function (prodId, serv) {
+            $scope.bookAppointment = function (prodId, serv, servId) {
                 $scope.apply = '0';
                 $scope.discountApplied = '0';
                 window.localStorage.setItem('coupondiscount', '0');
@@ -2408,6 +2408,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     window.localStorage.setItem('endSlot', $scope.bookingEnd);
                     window.localStorage.setItem('prodId', prodId);
                     window.localStorage.setItem('mode', serv);
+                    window.localStorage.setItem('servId', servId);
                     $rootScope.supid = $scope.supId;
                     $rootScope.startSlot = $scope.bookingStart;
                     $rootScope.endSlot = $scope.bookingEnd;

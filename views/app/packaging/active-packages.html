@@ -91,20 +91,20 @@
                     <div class="item item-divider">Inclusions</div>
                     <div class="flexcont btnpd">
                         <div class="innerdiv brdright" ng-if="pack.packages.video_limit != 0">
-                            <i class="ion-ios-videocam"></i>  Video <span class="countconsult" ng-if="pack.packages.video_limit != '-1'">{{pack.packages.video_limit}} / {{pack.used_video}}</span>
+                            <i class="ion-ios-videocam"></i>  Video <span class="countconsult" ng-if="pack.packages.video_limit != '-1'">{{pack.used_video}} / {{pack.packages.video_limit}}</span>
                             <span class="countconsult" ng-if="pack.packages.video_limit == '-1'">Unlimited</span>
                         </div>
                         <div class="innerdiv brdright" ng-if="pack.packages.clinic_limit != 0">
-                            <i class="ion-medkit"></i> Clinic <span class="countconsult" ng-if="pack.packages.clinic_limit != '-1'">{{pack.packages.clinic_limit}} / {{pack.used_clinic}}</span>
+                            <i class="ion-medkit"></i> Clinic <span class="countconsult" ng-if="pack.packages.clinic_limit != '-1'">{{pack.used_clinic}} / {{pack.packages.clinic_limit}}</span>
                             <span class="countconsult" ng-if="pack.packages.clinic_limit == '-1'">Unlimited</span>
                         </div>
                         <div class="innerdiv brdright" ng-if="pack.packages.home_limit != 0">
-                            <i class="ion-home"></i>  Home <span class="countconsult" ng-if="pack.packages.home_limit != '-1'">{{pack.packages.home_limit}} / {{pack.used_home}}</span>
+                            <i class="ion-home"></i>  Home <span class="countconsult" ng-if="pack.packages.home_limit != '-1'">{{pack.used_home}} / {{pack.packages.home_limit}}</span>
                             <span class="countconsult" ng-if="pack.packages.home_limit == '-1'">Unlimited</span>
                         </div>
                         <div class="innerdiv" ng-if="pack.packages.chat_limit != 0">
-                            <i class="ion-chatboxes"></i>  Chat  <span class="countconsult" ng-if="pack.packages.chat_limit != '-1'">{{pack.packages.chat_limit}} Days/1used Count</span>
-                            <span class="countconsult" ng-if="pack.packages.chat_limit == '-1'">Unlimited</span>
+                            <i class="ion-chatboxes"></i>  Chat  <span class="countconsult" ng-if="pack.packages.chat_limit != '-1'">{{pack.used_chat>pack.packages.chat_limit? 'Expired': pack.used_chat}} /{{pack.packages.chat_limit}} Days</span>
+                            <span class="countconsult" ng-if="pack.packages.chat_limit == '-1'">{{pack.used_chat}} / Unlimited</span>
                         </div>
                     </div>
 
