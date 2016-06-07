@@ -125,8 +125,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userType = 'patient';
             $scope.action = 'login';
-           // $scope.val = {"message":"zxczc","additionalData":{"actionButtons":[{"id":"id1","text":"ignore","icon":"1"}],"actionSelected":"id1","title":"czxczxc"},"isActive":false};
-           // console.log($scope.val.additionalData.actionButtons[0].id);
+            // $scope.val = {"message":"zxczc","additionalData":{"actionButtons":[{"id":"id1","text":"ignore","icon":"1"}],"actionSelected":"id1","title":"czxczxc"},"isActive":false};
+            // console.log($scope.val.additionalData.actionButtons[0].id);
             $http({
                 method: 'GET',
                 url: domain + 'get-login',
@@ -402,7 +402,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $.ajax({
                     type: 'GET',
                     url: domain + "update-password",
-                    data: {passcode: passcode, password: password, cpassword: cpassword, email: email,interface:$scope.interface},
+                    data: {passcode: passcode, password: password, cpassword: cpassword, email: email, interface: $scope.interface},
                     cache: false,
                     success: function (response) {
                         if (response == 1) {
@@ -487,7 +487,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
 //bring specific category providers
 
-        .controller('CategoryListCtrl', function ($scope,$state, $http, $stateParams, $rootScope) {
+        .controller('CategoryListCtrl', function ($scope, $state, $http, $stateParams, $rootScope) {
 
             if (get('id') != null) {
 
@@ -4471,50 +4471,67 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }
         })
 
-        .controller('reminderCtrl',function($scope,$http){
+        .controller('reminderCtrl', function ($scope, $http) {
             $scope.cards = [];
+    
+                $http({
+                method: 'GET',
+                url: domain + 'tracker/get-reminder',
+                params: {patientId: window.localStorage.getItem('id')}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.category = response.data.category;
+                $scope.cat = response.data.cat;
+                $scope.lang = response.data.lang;
+                $scope.languages = response.data.languages;
 
-
-    $scope.addCard = function(img, name) {
-        var newCard = {image: img, name: name};
-        newCard.id = Math.random();
-        $scope.cards.unshift(angular.extend({}, newCard));
-    };
-
-    $scope.addCards = function(count) {
-        $http.get('http://api.randomuser.me/?results=' + count).then(function(value) {
-            angular.forEach(value.data.results, function (v) {
-                $scope.addCard(v.user.picture.large, v.user.name.first + " " + v.user.name.last);
+            }, function errorCallback(e) {
+                console.log(e);
             });
-        });
-    };
+    
+            
+            
 
-    $scope.addFirstCards = function() {
-        $scope.addCard("https://dl.dropboxusercontent.com/u/30675090/envato/tinder-cards/left.png","Nope");
-        $scope.addCard("https://dl.dropboxusercontent.com/u/30675090/envato/tinder-cards/right.png", "Yes");
-    };
+            $scope.addCard = function (img, name) {
+                var newCard = {image: img, name: name};
+                newCard.id = Math.random();
+                $scope.cards.unshift(angular.extend({}, newCard));
+            };
 
-    $scope.addFirstCards();
-    $scope.addCards(5);
+            $scope.addCards = function (count) {
+                $http.get('http://api.randomuser.me/?results=' + count).then(function (value) {
+                    angular.forEach(value.data.results, function (v) {
+                        $scope.addCard(v.user.picture.large, v.user.name.first + " " + v.user.name.last);
+                    });
+                });
+            };
 
-    $scope.cardDestroyed = function(index) {
-        $scope.cards.splice(index, 1);
-        $scope.addCards(1);
-    };
+            $scope.addFirstCards = function () {
+                $scope.addCard("https://dl.dropboxusercontent.com/u/30675090/envato/tinder-cards/left.png", "Nope");
+                $scope.addCard("https://dl.dropboxusercontent.com/u/30675090/envato/tinder-cards/right.png", "Yes");
+            };
 
-    $scope.transitionOut = function(card) {
-        console.log('card transition out');
-    };
+            $scope.addFirstCards();
+            $scope.addCards(5);
 
-    $scope.transitionRight = function(card) {
-        console.log('card removed to the right');
-        console.log(card);
-    };
+            $scope.cardDestroyed = function (index) {
+                $scope.cards.splice(index, 1);
+                $scope.addCards(1);
+            };
 
-    $scope.transitionLeft = function(card) {
-        console.log('card removed to the left');
-        console.log(card);
-    };
+            $scope.transitionOut = function (card) {
+                console.log('card transition out');
+            };
+
+            $scope.transitionRight = function (card) {
+                console.log('card removed to the right');
+                console.log(card);
+            };
+
+            $scope.transitionLeft = function (card) {
+                console.log('card removed to the left');
+                console.log(card);
+            };
         })
 
 
