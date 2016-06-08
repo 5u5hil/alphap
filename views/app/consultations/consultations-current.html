@@ -7,7 +7,14 @@
         <button class="button button-icon button-clear ion-person">
         </button>
     </ion-nav-buttons>-->
+
+    
     <ion-content>
+    <ion-refresher
+    pulling-text="Pull to refresh..."
+    on-refresh="doRefresh()">
+  </ion-refresher>
+
         <div class="row tabnav" ng-if="apkLanguage == 'english'">
             <div class="col" ><a nav-clear menu-close ng-click="checkCat()">Book</a></div>
             <div class="col"><a nav-clear menu-close ui-sref="app.consultations-current" class="active" >Active</a></div>

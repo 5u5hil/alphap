@@ -5,14 +5,19 @@
        
     </ion-nav-title>
          <div class="row tabnav psrelative">
-            <div class="col"><a ui-sref="app.reminder" href="#">Upcoming</a></div>
-            <div class="col"><a ui-sref="app.reminder-recent"  class="active" href="#">Recent</a></div>
+            <div class="col"><a ui-sref="app.reminder"  href="#">Upcoming</a></div>
+            <div class="col"><a ui-sref="app.reminder-recent" href="#" class="active">Recent</a></div>
         </div>
 <ion-content scroll="true" class="bgwhite">
+
 <ion-refresher
     pulling-text="Pull to refresh..."
     on-refresh="doRefresh()">
   </ion-refresher>
+
+
+
+
 
 
 <div class="mt40 p15">
@@ -24,20 +29,20 @@
 
 
     <td-cards>
-        <td-card id="td-card"
-      on-transition-left="transitionLeft(card)"
-      on-transition-right="transitionRight(card)"
-      on-transition-out="transitionOut(card)"
+        <td-card id="td-card" ng-repeat="rems in reminder"
+      on-transition-left="transitionLeft(rems.id)"
+      on-transition-right="transitionRight(rems.id)"
+      on-transition-out="transitionOut(rems.id)"
       on-destroy="cardDestroyed($index)"
       on-swipe-left="cardSwipedLeft($index)"
       on-swipe-right="cardSwipedRight($index)"
-      on-partial-swipe="cardPartialSwipe(amt)" ng-repeat="card in cards">
+      on-partial-swipe="cardPartialSwipe(amt)"  >
              <h4 class="cardtitle">
-             June, 7nth 2016 &nbsp; &nbsp;  09:00AM
+             {{rems.reminder_date | dateFormat3}} {{rems.reminder_time }}
                
            </h4>
             <div class="tdincard">
-              <h4 class="mt0">Title come here</h4>
+              <h4 class="mt0">{{rems.reminder_msg}}</h4>
       
                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
       
@@ -50,15 +55,6 @@
               </div>
               </div>
             </td-card>
-
-
-      
-
-
-
-
-
-
 
 
     </td-cards>

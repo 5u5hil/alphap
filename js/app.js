@@ -38,6 +38,9 @@ angular.module('your_app_name', [
                 // Enable to debug issues.
                 // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
 
+       
+
+
                 var notificationOpenedCallback = function (jsonData) {
                     alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
                     console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
@@ -336,7 +339,7 @@ angular.module('your_app_name', [
                             'menuContent': {
                                 templateUrl: "views/app/reminder-recent.html",
                                 //controller: 'reminderRecentCtrl'
-                                controller: 'reminderCtrl'
+                                controller: 'reminderRecentCtrl'
                             }
                         }
                     })

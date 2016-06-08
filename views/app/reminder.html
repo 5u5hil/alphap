@@ -23,26 +23,27 @@
 <div class="mt40 p15">
     <p>Swipe right to mark a task as completed or swipe left to mark it as missed</p>
   
-
 </div>
 <div class="citem item-divider">June, 7nth 2016</div>
 
 
     <td-cards>
-        <td-card id="td-card"
-      on-transition-left="transitionLeft(card)"
-      on-transition-right="transitionRight(card)"
-      on-transition-out="transitionOut(card)"
+        <td-card id="td-card" ng-repeat="rems in reminder"
+      on-transition-left="transitionLeft(rems.id)"
+      on-transition-right="transitionRight(rems.id)"
+      on-transition-out="transitionOut(rems.id)"
       on-destroy="cardDestroyed($index)"
       on-swipe-left="cardSwipedLeft($index)"
       on-swipe-right="cardSwipedRight($index)"
-      on-partial-swipe="cardPartialSwipe(amt)" >
+
+      on-partial-swipe="cardPartialSwipe(amt)"   >
+
              <h4 class="cardtitle">
-             June, 7nth 2016 &nbsp; &nbsp;  09:00AM
+             {{rems.reminder_date | dateFormat3}} {{rems.reminder_time }}
                
            </h4>
             <div class="tdincard">
-              <h4 class="mt0">Title come here</h4>
+              <h4 class="mt0">{{rems.reminder_msg}}</h4>
       
                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
       
@@ -57,15 +58,10 @@
             </td-card>
 
 
-      
-
-
-
-
-
-
 
 
     </td-cards>
+
+
   </ion-content>
 </ion-view>
