@@ -1893,6 +1893,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('ConsultationsListCurrentCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
+            $scope.doRefresh = function () {
+                $scope.$broadcast('scroll.refreshComplete');
+            };
+
+
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.imgpath = domain;
@@ -2074,20 +2079,22 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         })
 
-        .controller('ConsultationCardsCtrl', function ($scope, $http, $stateParams, $ionicLoading) {
+        .controller('ConsultationCardsCtrl', function ($scope, $http, $stateParams, $ionicLoading, $filter) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $ionicLoading.show({template: 'Loading...'});
             $scope.specId = $stateParams.id;
             $scope.userId = get('id');
             $scope.docServices = [];
+            $scope.services = [];
             $http({
                 method: 'GET',
                 url: domain + 'doctors/list',
                 params: {id: $stateParams.id, interface: $scope.interface}
             }).then(function successCallback(response) {
                 $scope.doctors = response.data.user;
-                $scope.services = response.data.services;
+                //$scope.services = response.data.services;
+                $scope.doctors = $filter('orderBy')($scope.doctors, ['instpermission.instant_permission', '-doctorpresense.presence', 'fname', 'lname']);
                 angular.forEach($scope.doctors, function (value, key) {
                     $http({
                         method: 'GET',
@@ -2095,11 +2102,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         params: {id: value.id, interface: $scope.interface}
                     }).then(function successCallback(responseData) {
                         $ionicLoading.hide();
-                        console.log(responseData);
+                        //console.log(responseData);
+                        $scope.services[key] = responseData.data.docServices;
                         $scope.docServices[key] = responseData.data.data;
                     }, function errorCallback(response) {
                         console.log(response);
                     });
+                    console.log($scope.services);
                     $scope.spec = response.data.spec;
                     $ionicLoading.hide();
                 });
@@ -2391,12 +2400,15 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     console.log(response);
                 });
             };
-            $scope.bookSlot = function (starttime, endtime, supid) {
+            $scope.bookSlot = function (starttime, endtime, supid, servId) {
                 $scope.bookingStart = starttime;
                 $scope.bookingEnd = endtime;
                 $scope.supId = supid;
+                $scope.servId = servId;
+                console.log(servId);
             };
-            $scope.bookAppointment = function (prodId, serv, servId) {
+            $scope.bookAppointment = function (prodId, serv) {
+                console.log();
                 $scope.apply = '0';
                 $scope.discountApplied = '0';
                 window.localStorage.setItem('coupondiscount', '0');
@@ -2412,7 +2424,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     window.localStorage.setItem('endSlot', $scope.bookingEnd);
                     window.localStorage.setItem('prodId', prodId);
                     window.localStorage.setItem('mode', serv);
-                    window.localStorage.setItem('servId', servId);
+                    window.localStorage.setItem('servId', $scope.servId);
                     $rootScope.supid = $scope.supId;
                     $rootScope.startSlot = $scope.bookingStart;
                     $rootScope.endSlot = $scope.bookingEnd;
@@ -2529,6 +2541,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.paynowcountdown();
             }, 0);
             $scope.mode = window.localStorage.getItem('mode');
+            $scope.servId = window.localStorage.getItem('servId');
             $scope.supid = window.localStorage.getItem('supid');
             $scope.startSlot = window.localStorage.getItem('startSlot');
             $scope.endSlot = window.localStorage.getItem('endSlot');
@@ -2582,15 +2595,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $http({
                     method: 'GET',
                     url: domain + 'buy/book-appointment',
-                    params: {prodId: $scope.prodid, interface: $scope.interface, userId: $scope.userId, supId: $scope.supid, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
+                    params: {prodId: $scope.prodid, interface: $scope.interface, userId: $scope.userId, servId: $scope.servId, supId: $scope.supid, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
                 }).then(function successCallback(response) {
+                    console.log(response.data);
                     $ionicLoading.hide();
                     $ionicHistory.nextViewOptions({
                         disableBack: true
                     });
-                    if ($scope.mode == '2') {
-                    }
-                    $state.go('app.thankyou', {'data': 'success'}, {reload: true});
+                    $state.go('app.thankyouc', {'data': response.data}, {reload: true});
                 }, function errorCallback(response) {
                     console.log(response);
                 });
@@ -2618,7 +2630,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $http({
                     method: 'GET',
                     url: domain + 'buy/buy-individual',
-                    params: {interface: $scope.interface, kookooID: $scope.kookooID, ccode: $scope.ccode, discount: $scope.discount, disapply: $scope.discountApplied, prodId: $scope.prodid, userId: $scope.userId, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
+                    params: {interface: $scope.interface, kookooID: $scope.kookooID, ccode: $scope.ccode, discount: $scope.discount, disapply: $scope.discountApplied, servId: $scope.servId, prodId: $scope.prodid, userId: $scope.userId, startSlot: $scope.startSlot, endSlot: $scope.endSlot}
                 }).then(function successCallback(response) {
                     $ionicLoading.hide();
                     window.localStorage.removeItem('coupondiscount');
@@ -4135,6 +4147,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e);
             });
         })
+        
         .controller('PackagesViewCtrl', function ($scope, $http, $rootScope, $ionicLoading, $state, $stateParams) {
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -4155,6 +4168,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
 
         })
+        
         .controller('PastPackagesCtrl', function ($scope, $http, $ionicLoading, $state, $stateParams) {
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -4176,6 +4190,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         /* Pathology */
         .controller('PathologyCtrl', function ($scope) {})
+        
         .controller('PackagesListCtrl', function ($scope) {})
         /* Pathology */
 
@@ -4437,6 +4452,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 return $sce.trustAsResourceUrl($filter('split')(src, '?', 0));
             };
         })
+        
         .controller('ContentLibrarySettingCtrl', function ($scope, $http, $ionicModal, $stateParams, $ionicLoading, $rootScope, $ionicHistory, $filter, $state) {
             $scope.patientId = window.localStorage.getItem('id');
 
@@ -4472,7 +4488,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
             }
         })
-
 
         .controller('reminderCtrl', function ($scope, $http) {
             $scope.cards = [];
@@ -4540,6 +4555,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
             };
 
+
             $scope.transitionLeft = function (card) {
                 $scope.card = card;
                 console.log('card removed to the left');
@@ -4556,8 +4572,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
             };
         })
-
-
 
         .controller('reminderRecentCtrl', function ($scope, $http) {
             $scope.cards = [];
@@ -4576,6 +4590,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, function errorCallback(e) {
                 console.log(e);
             });
+
             $scope.addCard = function (img, name) {
                 var newCard = {image: img, name: name};
                 newCard.id = Math.random();
@@ -4599,8 +4614,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             // $scope.addCards(5);
 
             $scope.cardDestroyed = function (index) {
-                $scope.cards.splice(index, 1);
-                //$scope.addCards(1);
+                console.log(index);
+                $scope.reminder.splice(index, 1);
+                //  $scope.addCards(1);
             };
 
             $scope.transitionOut = function (card) {
@@ -4613,6 +4629,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.card = card;
                 console.log('card removed to the right');
                 console.log(card);
+<<<<<<< HEAD
                 $http({
                     method: 'GET',
                     url: domain + 'tracker/update-reminder',
@@ -4623,25 +4640,45 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }, function errorCallback(e) {
                     console.log(e);
                 });
+=======
+                // $http({
+                //     method: 'GET',
+                //     url: domain + 'tracker/update-reminder',
+                //     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 3}
+                // }).then(function sucessCallback(response) {
+
+
+                // }, function errorCallback(e) {
+                //     console.log(e);
+                // });
+>>>>>>> origin/master
             };
 
             $scope.transitionLeft = function (card) {
                 $scope.card = card;
                 console.log('card removed to the left');
                 console.log(card);
+<<<<<<< HEAD
                 $http({
                     method: 'GET',
                     url: domain + 'tracker/update-reminder',
                     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 2}
                 }).then(function sucessCallback(response) {
 
+=======
+                // $http({
+                //     method: 'GET',
+                //     url: domain + 'tracker/update-reminder',
+                //     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 2}
+                // }).then(function sucessCallback(response) {
+>>>>>>> origin/master
 
-                }, function errorCallback(e) {
-                    console.log(e);
-                });
+
+                // }, function errorCallback(e) {
+                //     console.log(e);
+                // });
             };
         })
-
 
         .controller('ViewContentCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $sce) {
             $scope.contentId = $stateParams.id;

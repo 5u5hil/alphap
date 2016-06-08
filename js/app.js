@@ -38,6 +38,9 @@ angular.module('your_app_name', [
                 // Enable to debug issues.
                 // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
 
+       
+
+
                 var notificationOpenedCallback = function (jsonData) {
                     alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
                     console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
@@ -51,7 +54,7 @@ angular.module('your_app_name', [
 
                             if (jsonData.additionalData.actionSelected == "id1")
                             {
-                               
+
                                 alert("Button id1 pressed!");
                                 $http({
                                     method: 'GET',
@@ -70,7 +73,7 @@ angular.module('your_app_name', [
                             if (jsonData.additionalData.actionSelected == "id2")
                             {
                                 alert("Button id2 pressed!");
-                               
+
                                 $http({
                                     method: 'GET',
                                     url: domain + 'tracker/captured',
@@ -87,7 +90,7 @@ angular.module('your_app_name', [
                             if (jsonData.additionalData.actionSelected == "id3")
                             {
                                 alert("Button id3 pressed!");
-                               
+
                                 $http({
                                     method: 'GET',
                                     url: domain + 'tracker/captured',
@@ -318,7 +321,6 @@ angular.module('your_app_name', [
                         }
                     })
 
-
                     .state('app.reminder', {
                         cache: false,
                         url: "/reminder",
@@ -329,7 +331,6 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-
 
                     .state('app.reminder-recent', {
                         cache: false,
@@ -342,8 +343,6 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-
-
 
                     .state('app.edit-record', {
                         url: "/edit-record/{id:int}/{cat:int}",
@@ -376,6 +375,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+
                     .state('app.past-chatlist', {
                         cache: false,
                         url: "/past-chatlist",
@@ -430,7 +430,6 @@ angular.module('your_app_name', [
                         }
                     })
 
-
                     .state('app.address', {
                         cache: false,
                         url: "/medicines/address",
@@ -441,9 +440,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-
                     //Consultations
-
                     .state('app.consultations-list', {
                         //cache: false,
                         url: "/consultations-list",
@@ -507,6 +504,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+
                     .state('app.single-profile', {
                         //  cache: false,
                         url: "/single-profile/{id:string}",
@@ -584,6 +582,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+
                     .state('app.Gopay', {
                         url: "/gopay/{link:string}",
                         views: {
@@ -629,6 +628,16 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/thankyou.html",
+                                controller: 'ThankyouCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.thankyouc', {
+                        url: "/thankyouc/{data:string}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/thankyouc.html",
                                 controller: 'ThankyouCtrl'
                             }
                         }

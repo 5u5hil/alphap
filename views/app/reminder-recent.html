@@ -28,8 +28,8 @@
 <div class="citem item-divider">June, 7nth 2016</div>
 
 
-    <td-cards ng-repeat="rems in reminder">
-        <td-card id="td-card"
+    <td-cards>
+        <td-card id="td-card" ng-repeat="rems in reminder"
       on-transition-left="transitionLeft(rems.id)"
       on-transition-right="transitionRight(rems.id)"
       on-transition-out="transitionOut(rems.id)"

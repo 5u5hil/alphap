@@ -9177,6 +9177,8 @@ input[type="date"]:before{
           line-height: 35px !important; text-decoration:none;}
 .fieldvalue{ padding:10px; float: left; width:100%;     text-indent: 6px;}
 
+.spceinfields .fieldvalue{margin-bottom: 15px; border-bottom: 1px #ddd solid;}
+
 .f22{font-size: 22px;}
 
 .Cstmbutn {
@@ -9381,6 +9383,10 @@ transform: translate3d(600px, 0px, 0px);
 .mt40{margin-top: 40px;}
 
 /*end of custom tinder cards*/
+
+
+
+
 
 
   
