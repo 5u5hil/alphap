@@ -1891,6 +1891,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('ConsultationsListCurrentCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
+              $scope.doRefresh = function () {
+                $scope.$broadcast('scroll.refreshComplete');
+            };
+            
+            
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.imgpath = domain;
@@ -4576,6 +4581,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, function errorCallback(e) {
                 console.log(e);
             });
+
             $scope.addCard = function (img, name) {
                 var newCard = {image: img, name: name};
                 newCard.id = Math.random();
@@ -4599,8 +4605,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             // $scope.addCards(5);
 
             $scope.cardDestroyed = function (index) {
-                $scope.cards.splice(index, 1);
-                //$scope.addCards(1);
+                console.log(index);
+                $scope.reminder.splice(index, 1);
+              //  $scope.addCards(1);
             };
 
             $scope.transitionOut = function (card) {
@@ -4613,34 +4620,37 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.card = card;
                 console.log('card removed to the right');
                 console.log(card);
-                $http({
-                    method: 'GET',
-                    url: domain + 'tracker/update-reminder',
-                    params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 3}
-                }).then(function sucessCallback(response) {
+                // $http({
+                //     method: 'GET',
+                //     url: domain + 'tracker/update-reminder',
+                //     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 3}
+                // }).then(function sucessCallback(response) {
                     
                     
-                }, function errorCallback(e) {
-                    console.log(e);
-                });
+                // }, function errorCallback(e) {
+                //     console.log(e);
+                // });
             };
 
             $scope.transitionLeft = function (card) {
                 $scope.card = card;
                 console.log('card removed to the left');
                 console.log(card);
-                $http({
-                    method: 'GET',
-                    url: domain + 'tracker/update-reminder',
-                    params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 2}
-                }).then(function sucessCallback(response) {
+                // $http({
+                //     method: 'GET',
+                //     url: domain + 'tracker/update-reminder',
+                //     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 2}
+                // }).then(function sucessCallback(response) {
                   
 
-                }, function errorCallback(e) {
-                    console.log(e);
-                });
+                // }, function errorCallback(e) {
+                //     console.log(e);
+                // });
             };
         })
+
+
+
 
 
         .controller('ViewContentCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $sce) {

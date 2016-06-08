@@ -27,8 +27,8 @@
 <div class="citem item-divider">June, 7nth 2016</div>
 
 
-    <td-cards ng-repeat="rems in reminder">
-        <td-card id="td-card"
+    <td-cards>
+        <td-card id="td-card" ng-repeat="rems in reminder"
       on-transition-left="transitionLeft(rems.id)"
       on-transition-right="transitionRight(rems.id)"
       on-transition-out="transitionOut(rems.id)"
@@ -36,7 +36,7 @@
       on-swipe-left="cardSwipedLeft($index)"
       on-swipe-right="cardSwipedRight($index)"
 
-      on-partial-swipe="cardPartialSwipe(amt)"  >
+      on-partial-swipe="cardPartialSwipe(amt)"   >
 
              <h4 class="cardtitle">
              {{rems.reminder_date | dateFormat3}} {{rems.reminder_time }}
