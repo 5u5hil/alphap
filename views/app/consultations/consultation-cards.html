@@ -1,7 +1,7 @@
 <ion-view cache-view="false" class="records-view">
     <ion-nav-title>
         <span>{{spec[0][language]}}</span>
-        
+
     </ion-nav-title>
     <!--  <ion-nav-buttons side="right">
          <button class="button button-icon button-clear ion-person">
@@ -26,7 +26,7 @@
                                 <img class="user-image-circle" ng-if="doc.image != ''" ng-src="{{imgpath}}{{doc.image}}"><img class="user-image-circle" ng-if="doc.image == ''" ng-src="img/default-user.jpg">
                             </div>
                             <div class="card-detail txt-left" >
-                                <p><strong>{{doc.user_lang[language] }}</strong><br/>
+                                <p><strong>{{doc.user_lang[language]}}</strong><br/>
                                     <span ng-repeat="spec in doc.specializations">
                                         {{doc.specializations[0][language]}}{{$last==true? '': ',&nbsp;'}} 
                                     </span></p>
@@ -39,7 +39,7 @@
                             <div class="row txt-left">
                                 <div class="col"><p><strong>Languages</strong><br/>
                                         <span ng-repeat="lang in doc.languages">
-                                            {{lang.language | capitalize}}{{$last==true? '': ',&nbsp;'}}
+                                            {{lang.language| capitalize}}{{$last==true? '': ',&nbsp;'}}
                                         </span></p></div>	
                                 <div class="col"><p><strong>Focus Area</strong><br/>
                                         <span ng-repeat="focus in doc.focuses">
@@ -49,7 +49,7 @@
                             <div class="clr"></div>
                             <div class="post-actions row post-footer">                            
                                 <div class="row">
-                                    <div class="col" ng-if="ds.service == 'Video'" ng-repeat="ds in doc.services">
+                                    <div class="col" ng-if="ds.service_id == '1'" ng-repeat="ds in services[$index]">
                                         <div class="cbtn" ng-if="serv.mode == 'Video'" ng-repeat="serv in docServices[$parent.$parent.$index]">
                                             <i class="ion-ios-videocam f22"></i>    
                                             <span ng-if="doc.instpermission != null">	
@@ -60,19 +60,19 @@
                                             <span class="f16"> &nbsp; INR {{serv.interfaceDocPrice|ceil}}</span>
                                         </div>
                                     </div>
-                                    <div class="col" ng-if="ds.service == 'Chat'" ng-repeat="ds in doc.services">
+                                    <div class="col" ng-if="ds.service_id == '2'" ng-repeat="ds in services[$index]">
                                         <div class="cbtn" ng-if="serv.mode == 'Chat'" ng-repeat="serv in docServices[$parent.$parent.$index]">
                                             <i class="ion-chatbubble f22" ></i> <span class="f16"></span><br/>
                                             <span class="f16"> &nbsp; INR {{serv.interfaceDocPrice|ceil}}</span>                                        
                                         </div>
                                     </div>
-                                    <div class="col" ng-if="ds.service == 'Clinic'" ng-repeat="ds in doc.services">
+                                    <div class="col" ng-if="ds.service_id == '3'" ng-repeat="ds in services[$index]">
                                         <div class="cbtn" ng-if="serv.mode == 'Clinic'" ng-repeat="serv in docServices[$parent.$parent.$index]">
                                             <i class="ion-medkit f22" ></i><span class="f16"></span><br/>
                                             <span class="f16"> &nbsp; INR {{serv.interfaceDocPrice|ceil}}</span>                                        
                                         </div>
                                     </div>
-                                    <div class="col" ng-if="ds.service == 'Home'" ng-repeat="ds in doc.services">
+                                    <div class="col" ng-if="ds.service_id == '4'" ng-repeat="ds in services[$index]">
                                         <div class="cbtn" ng-if="serv.mode == 'Home'" ng-repeat="serv in docServices[$parent.$parent.$index]">
                                             <i class="ion-person f22" ></i> <span class="f16"></span><br/>
                                             <span class="f16"> &nbsp; INR {{serv.interfaceDocPrice|ceil}}</span>

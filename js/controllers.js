@@ -1891,11 +1891,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('ConsultationsListCurrentCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
-              $scope.doRefresh = function () {
+            $scope.doRefresh = function () {
                 $scope.$broadcast('scroll.refreshComplete');
             };
-            
-            
+
+
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.imgpath = domain;
@@ -2084,6 +2084,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.specId = $stateParams.id;
             $scope.userId = get('id');
             $scope.docServices = [];
+            $scope.services = [];
             $http({
                 method: 'GET',
                 url: domain + 'doctors/list',
@@ -2099,11 +2100,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         params: {id: value.id, interface: $scope.interface}
                     }).then(function successCallback(responseData) {
                         $ionicLoading.hide();
-                        console.log(responseData);
+                        //console.log(responseData);
+                        $scope.services[key] = responseData.data.docServices;
                         $scope.docServices[key] = responseData.data.data;
                     }, function errorCallback(response) {
                         console.log(response);
                     });
+                    console.log($scope.services);
                     $scope.spec = response.data.spec;
                     $ionicLoading.hide();
                 });
@@ -4142,6 +4145,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e);
             });
         })
+        
         .controller('PackagesViewCtrl', function ($scope, $http, $rootScope, $ionicLoading, $state, $stateParams) {
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -4162,6 +4166,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
 
         })
+        
         .controller('PastPackagesCtrl', function ($scope, $http, $ionicLoading, $state, $stateParams) {
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -4183,6 +4188,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         /* Pathology */
         .controller('PathologyCtrl', function ($scope) {})
+        
         .controller('PackagesListCtrl', function ($scope) {})
         /* Pathology */
 
@@ -4444,6 +4450,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 return $sce.trustAsResourceUrl($filter('split')(src, '?', 0));
             };
         })
+        
         .controller('ContentLibrarySettingCtrl', function ($scope, $http, $ionicModal, $stateParams, $ionicLoading, $rootScope, $ionicHistory, $filter, $state) {
             $scope.patientId = window.localStorage.getItem('id');
 
@@ -4539,8 +4546,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     url: domain + 'tracker/update-reminder',
                     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 3}
                 }).then(function sucessCallback(response) {
-                    
-                    
+
+
                 }, function errorCallback(e) {
                     console.log(e);
                 });
@@ -4556,17 +4563,16 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     url: domain + 'tracker/update-reminder',
                     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 2}
                 }).then(function sucessCallback(response) {
-                  
+
 
                 }, function errorCallback(e) {
                     console.log(e);
                 });
             };
         })
-        
-        
-        
-         .controller('reminderRecentCtrl', function ($scope, $http) {
+
+
+        .controller('reminderRecentCtrl', function ($scope, $http) {
             $scope.cards = [];
 
             $scope.doRefresh = function () {
@@ -4609,7 +4615,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.cardDestroyed = function (index) {
                 console.log(index);
                 $scope.reminder.splice(index, 1);
-              //  $scope.addCards(1);
+                //  $scope.addCards(1);
             };
 
             $scope.transitionOut = function (card) {
@@ -4627,8 +4633,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 //     url: domain + 'tracker/update-reminder',
                 //     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 3}
                 // }).then(function sucessCallback(response) {
-                    
-                    
+
+
                 // }, function errorCallback(e) {
                 //     console.log(e);
                 // });
@@ -4643,7 +4649,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 //     url: domain + 'tracker/update-reminder',
                 //     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 2}
                 // }).then(function sucessCallback(response) {
-                  
+
 
                 // }, function errorCallback(e) {
                 //     console.log(e);
