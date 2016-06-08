@@ -71,7 +71,7 @@
                                                             <div ng-if="schV[$index] == vs.supersaas_id">
                                                                 {{vSch[$index]==''? 'No slots available':''}}
                                                                 <ul class="timesheet"  ng-repeat="(key,slot) in vSch[$index] track by $index">
-                                                                    <li onclick="toggleclass(this);" ng-repeat="slt in slot" ng-if="slt['sdate'] < nextdate[$parent.$parent.$index]" ng-model="timeslot" ng-click="bookSlot(slt['start'][0], slt['finish'][0], vs.supersaas_id)"> 
+                                                                    <li onclick="toggleclass(this);" ng-repeat="slt in slot" ng-if="slt['sdate'] < nextdate[$parent.$parent.$index]" ng-model="timeslot" ng-click="bookSlot(slt['start'][0], slt['finish'][0], vs.supersaas_id, vs.id)"> 
                                                                         {{slt['start'][0]|time1}}
                                                                         <!--{{slt['finish'][0]|time}}   -->                    
                                                                     </li>
@@ -124,7 +124,7 @@
                                                             <div ng-if="schV[$index] == vs.supersaas_id">
                                                                 {{vSch[$index]==''? 'No slots available':''}}
                                                                 <ul class="timesheet"  ng-repeat="(key,slot) in vSch[$index] track by $index">
-                                                                    <li onclick="toggleclass(this);" ng-repeat="slt in slot" ng-if="slt['sdate'] < nextdate[$parent.$parent.$index]" ng-model="timeslot" ng-click="bookSlot(slt['start'][0], slt['finish'][0], vs.supersaas_id)"> 
+                                                                    <li onclick="toggleclass(this);" ng-repeat="slt in slot" ng-if="slt['sdate'] < nextdate[$parent.$parent.$index]" ng-model="timeslot" ng-click="bookSlot(slt['start'][0], slt['finish'][0], vs.supersaas_id, vs.id)"> 
                                                                         {{slt['start'][0]|time1}}
                                                                         <!--{{slt['finish'][0]|time}}   -->                    
                                                                     </li>
@@ -220,7 +220,7 @@
                                                 <div ng-if="schC[$index] == cs.supersaas_id">
                                                     {{cSch[$index]==''? 'No slots available':''}}
                                                     <ul class="timesheet"  ng-repeat="(key,slot) in cSch[$index] track by $index">
-                                                        <li onclick="toggleclass(this);" ng-repeat="slt in slot" ng-if="slt['sdate'] < nextCdate[$parent.$parent.$index]" ng-model="timeslot" ng-click="bookSlot(slt['start'][0], slt['finish'][0], cs.supersaas_id)"> 
+                                                        <li onclick="toggleclass(this);" ng-repeat="slt in slot" ng-if="slt['sdate'] < nextCdate[$parent.$parent.$index]" ng-model="timeslot" ng-click="bookSlot(slt['start'][0], slt['finish'][0], cs.supersaas_id, cs.id)"> 
                                                             {{slt['start'][0]|time1}}
                                                             <!--{{slt['finish'][0]|time}}   -->                    
                                                         </li>
@@ -228,7 +228,7 @@
                                                 </div>
                                             </div>
                                             <div class="section-footer">   
-                                                <a class="button button-full button-positive" ng-click="bookAppointment(clinicProd.id, serv, cs.id)">Proceed</a>
+                                                <a class="button button-full button-positive" ng-click="bookAppointment(clinicProd.id, serv)">Proceed </a>
                                             </div>	
                                         </div>
                                     </div>
@@ -251,7 +251,7 @@
                                                 </li>
                                             </ul>
                                             <p>
-                                                <button class="button button-block button-positive" ng-click="bookChatAppointment(chatProd.id, serv)"> Proceed</button>
+                                                <button class="button button-block button-positive" ng-click="bookChatAppointment(chatProd.id, serv, cs.id)"> Proceed {{cs.id}}</button>
                                             </p>
                                         </div>
                                     </div>
