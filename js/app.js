@@ -338,7 +338,7 @@ angular.module('your_app_name', [
                             'menuContent': {
                                 templateUrl: "views/app/reminder-recent.html",
                                 //controller: 'reminderRecentCtrl'
-                                controller: 'reminderCtrl'
+                                controller: 'reminderRecentCtrl'
                             }
                         }
                     })
