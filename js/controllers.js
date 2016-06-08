@@ -898,7 +898,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $ionicModal, $ionicHistory, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
             $scope.interface = window.localStorage.getItem('interface_id');
-            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.images = [];
             $scope.image = [];
             $scope.tempImgs = [];
@@ -906,6 +906,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.coverage = 'Family Floater';
             $scope.probstatus = 'Current';
             $scope.taskstatus = 'Onetime';
+            
             $scope.conId = [];
             $scope.conIds = [];
             $scope.selConditions = [];
@@ -913,6 +914,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
             //$scope.curT = new Date()$filter('date')(new Date(), 'H:i');
             $scope.userId = get('id');
+
             $scope.categoryId = $stateParams.id;
             $scope.fields = [];
             $scope.problems = [];
@@ -925,7 +927,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $http({
                 method: 'GET',
                 url: domain + 'records/add',
-                params: {id: $stateParams.id, userId: $scope.userId, interface: $scope.interface}
+                params: {id: $stateParams.id, patientId: $scope.userId, userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.record = response.data.record;
@@ -4531,8 +4533,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     url: domain + 'tracker/update-reminder',
                     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 3}
                 }).then(function sucessCallback(response) {
-                    
-                    
+
+
                 }, function errorCallback(e) {
                     console.log(e);
                 });
@@ -4547,17 +4549,17 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     url: domain + 'tracker/update-reminder',
                     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 2}
                 }).then(function sucessCallback(response) {
-                  
+
 
                 }, function errorCallback(e) {
                     console.log(e);
                 });
             };
         })
-        
-        
-        
-         .controller('reminderRecentCtrl', function ($scope, $http) {
+
+
+
+        .controller('reminderRecentCtrl', function ($scope, $http) {
             $scope.cards = [];
 
             $scope.doRefresh = function () {
@@ -4616,8 +4618,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     url: domain + 'tracker/update-reminder',
                     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 3}
                 }).then(function sucessCallback(response) {
-                    
-                    
+
+
                 }, function errorCallback(e) {
                     console.log(e);
                 });
@@ -4632,7 +4634,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     url: domain + 'tracker/update-reminder',
                     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 2}
                 }).then(function sucessCallback(response) {
-                  
+
 
                 }, function errorCallback(e) {
                     console.log(e);
