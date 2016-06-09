@@ -898,7 +898,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $ionicModal, $ionicHistory, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
             $scope.interface = window.localStorage.getItem('interface_id');
-             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.images = [];
             $scope.image = [];
             $scope.tempImgs = [];
@@ -906,7 +906,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.coverage = 'Family Floater';
             $scope.probstatus = 'Current';
             $scope.taskstatus = 'Onetime';
-            
+
             $scope.conId = [];
             $scope.conIds = [];
             $scope.selConditions = [];
@@ -1486,7 +1486,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId, shared: $scope.shared}
                         }).then(function successCallback(response) {
                             alert("Records deleted successfully!");
-                            //window.location.reload();
+                            window.location.reload();
                         }, function errorCallback(e) {
                             console.log(e);
                         });
@@ -1510,10 +1510,16 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                 console.log(response);
                                 if (response.data == 'Success') {
                                     alert("Records shared successfully!");
+                                    //window.location.reload();
+                                    $scope.submitmodal();
+                                    $scope.CancelAction();
                                 }
                             }, function errorCallback(e) {
                                 console.log(e);
                             });
+                        } else {
+                            $scope.submitmodal();
+                            $scope.CancelAction();
                         }
                     } else {
                         alert("Please select doctor to share with!");
@@ -2047,24 +2053,24 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e);
             });
 
-               $scope.pastDitemsv = 2
-                $scope.pastvideo = function(done) {  
-                    if ($scope.video_app_past.length > $scope.pastDitemsv){
-                     
+            $scope.pastDitemsv = 2
+            $scope.pastvideo = function (done) {
+                if ($scope.video_app_past.length > $scope.pastDitemsv) {
+
                     $scope.pastDitemsv += 2; // load number of more items
-                    }
-                    $scope.$broadcast('scroll.infiniteScrollComplete')
-                } 
+                }
+                $scope.$broadcast('scroll.infiniteScrollComplete')
+            }
 
 
-                 $scope.pastclinicitems = 2
-                $scope.pastclinic = function(done) {  
-                    if ($scope.clinic_app_past.length > $scope.pastclinicitems){
-                       
+            $scope.pastclinicitems = 2
+            $scope.pastclinic = function (done) {
+                if ($scope.clinic_app_past.length > $scope.pastclinicitems) {
+
                     $scope.pastclinicitems += 2; // load number of more items
-                    }
-                    $scope.$broadcast('scroll.infiniteScrollComplete')
-                } 
+                }
+                $scope.$broadcast('scroll.infiniteScrollComplete')
+            }
 
 
 
@@ -4168,7 +4174,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e);
             });
         })
-        
+
         .controller('PackagesViewCtrl', function ($scope, $http, $rootScope, $ionicLoading, $state, $stateParams) {
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -4189,7 +4195,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
 
         })
-        
+
         .controller('PastPackagesCtrl', function ($scope, $http, $ionicLoading, $state, $stateParams) {
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -4211,7 +4217,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         /* Pathology */
         .controller('PathologyCtrl', function ($scope) {})
-        
+
         .controller('PackagesListCtrl', function ($scope) {})
         /* Pathology */
 
@@ -4473,7 +4479,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 return $sce.trustAsResourceUrl($filter('split')(src, '?', 0));
             };
         })
-        
+
         .controller('ContentLibrarySettingCtrl', function ($scope, $http, $ionicModal, $stateParams, $ionicLoading, $rootScope, $ionicHistory, $filter, $state) {
             $scope.patientId = window.localStorage.getItem('id');
 
@@ -4596,7 +4602,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('reminderRecentCtrl', function ($scope, $http) {
             $scope.cards = [];
-
             $scope.doRefresh = function () {
                 $scope.$broadcast('scroll.refreshComplete');
             };
@@ -4607,17 +4612,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }).then(function sucessCallback(response) {
                 console.log(response.data);
                 $scope.reminder = response.data.reminder;
-
             }, function errorCallback(e) {
                 console.log(e);
             });
-
             $scope.addCard = function (img, name) {
                 var newCard = {image: img, name: name};
                 newCard.id = Math.random();
                 $scope.cards.unshift(angular.extend({}, newCard));
             };
-
             $scope.addCards = function (count) {
                 $http.get('http://api.randomuser.me/?results=' + count).then(function (value) {
                     angular.forEach(value.data.results, function (v) {
@@ -4625,12 +4627,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     });
                 });
             };
-
             $scope.addFirstCards = function () {
                 $scope.addCard("https://dl.dropboxusercontent.com/u/30675090/envato/tinder-cards/left.png", "Nope");
                 $scope.addCard("https://dl.dropboxusercontent.com/u/30675090/envato/tinder-cards/right.png", "Yes");
             };
-
             $scope.addFirstCards();
             // $scope.addCards(5);
 
@@ -4639,47 +4639,42 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.reminder.splice(index, 1);
                 //  $scope.addCards(1);
             };
-
             $scope.transitionOut = function (card) {
                 console.log('card transition out');
-
-
             };
-
             $scope.transitionRight = function (card) {
                 $scope.card = card;
                 console.log('card removed to the right');
                 console.log(card);
-                $http({
-                    method: 'GET',
-                    url: domain + 'tracker/update-reminder',
-                    params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 3}
-                }).then(function sucessCallback(response) {
 
-	
-                }, function errorCallback(e) {
-                    console.log(e);
-                });
+
+                // $http({
+                //     method: 'GET',
+                //     url: domain + 'tracker/update-reminder',
+                //     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 3}
+                // }).then(function sucessCallback(response) {
+
+
+                // }, function errorCallback(e) {
+                //     console.log(e);
+                // });
 
             };
-
             $scope.transitionLeft = function (card) {
                 $scope.card = card;
                 console.log('card removed to the left');
                 console.log(card);
 
-                $http({
-                    method: 'GET',
-                    url: domain + 'tracker/update-reminder',
-                    params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 2}
-                }).then(function sucessCallback(response) {
 
+                // $http({
+                //     method: 'GET',
+                //     url: domain + 'tracker/update-reminder',
+                //     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 2}
+                // }).then(function sucessCallback(response) {
+                // }, function errorCallback(e) {
+                //     console.log(e);
+                // });
 
-
-
-                }, function errorCallback(e) {
-                    console.log(e);
-                });
             };
         })
 
@@ -4695,7 +4690,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, function errorCallback(e) {
                 console.log(e);
             });
-
             $scope.trustSrc = function (src) {
                 return $sce.trustAsResourceUrl($filter('split')(src, '?', 0));
             };
