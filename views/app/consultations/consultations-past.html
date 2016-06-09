@@ -26,7 +26,7 @@
                     <my-tab title="Video : {{video_app_past.length}}">
                         <div class="tabcontainer p0" >
                             <p class="txt-center">  {{video_app_past.length==0 ? 'Nothing to see here. Book a consult to get going.':''}}</p>
-                            <div class="posts-list" ng-repeat="vAppPast in video_app_past track by $index">
+                            <div class="posts-list" ng-repeat="vAppPast in video_app_past | limitTo:pastDitemsv track by $index">
                                 <div  class="list card post-item" ng-repeat="prod_past in video_products_past[$index]">
                                     <div class="post-content item item-text-wrap p0">
                                         <div class="card-content paraspacing" ng-repeat="doc_past in video_doctorsData_past[$index]">
@@ -56,12 +56,16 @@
                                     </div>
                                 </div>
                             </div>
+
+                         <ion-infinite-scroll on-infinite="pastvideo()" ng-if="video_app_past.length" distance="1%">
+                                </ion-infinite-scroll>
+
                         </div>
                     </my-tab>
                     <my-tab title="Clinic : {{clinic_app_past.length}}">
                         <div class="tabcontainer p0" >
                             <p class="txt-center">  {{clinic_app_past.length==0 ? 'Nothing to see here. Book a consult to get going.':''}}</p>
-                            <div class="posts-list" ng-repeat="cAppPast in clinic_app_past track by $index">
+                            <div class="posts-list" ng-repeat="cAppPast in clinic_app_past| limitTo:pastclinicitems track by $index">
                                 <div  class="list card post-item" ng-repeat="prod_past in clinic_products_past[$index]">
                                     <div class="post-content item item-text-wrap p0">
                                         <div class="card-content paraspacing" ng-repeat="doc_past in clinic_doctorsData_past[$index]">
@@ -91,6 +95,10 @@
                                     </div>
                                 </div>
                             </div>
+
+                               <ion-infinite-scroll on-infinite="pastclinic()" ng-if="clinic_app_past.length" distance="1%">
+                                </ion-infinite-scroll>
+
                         </div>
                     </my-tab>
                 </my-tabs>

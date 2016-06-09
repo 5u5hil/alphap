@@ -2047,6 +2047,27 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e);
             });
 
+               $scope.pastDitemsv = 2
+                $scope.pastvideo = function(done) {  
+                    if ($scope.video_app_past.length > $scope.pastDitemsv){
+                     
+                    $scope.pastDitemsv += 2; // load number of more items
+                    }
+                    $scope.$broadcast('scroll.infiniteScrollComplete')
+                } 
+
+
+                 $scope.pastclinicitems = 2
+                $scope.pastclinic = function(done) {  
+                    if ($scope.clinic_app_past.length > $scope.pastclinicitems){
+                       
+                    $scope.pastclinicitems += 2; // load number of more items
+                    }
+                    $scope.$broadcast('scroll.infiniteScrollComplete')
+                } 
+
+
+
             $scope.deleteApp = function (appId, prodId, mode, startTime) {
                 $ionicLoading.show({template: 'Loading...'});
                 $http({
