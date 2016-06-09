@@ -56,6 +56,8 @@ angular.module('jett.ionic.filter.bar', ['ionic']);
             // Invokes cancel function defined in filterBar service
             var cancelFilterBar = function () {
               $scope.cancelFilterBar();
+			  $scope.filterall='';
+			   
             };
 
             cancelEl.bind('click', cancelFilterBar);
