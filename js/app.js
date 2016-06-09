@@ -233,29 +233,29 @@ angular.module('your_app_name', [
 
                     .state('auth.login', {
                         url: '/login',
-                        templateUrl: "views/auth/login.html",
+                        templateUrl: function() { return "views/auth/login.html"; },
                         controller: 'LoginCtrl'
                     })
 
                     .state('auth.signup', {
                         url: '/signup',
-                        templateUrl: "views/auth/signup.html",
+                        templateUrl: function() { return "views/auth/signup.html"; },
                         controller: 'SignupCtrl'
                     })
                     .state('auth.check-otp', {
                         url: '/check-otp',
-                        templateUrl: "views/auth/check-otp.html",
+                        templateUrl: function() { return "views/auth/check-otp.html"; },
                         controller: 'SignupCtrl'
                     })
 
                     .state('auth.forgot-password', {
                         url: "/forgot-password",
-                        templateUrl: "views/auth/forgot-password.html",
+                        templateUrl: function() { return "views/auth/forgot-password.html"; },
                         controller: 'ForgotPasswordCtrl'
                     })
                     .state('auth.update-password', {
                         url: "/update-password",
-                        templateUrl: "views/auth/update-password.html",
+                        templateUrl: function() { return "views/auth/update-password.html"; },
                         controller: 'ForgotPasswordCtrl'
                     })
 
@@ -271,7 +271,7 @@ angular.module('your_app_name', [
                         url: "/category-listing",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/category-list.html",
+                                templateUrl: function() { return "views/app/category-list.html"; },
                                 controller: 'CategoryListCtrl'
                             }
                         }
@@ -282,7 +282,7 @@ angular.module('your_app_name', [
                         url: "/checkavailable/{data:int}/{uid:int}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/checkavailable.html",
+                                templateUrl: function() { return "views/app/checkavailable.html"; },
                                 controller: 'CheckavailableCtrl'
                             }
                         }
@@ -293,7 +293,7 @@ angular.module('your_app_name', [
                         url: "/category-detail",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/category-detail.html",
+                                templateUrl: function() { return "views/app/category-detail.html"; },
                                 controller: 'CategoryDetailCtrl'
                             }
                         }
@@ -304,7 +304,7 @@ angular.module('your_app_name', [
                         url: "/shared-with-you",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/shared-with-you.html",
+                                templateUrl: function() { return "views/app/shared-with-you.html"; },
                                 controller: 'SharedwithYouCtrl'
                             }
                         }
@@ -315,7 +315,7 @@ angular.module('your_app_name', [
                         url: "/add-category/{id:int}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/add-record.html",
+                                templateUrl: function() { return "views/app/add-record.html"; },
                                 controller: 'AddRecordCtrl'
                             }
                         }
@@ -326,7 +326,7 @@ angular.module('your_app_name', [
                         url: "/reminder",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/reminder.html",
+                                templateUrl: function() { return "views/app/reminder.html"; },
                                 controller: 'reminderCtrl'
                             }
                         }
@@ -337,7 +337,7 @@ angular.module('your_app_name', [
                         url: "/reminder-recent",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/reminder-recent.html",
+                                templateUrl: function() { return "views/app/reminder-recent.html"; },
                                 //controller: 'reminderRecentCtrl'
                                 controller: 'reminderRecentCtrl'
                             }
@@ -348,7 +348,7 @@ angular.module('your_app_name', [
                         url: "/edit-record/{id:int}/{cat:int}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/edit-record.html",
+                                templateUrl: function() { return "views/app/edit-record.html"; },
                                 controller: 'EditRecordCtrl'
                             }
                         }
@@ -359,7 +359,7 @@ angular.module('your_app_name', [
                         url: "/records-view/{id:int}/{shared:string}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/records/records-view.html",
+                                templateUrl: function() { return "views/app/records/records-view.html"; },
                                 controller: 'RecordsViewCtrl'
                             }
                         }
@@ -370,7 +370,7 @@ angular.module('your_app_name', [
                         url: "/chatlist",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/chatlist.html",
+                                templateUrl: function() { return "views/app/chatlist.html"; },
                                 controller: 'ChatListCtrl'
                             }
                         }
@@ -381,7 +381,7 @@ angular.module('your_app_name', [
                         url: "/past-chatlist",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/past-chatlist.html",
+                                templateUrl: function() { return "views/app/past-chatlist.html"; },
                                 controller: 'PastChatListCtrl'
                             }
                         }
@@ -391,7 +391,7 @@ angular.module('your_app_name', [
                         url: "/chat/{id:int}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/chat.html",
+                                templateUrl: function() { return "views/app/chat.html"; },
                                 controller: 'ChatCtrl'
                             }
                         }
@@ -402,7 +402,7 @@ angular.module('your_app_name', [
                         url: "/record-details/{id:int}/{shared:string}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/records/record-details.html",
+                                templateUrl: function() { return "views/app/records/record-details.html"; },
                                 controller: 'RecordDetailsCtrl'
                             }
                         }
@@ -413,7 +413,7 @@ angular.module('your_app_name', [
                         url: "/patient-settings",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/patient-settings.html",
+                                templateUrl: function() { return "views/app/patient-settings.html"; },
                                 controller: 'PatientSettingsCtrl'
                             }
                         }
@@ -424,7 +424,7 @@ angular.module('your_app_name', [
                         url: "/medicines/medicine",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/medicines/medicine.html",
+                                templateUrl: function() { return "views/app/medicines/medicine.html"; },
                                 controller: 'MedicineCtrl'
                             }
                         }
@@ -435,7 +435,7 @@ angular.module('your_app_name', [
                         url: "/medicines/address",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/medicines/address.html",
+                                templateUrl: function() { return "views/app/medicines/address.html"; },
                                 controller: 'AddressCtrl'
                             }
                         }
@@ -446,7 +446,7 @@ angular.module('your_app_name', [
                         url: "/consultations-list",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/consultations/consultations-list.html",
+                                templateUrl: function() { return "views/app/consultations/consultations-list.html"; },
                                 controller: 'ConsultationsListCtrl'
                             }
                         }
@@ -456,7 +456,7 @@ angular.module('your_app_name', [
                         url: "/consultations/current",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/consultations/consultations-current.html",
+                                templateUrl: function() { return "views/app/consultations/consultations-current.html"; },
                                 controller: 'ConsultationsListCurrentCtrl'
                             }
                         }
@@ -466,7 +466,7 @@ angular.module('your_app_name', [
                         url: "/consultations/past",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/consultations/consultations-past.html",
+                                templateUrl: function() { return "views/app/consultations/consultations-past.html"; },
                                 controller: 'ConsultationsListPastCtrl'
                             }
                         }
@@ -477,7 +477,7 @@ angular.module('your_app_name', [
                         url: "/consultation-cards/{id:int}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/consultations/consultation-cards.html",
+                                templateUrl: function() { return "views/app/consultations/consultation-cards.html"; },
                                 controller: 'ConsultationCardsCtrl'
                             }
                         }
@@ -488,7 +488,7 @@ angular.module('your_app_name', [
                         url: "/consultation-single-cat-cards/{id:int}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/consultations/consultation-single-cat-cards.html",
+                                templateUrl: function() { return "views/app/consultations/consultation-single-cat-cards.html"; },
                                 controller: 'ConsultationCardsCtrl'
                             }
                         }
@@ -499,7 +499,7 @@ angular.module('your_app_name', [
                         url: "/consultation-profile/{id:int}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/consultations/consultation-profile.html",
+                                templateUrl: function() { return "views/app/consultations/consultation-profile.html"; },
                                 controller: 'ConsultationProfileCtrl'
                             }
                         }
@@ -510,7 +510,7 @@ angular.module('your_app_name', [
                         url: "/single-profile/{id:string}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/consultations/consultation-single-profile.html",
+                                templateUrl: function() { return "views/app/consultations/consultation-single-profile.html"; },
                                 controller: 'ConsultationProfileCtrl'
                             }
                         }
@@ -521,7 +521,7 @@ angular.module('your_app_name', [
                         url: "/current-tab/{id:int}/{mode:int}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/current-tab.html",
+                                templateUrl: function() { return "views/app/current-tab.html"; },
                                 controller: 'CurrentTabCtrl'
                             }
                         }
@@ -532,7 +532,7 @@ angular.module('your_app_name', [
                         url: "/reschedule-appointment/{id:int}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/consultations/reschedule-appointment.html",
+                                templateUrl: function() { return "views/app/consultations/reschedule-appointment.html"; },
                                 controller: 'RescheduleAppointmentCtrl'
                             }
                         }
@@ -543,7 +543,7 @@ angular.module('your_app_name', [
                         url: "/patient-join/{id:int}/{mode:int}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/patient-join.html",
+                                templateUrl: function() { return "views/app/patient-join.html"; },
                                 controller: 'PatientJoinCtrl'
                             }
                         }
@@ -554,7 +554,7 @@ angular.module('your_app_name', [
                         url: "/doctor-record-join",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/doctor-record-join.html",
+                                templateUrl: function() { return "views/app/doctor-record-join.html"; },
                                 controller: 'DoctorRecordJoinCtrl'
                             }
                         }
@@ -565,7 +565,7 @@ angular.module('your_app_name', [
                         url: "/join-chat/{id:int}/{mode:int}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/join-chat.html",
+                                templateUrl: function() { return "views/app/join-chat.html"; },
                                 controller: 'JoinChatCtrl'
                             }
                         }
@@ -577,7 +577,7 @@ angular.module('your_app_name', [
                         url: "/payment",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/payment.html",
+                                templateUrl: function() { return "views/app/payment.html"; },
                                 controller: 'PaymentCtrl'
                             }
                         }
@@ -587,7 +587,7 @@ angular.module('your_app_name', [
                         url: "/gopay/{link:string}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/go-payment.html",
+                                templateUrl: function() { return "views/app/go-payment.html"; },
                                 controller: 'GoPayCtrl'
                             }
                         }
@@ -597,7 +597,7 @@ angular.module('your_app_name', [
                         url: "/gopayment/{link:string}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/go-payment.html",
+                                templateUrl: function() { return "views/app/go-payment.html"; },
                                 controller: 'GoPaymentCtrl'
                             }
                         }
@@ -607,7 +607,7 @@ angular.module('your_app_name', [
                         url: "/success/{id:int}/{serviceId:int}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/success.html",
+                                templateUrl: function() { return "views/app/success.html"; },
                                 controller: 'SuccessCtrl'
                             }
                         }
@@ -617,7 +617,7 @@ angular.module('your_app_name', [
                         url: "/failure/{id:int}/{serviceId:int}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/failure.html",
+                                templateUrl: function() { return "views/app/failure.html"; },
                                 controller: 'FailureCtrl'
                             }
                         }
@@ -627,7 +627,7 @@ angular.module('your_app_name', [
                         url: "/thankyou/{data:string}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/thankyou.html",
+                                templateUrl: function() { return "views/app/thankyou.html"; },
                                 controller: 'ThankyouCtrl'
                             }
                         }
@@ -637,7 +637,7 @@ angular.module('your_app_name', [
                         url: "/thankyouc/{data:string}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/thankyouc.html",
+                                templateUrl: function() { return "views/app/thankyouc.html"; },
                                 controller: 'ThankyouCtrl'
                             }
                         }
@@ -647,7 +647,7 @@ angular.module('your_app_name', [
                         url: "/chat-thankyou/{data:string}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/chat-thankyou.html",
+                                templateUrl: function() { return "views/app/chat-thankyou.html"; },
                                 controller: 'ThankyouChatCtrl'
                             }
                         }
@@ -657,7 +657,7 @@ angular.module('your_app_name', [
                         url: "/thankyoup/{data:string}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/thankyoup.html",
+                                templateUrl: function() { return "views/app/thankyoup.html"; },
                                 controller: 'ThankyouCtrl'
                             }
                         }
@@ -670,7 +670,7 @@ angular.module('your_app_name', [
                         url: "/packaging",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/packaging/packaging.html",
+                                templateUrl: function() { return "views/app/packaging/packaging.html"; },
                                 controller: 'packagingCtrl'
                             }
                         }
@@ -681,7 +681,7 @@ angular.module('your_app_name', [
                         url: "/packaging-detail/{id:string}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/packaging/packaging-detail.html",
+                                templateUrl: function() { return "views/app/packaging/packaging-detail.html"; },
                                 controller: 'PackagingDetailCtrl'
                             }
                         }
@@ -692,7 +692,7 @@ angular.module('your_app_name', [
                         url: "/package-confirm/{id:string}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/packaging/package-confirm.html",
+                                templateUrl: function() { return "views/app/packaging/package-confirm.html"; },
                                 controller: 'packageConfirmCtrl'
                             }
                         }
@@ -702,7 +702,7 @@ angular.module('your_app_name', [
                         url: "/active-packages",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/packaging/active-packages.html",
+                                templateUrl: function() { return "views/app/packaging/active-packages.html"; },
                                 controller: 'ActivePackagesCtrl'
                             }
                         }
@@ -712,7 +712,7 @@ angular.module('your_app_name', [
                         url: "/packages-view/{id:string}/{ord:string}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/packaging/packages-view.html",
+                                templateUrl: function() { return "views/app/packaging/packages-view.html"; },
                                 controller: 'PackagesViewCtrl'
                             }
                         }
@@ -722,7 +722,7 @@ angular.module('your_app_name', [
                         url: "/past-packages",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/packaging/past-packages.html",
+                                templateUrl: function() { return "views/app/packaging/past-packages.html"; },
                                 controller: 'PastPackagesCtrl'
                             }
                         }
@@ -737,7 +737,7 @@ angular.module('your_app_name', [
                         url: "/pathology",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/pathology/pathology.html",
+                                templateUrl: function() { return "views/app/pathology/pathology.html"; },
                                 controller: 'PathologyCtrl'
                             }
                         }
@@ -748,7 +748,7 @@ angular.module('your_app_name', [
                         url: "/packages-list",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/pathology/packages-list.html",
+                                templateUrl: function() { return "views/app/pathology/packages-list.html"; },
                                 controller: 'PackagesListCtrl'
                             }
                         }
@@ -764,7 +764,7 @@ angular.module('your_app_name', [
                         url: "/content-library",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/content-library/content-library.html",
+                                templateUrl: function() { return "views/app/content-library/content-library.html"; },
                                 controller: 'ContentLibraryCtrl'
                             }
                         }
@@ -775,7 +775,7 @@ angular.module('your_app_name', [
                         url: "/content-library-setting",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/content-library/content-library-setting.html",
+                                templateUrl: function() { return "views/app/content-library/content-library-setting.html"; },
                                 controller: 'ContentLibrarySettingCtrl'
                             }
                         }
@@ -786,7 +786,7 @@ angular.module('your_app_name', [
                         url: "/view-content-value/{id:int}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/content-library/view-content-value.html",
+                                templateUrl: function() { return "views/app/content-library/view-content-value.html"; },
                                 controller: 'ViewContentCtrl'
                             }
                         }
