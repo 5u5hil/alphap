@@ -1969,7 +1969,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 				  filterBarInstance = $ionicFilterBar.show({
 					items: $scope.items,
 					update: function (filteredItems, filterText) {
-					  $scope.items = filteredItems;
+					
 					  if (filterText) {
 						console.log(filterText);
 						$scope.filterall = filterText
