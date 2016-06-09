@@ -4650,54 +4650,36 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.card = card;
                 console.log('card removed to the right');
                 console.log(card);
-<<<<<<< HEAD
                 $http({
                     method: 'GET',
                     url: domain + 'tracker/update-reminder',
                     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 3}
                 }).then(function sucessCallback(response) {
 
-
+	
                 }, function errorCallback(e) {
                     console.log(e);
                 });
-=======
-                // $http({
-                //     method: 'GET',
-                //     url: domain + 'tracker/update-reminder',
-                //     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 3}
-                // }).then(function sucessCallback(response) {
 
-
-                // }, function errorCallback(e) {
-                //     console.log(e);
-                // });
->>>>>>> origin/master
             };
 
             $scope.transitionLeft = function (card) {
                 $scope.card = card;
                 console.log('card removed to the left');
                 console.log(card);
-<<<<<<< HEAD
+
                 $http({
                     method: 'GET',
                     url: domain + 'tracker/update-reminder',
                     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 2}
                 }).then(function sucessCallback(response) {
 
-=======
-                // $http({
-                //     method: 'GET',
-                //     url: domain + 'tracker/update-reminder',
-                //     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 2}
-                // }).then(function sucessCallback(response) {
->>>>>>> origin/master
 
 
-                // }, function errorCallback(e) {
-                //     console.log(e);
-                // });
+
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
             };
         })
 
