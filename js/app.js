@@ -77,7 +77,7 @@ angular.module('your_app_name', [
                                 $http({
                                     method: 'GET',
                                     url: domain + 'tracker/captured',
-                                    params: {actionid: jsonData.additionalData.actionButtons[0].icon, status: 2}
+                                    params: {actionid: jsonData.additionalData.actionButtons[1].icon, status: 2}
                                 }).then(function successCallback(response) {
 
                                     if (jsonData.additionalData.yourUrlKey) {
@@ -94,7 +94,7 @@ angular.module('your_app_name', [
                                 $http({
                                     method: 'GET',
                                     url: domain + 'tracker/captured',
-                                    params: {actionid: jsonData.additionalData.actionButtons[0].icon, status: 3}
+                                    params: {actionid: jsonData.additionalData.actionButtons[2].icon, status: 3}
                                 }).then(function successCallback(response) {
                                     if (jsonData.additionalData.yourUrlKey) {
                                         location.href = jsonData.additionalData.yourUrlKey;
