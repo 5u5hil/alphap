@@ -1899,7 +1899,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('ConsultationsListCurrentCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory, $timeout, $ionicFilterBar) {
-    
+
 
 
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -1960,42 +1960,43 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e);
             });
 
-			
-			
-				
-		/* search plugin */
-			 var filterBarInstance;
-				$scope.showFilterBar = function () {					
-				  filterBarInstance = $ionicFilterBar.show({
-					items: $scope.items,
-					update: function (filteredItems, filterText) {
-					
-					  if (filterText) {
-						console.log(filterText);
-						$scope.filterall = filterText
-					  }
-					 else{$scope.filterall='';}
-					}
-				  });
-				};
-				$scope.refreshItems = function () {
-				  if (filterBarInstance) {
-					filterBarInstance();
-					filterBarInstance = null;
-				  }
 
-				  $timeout(function () {
-					//getItems();
-					$scope.$broadcast('scroll.refreshComplete');
-				  }, 1000);
-				};
-			/* end of search plugin */
-				
-			
-			
-			
-			
-			
+
+
+            /* search plugin */
+            var filterBarInstance;
+            $scope.showFilterBar = function () {
+                filterBarInstance = $ionicFilterBar.show({
+                    items: $scope.items,
+                    update: function (filteredItems, filterText) {
+
+                        if (filterText) {
+                            console.log(filterText);
+                            $scope.filterall = filterText
+                        } else {
+                            $scope.filterall = '';
+                        }
+                    }
+                });
+            };
+            $scope.refreshItems = function () {
+                if (filterBarInstance) {
+                    filterBarInstance();
+                    filterBarInstance = null;
+                }
+
+                $timeout(function () {
+                    //getItems();
+                    $scope.$broadcast('scroll.refreshComplete');
+                }, 1000);
+            };
+            /* end of search plugin */
+
+
+
+
+
+
             $scope.deleteApp = function (appId, prodId, mode, startTime) {
                 $ionicLoading.show({template: 'Loading...'});
                 $http({
@@ -2033,15 +2034,15 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('ConsultationsListPastCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory, $ionicFilterBar) {
-			
 
-			
+
+
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.imgpath = domain;
             $scope.specializations = {};
             $scope.userId = get('id');
-			$scope.items = [];
+            $scope.items = [];
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $ionicLoading.show({template: 'Loading...'});
             $http({
@@ -2058,14 +2059,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.video_doctorsData = response.data.video_doctorsData;
                 $scope.video_products = response.data.video_products;
                 $scope.video_end_time = response.data.video_end_time;
-				
+
                 // Video past
                 $scope.video_time_past = response.data.video_time_past;
                 $scope.video_app_past = response.data.video_app_past;
                 $scope.video_doctorsData_past = response.data.video_doctorsData_past;
                 $scope.video_products_past = response.data.video_products_past;
                 $scope.video_end_time_past = response.data.video_end_time_past;
-				$scope.all_video = response.data.all_video;
+                $scope.all_video = response.data.all_video;
                 //console.log('##########'+ $scope.video_app_past);
                 //Clinic
                 $scope.clinic_app = response.data.clinic_app;
@@ -2079,7 +2080,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.clinic_products_past = response.data.clinic_products_past;
                 $scope.clinic_time_past = response.data.clinic_time_past;
                 $scope.clinic_end_time = response.data.clinic_end_time;
-				$scope.all_clinic = response.data.all_clinic;
+                $scope.all_clinic = response.data.all_clinic;
                 //Home
                 $scope.home_app = response.data.home_app;
                 $scope.home_doctorsData = response.data.home_doctorsData;
@@ -2088,7 +2089,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.chat_app = response.data.chat_app;
                 $scope.chat_doctorsData = response.data.chat_doctorsData;
                 $scope.chat_products = response.data.chat_products;
-                $ionicLoading.hide();				
+                $ionicLoading.hide();
 
                 //$state.go('app.category-detail');
             }, function errorCallback(e) {
@@ -2102,55 +2103,56 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }
                 $scope.$broadcast('scroll.infiniteScrollComplete')
             }
-			$scope.pastclinicitems = 2
+            $scope.pastclinicitems = 2
             $scope.pastclinic = function (done) {
                 if ($scope.clinic_app_past.length > $scope.pastclinicitems) {
                     $scope.pastclinicitems += 2; // load number of more items
                 }
                 $scope.$broadcast('scroll.infiniteScrollComplete')
             }
-			
-			
-			
-		/* search plugin */
-			 var filterBarInstance;
-				$scope.showFilterBar = function () {					
-				  filterBarInstance = $ionicFilterBar.show({
-					items: $scope.items,
-					update: function (filteredItems, filterText) {
-					  $scope.items = filteredItems;
-					  if (filterText) {
-						console.log(filterText);
-						$scope.filterall = filterText
-					  }
-					 else{$scope.filterall='';}
-					}
-				  });
-				};
-				$scope.refreshItems = function () {
-				  if (filterBarInstance) {
-					filterBarInstance();
-					filterBarInstance = null;
-				  }
 
-				  $timeout(function () {
-					//getItems();
-					$scope.$broadcast('scroll.refreshComplete');
-				  }, 1000);
-				};
-			/* end of search plugin */
-				
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
+
+            /* search plugin */
+            var filterBarInstance;
+            $scope.showFilterBar = function () {
+                filterBarInstance = $ionicFilterBar.show({
+                    items: $scope.items,
+                    update: function (filteredItems, filterText) {
+                        $scope.items = filteredItems;
+                        if (filterText) {
+                            console.log(filterText);
+                            $scope.filterall = filterText
+                        } else {
+                            $scope.filterall = '';
+                        }
+                    }
+                });
+            };
+            $scope.refreshItems = function () {
+                if (filterBarInstance) {
+                    filterBarInstance();
+                    filterBarInstance = null;
+                }
+
+                $timeout(function () {
+                    //getItems();
+                    $scope.$broadcast('scroll.refreshComplete');
+                }, 1000);
+            };
+            /* end of search plugin */
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3128,6 +3130,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
+                    window.clearInterval(statstimer);
+                    statstimer = '';
 
 
                 } catch (err) {
@@ -3139,6 +3143,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
+                    window.clearInterval(statstimer);
+                    statstimer = '';
 
                 }
             });
@@ -3366,6 +3372,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
+                    window.clearInterval(statstimer);
+                    statstimer = '';
 
 
                 } catch (err) {
@@ -3377,6 +3385,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
+                    window.clearInterval(statstimer);
+                    statstimer = '';
 
                 }
                 $http({
