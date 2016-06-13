@@ -3094,16 +3094,16 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('PatientJoinCtrl', function ($window, $ionicPlatform, $scope, $http, $stateParams, $sce, $filter, $timeout, $state, $ionicHistory, $ionicLoading) {
             $ionicLoading.show({template: 'Loading...'});
-            if (!get('loadedOnce')) {
-                store({'loadedOnce': 'true'});
-                $window.location.reload(true);
-                // don't reload page, but clear localStorage value so it'll get reloaded next time
-                $ionicLoading.hide();
-            } else {
-                // set the flag and reload the page
-                window.localStorage.removeItem('loadedOnce');
-                $ionicLoading.hide();
-            }
+//            if (!get('loadedOnce')) {
+//                store({'loadedOnce': 'true'});
+//                $window.location.reload(true);
+//                // don't reload page, but clear localStorage value so it'll get reloaded next time
+//                $ionicLoading.hide();
+//            } else {
+//                // set the flag and reload the page
+//                window.localStorage.removeItem('loadedOnce');
+//                $ionicLoading.hide();
+//            }
             // $ionicHistory.clearCache();
             var statstimer;
             $scope.appId = $stateParams.id;
