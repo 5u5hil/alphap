@@ -3202,6 +3202,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
                                         var prevStats;
                                         statstimer = window.setInterval(function () {
+                                              $ionicLoading.hide();
                                             subscriber.getStats(function (error, stats) {
                                                 if (error) {
                                                     console.error('Error getting subscriber stats. ', error.message);
