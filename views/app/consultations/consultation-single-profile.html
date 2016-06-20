@@ -42,7 +42,7 @@
                 <div class="whitetab profile" style="margin-top:87px;">
                     <div class="schedule">
                         <my-tabs class="themetabs">
-                            <div ng-repeat="serv in services">          
+                            <div ng-repeat="serv in services track by $index">          
                                 <my-tab  icon="ion-ios-videocam tabicon" title="Video"  ng-if="serv == 1">
                                     <my-tabs class="themetabs">
                                         <div ng-if="apkLanguage == 'english'">

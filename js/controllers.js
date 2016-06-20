@@ -3319,7 +3319,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                 var mute = 1;
                                 var mutevideo = 1;
                                 jQuery(".muteVideo").click(function () {
-
+                                    console.log('fasfd');
                                     if (mutevideo == 1) {
                                         publisher.publishVideo(false);
                                         mutevideo = 0;
