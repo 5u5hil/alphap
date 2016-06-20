@@ -2199,9 +2199,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $http({
                 method: 'GET',
                 url: domain + 'doctors/list',
-                params: {id: $stateParams.id, interface: $scope.interface}
+                params: {id: $stateParams.id, interface: $scope.interface,userId:$scope.userId }
             }).then(function successCallback(response) {
                 $scope.doctors = response.data.user;
+                $scope.langtext = response.data.tabmenu;
+                $scope.language = response.data.lang.language;
                 //$scope.services = response.data.services;
                 $scope.doctors = $filter('orderBy')($scope.doctors, ['instpermission.instant_permission', '-doctorpresense.presence', 'fname', 'lname']);
                 angular.forEach($scope.doctors, function (value, key) {
