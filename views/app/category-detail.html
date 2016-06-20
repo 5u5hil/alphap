@@ -18,9 +18,15 @@
         </div> -->
 
     <ion-content>
-        <div class="row tabnav">
+        <div class="row tabnav" ng-if="apkLanguage == 'english'">
             <div class="col"><a  ui-sref="app.category-detail" class="active" >Created by you</a></div>
             <div class="col"><a  ui-sref="app.shared-with-you">Shared with you</a></div>
+        </div>
+        <div class="row tabnav" ng-if="apkLanguage != 'english'">
+            <div class="col"><a  ui-sref="app.category-detail" class="active" >{{langtext.created_by_you[language]}}</a></div>
+            <div class="col"><a  ui-sref="app.shared-with-you">{{langtext.shared_with_you[language]}}</a></div>
+
+
         </div>
         <div class="list cdetail-list">
             <div class="mt5 pt50p" ng-if="userRecords.length == 0"> <p class="txt-center" >No records here. Add now to get started.</p></div>
