@@ -3295,7 +3295,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                     var subscribers5 = session.getSubscribersForStream(event.stream);
                                     //console.log('on publish: ' + subscribers5);
                                     console.log('on publish lenghth.' + subscribers5.length);
-                                    alert('APK on publish lenghth.');
+                                    //alert('APK on publish lenghth.');
                                     //  console.log('stream created: ' + subscribers5);
 
 
