@@ -912,6 +912,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.selConditions = [];
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
+            $scope.endDate = '0000-00-00';
+            $scope.endTime = $filter('date')($scope.endTime, 'HH:mm');
             //$scope.curT = new Date()$filter('date')(new Date(), 'H:i');
             $scope.userId = get('id');
 
@@ -1255,9 +1257,15 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }
                 if ($scope.categoryId == 30) {
                     if (prob != 'Onetime') {
+                        jQuery('#endtime').removeClass('hide');
+                        jQuery('#enddate').removeClass('hide');
                         jQuery('.taskn').removeClass('hide');
+
                     } else {
+                        jQuery('#endtime').addClass('hide');
+                        jQuery('#enddate').addClass('hide');
                         jQuery('.taskn').addClass('hide');
+
                     }
                 }
             };
@@ -2199,7 +2207,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $http({
                 method: 'GET',
                 url: domain + 'doctors/list',
-                params: {id: $stateParams.id, interface: $scope.interface,userId:$scope.userId }
+                params: {id: $stateParams.id, interface: $scope.interface, userId: $scope.userId}
             }).then(function successCallback(response) {
                 $scope.doctors = response.data.user;
                 $scope.langtext = response.data.tabmenu;
@@ -3204,7 +3212,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
                                         var prevStats;
                                         statstimer = window.setInterval(function () {
-                                              $ionicLoading.hide();
+                                            $ionicLoading.hide();
                                             subscriber.getStats(function (error, stats) {
                                                 if (error) {
                                                     console.error('Error getting subscriber stats. ', error.message);
