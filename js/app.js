@@ -63,10 +63,15 @@ angular.module('your_app_name', [
                                 url: domain + 'trigger/action-trigger',
                                 params: {action: jsonData.additionalData, status: 1}
                             }).then(function successCallback(response) {
-                                if (response) {
-                                    location.href = response;
-                                } else if (jsonData.additionalData.yourUrlKey) {
-                                    location.href = jsonData.additionalData.yourUrlKey;
+                                console.log(response.data);
+                                try {
+                                    if (response.data) {
+                                        location.href = response.data;
+                                    } else if (jsonData.additionalData.defaultUrl) {
+                                        location.href = jsonData.additionalData.defaultUrl;
+                                    }
+                                } catch (err) {
+                                    location.href = jsonData.additionalData.defaultUrl;
                                 }
 
                             }, function errorCallback(e) {
