@@ -49,20 +49,23 @@ angular.module('your_app_name', [
                     try
                     {
                         if (jsonData.additionalData) {
-                             alert("Inside additionalData");
+                            alert("Inside additionalData");
+                            console.log("additionalData " + jsonData.additionalData);
+                            // console.log("additionalData "+jsonData.additionalData.push)
                             //  alert("id " + jsonData.additionalData.actionSelected);
 //                            if (jsonData.additionalData.yourUrlKey) {
 //                                alert("Inside additionalData yourUrlKey");
 //                                location.href = jsonData.additionalData.yourUrlKey;
 //                            }
-                          //  alert()
+                            //  alert()
                             $http({
                                 method: 'GET',
-                                url: domain + 'tracker/getActionSelected',
-                                params: {action: jsonData.additionalData.actionSelected, status: 1}
+                                url: domain + 'trigger/action-trigger',
+                                params: {action: jsonData.additionalData, status: 1}
                             }).then(function successCallback(response) {
-
-                                if (jsonData.additionalData.yourUrlKey) {
+                                if (response) {
+                                    location.href = response;
+                                } else if (jsonData.additionalData.yourUrlKey) {
                                     location.href = jsonData.additionalData.yourUrlKey;
                                 }
 
