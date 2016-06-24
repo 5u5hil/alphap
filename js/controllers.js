@@ -38,6 +38,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 params: {id: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 if (response.data) {
+                    $scope.menuItem = response.data.menuItem;
                     $scope.menutext = response.data.dataMenu;
                     $scope.language = response.data.lang.language;
 
@@ -54,6 +55,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     params: {id: $scope.userId, interface: $scope.interface}
                 }).then(function successCallback(response) {
                     if (response.data) {
+                        $scope.menuItem = response.data.menuItem;
                         $scope.menutext = response.data.dataMenu;
                         $scope.language = response.data.lang.language;
                         window.localStorage.setItem('apkLanguage', $scope.language);
@@ -502,6 +504,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     params: {id: $scope.userId, interface: $scope.interface}
                 }).then(function successCallback(response) {
                     if (response.data.dataCat) {
+                        $scope.menuItem = response.data.menuItem;
                         $scope.cattext = response.data.dataCat;
                         $scope.language = response.data.lang.language;
                         $scope.apkLanguage = window.localStorage.setItem('apkLanguage', $scope.language);
