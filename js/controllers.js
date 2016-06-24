@@ -32,6 +32,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.action = 'logout';
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.CurrentDate = new Date();
+            $ionicLoading.show({template: 'Loading..'});
             $http({
                 method: 'GET',
                 url: domain + 'get-sidemenu-lang',
@@ -41,6 +42,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $scope.menuItem = response.data.menuItem;
                     $scope.menutext = response.data.dataMenu;
                     $scope.language = response.data.lang.language;
+                    $ionicLoading.hide();
 
                 } else {
                 }
@@ -49,6 +51,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
 
             $rootScope.$on("sideMenu", function () {
+                $ionicLoading.show({template: 'Loading..'});
                 $http({
                     method: 'GET',
                     url: domain + 'get-sidemenu-lang',
@@ -60,6 +63,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.language = response.data.lang.language;
                         window.localStorage.setItem('apkLanguage', $scope.language);
                         window.location.url = window.location.url;
+                        $ionicLoading.hide();
                     } else {
                     }
                 }, function errorCallback(response) {
@@ -489,7 +493,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
 //bring specific category providers
 
-        .controller('CategoryListCtrl', function ($scope, $state, $http, $stateParams, $rootScope) {
+        .controller('CategoryListCtrl', function ($scope, $state, $http, $stateParams, $rootScope, $ionicLoading) {
 
             if (get('id') != null) {
 
@@ -498,6 +502,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.interface = window.localStorage.getItem('interface_id');
                 $scope.userId = window.localStorage.getItem('id');
                 $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+                $ionicLoading.show({template: 'Loading..'});
                 $http({
                     method: 'GET',
                     url: domain + 'get-categoty-lang',
@@ -508,7 +513,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.cattext = response.data.dataCat;
                         $scope.language = response.data.lang.language;
                         $scope.apkLanguage = window.localStorage.setItem('apkLanguage', $scope.language);
-                    } else {
                     }
                     $http({
                         method: 'GET',
@@ -517,6 +521,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     }).then(function sucessCallback(response) {
                         console.log(response);
                         $scope.unreadCnt = response.data;
+                        $ionicLoading.hide();
                     }, function errorCallback(e) {
                         console.log(e);
                     });
@@ -526,9 +531,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             } else {
                 $state.go('auth.walkthrough', {}, {reload: true});
             }
-
-
-
         })
 
         .controller('PatientSettingsCtrl', function ($scope, $http, $ionicPlatform, $state, $stateParams, $timeout, $ionicModal, $ionicLoading, $rootScope, $sce) {
