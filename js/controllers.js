@@ -764,6 +764,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.doctrs = response.data.doctrs;
                 $scope.userRecords = response.data.recordCount;
                 $scope.patient = response.data.patient;
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.lang.language;
+
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -1617,7 +1620,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $http({
                 method: 'GET',
                 url: domain + 'records/get-record-details',
-                params: {id: $stateParams.id, interface: $scope.interface}
+                params: {id: $stateParams.id, userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.recordDetails = response.data.recordsDetails;
@@ -3966,6 +3969,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }).then(function successCallback(response) {
                 console.log(response.data.packages);
                 $scope.packages = response.data.packages;
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.lang.language;
                 $ionicLoading.hide();
             }, function errorCallback(e) {
                 console.log(e);
@@ -3987,6 +3992,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }).then(function successCallback(response) {
                 console.log(response.data.packages);
                 $scope.pack = response.data.packages;
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.lang.language;
                 $ionicLoading.hide();
             }, function errorCallback(e) {
                 console.log(e);
@@ -4142,6 +4149,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }).then(function successCallback(response) {
                 console.log(response.data.packages);
                 $scope.pack = response.data.packages;
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.lang.language;
                 if ($scope.pack.package.doctor_restriction == 1) {
                     $scope.doctr = $scope.pack.specialist;
                 } else {
@@ -4280,6 +4289,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }).then(function successCallback(response) {
                 console.log(response.data.packages);
                 $scope.packages = response.data.packages;
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.lang.language;
                 $ionicLoading.hide();
             }, function errorCallback(e) {
                 console.log(e);
@@ -4300,6 +4311,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }).then(function successCallback(response) {
                 console.log(response.data.packages);
                 $scope.pack = response.data.packages;
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.lang.language;
                 $ionicLoading.hide();
             }, function errorCallback(e) {
                 console.log(e);
@@ -4319,6 +4332,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }).then(function successCallback(response) {
                 console.log(response.data.packages);
                 $scope.packages = response.data.packages;
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.lang.language;
                 $ionicLoading.hide();
             }, function errorCallback(e) {
                 console.log(e);
@@ -4576,13 +4591,16 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('ContentLibraryCtrl', function ($scope, $sce, $http, $ionicModal, $stateParams, $ionicLoading, $rootScope, $ionicHistory, $filter, $state) {
+            $scope.interface = window.localStorage.getItem('interface_id');
             $http({
                 method: 'GET',
                 url: domain + 'contentlibrary/get-patient-article',
-                params: {patientId: window.localStorage.getItem('id')}
+                params: {patientId: window.localStorage.getItem('id'), interface: $scope.interface}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
-                $scope.clab = response.data
+                $scope.clab = response.data.getArticle;
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.lang.language;
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -4593,17 +4611,19 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('ContentLibrarySettingCtrl', function ($scope, $http, $ionicModal, $stateParams, $ionicLoading, $rootScope, $ionicHistory, $filter, $state) {
             $scope.patientId = window.localStorage.getItem('id');
-
+            $scope.interface = window.localStorage.getItem('interface_id');
             $http({
                 method: 'GET',
                 url: domain + 'contentlibrary/get-article-setting',
-                params: {patientId: window.localStorage.getItem('id')}
+                params: {patientId: window.localStorage.getItem('id'), interface: $scope.interface}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
                 $scope.category = response.data.category;
                 $scope.cat = response.data.cat;
                 $scope.lang = response.data.lang;
                 $scope.languages = response.data.languages;
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.langs.language;
 
             }, function errorCallback(e) {
                 console.log(e);
@@ -4627,19 +4647,22 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }
         })
 
-        .controller('reminderCtrl', function ($scope, $http) {
+        .controller('reminderCtrl', function ($scope, $http, $filter) {
             $scope.cards = [];
-
+            $scope.curDate = new Date();
+            $scope.interface = window.localStorage.getItem('interface_id');
             $scope.doRefresh = function () {
                 $scope.$broadcast('scroll.refreshComplete');
             };
             $http({
                 method: 'GET',
                 url: domain + 'tracker/get-reminder',
-                params: {userId: window.localStorage.getItem('id')}
+                params: {userId: window.localStorage.getItem('id'), interface: $scope.interface}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
                 $scope.reminder = response.data.reminder;
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.lang.language;
 
             }, function errorCallback(e) {
                 console.log(e);
@@ -4711,18 +4734,22 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-        .controller('reminderRecentCtrl', function ($scope, $http) {
+        .controller('reminderRecentCtrl', function ($scope, $http, $filter) {
             $scope.cards = [];
+            $scope.curDate = new Date();
+            $scope.interface = window.localStorage.getItem('interface_id');
             $scope.doRefresh = function () {
                 $scope.$broadcast('scroll.refreshComplete');
             };
             $http({
                 method: 'GET',
                 url: domain + 'tracker/get-recent-reminder',
-                params: {userId: window.localStorage.getItem('id')}
+                params: {userId: window.localStorage.getItem('id'), interface: $scope.interface}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
                 $scope.reminder = response.data.reminder;
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.lang.language;
             }, function errorCallback(e) {
                 console.log(e);
             });

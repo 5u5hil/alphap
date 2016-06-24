@@ -1,12 +1,13 @@
 <ion-view class="category-feeds-view">
     <ion-nav-title>
-        <span>Library</span>
-      
+
+        <span  ng-if="apkLanguage == 'english'">Library</span>
+        <span  ng-if="apkLanguage != 'english'">{{langtext.library[language]}}</span>
     </ion-nav-title>
-     <ion-nav-buttons side="right">
-                 <a menu-toggle="right" class="setting" ui-sref="app.content-library-setting"><i class="ion-gear-a"></i></a>
-            </ion-nav-buttons>
-	 
+    <ion-nav-buttons side="right">
+        <a menu-toggle="right" class="setting" ui-sref="app.content-library-setting"><i class="ion-gear-a"></i></a>
+    </ion-nav-buttons>
+
     <ion-content>
         <div class="posts-list">
 
@@ -24,7 +25,7 @@
 
                             <div ng-if="contentLab.content_type == 'video'" class="indicater txt-center video">
                                 <i class="icon ion-ios-videocam f20"></i><br/>
-                               {{contentLab.duration | timesec}} 
+                                {{contentLab.duration| timesec}} 
                             </div> 
 
                             <div ng-if="contentLab.content_type == 'artcle'" class="indicater txt-center article">
@@ -35,14 +36,14 @@
                         </div>
                     </div>
                     <div class="post-content item item-text-wrap" post-content>
-                         <p class="post-excerpt pb10" dynamic-anchor-fix>
+                        <p class="post-excerpt pb10" dynamic-anchor-fix>
                             {{contentLab.content_desc}}
                         </p>
-                        
-                       <div ng-if="contentLab.content_type == 'artcle'">
+
+                        <div ng-if="contentLab.content_type == 'artcle'">
                             <p class="imgincard pb10" ng-if="contentLab.header_img != ''" >  <img src="{{attachpath}}{{contentLab.header_img}}" /></p>
                         </div>		
-                     
+
                         <div class="post-actions">
                             <p  class="pb10"> <strong>Category </strong>|  <span ng-repeat="specialisation in contentLab.spec">{{specialisation}}{{$last==true? '': ',&nbsp;'}}  </span>
                             </p>

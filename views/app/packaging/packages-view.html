@@ -78,7 +78,8 @@
 <script id="pkg-details" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Package Description</h1>
+   <h1 class="title" ng-if="apkLanguage == 'english'">Package Description</h1>
+     <h1 class="title" ng-if="apkLanguage != 'english'">{{langtext.package[language]}} {{langtext.descripion[language]}}</h1>
     <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
     </ion-header-bar>
     <ion-content>
@@ -92,7 +93,8 @@
 <script id="pkg-terms" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Terms & Conditions</h1>
+  <h1 class="title" ng-if="apkLanguage == 'english'">Terms & Conditions</h1>
+ <h1 class="title" ng-if="apkLanguage != 'english'"> {{langtext.terms[language]}}  &  {{langtext.conditions[language]}} </h1>
     <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
     </ion-header-bar>
     <ion-content>
@@ -155,7 +157,8 @@
 <script id="catdoctrs" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Doctor Information</h1>
+    <h1 class="title" ng-if="apkLanguage == 'english'">Doctor Information</h1>
+ <h1 class="title" ng-if="apkLanguage != 'english'">{{langtext.doctor[language]}} {{langtext.information[language]}}</h1>
     <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
     </ion-header-bar>
     <ion-content>
@@ -201,7 +204,8 @@
 <script id="anydoctrs" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Details</h1>
+   <h1 class="title" ng-if="apkLanguage == 'english'">Details</h1>
+ <h1 class="title" ng-if="apkLanguage != 'english'">{{langtext.details[language]}}</h1>
     <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
     </ion-header-bar>
     <ion-content>

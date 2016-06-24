@@ -1,13 +1,19 @@
 <ion-view cache-view="false" class="category-list-view" >
     <ion-nav-title>
-        <span>Packages</span>
+        <span  ng-if="apkLanguage == 'english'">Packages</span>
+        <span  ng-if="apkLanguage != 'english'">{{langtext.package[language]}}</span>
     </ion-nav-title>
 
     <ion-content>
-        <div class="row tabnav">
-            <div class="col"><a nav-clear menu-close ui-sref="app.packaging">Book</a></div>
+        <div class="row tabnav" ng-if="apkLanguage == 'english'">
+            <div class="col"><a nav-clear menu-close ui-sref="app.packaging" >Book</a></div>
             <div class="col"><a nav-clear menu-close ui-sref="app.active-packages" class="active">Active</a></div>
             <div class="col"><a nav-clear menu-close ui-sref="app.past-packages">Past</a></div>
+        </div>
+        <div class="row tabnav" ng-if="apkLanguage != 'english'">
+            <div class="col"><a nav-clear menu-close ui-sref="app.packaging" >{{langtext.book[language]}}</a></div>
+            <div class="col"><a nav-clear menu-close ui-sref="app.active-packages" class="active" >{{langtext.active[language]}}</a></div>
+            <div class="col"><a nav-clear menu-close ui-sref="app.past-packages">{{langtext.past[language]}}</a></div>
         </div>
         <!--        <div class="list list-inset">
                     <label class="item item-input">

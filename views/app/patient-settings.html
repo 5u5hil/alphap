@@ -3,7 +3,8 @@
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
       </ion-nav-buttons> -->
     <ion-nav-title>
-        <span>Settings</span>
+     <span  ng-if="apkLanguage == 'english'">Settings</span>
+        <span  ng-if="apkLanguage != 'english'"> {{langtext.settings[language]}}</span>
     </ion-nav-title>
 
     <ion-content>
