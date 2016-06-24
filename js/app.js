@@ -31,13 +31,15 @@ angular.module('your_app_name', [
             $ionicPlatform.onHardwareBackButton(function (event) {
                 event.preventDefault();
             });
+
+
+
             $ionicPlatform.on("deviceready", function () {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
 
                 // Enable to debug issues.
                 // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
-
 
 
 
@@ -170,7 +172,7 @@ angular.module('your_app_name', [
                     console.log(err);
                 }
 
-                window.plugins.OneSignal.enableInAppAlertNotification(true);
+
 
                 // Show an alert box if a notification comes in when the user is in your app.
                 // 
@@ -209,6 +211,18 @@ angular.module('your_app_name', [
                         console.log("setting transition to android and disabling swipe back");
                     }, 0);
                 }
+                try {
+                    if (toState.name == "app.patient-join")
+                    {
+                        console.log("false state");
+                        window.plugins.OneSignal.enableInAppAlertNotification(false);
+                    } else {
+                        console.log("true state");
+                        window.plugins.OneSignal.enableInAppAlertNotification(true);
+                    }
+                } catch (err) {
+
+                }
             });
             $rootScope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams) {
                 if (toState.name.indexOf('app.feeds-categories') > -1)
@@ -222,6 +236,8 @@ angular.module('your_app_name', [
                     }
                     console.log("enabling swipe back and restoring transition to platform default", $ionicConfig.views.transition());
                 }
+
+
             });
 
             $ionicPlatform.on("resume", function () {
