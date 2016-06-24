@@ -3458,7 +3458,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
-            $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd');
+            $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd hh:mm:ss');
             $scope.participant = [];
             $scope.msg = [];
             $ionicLoading.show({template: 'Loading...'});
@@ -3491,6 +3491,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, function errorCallback(e) {
                 console.log(e);
             });
+            $scope.goChat = function (chatId, chatStart, chatDate) {
+                //var chatDate = $filter('date')(chatStart, 'MMM dd, yyyy - HH:mm a');
+                if (chatStart <= $scope.curDate)
+                    $state.go('app.chat', {'id': chatId}, {reload: true});
+                else {
+                    alert('You can start chat at ' + chatDate);
+                }
+            };
         })
 
         .controller('PastChatListCtrl', function ($scope, $filter, $http, $stateParams, $rootScope, $ionicLoading) {
