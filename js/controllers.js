@@ -3245,7 +3245,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                                             audioBitRate: audioBitRate
                                                         }
                                                     }).then(function successCallback(response) {
-
+                                                        $ionicLoading.hide();
                                                     }, function errorCallback(e) {
 
                                                     });
