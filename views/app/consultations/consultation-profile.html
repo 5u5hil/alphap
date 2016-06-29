@@ -29,7 +29,8 @@
                 <div class="whitetab profile" style="margin-top:87px;">
                     <div class="schedule">
                         <my-tabs class="themetabs">
-                            <div ng-repeat="serv in service">   
+                            <div ng-repeat="serv in service">  
+                               
                                 <my-tab  icon="ion-ios-videocam tabicon" title="Video"  ng-if="serv == 1">
                                     <my-tabs class="themetabs">
                                         <div ng-if="apkLanguage == 'english'">
@@ -57,10 +58,10 @@
                                                         <div class="clr"></div>
                                                         <div class="item item-body p0 brd-0" ng-repeat="vs in videoSch track by $index">
                                                             <ul class="wk">
-                                                                <li ng-repeat="day in vs.service_details| orderBy:'' | groupBy:['day_of_week']">
+                                                               <!-- <li ng-repeat="day in vs.service_details| orderBy:'' | groupBy:['day_of_week']">
                                                                     <strong ng-show="day.group_by_CHANGED">{{ day.day_of_week|limitTo:1}} : </strong>
                                                                     {{day.from|limitTo:2}} - {{day.to|limitTo:2}}
-                                                                </li>
+                                                                </li> -->
                                                             </ul>
                                                             <div class="sche-date">
                                                                 <div class="leftarrow" ng-click="getFirstSlots(vs.supersaas_id, $index, serv)">Earliest Slot</div> 
@@ -110,10 +111,10 @@
                                                         <div class="clr"></div>
                                                         <div class="item item-body p0 brd-0" ng-repeat="vs in videoSch track by $index">
                                                             <ul class="wk">
-                                                                <li ng-repeat="day in vs.service_details| orderBy:'' | groupBy:['day_of_week']">
+                                                               <!-- <li ng-repeat="day in vs.service_details| orderBy:'' | groupBy:['day_of_week']">
                                                                     <strong ng-show="day.group_by_CHANGED">{{ day.day_of_week|limitTo:1}} : </strong>
                                                                     {{day.from|limitTo:2}} - {{day.to|limitTo:2}}
-                                                                </li>
+                                                                </li> -->
                                                             </ul>
                                                             <div class="sche-date">
                                                                 <div class="leftarrow" ng-click="getFirstSlots(vs.supersaas_id, $index, serv)">{{earliest_slot[language]}}</div> 
