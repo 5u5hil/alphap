@@ -22,7 +22,7 @@
         </div>
 
         <div ng-repeat="doc in doctor">
-            <div class="profile-head">
+            <div class="profile-head mt0">
                 <div class="card-content">
                     <!--  <div class="rating"><i class="ion-star active"></i> <i class="ion-star active"></i> <i class="ion-star active"></i> <i class="ion-star"></i> <i class="ion-star"></i></br>15 Reviews</div> -->
                     <div class="card-left"><img class="user-image-circle" ng-if="doc.image != ''" ng-src="{{imgpath}}{{doc.image}}"><img class="user-image-circle" ng-if="doc.image == ''" ng-src="img/default-user.jpg"></div>
@@ -39,11 +39,11 @@
         </div>
         <div class="ioncontent">
             <div ng-repeat="doc in doctor">
-                <div class="whitetab profile" style="margin-top:87px;">
+                <div class="whitetab profile" style="margin-top:105px;">
                     <div class="schedule">
                         <my-tabs class="themetabs">
-                            <div ng-repeat="serv in service">     
-                                
+       <div ng-repeat="serv in service">     
+                              
                                 <my-tab  icon="ion-ios-videocam tabicon" title="Video"  ng-if="serv == 1">
                                     <my-tabs class="themetabs">
                                         <div ng-if="apkLanguage == 'english'">
@@ -271,7 +271,7 @@
                                     </div>
                                 </my-tab>
                             </div>
-
+                        </my-tabs>
                     </div>
                 </div>
             </div>
