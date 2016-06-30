@@ -63,6 +63,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.language = response.data.lang.language;
                         window.localStorage.setItem('apkLanguage', $scope.language);
                         window.location.url = window.location.url;
+                        window.location.reload();
                         $ionicLoading.hide();
                     } else {
                     }
