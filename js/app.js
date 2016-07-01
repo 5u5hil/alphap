@@ -51,7 +51,7 @@ angular.module('your_app_name', [
                     try
                     {
                         if (jsonData.additionalData) {
-                            alert("Inside additionalData");
+                          //  alert("Inside additionalData");
                             console.log("additionalData " + jsonData.additionalData);
                             // console.log("additionalData "+jsonData.additionalData.push)
                             //  alert("id " + jsonData.additionalData.actionSelected);
