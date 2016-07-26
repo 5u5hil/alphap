@@ -1,23 +1,18 @@
 <ion-view class="records-view">
     <ion-nav-title>
         <span>{{category[0].category}}</span>
-
-
         <!---<button class="button" ng-click="print()">Print</button>--->
     </ion-nav-title>
-
     <div class="item item-divider mtop44" style="font-size: 18px; min-height: 45px; text-align:center;">
         <span  ng-if="apkLanguage == 'english'">  Records- {{createdby.length}}</span>
         <span  ng-if="apkLanguage != 'english'">  {{langtext.records[language]}}-  {{createdby.length}} </span>
     </div>
-
-
     <ion-content>
         <div class="list recordview" style="margin-top: 50px;" >
             <div class="mt15" ng-if="records.length == 0"> <p class="txt-center" >No records here. Add now to get started.</p></div>
             <div class="posts-list"  ng-repeat="rec in records track by $index" ng-if="records.length > 0">
-                <div  class="list card post-item">
-                    <a ui-sref="app.record-details({'id' : rec.id, 'shared': shared, 'res' : 'json'})" class="post-content item item-text-wrap">
+                <div  class="list card post-item"> <!---- ui-sref="{{catId == '8'?  app.preview-note({'id' : rec.id, 'appId': 1, 'res' : 'json'}):app.record-details({'id' : rec.id, 'shared': shared, 'res' : 'json'})}}"--->
+                    <a ng-click="viewDetails(rec.id, rec.appointment_id, rec.user_id)" class="post-content item item-text-wrap">
                         <div class="item item-divider mt15 ng-binding" >{{rec.share_with.fname}} {{rec.share_with.lname}}</div>
                         <div class="row pr-b10">
                             <div class="col" ng-repeat="detail in rec.record_metadata| limitTo: limit"> 
@@ -41,7 +36,9 @@
                                             {{fdata}} time{{fdata!=1? 's':''}} in day{{fdata!=1? 's':''}}
                                         </span>
                                     </span>
-                                    <span ng-if="detail.fields.field == 'Patient'" ></span>
+                                    <span ng-if="detail.fields.field == 'Patient'" >
+                                        {{patient[$parent.$parent.$index].fname}} {{patient[$parent.$parent.$index].lname}}
+                                    </span>
                                     <span ng-if="detail.fields.name != 'no-of-frequency' && detail.fields.name != 'no-of-times' && detail.fields.field != 'Patient' && detail.fields.field != 'Frequency' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
                                         <span ng-if="detail.fields.field_type == 8">{{detail.value|dateFormat4}}</span>
                                         <span ng-if="detail.fields.field_type == 12">{{detail.value|time1}}</span>
@@ -67,20 +64,16 @@
                     <div class="row recordrow">
                         <div class="col selectrecord"><ion-checkbox onclick="selectcheckbox(this)" ng-model="recId[rec.id]" ng-value="{{rec.id}}" ng-change="getRecIds('{{rec.id}}')"> Select</ion-checkbox></div>
                         <div class="col btview" ng-if="apkLanguage == 'english'">
-                            <a ui-sref="app.record-details({'id' : rec.id, 'shared': shared, 'res' : 'json'})" >
+                            <a ng-click="viewDetails(rec.id, rec.appointment_id, rec.user_id)" >
                                 <div class="card-viewbtn button-positive">View</div>
                             </a>
-
                         </div>
                         <div class="col btview" ng-if="apkLanguage != 'english'">
-                            <a ui-sref="app.record-details({'id' : rec.id, 'shared': shared, 'res' : 'json'})" >
+                            <a ng-click="viewDetails(rec.id, rec.appointment_id, rec.user_id)" >
                                 <div class="card-viewbtn button-positive">{{langtext.view[language]}}</div>
                             </a>
-
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>

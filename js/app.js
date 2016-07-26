@@ -51,7 +51,7 @@ angular.module('your_app_name', [
                     try
                     {
                         if (jsonData.additionalData) {
-                          //  alert("Inside additionalData");
+                            //  alert("Inside additionalData");
                             console.log("additionalData " + jsonData.additionalData);
                             // console.log("additionalData "+jsonData.additionalData.push)
                             //  alert("id " + jsonData.additionalData.actionSelected);
@@ -305,6 +305,7 @@ angular.module('your_app_name', [
                         },
                         controller: 'ForgotPasswordCtrl'
                     })
+
                     .state('auth.update-password', {
                         url: "/update-password",
                         templateUrl: function () {
@@ -487,6 +488,17 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+
+                    .state('app.preview-note', {
+                        url: "/preview-note/{id:int}/{appId:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/preview/view-note/cnote-view.html",
+                                controller: 'PreviewConsultationsNoteCtrl'
+                            }
+                        }
+                    })
+
 
                     .state('app.patient-settings', {
                         cache: false,
@@ -792,7 +804,6 @@ angular.module('your_app_name', [
                     })
 
                     /* packaging */
-
                     .state('app.packaging', {
                         cache: false,
                         url: "/packaging",
@@ -867,10 +878,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-
-
                     /* end of packaging */
-
 
                     /* Pathology  */
                     .state('app.pathology', {
@@ -885,7 +893,6 @@ angular.module('your_app_name', [
                         }
                     })
 
-
                     .state('app.packages-list', {
                         url: "/packages-list",
                         views: {
@@ -897,10 +904,6 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-
-
-
-
                     /* End Pathology  */
 
                     .state('app.content-library', {
@@ -941,7 +944,6 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-
 
                     .state('app.logout', {
                         url: "/logout",

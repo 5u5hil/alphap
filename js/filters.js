@@ -30,7 +30,7 @@ angular.module('your_app_name.filters', [])
                 seconds = Math.round(seconds * 100) / 100
 
                 // var result = (hours < 10 ? "0" + hours : hours);
-                var  result =  (minutes < 10 ? "0" + minutes : minutes);
+                var result = (minutes < 10 ? "0" + minutes : minutes);
                 result += ":" + (seconds < 10 ? "0" + seconds : seconds);
                 return result;
             }
@@ -163,6 +163,22 @@ angular.module('your_app_name.filters', [])
 
             };
         })
+
+        .filter('timeN', function ($filter)
+        {
+            return function (input)
+            {
+                if (input == null) {
+                    return "";
+                }
+
+                var _date = $filter('date')(new Date(input), 'HH:mm');
+
+                return _date.toUpperCase();
+
+            };
+        })
+
         .filter('datetime', function ($filter)
         {
             return function (input)
@@ -229,7 +245,7 @@ angular.module('your_app_name.filters', [])
                 return input.split(splitChar)[splitIndex];
             }
         })
-        
+
         .filter('groupBy', ['$parse', function ($parse) {
                 return function (list, group_by) {
 
