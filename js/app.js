@@ -450,6 +450,27 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
+                    .state('app.video-chat', {
+                        cache: false,
+                        url: "/video-chat",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/video-chat.html",
+                                controller: 'VideoChatCtrl'
+                            }
+                        }
+                    })
+                    .state('app.chat-video-share', {
+                        cache: false,
+                        url: "/chat-video-share",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/chat-video-share.html",
+                                controller: 'VideoChatShareCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.past-chatlist', {
                         cache: false,
@@ -465,13 +486,24 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.chat', {
-                        url: "/chat/{id:int}",
+                        url: "/chat/{id:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: function () {
                                     return "views/app/chat.html";
                                 },
                                 controller: 'ChatCtrl'
+                            }
+                        }
+                    })
+                    
+                   .state('app.view-chat-video', {
+                        cache: false,
+                        url: "/view-chat-video/{id:string}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/view-chat-video.html",
+                                controller: 'ViewVideoChatCtrl'
                             }
                         }
                     })
