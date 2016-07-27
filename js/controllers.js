@@ -1394,6 +1394,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $ionicLoading, $cordovaPrinter, $ionicModal, $timeout) {
             $scope.interface = window.localStorage.getItem('interface_id');
+            unset(['patientId', 'doctorId', 'recId']);
             $scope.userId = get('id');
             $scope.category = [];
             $scope.catId = $stateParams.id;
@@ -1663,6 +1664,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $scope.doctrs = response.data.doctrs;
                     $scope.patients = response.data.patients;
                     $scope.cases = response.data.cases;
+                    $rootScope.$emit("GetPatientDetails", {});
+                    $rootScope.$emit("GetFamilyDetails", {});
                     $scope.getEvaluationDetails();
                     $ionicLoading.hide();
                 }, function errorCallback(response) {
@@ -1720,7 +1723,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $state.go(glink);
             };
             $scope.goto = function () {
-                $state.go('app.patient', ({'id': $scope.patientId}));
+                $state.go('app.records-view', ({'id': 8, 'shared': 1}));
             };
             /* New Added */
             $scope.intext = 'more';
@@ -1743,7 +1746,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.testId = response.data.recdata.record_id;
                         $scope.testresult = response.data.recdata;
                         $scope.testResult = response.data.recdata.metadata_values;
-                    }else{
+                    } else {
                         $scope.testResult = '';
                     }
                 }, function errorCallback(e) {
@@ -1758,7 +1761,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.objId = response.data.recdata.record_id;
                         $scope.observation = response.data.recdata;
                         $scope.objText = response.data.recdata.metadata_values;
-                    }else{
+                    } else {
                         $scope.objText = '';
                     }
                 }, function errorCallback(e) {
@@ -1829,17 +1832,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
-            $rootScope.$on("GetFamilyDetails", function (pid) {
-                $scope.getFamHistory(pid);
+            $rootScope.$on("GetFamilyDetails", function () {
+                $scope.getFamHistory();
             });
-            $scope.getFamHistory = function (pid) {
-                console.log($rootScope.patientId);
-                if ($rootScope.patientId) {
-                    $scope.patientId = $rootScope.patientId;
-                } else {
-                    $scope.patientId = get('patientId');
-                    $scope.doctorId = get('doctorId');
-                }
+            $scope.getFamHistory = function () {
+                $scope.patientId = get('patientId');
+                $scope.doctorId = get('doctorId');
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/get-family-history',
@@ -1990,12 +1988,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             }
                         }
                     });
-                } else {
-                    if (response.data.patients[0].gender == 1) {
-                        $scope.gender = 'Male';
-                    } else if (response.data.patients[0].gender == 2) {
-                        $scope.gender = 'Female';
-                    }
                 }
                 console.log($scope.gender);
                 $scope.selCondition = response.data.knConditions;
@@ -2010,21 +2002,15 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, function errorCallback(response) {
                 console.log(response);
             });
-            $rootScope.$on("GetPatientDetails", function (pid) {
-                $scope.getPatDetails(pid);
+            $rootScope.$on("GetPatientDetails", function () {
+                $scope.getPatDetails();
             });
             $rootScope.$on("SavePatient", function (pid) {
                 $scope.savePatientHistory();
             });
-            $scope.getPatDetails = function (pid) {
-                console.log(pid);
-                console.log($rootScope.patientId);
-                if ($rootScope.patientId) {
-                    $scope.patientId = $rootScope.patientId;
-                } else {
-                    $scope.patientId = get('patientId');
-                    $scope.doctorId = get('doctorId');
-                }
+            $scope.getPatDetails = function () {
+                $scope.patientId = get('patientId');
+                $scope.doctorId = get('doctorId');
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/get-about-fields',
