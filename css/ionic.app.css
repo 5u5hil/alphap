@@ -8726,7 +8726,7 @@ input.custominput{width: 100%;
 .cardbtn-small .cbtn{padding:8px 0;}
 .mt0{margin-top:0;}
 .paraspacing p{padding-bottom:15px;}
-.mediascreen{position:relative;     height: 85vh;}
+.mediascreen{position:relative;     /*height: 85vh;*/ height: 100%}
 .media-sview{    position: absolute;
                  width: 130px;
                  height: 100px;
@@ -9414,6 +9414,29 @@ input[type="date"]:before{
 .fred,.fred i{color:#f00;}
 .fgreen,.fgreen i{color:green;}
 .mt40{margin-top: 40px;}
+
+.videoscreen{position:absolute; top:0; width:100%; height:100%;}
+.videoscreen .vbtn{margin-top:40%; text-align:center;}
+.vbtn button{
+      border-radius: 50%;
+    border: 1px #387EF5 solid;
+    width: 100px;
+    height: 100px;
+    background: #fff;
+    color: #387EF5;
+}
+.vbtn button i{color: #387EF5;}
+.iframevideo{position:absolute; width:100%!important; height:auto !important;}
+.framecontainer{position:relative; position: relative;
+                float: left;
+                width: 100%;
+                min-height: 151px;}
+.notfoundtext{padding:20% 0; text-align: center; }
+
+
+
+
+
 
 /*end of custom tinder cards*/
 
