@@ -6680,7 +6680,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
         })
         
-         .controller('ViewVideoChatCtrl', function ($scope, $ionicLoading, $http, $stateParams, $timeout, $filter) {
+         .controller('ViewVideoChatCtrl', function ($scope,$sce, $ionicLoading, $http, $stateParams, $timeout, $filter) {
             $scope.chatId = $stateParams.id;
             $scope.videoChatdata = '';
             $http({
@@ -6694,6 +6694,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, function errorCallback(response) {
                 console.log(response.responseText);
             });
+            
+            $scope.trustSrc = function (src) {
+                return $sce.trustAsResourceUrl(src);
+            };
+
+            
         })
 
 
