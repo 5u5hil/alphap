@@ -8727,6 +8727,8 @@ input.custominput{width: 100%;
 .mt0{margin-top:0;}
 .paraspacing p{padding-bottom:15px;}
 .mediascreen{position:relative;     /*height: 85vh;*/ height: 100%}
+.h85vh{height: 85vh !important;}
+
 .media-sview{    position: absolute;
                  width: 130px;
                  height: 100px;
