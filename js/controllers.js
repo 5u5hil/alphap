@@ -1595,9 +1595,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             //View details
             $scope.viewDetails = function (recId, appId, userId) {
                 console.log("RecId ==" + recId + "App Id ==" + appId + "== Cat" + $scope.catId + "User Id " + userId);
-                if ($scope.userId != userId && $scope.catId == '8')
+                if ($scope.userId != userId && $scope.catId == '8') {
+                    store({'backurl': 'records-view'});
                     $state.go('app.preview-note', {'id': recId, 'appId': appId, 'res': 'json'}, {reload: true});
-                else
+                } else
                     $state.go('app.record-details', {'id': recId, 'shared': $scope.shared, 'res': 'json'}, {reload: true});
             };
         })
@@ -1712,6 +1713,17 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
             $scope.tabclick = function (taburl) {
                 console.log(taburl);
+                if (taburl == 'tabtwo') {
+                    $rootScope.$emit("GetMeasurements", {});
+                } else if (taburl == 'tabthree') {
+                    $rootScope.$emit("getInvestigations", {});
+                    $rootScope.$emit("getMedications", {});
+                    $rootScope.$emit("getProcedures", {});
+                    $rootScope.$emit("getLifestyle", {});
+                    $rootScope.$emit("getReferral", {});
+                    $rootScope.$emit("GetDietPlan", {});
+
+                }
                 jQuery('.notetab').hide();
                 jQuery('#' + taburl).show();
                 jQuery('.headtab span').removeClass('active');
@@ -1723,7 +1735,15 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $state.go(glink);
             };
             $scope.goto = function () {
-                $state.go('app.records-view', ({'id': 8, 'shared': 1}));
+                var backurl = get('backurl');
+                unset(['backurl']);
+                if (backurl == 'records-view') {
+                    $state.go('app.records-view', {'id': 8, 'shared': 1}, {reload: true});
+                } else if (backurl == 'consultations-current') {
+                    $state.go('app.records-view', {}, {reload: true});
+                } else if (backurl == 'consultations-past') {
+                    $state.go('app.consultations-past', {}, {reload: true});
+                }
             };
             /* New Added */
             $scope.intext = 'more';
@@ -2327,6 +2347,31 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     }
                 });
             };
+            $rootScope.$on('getInvestigations', function () {
+                $scope.getInvDetails();
+            });
+            $scope.getInvDetails = function () {
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-investigation-fields',
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
+                }).then(function successCallback(response) {
+                    console.log(response);
+                    $scope.records = response.data.record;
+                    $scope.fields = response.data.fields;
+                    $scope.category = $scope.records.id;
+                    $scope.problems = response.data.problems;
+                    $scope.doctrs = response.data.doctrs;
+                    $scope.investigation = response.data.prevRec;
+                    $scope.invData = response.data.prevData;
+                    angular.forEach(response.data.prevRec, function (val, key) {
+                        $scope.inv.unshift(val.id);
+                    });
+                    console.log("INV ===" + $scope.investigation);
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            };
 
         })
 
@@ -2464,6 +2509,38 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     }
                 });
             };
+
+            $rootScope.$on('getMedications', function () {
+                $scope.getMediDetails();
+            });
+            $scope.getMediDetails = function () {
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-investigation-fields',
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
+                }).then(function successCallback(response) {
+                    console.log(response);
+                    $scope.records = response.data.record;
+                    $scope.fields = response.data.fields;
+                    $scope.category = $scope.records.id;
+                    $scope.problems = response.data.problems;
+                    $scope.doctrs = response.data.doctrs;
+                    $scope.medication = response.data.prevRec;
+                    $scope.mediData = response.data.prevData;
+                    angular.forEach(response.data.prevRec, function (val, key) {
+                        $scope.medi.push(val.id);
+                    });
+                    angular.forEach(response.data.prevData, function (val, key) {
+                        angular.forEach(val, function (medi, k) {
+                            if (medi.field_id == 'no-of-frequency-1') {
+                                $scope.repeatFreq[(k - 1)] = medi.value;
+                            }
+                        });
+                    });
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            };
         })
 
         .controller('ProceduresCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter, $ionicLoading) {
@@ -2590,6 +2667,30 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     } else if (response.err != '') {
                         alert('Please fill mandatory fields');
                     }
+                });
+            };
+            $rootScope.$on('getProcedures', function () {
+                $scope.getProcDetails();
+            });
+            $scope.getProcDetails = function () {
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-investigation-fields',
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
+                }).then(function successCallback(response) {
+                    console.log(response);
+                    $scope.records = response.data.record;
+                    $scope.fields = response.data.fields;
+                    $scope.category = $scope.records.id;
+                    $scope.problems = response.data.problems;
+                    $scope.doctrs = response.data.doctrs;
+                    $scope.procedure = response.data.prevRec;
+                    $scope.proData = response.data.prevData;
+                    angular.forEach(response.data.prevRec, function (val, key) {
+                        $scope.proc.push(val.id);
+                    });
+                }, function errorCallback(response) {
+                    console.log(response);
                 });
             };
         })
@@ -2732,6 +2833,40 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     }
                 });
             };
+            $rootScope.$on('getLifestyle', function () {
+                $scope.getLifeDetails();
+            });
+            $scope.getLifeDetails = function () {
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-investigation-fields',
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
+                }).then(function successCallback(response) {
+                    console.log(response);
+                    $scope.records = response.data.record;
+                    $scope.fields = response.data.fields;
+                    $scope.category = $scope.records.id;
+                    $scope.problems = response.data.problems;
+                    $scope.doctrs = response.data.doctrs;
+                    $scope.lifestyle = response.data.prevRec;
+                    $scope.lifeData = response.data.prevData;
+                    angular.forEach(response.data.prevRec, function (val, key) {
+                        $scope.life.push(val.id);
+                    });
+                    angular.forEach(response.data.prevData, function (val, key) {
+                        angular.forEach(val, function (medi, k) {
+                            if (medi.field_id == 'no-of-frequency') {
+                                $scope.repeatFreq[(k - 2)] = medi.value;
+                            }
+                            if (medi.field_id == 'no-of-times') {
+                                $scope.repeatNo[(k - 1)] = medi.value;
+                            }
+                        });
+                    });
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            };
         })
 
         .controller('ReferralCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter, $ionicLoading) {
@@ -2858,6 +2993,32 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     } else if (response.err != '') {
                         alert('Please fill mandatory fields');
                     }
+                });
+            };
+
+            $rootScope.$on('getReferral', function () {
+                $scope.getRefDetails();
+            });
+
+            $scope.getRefDetails = function () {
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-investigation-fields',
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
+                }).then(function successCallback(response) {
+                    console.log(response);
+                    $scope.records = response.data.record;
+                    $scope.fields = response.data.fields;
+                    $scope.category = $scope.records.id;
+                    $scope.problems = response.data.problems;
+                    $scope.doctrs = response.data.doctrs;
+                    $scope.referral = response.data.prevRec;
+                    $scope.refData = response.data.prevData;
+                    angular.forEach(response.data.prevRec, function (val, key) {
+                        $scope.refer.push(val.id);
+                    });
+                }, function errorCallback(response) {
+                    console.log(response);
                 });
             };
         })
@@ -3013,6 +3174,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             }
                         });
                     });
+                    //console.log("No days" + $scope.nodays);
                 }, function errorCallback(response) {
                     console.log(response);
                 });
@@ -3361,8 +3523,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('ConsultationsListCurrentCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory, $timeout, $ionicFilterBar) {
 
-
-
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.imgpath = domain;
@@ -3385,12 +3545,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 //Video
                 $scope.video_time = response.data.video_time;
                 $scope.video_app = response.data.video_app;
+                $scope.video_note = response.data.video_note;
                 $scope.video_doctorsData = response.data.video_doctorsData;
                 $scope.video_products = response.data.video_products;
                 $scope.video_end_time = response.data.video_end_time;
                 // Video past
                 $scope.video_time_past = response.data.video_time_past;
                 $scope.video_app_past = response.data.video_app_past;
+                $scope.video_past_note = response.data.video_past_note;
                 $scope.video_doctorsData_past = response.data.video_doctorsData_past;
                 $scope.video_products_past = response.data.video_products_past;
                 $scope.video_end_time_past = response.data.video_end_time_past;
@@ -3421,9 +3583,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e);
             });
 
-
-
-
             /* search plugin */
             var filterBarInstance;
             $scope.showFilterBar = function () {
@@ -3453,11 +3612,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
             /* end of search plugin */
 
-
-
-
-
-
             $scope.deleteApp = function (appId, prodId, mode, startTime) {
                 $ionicLoading.show({template: 'Loading...'});
                 $http({
@@ -3477,8 +3631,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
             };
 
-
-
             $scope.joinVideo = function (mode, start, end, appId) {
                 console.log(mode + "===" + start + '===' + end + "===" + $scope.curTime + "==" + appId);
                 if ($scope.curTime >= start || $scope.curTime <= end) {
@@ -3489,15 +3641,19 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     alert("You can join video 15 minutes before the appointment");
                 }
             };
+
+            //View details
+            $scope.viewNote = function (recId, appId) {
+                store({'backurl': 'consultations-current'});
+                console.log("RecId ==" + recId + "App Id ==" + appId);
+                $state.go('app.preview-note', {'id': recId, 'appId': appId, 'res': 'json'}, {reload: true});
+            };
         })
 
         .controller('DoctorRecordJoinCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
         })
 
         .controller('ConsultationsListPastCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory, $ionicFilterBar) {
-
-
-
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.imgpath = domain;
@@ -3524,6 +3680,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 // Video past
                 $scope.video_time_past = response.data.video_time_past;
                 $scope.video_app_past = response.data.video_app_past;
+                $scope.video_past_note = response.data.video_past_note;
                 $scope.video_doctorsData_past = response.data.video_doctorsData_past;
                 $scope.video_products_past = response.data.video_products_past;
                 $scope.video_end_time_past = response.data.video_end_time_past;
@@ -3572,8 +3729,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.$broadcast('scroll.infiniteScrollComplete')
             }
 
-
-
             /* search plugin */
             var filterBarInstance;
             $scope.showFilterBar = function () {
@@ -3602,20 +3757,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }, 1000);
             };
             /* end of search plugin */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             $scope.deleteApp = function (appId, prodId, mode, startTime) {
                 $ionicLoading.show({template: 'Loading...'});
@@ -3647,6 +3788,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }
             };
 
+            //View details
+            $scope.viewNote = function (recId, appId) {
+                store({'backurl': 'consultations-past'});
+                console.log("RecId ==" + recId + "App Id ==" + appId);
+                $state.go('app.preview-note', {'id': recId, 'appId': appId, 'res': 'json'}, {reload: true});
+            };
         })
 
         .controller('ConsultationCardsCtrl', function ($scope, $http, $stateParams, $ionicLoading, $filter) {
