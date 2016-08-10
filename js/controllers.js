@@ -1430,6 +1430,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                     $scope.repeatNo[key] = val.value;
                                 }
                             }
+                            if ($scope.catId == 3) {
+                                if (val.field_id == 'no-of-frequency-1') {
+                                    $scope.repeatFreq[key] = val.value;
+                                }
+                            }
                         });
                     });
                 }
@@ -1740,7 +1745,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 if (backurl == 'records-view') {
                     $state.go('app.records-view', {'id': 8, 'shared': 1}, {reload: true});
                 } else if (backurl == 'consultations-current') {
-                    $state.go('app.records-view', {}, {reload: true});
+                    $state.go('app.consultations-current', {}, {reload: true});
                 } else if (backurl == 'consultations-past') {
                     $state.go('app.consultations-past', {}, {reload: true});
                 }
@@ -3262,6 +3267,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         }
                         if (val.field_id == 'no-of-times') {
                             $scope.repeatNo = val.value;
+                        }
+                    }
+                    if ($scope.category.categories.id == 3) {
+                        if (val.field_id == 'no-of-frequency-1') {
+                            $scope.repeatFreq = val.value;
                         }
                     }
                     if ($scope.category.categories.id == '19') {
@@ -5049,7 +5059,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         })
 
-        .controller('ChatListCtrl', function ($scope,$state, $filter, $http, $stateParams, $rootScope, $ionicLoading) {
+        .controller('ChatListCtrl', function ($scope, $state, $filter, $http, $stateParams, $rootScope, $ionicLoading) {
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
@@ -5135,7 +5145,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
         })
 
-        .controller('ChatCtrl', function ($scope,$state, $http, $stateParams, $timeout, $filter, $ionicLoading) {
+        .controller('ChatCtrl', function ($scope, $state, $http, $stateParams, $timeout, $filter, $ionicLoading) {
             $scope.chatId = $stateParams.id;
             window.localStorage.setItem('chatId', $stateParams.id);
             $scope.partId = window.localStorage.getItem('id');
@@ -5216,8 +5226,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.appendprevious();
                 $scope.movebottom();
             }, 1000);
-            
-             $scope.getchatsharedata = function () {
+
+            $scope.getchatsharedata = function () {
                 $state.go('app.chat-video-share', {reload: true});
 
             }
@@ -6465,7 +6475,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
                 }
             });
-             $scope.usertype = 'patient';
+            $scope.usertype = 'patient';
             $scope.recording = 'Off';
 //            $scope.timer = '00:00:00';
             var stoppedTimer;
@@ -6826,8 +6836,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(response.responseText);
             });
         })
-        
-         .controller('ViewVideoChatCtrl', function ($scope,$sce, $ionicLoading, $http, $stateParams, $timeout, $filter) {
+
+        .controller('ViewVideoChatCtrl', function ($scope, $sce, $ionicLoading, $http, $stateParams, $timeout, $filter) {
             $scope.chatId = $stateParams.id;
             $scope.videoChatdata = '';
             $http({
@@ -6841,12 +6851,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, function errorCallback(response) {
                 console.log(response.responseText);
             });
-            
+
             $scope.trustSrc = function (src) {
                 return $sce.trustAsResourceUrl(src);
             };
 
-            
+
         })
 
 

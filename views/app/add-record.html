@@ -401,13 +401,13 @@
                                                 </label>                            
                                             </div>
                                         </div>
-
-
-
                                     </div>
                                     <div ng-if="field.field == 'End Date'">
                                         <div ng-if="category == 21">
                                             <input type="hidden" id="diet-end" class="form-control" placeholder="{{field.field}}" name="{{field.name}}" />
+                                        </div>
+                                        <div ng-if="category == 3">
+                                            <input type="hidden" class="form-control" placeholder="{{field.field}}" name="{{field.name}}" />
                                         </div>
                                         <div ng-if="category != 21">
                                             <div class="listreq" ng-if="field.is_mandatory == 1">
