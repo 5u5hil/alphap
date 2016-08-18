@@ -5063,7 +5063,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
-            $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd hh:mm:ss');
+            $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $scope.participant = [];
             $scope.msg = [];
             $ionicLoading.show({template: 'Loading...'});
@@ -5097,6 +5097,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e);
             });
             $scope.goChat = function (chatId, chatStart, chatDate) {
+                console.log($scope.curDate);
+                console.log(chatStart);
                 //var chatDate = $filter('date')(chatStart, 'MMM dd, yyyy - HH:mm a');
                 if (chatStart <= $scope.curDate)
                     $state.go('app.chat', {'id': chatId}, {reload: true});
