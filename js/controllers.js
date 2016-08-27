@@ -257,6 +257,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('SignupCtrl', function ($scope, $state, $http, $rootScope) {
             $scope.interface = window.localStorage.setItem('interface_id', '5');
+            $scope.registervia = window.localStorage.setItem('registervia', 'apk');
             $scope.user = {};
             $scope.user.name = '';
             $scope.user.email = '';
@@ -283,12 +284,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             //check OTP bhavana
             $scope.checkOTP = function (otp) {
                 $scope.interface = window.localStorage.getItem('interface_id');
+               $scope.registervia = window.localStorage.getItem('registervia');
                 $scope.user = {};
                 $scope.user.name = window.localStorage.getItem('name');
                 $scope.user.email = window.localStorage.getItem('email');
                 $scope.user.phone = window.localStorage.getItem('phone');
                 $scope.user.password = window.localStorage.getItem('password');
-                var data = "name=" + $scope.user.name + "&email=" + $scope.user.email + "&phone=" + $scope.user.phone + "&password=" + $scope.user.password + "&interface=" + $scope.interface;
+                var data = "name=" + $scope.user.name + "&email=" + $scope.user.email + "&phone=" + $scope.user.phone + "&password=" + $scope.user.password + "&interface=" + $scope.interface+ "&registervia=" + $scope.registervia;
                 console.log("data " + data);
                 var code = window.localStorage.getItem('code');
                 if (parseInt(code) === parseInt(otp)) {
