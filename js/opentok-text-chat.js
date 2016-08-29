@@ -385,6 +385,7 @@ Chat = function () {
      * @async
      */
     send: function (text, callback) {
+      text = jumble(3,text);
       var signal = this._getMessageSignal(text);
       this._session.signal(signal, callback);
       console.log(text);
@@ -414,6 +415,7 @@ Chat = function () {
       }
     },
     _getMessageSignal: function (text) {
+      text=unjumble(3,text);
       return {
         type: this.signalName,
         data: text
