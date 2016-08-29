@@ -1,3 +1,5 @@
+var privateKey ="";
+var publicKey = "";
 $(document).ready(function () {
     var elem = angular.element(document.querySelector('[ng-app]'));
     var injector = elem.injector();
@@ -14,4 +16,7 @@ $(document).ready(function () {
             $rootScope.userLogged = 0;
         });
     }
+    privateKey =  cryptico.generateRSAKey("9773001965", 1024);
+    publicKey = cryptico.publicKeyString(privateKey);  
+
 });
