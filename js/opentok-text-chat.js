@@ -168,6 +168,7 @@ ChatUI = function (ChatMessage) {
             _this._showError();
             _this.enableSending();
           }, _this.timeout);
+          contents=encrypt(contents);
           var sent = _this.onMessageReadyToSend(contents, function (err) {
             clearTimeout(timeout);
             if (err) {
@@ -326,6 +327,7 @@ ChatUI = function (ChatMessage) {
       }
       sender.textContent = message.senderAlias;
       // Content
+
       var contents = this.renderMessage(message.text, false);
       wrapper.appendChild(this._getBubbleContent(contents));
       // Timestamp
@@ -385,7 +387,6 @@ Chat = function () {
      * @async
      */
     send: function (text, callback) {
-      text = jumble(3,text);
       var signal = this._getMessageSignal(text);
       this._session.signal(signal, callback);
       console.log(text);
@@ -415,7 +416,6 @@ Chat = function () {
       }
     },
     _getMessageSignal: function (text) {
-      text=unjumble(3,text);
       return {
         type: this.signalName,
         data: text
@@ -524,6 +524,7 @@ ChatWidget = function (Chat, ChatUI, ChatMessage) {
     renderMessage: function (raw) {
       var output;
       // Allow multiline
+      raw=decrypt(raw);
       output = raw.replace(/(\r\n|\r|\n)/g, '<br/>');
       // Detect links
       output = output.replace(links, function (href) {
