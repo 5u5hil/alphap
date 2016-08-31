@@ -5079,6 +5079,19 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.language = response.data.lang.language;
                 $scope.langtext = response.data.langtext;
                 angular.forEach($scope.chatParticipants, function (value, key) {
+                    //  key generation 
+                    var phone1 = value[0].chat_users.phone;
+                    var phone2 = window.localStorage.getItem('phone');
+                    var passphrase = "9773001965";
+                    if (phone1>phone2){
+                        passphrase =  phone1 + phone2;
+                    }
+                    else{
+                        passphrase = phone2 + phone1;
+                    }
+                    privateKey =  cryptico.generateRSAKey(passphrase, 1024);
+                    publicKey = cryptico.publicKeyString(privateKey);  
+                    
                     $ionicLoading.show({template: 'Loading...'});
                     $http({
                         method: 'GET',
@@ -5087,6 +5100,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     }).then(function successCallback(responseData) {
                         console.log(responseData);
                         $scope.participant[key] = responseData.data.user;
+                        responseData.data.msg.message = decrypt(responseData.data.msg.message);
                         $scope.msg[key] = responseData.data.msg;
                         $rootScope.$digest;
                         $ionicLoading.hide();
@@ -5171,6 +5185,19 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.token = response.data.token;
                 $scope.otherToken = response.data.otherToken;
                 $scope.sessionId = response.data.chatSession;
+
+                    var phone1 =  $scope.user.phone;
+                    var phone2 =  $scope.otherUser.phone;
+                    var passphrase = "9773001965";
+                    if (phone1>phone2){
+                        passphrase =  phone1 + phone2;
+                    }
+                    else{
+                        passphrase = phone2 + phone1;
+                    }
+                    privateKey =  cryptico.generateRSAKey(passphrase, 1024);
+                    publicKey = cryptico.publicKeyString(privateKey);  
+
                 window.localStorage.setItem('Toid', $scope.otherUser.id);
                 //$scope.connect("'" + $scope.token + "'");
                 $scope.apiKey = apiKey;
@@ -5205,17 +5232,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.appendprevious = function () {
                 $ionicLoading.show({template: 'Retrieving messages...'});
                 $(function () {
-                    var phone1 =  $scope.user.phone;
-                    var phone2 =  $scope.otherUser.phone;
-                    var passphrase = "9773001965";
-                    if (phone1>phone2){
-                        passphrase =  phone1 + phone2;
-                    }
-                    else{
-                        passphrase = phone2 + phone1;
-                    }
-                    privateKey =  cryptico.generateRSAKey(passphrase, 1024);
-                    publicKey = cryptico.publicKeyString(privateKey);  
                     angular.forEach($scope.chatMsgs, function (value, key) {
                         value.message=decrypt(value.message);
                         var msgTime = $filter('date')(new Date(value.tstamp), 'd MMM, yyyy - HH:mm a');
