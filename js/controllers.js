@@ -5205,6 +5205,17 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.appendprevious = function () {
                 $ionicLoading.show({template: 'Retrieving messages...'});
                 $(function () {
+                    var phone1 =  $scope.user.phone;
+                    var phone2 =  $scope.otherUser.phone;
+                    var passphrase = "9773001965";
+                    if (phone1>phone2){
+                        passphrase =  phone1 + phone2;
+                    }
+                    else{
+                        passphrase = phone2 + phone1;
+                    }
+                    privateKey =  cryptico.generateRSAKey(passphrase, 1024);
+                    publicKey = cryptico.publicKeyString(privateKey);  
                     angular.forEach($scope.chatMsgs, function (value, key) {
                         value.message=decrypt(value.message);
                         var msgTime = $filter('date')(new Date(value.tstamp), 'd MMM, yyyy - HH:mm a');

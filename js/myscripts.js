@@ -16,7 +16,5 @@ $(document).ready(function () {
             $rootScope.userLogged = 0;
         });
     }
-    privateKey =  cryptico.generateRSAKey("9773001965", 1024);
-    publicKey = cryptico.publicKeyString(privateKey);  
 
 });
