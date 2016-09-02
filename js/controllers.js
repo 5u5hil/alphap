@@ -5090,8 +5090,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         passphrase = phone2 + phone1;
                     }
                     privateKey =  cryptico.generateRSAKey(passphrase, 1024);
-                    publicKey = cryptico.publicKeyString(privateKey);  
-                    
+
                     $ionicLoading.show({template: 'Loading...'});
                     $http({
                         method: 'GET',
